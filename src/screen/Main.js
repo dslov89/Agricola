@@ -1,8 +1,9 @@
-import { ReactComponent as Farm } from "../asset/farm.svg";
-
 import "./Main.css";
-import UserBoard from "../components/UserBoard";
+
 import ActionBoard from "../components/ActionBoard";
+import Users from "../components/Users";
+
+import Farms from "../components/Farms";
 
 function Main() {
   return (
@@ -15,23 +16,9 @@ function Main() {
           {/*  행동 판*/}
           <ActionBoard />
           {/* 유저 정보판 */}
-          <div className="userContainer">
-            <UserBoard />
-            <UserBoard />
-            <UserBoard />
-            <UserBoard />
-          </div>
+          <Users />
         </div>
-        <div className="farmContainer">
-          <div>
-            <Farm />
-            <Farm />
-          </div>
-          <div className="farm">
-            <Farm />
-            <Farm />
-          </div>
-        </div>
+        <Farms />
         {/* </div> */}
       </div>
     </div>

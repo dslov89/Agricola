@@ -1,0 +1,82 @@
+.fence {
+  width: 84px;
+  height: 9px;
+  background: #fb0000;
+  position: absolute;
+  border-radius: 2px;
+  border: 0.1px solid #b22222;
+}
+
+.fenceRow1 {
+  top: 16px;
+}
+
+.fenceRow2 {
+  top: 115px;
+}
+.fenceRow3 {
+  top: 213px;
+}
+.fenceRow4 {
+  top: 313px;
+}
+
+.fenceRow01 {
+  left: 45px;
+}
+.fenceRow02 {
+  left: 141px;
+}
+.fenceRow03 {
+  left: 239px;
+}
+.fenceRow04 {
+  left: 339px;
+}
+.fenceRow05 {
+  left: 439px;
+}
+
+.fenceCol {
+  width: 9px;
+  height: 84px;
+  background: #fb0000;
+  position: absolute;
+
+  border-radius: 2px;
+  border: 0.1px solid #b22222;
+}
+
+.fenceCol1 {
+  top: 25px;
+}
+.fenceCol2 {
+  top: 123px;
+}
+.fenceCol3 {
+  top: 223px;
+}
+
+.fenceCol01 {
+  left: 32px;
+}
+
+.fenceCol02 {
+  left: 132px;
+}
+
+.fenceCol03 {
+  left: 230px;
+}
+
+.fenceCol04 {
+  left: 329px;
+}
+
+.fenceCol05 {
+  left: 427px;
+}
+
+.fenceCol06 {
+  left: 526px;
+}

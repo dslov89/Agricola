@@ -44,9 +44,16 @@
 
 .farmContainer {
   position: relative;
+  top: -160px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
-.farm {
+.farmContainer2 {
+  position: relative;
+}
+.farmContainer3 {
   position: relative;
   top: -4px;
 }
