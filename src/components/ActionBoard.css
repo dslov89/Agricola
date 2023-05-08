@@ -1,0 +1,72 @@
+.round {
+  width: 1536px;
+  height: 801px;
+}
+
+.boardContainer {
+  display: flex;
+  position: relative;
+  right: 122px;
+}
+
+.actionBtn {
+  position: absolute;
+  width: 110px;
+  height: 80px;
+  left: 130px;
+  background-color: #97784db0;
+}
+
+.dumble {
+  top: 28px;
+}
+
+.bush {
+  top: 150px;
+}
+
+.resource {
+  top: 250px;
+  height: 60px;
+}
+
+.clay {
+  top: 327px;
+}
+
+.teach1 {
+  top: 427px;
+  height: 90px;
+}
+
+.theater {
+  top: 530px;
+}
+
+.actionBtn2 {
+  left: 312px;
+}
+
+.farmExtend {
+  top: 11px;
+  height: 130px;
+}
+
+.space {
+  height: 70px;
+  top: 150px;
+}
+
+.grain {
+  height: 67px;
+  top: 233px;
+}
+
+.actionBtn3 {
+  left: 457px;
+  width: 130px;
+}
+
+.forest {
+  top: 220px;
+}
