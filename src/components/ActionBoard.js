@@ -12,6 +12,7 @@ function ActionBoard() {
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
+      console.log("hi");
       setIsTurn(false);
     }
   }
@@ -180,6 +181,12 @@ function ActionBoard() {
       setIsTurn(false);
     }
   }
+  function cardBtn1Handler() {
+    console.log("주요설비");
+  }
+  function cardBtn2Handler() {
+    console.log("보조설비");
+  }
 
   return (
     <div className="boardContainer">
@@ -237,6 +244,8 @@ function ActionBoard() {
         className="actionBtn actionBtn3  theater"
         onClick={fishingHandler}
       ></div>
+      <div className="cardBtn1" onClick={cardBtn1Handler}></div>
+      <div className="cardBtn2" onClick={cardBtn2Handler}></div>
     </div>
   );
 }
