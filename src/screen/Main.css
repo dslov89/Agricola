@@ -1,0 +1,59 @@
+.backGround {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: #ffffff;
+}
+.backGround2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background: #91bb5f;
+  width: 1536px;
+  height: 1700px;
+}
+
+.header {
+  width: 1526px;
+  height: 61px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e3e399;
+  border: 5px solid #97784d;
+  border-radius: 8px;
+}
+
+.headerText {
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 30px;
+}
+
+.board {
+  display: flex;
+}
+
+.userContainer {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  left: -244px;
+}
+
+.farmContainer {
+  position: relative;
+  top: -160px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.farmContainer2 {
+  position: relative;
+}
+.farmContainer3 {
+  position: relative;
+  top: -4px;
+}
