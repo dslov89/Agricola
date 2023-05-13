@@ -5,6 +5,7 @@ function FarmBoard() {
   return (
     <>
       <Farm />
+      <h3 className="userFarm">User 1</h3>
       <div className="fence fenceRow1 fenceRow01" />
       <div className="fence fenceRow1 fenceRow02" />
       <div className="fence fenceRow1 fenceRow03" />

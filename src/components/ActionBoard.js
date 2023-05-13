@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ReactComponent as Board } from "../asset/roundCard.svg";
 import "./ActionBoard.css";
 
-function ActionBoard() {
+function ActionBoard({ data, setData }) {
   const [isTurn, setIsTurn] = useState(true);
 
   //   덤블 버튼 클릭 시 실행할 함수
@@ -12,6 +12,7 @@ function ActionBoard() {
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
+      setData({ ...data, tree: data.tree + 1 });
       console.log("hi");
       setIsTurn(false);
     }

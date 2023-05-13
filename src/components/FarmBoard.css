@@ -1,5 +1,5 @@
 .fence {
-  width: 84px;
+  width: 82px;
   height: 9px;
   background: #fb0000;
   position: absolute;
@@ -39,7 +39,7 @@
 
 .fenceCol {
   width: 9px;
-  height: 84px;
+  height: 82px;
   background: #fb0000;
   position: absolute;
 
@@ -48,10 +48,10 @@
 }
 
 .fenceCol1 {
-  top: 25px;
+  top: 27px;
 }
 .fenceCol2 {
-  top: 123px;
+  top: 127px;
 }
 .fenceCol3 {
   top: 223px;
@@ -79,4 +79,20 @@
 
 .fenceCol06 {
   left: 526px;
+}
+
+.userFarm {
+  width: 95px;
+  height: 21px;
+  background: #155505;
+  position: absolute;
+  top: 312px;
+  border: 2px solid #ca8500;
+  border-radius: 8px;
+  font-size: 13px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  color: #ffffff;
 }
