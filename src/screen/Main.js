@@ -22,7 +22,28 @@ function Main() {
     person: 0,
     fence: 0,
     house: 0,
+
+    round_array: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    player_array: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    farm: [
+      "empty",
+      "empty",
+      "empty",
+      "empty",
+      "empty",
+      "room",
+      "empty",
+      "empty",
+      "empty",
+      "empty",
+      "room",
+      "empty",
+      "empty",
+      "empty",
+      "empty",
+    ],
   });
+
   return (
     <div className="backGround">
       <div className="backGround2">
@@ -35,7 +56,7 @@ function Main() {
           {/* 유저 정보판 */}
           <Users data={data} setData={setData} />
         </div>
-        <Farms />
+        <Farms data={data} setData={setData} />
         {/* </div> */}
       </div>
     </div>

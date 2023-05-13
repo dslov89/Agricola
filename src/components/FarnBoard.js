@@ -2,6 +2,7 @@ import "./FarmBoard.css";
 import { ReactComponent as Farm } from "../asset/farm.svg";
 
 function FarmBoard() {
+  
   return (
     <>
       <Farm />

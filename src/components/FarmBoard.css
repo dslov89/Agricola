@@ -1,3 +1,106 @@
+.farmContainer {
+  position: relative;
+  top: 0px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.farmContainer2 {
+  position: relative;
+}
+.farmContainer3 {
+  position: relative;
+  top: -4px;
+}
+.Btn {
+  position: absolute;
+  width: 75px;
+  height: 75px;
+  left: 130px;
+}
+
+.plowing-img {
+  width: 75px;
+  height: 75px;
+  position: relative; /* imgContainer가 position을 가지도록 설정 */
+  z-index: 999; /* 다른 엘리먼트들보다 z-index 값이 높도록 설정 */
+}
+
+.room1_1 {
+  top: 30px;
+  left: 50px;
+}
+
+.room2_1 {
+  top: 130px;
+  left: 50px;
+}
+
+.room3_1 {
+  top: 230px;
+  left: 50px;
+}
+
+.room1_2 {
+  top: 30px;
+  left: 150px;
+}
+
+.room2_2 {
+  top: 130px;
+  left: 150px;
+}
+
+.room3_2 {
+  top: 230px;
+  left: 150px;
+}
+
+.room1_3 {
+  top: 30px;
+  left: 250px;
+}
+
+.room2_3 {
+  top: 130px;
+  left: 250px;
+}
+
+.room3_3 {
+  top: 230px;
+  left: 250px;
+}
+
+.room1_4 {
+  top: 30px;
+  left: 345px;
+}
+
+.room2_4 {
+  top: 130px;
+  left: 345px;
+}
+
+.room3_4 {
+  top: 230px;
+  left: 345px;
+}
+
+.room1_5 {
+  top: 30px;
+  left: 445px;
+}
+
+.room2_5 {
+  top: 130px;
+  left: 445px;
+}
+
+.room3_5 {
+  top: 230px;
+  left: 445px;
+}
 .fence {
   width: 82px;
   height: 9px;
