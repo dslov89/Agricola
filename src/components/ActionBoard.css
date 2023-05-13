@@ -14,7 +14,6 @@
   width: 110px;
   height: 80px;
   left: 130px;
-  background-color: #97784db0;
 }
 
 .dumble {
@@ -69,4 +68,8 @@
 
 .forest {
   top: 220px;
+}
+
+.margin_farmer {
+  left: 332px;
 }
