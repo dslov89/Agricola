@@ -2,6 +2,9 @@ import { useState } from "react";
 import { ReactComponent as Board } from "../asset/roundCard.svg";
 import "./ActionBoard.css";
 import farmer from "../image/farmer.png";
+import "./FarmBoard.css";
+
+
 //import SockJS from "sockjs-client";
 
 function ActionBoard({ data, setData }) {
@@ -38,6 +41,7 @@ function ActionBoard({ data, setData }) {
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
+      setData({ ...data, reed: data.reed + 1, rock: data.rock+1, food: data.food+1 });
       setIsTurn(false);
     }
   }
@@ -106,7 +110,6 @@ function ActionBoard({ data, setData }) {
       });
 
       //농부수 -1하기
-      
       //자원 획득 api
       //  보조 설비 카드 api
     }
@@ -130,6 +133,7 @@ function ActionBoard({ data, setData }) {
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
+      setData({ ...data, seed: data.seed + 1 });
       setIsTurn(false);
     }
   }
@@ -144,29 +148,32 @@ function ActionBoard({ data, setData }) {
 
       // 두 클래스를 합친 새로운 클래스
       const newClass = `${buttonClass1}${buttonClass2}`;
-      const buttonsssss = document.querySelector(newClass); 
+      const buttonsssss = document.querySelector(newClass);
 
-      const redBox = document.createElement('div');
-      redBox.style.width = '55px';
-      redBox.style.height = '58px';
-      redBox.style.transform = 'translateX(20px)';
-      redBox.style.backgroundImage = `url(${farmer})`;      
-      
+      // 농부 이미지
+      const redBox = document.createElement("div");
+      redBox.style.width = "55px";
+      redBox.style.height = "58px";
+      redBox.style.transform = "translateX(20px)";
+      redBox.style.backgroundImage = `url(${farmer})`;
       buttonsssss.appendChild(redBox);
 
-      setData(prevState => {
+      setData((prevState) => {
         const newRoundArray = [...prevState.round_array];
         newRoundArray[i] = 1;
-      
         const newPlayerArray = [...prevState.player_array];
         newPlayerArray[i] = 1;
-      
-        return { ...prevState, round_array: newRoundArray, player_array: newPlayerArray };
+        return {
+          ...prevState,
+          round_array: newRoundArray,
+          player_array: newPlayerArray,
+        };
       });
+      
       //자원 획득 api
       //  보조 설비 카드 api
-      
     }
+    
   }
 
   //   교습2 버튼 클릭 시 실행할 함수
@@ -187,6 +194,7 @@ function ActionBoard({ data, setData }) {
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
+      setData({ ...data, food: data.food + 1 });
       setIsTurn(false);
     }
   }
