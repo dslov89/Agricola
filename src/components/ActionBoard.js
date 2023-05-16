@@ -2,10 +2,19 @@ import { useState } from "react";
 import { ReactComponent as Board } from "../asset/roundCard.svg";
 import "./ActionBoard.css";
 import farmer from "../image/farmer.png";
+import { ReactComponent as Land } from "../asset/land.svg";
+import { ReactComponent as Fence } from "../asset/fence.svg";
+import { ReactComponent as Grain } from "../asset/grain.svg";
+import { ReactComponent as Sheep } from "../asset/sheep.svg";
+import { ReactComponent as Facility } from "../asset/facility.svg";
+import MainModal from "./MainModal";
 //import SockJS from "sockjs-client";
 
 function ActionBoard({ data, setData }) {
   const [isTurn, setIsTurn] = useState(true);
+  const [roundNum, setRoundNum] = useState(4);
+  const [mainModalVisible, setMainModalVisible] = useState(false);
+  const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
 
   //   덤블 버튼 클릭 시 실행할 함수
   function dumbleHandler() {
@@ -242,15 +251,28 @@ function ActionBoard({ data, setData }) {
     }
   }
   function cardBtn1Handler() {
-    console.log("주요설비");
+    setMainModalVisible(true);
   }
   function cardBtn2Handler() {
     console.log("보조설비");
   }
 
+  //설비 클릭 시
+  function facilityHandler() {}
+
+  //울타리 클릭 시
+  function fenceHandler() {}
+
+  //곡식 활용 클릭 시
+  function grainHandler() {}
+
+  //양 시장 클릭 시
+  function sheepHandler() {}
+
   return (
     <div className="boardContainer">
       <Board className="round" />
+
       {/* 덤블 버튼 */}
       <div className="actionBtn dumble" onClick={dumbleHandler}></div>
       {/* 수풀 버튼 */}
@@ -306,7 +328,23 @@ function ActionBoard({ data, setData }) {
         onClick={fishingHandler}
       ></div>
       <div className="cardBtn1" onClick={cardBtn1Handler}></div>
+      {mainModalVisible && (
+        <MainModal setIsVisible={setMainModalVisible} mainSulbi={mainSulbi} />
+      )}
       <div className="cardBtn2" onClick={cardBtn2Handler}></div>
+      {roundNum >= 1 && (
+        <Facility className="facilityBtn" onClick={facilityHandler} />
+      )}
+      {/* <Facility className="facilityBtn" /> */}
+      {roundNum >= 2 && (
+        <Grain className="facilityBtn2" onClick={grainHandler} />
+      )}
+      {roundNum >= 3 && (
+        <Fence className="facilityBtn3" onClick={fenceHandler} />
+      )}
+      {roundNum >= 4 && (
+        <Sheep className="facilityBtn4" onClick={sheepHandler} />
+      )}
     </div>
   );
 }

@@ -78,7 +78,7 @@
   position: absolute;
   top: 345px;
   left: 970px;
-  background: #636363;
+  /* background: #636363; */
 }
 
 .cardBtn2 {
@@ -87,9 +87,30 @@
   position: absolute;
   top: 345px;
   left: 1040px;
-  background: #636363;
+  /* background: #636363; */
 }
 
 .margin_farmer {
   left: 332px;
+}
+
+.facilityBtn {
+  position: absolute;
+  top: 5px;
+  left: 440px;
+}
+.facilityBtn2 {
+  position: absolute;
+  top: 5px;
+  left: 605px;
+}
+.facilityBtn3 {
+  position: absolute;
+  top: 5px;
+  left: 765px;
+}
+.facilityBtn4 {
+  position: absolute;
+  top: 5px;
+  left: 930px;
 }
