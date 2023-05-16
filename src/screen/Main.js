@@ -22,11 +22,15 @@ function Main() {
     person: 0,
     fence: 0,
     house: 0,
+
     round_array: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     player_array: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+
     farm: ['empty','empty','empty','empty','empty',
           'wood_room','empty','empty','empty','empty',
           'wood_room','empty','empty','empty','empty'],
+
+
   });
 
   return (
@@ -41,12 +45,11 @@ function Main() {
           {/* 유저 정보판 */}
           <Users data={data} setData={setData} />
         </div>
-        <Farms data={data} setData={setData}/>
+        <Farms data={data} setData={setData} />
         {/* </div> */}
       </div>
     </div>
   );
-
 }
 
 export default Main;

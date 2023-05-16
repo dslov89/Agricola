@@ -1,21 +1,25 @@
 import "./FarmBoard.css";
 import FarmBoard from "./FarnBoard";
-import React, {useState} from 'react';
+import React, { useState } from "react";
 import background from "../image/plow.png";
+
 import woodroom from "../image/wood_room.png";
 import soilroom from "../image/soil_room.png";
 import rockroom from "../image/rock_room.png";
+
+
+import land from "../asset/land.svg";
 
 //import SockJS from 'sockjs-client';
 
 function Farms({ data, setData }) {
   const [isTurn, setIsTurn] = useState(true);
 
-  
   //농장 버튼을 클릭시
   function farmhendler(index) {
     //방 버튼을 눌렀을 때
     if (isTurn && data.player_array[6] === 1) {
+
       const dx = [1, -1, 5, -5];
       let i = 0;
       let cnt = 0;
@@ -178,9 +182,11 @@ function Farms({ data, setData }) {
     //농지 버튼 클릭 시 가는 기능 - 밭 갈기
     if (isTurn && data.player_array[9] === 1) {
       //외양간, 울타리 집 짓기를 모두 포함
+
       if(data.farm[index] !== 'empty') {
         alert('해당 방은 이미 예약되어 있습니다.');
         console.log("해당 방은 이미 예약되어 있습니다")
+
 
       } else {
         //빈 곳을 밭으로 바꿔줌 이미지
@@ -193,7 +199,9 @@ function Farms({ data, setData }) {
         const redBox = document.createElement("div");
         redBox.style.width = "75px";
         redBox.style.height = "75px";
+
         redBox.style.backgroundImage = `url(${background})`;
+
 
         roomElement.appendChild(redBox);
 
@@ -209,22 +217,19 @@ function Farms({ data, setData }) {
         });
         setIsTurn(false);
       }
-
-      
-    } 
-
+    }
   }
   //외양간 설치 기능 -> 갔는지 확인
 
-    //울타리 관련 기능
-  
-    //동물 키우는 것에 대한 로직
+  //울타리 관련 기능
+
+  //동물 키우는 것에 대한 로직
 
   return (
     <div className="farmContainer">
       <FarmBoard className="round" />
       <div className="Btn room1_1" onClick={() => farmhendler(0)}></div>
-      <div className="Btn room1_2" onClick={() => farmhendler(1)} ></div>
+      <div className="Btn room1_2" onClick={() => farmhendler(1)}></div>
       <div className="Btn room1_3" onClick={() => farmhendler(2)}></div>
       <div className="Btn room1_4" onClick={() => farmhendler(3)}></div>
       <div className="Btn room1_5" onClick={() => farmhendler(4)}></div>
@@ -240,9 +245,7 @@ function Farms({ data, setData }) {
       <div className="Btn room3_3" onClick={() => farmhendler(12)}></div>
       <div className="Btn room3_4" onClick={() => farmhendler(13)}></div>
       <div className="Btn room3_5" onClick={() => farmhendler(14)}></div>
-
     </div>
-    
   );
 }
 
