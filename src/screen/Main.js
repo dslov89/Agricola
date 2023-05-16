@@ -9,10 +9,10 @@ import { useState } from "react";
 function Main() {
   const [data, setData] = useState({
     name: "User 1",
-    tree: 0,
-    clay: 0,
-    rock: 0,
-    reed: 0,
+    tree: 10,
+    clay: 10,
+    rock: 10,
+    reed: 6,
     seed: 0,
     vegetable: 0,
     food: 0,
@@ -25,23 +25,12 @@ function Main() {
 
     round_array: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     player_array: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    farm: [
-      "empty",
-      "empty",
-      "empty",
-      "empty",
-      "empty",
-      "room",
-      "empty",
-      "empty",
-      "empty",
-      "empty",
-      "room",
-      "empty",
-      "empty",
-      "empty",
-      "empty",
-    ],
+
+    farm: ['empty','empty','empty','empty','empty',
+          'wood_room','empty','empty','empty','empty',
+          'wood_room','empty','empty','empty','empty'],
+
+
   });
 
   return (

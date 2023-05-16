@@ -2,12 +2,16 @@ import { useState } from "react";
 import { ReactComponent as Board } from "../asset/roundCard.svg";
 import "./ActionBoard.css";
 import farmer from "../image/farmer.png";
+
+import "./FarmBoard.css";
+
 import { ReactComponent as Land } from "../asset/land.svg";
 import { ReactComponent as Fence } from "../asset/fence.svg";
 import { ReactComponent as Grain } from "../asset/grain.svg";
 import { ReactComponent as Sheep } from "../asset/sheep.svg";
 import { ReactComponent as Facility } from "../asset/facility.svg";
 import MainModal from "./MainModal";
+
 //import SockJS from "sockjs-client";
 
 function ActionBoard({ data, setData }) {
@@ -47,6 +51,7 @@ function ActionBoard({ data, setData }) {
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
+      setData({ ...data, reed: data.reed + 1, rock: data.rock+1, food: data.food+1 });
       setIsTurn(false);
     }
   }
@@ -143,6 +148,7 @@ function ActionBoard({ data, setData }) {
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
+      setData({ ...data, seed: data.seed + 1 });
       setIsTurn(false);
     }
   }
@@ -158,6 +164,8 @@ function ActionBoard({ data, setData }) {
       // 두 클래스를 합친 새로운 클래스
       const newClass = `${buttonClass1}${buttonClass2}`;
       const buttonsssss = document.querySelector(newClass);
+
+      // 농부 이미지
 
       const redBox = document.createElement("div");
       redBox.style.width = "55px";
@@ -180,9 +188,11 @@ function ActionBoard({ data, setData }) {
           player_array: newPlayerArray,
         };
       });
+      
       //자원 획득 api
       //  보조 설비 카드 api
     }
+    
   }
 
   //   교습2 버튼 클릭 시 실행할 함수
@@ -203,6 +213,7 @@ function ActionBoard({ data, setData }) {
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
+      setData({ ...data, food: data.food + 1 });
       setIsTurn(false);
     }
   }
