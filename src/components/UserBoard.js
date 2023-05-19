@@ -7,7 +7,7 @@ function UserBoard({ data }) {
       {/* user정보 판 이미지 */}
       <User className="user" />
       {/* userName */}
-      <h2 className="userName">{data.name}</h2>
+      <h2 className="userName">{data.name[0]}</h2>
       {/* 첫번쨰줄 자원 개수 */}
       <h2 className="tree tree1">{data.tree}</h2>
       <h2 className="tree tree2">{data.clay}</h2>
