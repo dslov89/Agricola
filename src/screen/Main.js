@@ -1,8 +1,6 @@
 import "./Main.css";
-
 import ActionBoard from "../components/ActionBoard";
 import Users from "../components/Users";
-
 import Farms from "../components/Farms";
 import { useState } from "react";
 
@@ -29,8 +27,6 @@ function Main() {
     farm: ['empty','empty','empty','empty','empty',
           'wood_room','empty','empty','empty','empty',
           'wood_room','empty','empty','empty','empty'],
-
-
   });
 
   return (

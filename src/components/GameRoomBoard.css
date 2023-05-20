@@ -1,0 +1,49 @@
+/* Styles for the waiting room container */
+.waiting-room {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f2f2f2;
+}
+
+.header {
+  width: 1526px;
+  height: 61px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e3e399;
+  border: 5px solid #97784d;
+  border-radius: 8px;
+}
+
+/* Styles for the player list */
+.waiting-room ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.waiting-room li {
+  margin-bottom: 10px;
+}
+
+.waiting-room li span {
+  font-weight: bold;
+}
+
+/* Styles for the start button */
+.waiting-room .start-button {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.waiting-room .start-button:hover {
+  background-color: #45a049;
+}

@@ -2,9 +2,10 @@ import { useState } from "react";
 import { ReactComponent as Board } from "../asset/roundCard.svg";
 import "./ActionBoard.css";
 import farmer from "../image/farmer.png";
-
+import * as SockJS from "sockjs-client";
+import * as Stomp from "@stomp/stompjs";
 import "./FarmBoard.css";
-
+import axios from "axios";
 import { ReactComponent as Land } from "../asset/land.svg";
 import { ReactComponent as Fence } from "../asset/fence.svg";
 import { ReactComponent as Grain } from "../asset/grain.svg";
@@ -12,7 +13,6 @@ import { ReactComponent as Sheep } from "../asset/sheep.svg";
 import { ReactComponent as Facility } from "../asset/facility.svg";
 import MainModal from "./MainModal";
 
-//import SockJS from "sockjs-client";
 
 function ActionBoard({ data, setData }) {
   const [isTurn, setIsTurn] = useState(true);
@@ -28,7 +28,7 @@ function ActionBoard({ data, setData }) {
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
       setData({ ...data, tree: data.tree + 1 });
-
+      
       setIsTurn(false);
     }
   }
