@@ -6,6 +6,7 @@ import RootLayout from "./screen/Root";
 import ErrorPage from "./screen/Error";
 import Main from "./screen/Main";
 import Start from "./screen/Start";
+import Gameroomboard from "./components/GameRoomBoard.js";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { path: "/", element: <Start /> },
+      { path: "/gameroomboard", element: <Gameroomboard /> },
       { path: "/start", element: <Main /> },
     ],
   },
