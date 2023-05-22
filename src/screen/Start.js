@@ -9,14 +9,8 @@ function Start() {
 
   function naviHandler() {
     navigation("/gameroomboard");
+
   }
-
-  const [name, setName] = useState("");
-
-  const handleChange = (event) => {
-    setName(event.target.value);
-    nameValue = event.target.value;
-  };
 
   return (
     <div className="App">
@@ -25,12 +19,6 @@ function Start() {
       </header>
       <ul>
         <li>
-          <input
-            type="text"
-            placeholder="아이디 입력하세요."
-            value={name}
-            onChange={handleChange}
-          />
           <button onClick={naviHandler}>입장</button>
         </li>
       </ul>

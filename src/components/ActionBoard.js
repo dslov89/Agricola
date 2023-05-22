@@ -12,7 +12,9 @@ import { ReactComponent as Grain } from "../asset/grain.svg";
 import { ReactComponent as Sheep } from "../asset/sheep.svg";
 import { ReactComponent as Facility } from "../asset/facility.svg";
 import MainModal from "./MainModal";
+import { nameValue } from "../screen/Start";
 
+// tree:1, clay:2, rock:3, reed:4, seed:5, vegetable:6, food:7, sheep:8, pig:9, cow:10
 
 function ActionBoard({ data, setData }) {
   const [isTurn, setIsTurn] = useState(true);
@@ -20,6 +22,7 @@ function ActionBoard({ data, setData }) {
   const [mainModalVisible, setMainModalVisible] = useState(false);
   const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
 
+  
   //   덤블 버튼 클릭 시 실행할 함수
   function dumbleHandler() {
     // 내턴인지 확인
@@ -27,8 +30,18 @@ function ActionBoard({ data, setData }) {
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
-      setData({ ...data, tree: data.tree + 1 });
-      
+      axios.post(`https://localhost:8080/main-board/resource/update`, {
+          resource_id : 1,
+          User: nameValue,
+          quantity: 3,
+        })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
       setIsTurn(false);
     }
   }
