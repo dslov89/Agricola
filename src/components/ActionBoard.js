@@ -2,8 +2,9 @@ import { useState } from "react";
 import { ReactComponent as Board } from "../asset/roundCard.svg";
 import "./ActionBoard.css";
 import farmer from "../image/farmer.png";
-
 import "./FarmBoard.css";
+import axios from 'axios';
+import { nameValue } from "../screen/Start";
 
 import { ReactComponent as Land } from "../asset/land.svg";
 import { ReactComponent as Fence } from "../asset/fence.svg";
@@ -20,6 +21,33 @@ function ActionBoard({ data, setData }) {
   const [mainModalVisible, setMainModalVisible] = useState(false);
   const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
 
+  const defaultActHandler = (item, value) => {
+    axios.post('/main-board/resource/update', {
+        User_ID: nameValue,
+        Resoure_ID: item,
+        quantity : value,
+        turn: 0,
+    })
+    .then(function (response) {
+      console.log(response)
+    })
+    .catch(function (error){
+      console.log(error);
+    })
+    console.log(123);
+
+    // client.current.send(
+    //   "/main-board/resource/update",
+    //   {},
+    //   JSON.stringify({
+    //     User_ID: nameValue,
+    //     Resoure_ID: item,
+    //     quantity : value,
+    //     turn: 0
+    //   })
+    // );
+  };
+
   //   덤블 버튼 클릭 시 실행할 함수
   function dumbleHandler() {
     // 내턴인지 확인
@@ -27,7 +55,7 @@ function ActionBoard({ data, setData }) {
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
-      setData({ ...data, tree: data.tree + 1 });
+      defaultActHandler('tree', 3);
 
       setIsTurn(false);
     }
