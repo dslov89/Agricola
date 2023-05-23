@@ -170,7 +170,7 @@
 }
 
 .fence {
-  width: 84px;
+  width: 82px;
   height: 9px;
   
   position: absolute;
@@ -216,10 +216,10 @@
 }
 
 .fenceCol1 {
-  top: 25px;
+  top: 27px;
 }
 .fenceCol2 {
-  top: 123px;
+  top: 127px;
 }
 .fenceCol3 {
   top: 223px;

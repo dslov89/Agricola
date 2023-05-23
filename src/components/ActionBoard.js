@@ -2,8 +2,9 @@ import { useState } from "react";
 import { ReactComponent as Board } from "../asset/roundCard.svg";
 import "./ActionBoard.css";
 import farmer from "../image/farmer.png";
-
 import "./FarmBoard.css";
+import axios from 'axios';
+import { nameValue } from "../screen/Start";
 
 import { ReactComponent as Land } from "../asset/land.svg";
 import { ReactComponent as Fence } from "../asset/fence.svg";
@@ -12,21 +13,50 @@ import { ReactComponent as Sheep } from "../asset/sheep.svg";
 import { ReactComponent as Facility } from "../asset/facility.svg";
 import MainModal from "./MainModal";
 
+//import SockJS from "sockjs-client";
+
 function ActionBoard({ data, setData }) {
   const [isTurn, setIsTurn] = useState(true);
   const [roundNum, setRoundNum] = useState(4);
   const [mainModalVisible, setMainModalVisible] = useState(false);
   const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
-  
+
+  const defaultActHandler = (item, value) => {
+    axios.post('/main-board/resource/update', {
+        User_ID: nameValue,
+        Resoure_ID: item,
+        quantity : value,
+        turn: 0,
+    })
+    .then(function (response) {
+      console.log(response)
+    })
+    .catch(function (error){
+      console.log(error);
+    })
+    console.log(123);
+
+    // client.current.send(
+    //   "/main-board/resource/update",
+    //   {},
+    //   JSON.stringify({
+    //     User_ID: nameValue,
+    //     Resoure_ID: item,
+    //     quantity : value,
+    //     turn: 0
+    //   })
+    // );
+  };
+
   //   덤블 버튼 클릭 시 실행할 함수
   function dumbleHandler() {
     // 내턴인지 확인
     if (isTurn) {
-      
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
-      setData({ ...data, tree: data.tree + 1 });
+      defaultActHandler('tree', 3);
+
       setIsTurn(false);
     }
   }
@@ -49,6 +79,7 @@ function ActionBoard({ data, setData }) {
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
+      setData({ ...data, reed: data.reed + 1, rock: data.rock+1, food: data.food+1 });
       setIsTurn(false);
     }
   }
@@ -95,29 +126,33 @@ function ActionBoard({ data, setData }) {
 
       // 두 클래스를 합친 새로운 클래스
       const newClass = `${buttonClass1}${buttonClass2}`;
-      const buttonsssss = document.querySelector(newClass); 
+      const buttonsssss = document.querySelector(newClass);
 
-      const redBox = document.createElement('div');
-      redBox.style.width = '55px';
-      redBox.style.height = '58px';
-      redBox.style.transform = 'translateX(25px) translateY(40px)';
+      const redBox = document.createElement("div");
+      redBox.style.width = "55px";
+      redBox.style.height = "58px";
+      redBox.style.transform = "translateX(25px) translateY(40px)";
 
-      redBox.style.backgroundImage = `url(${farmer})`;      
-      
+      redBox.style.backgroundImage = `url(${farmer})`;
+
       buttonsssss.appendChild(redBox);
 
-      setData(prevState => {
+      setData((prevState) => {
         const newRoundArray = [...prevState.round_array];
         newRoundArray[i] = 1;
-      
+
         const newPlayerArray = [...prevState.player_array];
         newPlayerArray[i] = 1;
-      
-        return { ...prevState, round_array: newRoundArray, player_array: newPlayerArray };
+
+        return {
+          ...prevState,
+          round_array: newRoundArray,
+          player_array: newPlayerArray,
+        };
       });
 
       //농부수 -1하기
-      
+
       //자원 획득 api
       //  보조 설비 카드 api
     }
@@ -140,6 +175,8 @@ function ActionBoard({ data, setData }) {
     if (isTurn) {
       //자원 획득 api
       //  보조 설비 카드 api
+      //   턴 끝났으니 false로 변경
+      setData({ ...data, seed: data.seed + 1 });
       setIsTurn(false);
     }
   }
@@ -147,36 +184,43 @@ function ActionBoard({ data, setData }) {
   //   농지 버튼 클릭 시 실행할 함수
   function farmlandHandler(i) {
     // 내턴인지 확인
-    
+
     if (isTurn && data.round_array[i] === 0) {
       const buttonClass1 = ".actionBtn2";
       const buttonClass2 = ".clay";
 
       // 두 클래스를 합친 새로운 클래스
       const newClass = `${buttonClass1}${buttonClass2}`;
-      const buttonsssss = document.querySelector(newClass); 
+      const buttonsssss = document.querySelector(newClass);
 
-      const redBox = document.createElement('div');
-      redBox.style.width = '55px';
-      redBox.style.height = '58px';
-      redBox.style.transform = 'translateX(20px)';
-      redBox.style.backgroundImage = `url(${farmer})`;      
-      
+      // 농부 이미지
+
+      const redBox = document.createElement("div");
+      redBox.style.width = "55px";
+      redBox.style.height = "58px";
+      redBox.style.transform = "translateX(20px)";
+      redBox.style.backgroundImage = `url(${farmer})`;
+
       buttonsssss.appendChild(redBox);
 
-      setData(prevState => {
+      setData((prevState) => {
         const newRoundArray = [...prevState.round_array];
         newRoundArray[i] = 1;
-      
+
         const newPlayerArray = [...prevState.player_array];
         newPlayerArray[i] = 1;
-      
-        return { ...prevState, round_array: newRoundArray, player_array: newPlayerArray };
+
+        return {
+          ...prevState,
+          round_array: newRoundArray,
+          player_array: newPlayerArray,
+        };
       });
+      
       //자원 획득 api
       //  보조 설비 카드 api
-      
     }
+    
   }
 
   //   교습2 버튼 클릭 시 실행할 함수
@@ -197,6 +241,7 @@ function ActionBoard({ data, setData }) {
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
+      setData({ ...data, food: data.food + 1 });
       setIsTurn(false);
     }
   }
@@ -295,6 +340,7 @@ function ActionBoard({ data, setData }) {
   return (
     <div className="boardContainer">
       <Board className="round" />
+
       {/* 덤블 버튼 */}
       <div className="actionBtn dumble" onClick={dumbleHandler}></div>
       {/* 수풀 버튼 */}
@@ -311,7 +357,6 @@ function ActionBoard({ data, setData }) {
       <div
         className="actionBtn actionBtn2 farmExtend"
         onClick={() => farmExtendHandler(6)}
-        
       ></div>
       {/* 회합 장소 버튼 */}
       <div
@@ -322,8 +367,11 @@ function ActionBoard({ data, setData }) {
       <div className="actionBtn  actionBtn2 grain" 
       onClick={grainHandler}></div>
       {/* 농지 버튼 */}
-      <div className="actionBtn  actionBtn2  clay" onClick={() => farmlandHandler(9)}></div>
-      
+      <div
+        className="actionBtn  actionBtn2  clay"
+        onClick={() => farmlandHandler(9)}
+      ></div>
+
       {/* 교습2 버튼 */}
       <div
         className="actionBtn actionBtn2  teach1"

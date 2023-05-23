@@ -52,12 +52,11 @@ function Main() {
           {/* 유저 정보판 */}
           <Users data={data} setData={setData} />
         </div>
-        <Farms data={data} setData={setData}/>
+        <Farms data={data} setData={setData} />
         {/* </div> */}
       </div>
     </div>
   );
-
 }
 
 export default Main;

@@ -1,5 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
-import './first.css';
+import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import "./first.css";
+
+export let nameValue = "";
 
 function Start() {
   const navigation = useNavigate();
@@ -10,27 +13,29 @@ function Start() {
     navigation("/start");
   }
 
+  const [name, setName] = useState("");
+
+  const handleChange = (event) => {
+    setName(event.target.value);
+    nameValue = event.target.value;
+  };
+
   return (
     <div className="App">
       <header>
         <h1>Welcome to Agricola Game</h1>
       </header>
-      <body>
-        
-        <ul>
-          <li>
-            <a href="#"></a>
-          </li>
-          <li>
-            <a>
-            <button onClick={naviHandler}>게임에 참여</button>
-            </a>
-          </li>
-          <li>
-            <a href="#"></a>
-          </li>
-        </ul>
-      </body>
+      <ul>
+        <li>
+          <input
+            type="text"
+            placeholder="아이디 입력하세요."
+            value={name}
+            onChange={handleChange}
+          />
+          <button onClick={naviHandler}>입장</button>
+        </li>
+      </ul>
     </div>
   );
 }
