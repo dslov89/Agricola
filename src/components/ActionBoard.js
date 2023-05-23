@@ -300,7 +300,36 @@ function ActionBoard({ data, setData }) {
   function facilityHandler() {}
 
   //울타리 클릭 시
-  function fenceHandler() {}
+  function fenceHandler(i) {
+    if (isTurn && data.round_array[i] === 0)  {
+      const buttonClass = ".facilityBtn3";
+      const buttonsssss = document.querySelector(buttonClass);
+      // 농부 이미지
+  
+      const redBox = document.createElement("div");
+      redBox.style.width = "55px";
+      redBox.style.height = "58px";
+      redBox.style.transform = "translateX(20px)";
+      redBox.style.backgroundImage = `url(${farmer})`;
+
+      buttonsssss.appendChild(redBox);
+
+      setData((prevState) => {
+        const newRoundArray = [...prevState.round_array];
+        newRoundArray[i] = 1;
+
+        const newPlayerArray = [...prevState.player_array];
+        newPlayerArray[i] = 1;
+
+        return {
+          ...prevState,
+          round_array: newRoundArray,
+          player_array: newPlayerArray,
+        };
+      });
+
+    }
+  }
 
   //곡식 활용 클릭 시
   function grainHandler() {}
@@ -335,7 +364,8 @@ function ActionBoard({ data, setData }) {
         onClick={spaceHandler}
       ></div>
       {/* 곡식 종자 버튼 */}
-      <div className="actionBtn  actionBtn2 grain" onClick={grainHandler}></div>
+      <div className="actionBtn  actionBtn2 grain" 
+      onClick={grainHandler}></div>
       {/* 농지 버튼 */}
       <div
         className="actionBtn  actionBtn2  clay"
@@ -378,8 +408,9 @@ function ActionBoard({ data, setData }) {
       {roundNum >= 2 && (
         <Grain className="facilityBtn2" onClick={grainHandler} />
       )}
-      {roundNum >= 3 && (
-        <Fence className="facilityBtn3" onClick={fenceHandler} />
+      {roundNum >= 3 && (        
+
+        <Fence className="facilityBtn3" onClick={() => fenceHandler(18)} />
       )}
       {roundNum >= 4 && (
         <Sheep className="facilityBtn4" onClick={sheepHandler} />

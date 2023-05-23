@@ -3,6 +3,9 @@
     text-align: center;
   }
   
+  .noBackground {
+    background-image: none !important;
+  }
   
   header {
     background-color: #3f51b5;
