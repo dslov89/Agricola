@@ -168,18 +168,25 @@
   top: 230px;
   left: 445px;
 }
+
 .fence {
   width: 84px;
   height: 9px;
-  background: #fb0000;
+  
   position: absolute;
+  /*border: 0.1px solid #b22222;*/
+}
+.fenceCol {
+  width: 9px;
+  height: 84px;
+  position: absolute;
+
   border-radius: 2px;
-  border: 0.1px solid #b22222;
+  /*border: 0.1px solid #b22222;*/
 }
 
 .fenceRow1 {
   top: 16px;
-  
 }
 
 .fenceRow2 {
@@ -206,16 +213,6 @@
 }
 .fenceRow05 {
   left: 439px;
-}
-
-.fenceCol {
-  width: 9px;
-  height: 84px;
-  background: #fb0000;
-  position: absolute;
-
-  border-radius: 2px;
-  border: 0.1px solid #b22222;
 }
 
 .fenceCol1 {
@@ -250,4 +247,13 @@
 
 .fenceCol06 {
   left: 526px;
+}
+
+.finishButton {
+  background-color: red;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
 }
