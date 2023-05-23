@@ -9,7 +9,7 @@ import { useState } from "react";
 function Main() {
   const [data, setData] = useState({
     name: ["User 1", "User 2", "User 3", "User 4"],
-    tree: 10,
+    tree: 20,
     clay: 10,
     rock: 10,
     reed: 6,
