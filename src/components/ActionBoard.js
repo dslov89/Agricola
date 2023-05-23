@@ -12,6 +12,7 @@ import { ReactComponent as Grain } from "../asset/grain.svg";
 import { ReactComponent as Sheep } from "../asset/sheep.svg";
 import { ReactComponent as Facility } from "../asset/facility.svg";
 import MainModal from "./MainModal";
+import SubModal from "./SubModal";
 
 //import SockJS from "sockjs-client";
 
@@ -19,7 +20,26 @@ function ActionBoard({ data, setData }) {
   const [isTurn, setIsTurn] = useState(true);
   const [roundNum, setRoundNum] = useState(4);
   const [mainModalVisible, setMainModalVisible] = useState(false);
+  const [subModalVisible, setSubModalVisible] = useState(false);
   const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
+  const [subSulbi, setSubSulbi] = useState([
+    { id: 1, isHas: 1 },
+    { id: 2, isHas: 1 },
+    { id: 3, isHas: 1 },
+    { id: 4, isHas: 1 },
+    { id: 5, isHas: 1 },
+    { id: 6, isHas: 1 },
+    { id: 7, isHas: 1 },
+  ]);
+  const [jobCard, setJobCard] = useState([
+    { id: 1, isHas: 1 },
+    { id: 2, isHas: 1 },
+    { id: 3, isHas: 1 },
+    { id: 4, isHas: 1 },
+    { id: 5, isHas: 1 },
+    { id: 6, isHas: 1 },
+    { id: 7, isHas: 1 },
+  ]);
 
   const defaultActHandler = (item, value) => {
     axios.post('/main-board/resource/update', {
@@ -79,7 +99,12 @@ function ActionBoard({ data, setData }) {
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
-      setData({ ...data, reed: data.reed + 1, rock: data.rock+1, food: data.food+1 });
+      setData({
+        ...data,
+        reed: data.reed + 1,
+        rock: data.rock + 1,
+        food: data.food + 1,
+      });
       setIsTurn(false);
     }
   }
@@ -216,11 +241,10 @@ function ActionBoard({ data, setData }) {
           player_array: newPlayerArray,
         };
       });
-      
+
       //자원 획득 api
       //  보조 설비 카드 api
     }
-    
   }
 
   //   교습2 버튼 클릭 시 실행할 함수
@@ -293,7 +317,7 @@ function ActionBoard({ data, setData }) {
     setMainModalVisible(true);
   }
   function cardBtn2Handler() {
-    console.log("보조설비");
+    setSubModalVisible(true);
   }
 
   //설비 클릭 시
@@ -401,6 +425,13 @@ function ActionBoard({ data, setData }) {
         <MainModal setIsVisible={setMainModalVisible} mainSulbi={mainSulbi} />
       )}
       <div className="cardBtn2" onClick={cardBtn2Handler}></div>
+      {subModalVisible && (
+        <SubModal
+          setIsVisible={setSubModalVisible}
+          subSulbi={subSulbi}
+          jobCard={jobCard}
+        />
+      )}
       {roundNum >= 1 && (
         <Facility className="facilityBtn" onClick={facilityHandler} />
       )}
