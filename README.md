@@ -1,70 +1,65 @@
-# Getting Started with Create React App
+# 현재 한 것
+서버에 데이터를 주기(자원 갱신)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+각 행동하기 버튼마다 자원 갱신, 플레이어 이동
 
-## Available Scripts
+# 해야 할 것
+서버에서 데이터를 받아와서 해야하는 로직들..
 
-In the project directory, you can run:
+slack에 올라 온 수정 사항 (1,2,3,4 번) 읽고 해보기
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+# 수정 및 추가한 코드(큰 것만)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 기본 로직
 
-### `npm test`
+    const defaultActHandler = (item, value, cardIndex) => {
+        sendingClient.current.send(
+        '/main-board/resource/update',
+        {},
+        JSON.stringify({
+            Resoure_ID: item,
+            quantity : value,
+            turn: 0,
+            card: cardIndex
+        })
+        );
+    };
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 누적 로직
+    const accumulatedActHandler = (item, value, cardIndex) => {
+        sendingClient.current.send(
+        '/main-board/resource/update',
+        {},
+        JSON.stringify({
+            Resoure_ID: item,
+            quantity : value,
+            turn: 0,
+            card: cardIndex,
+            count: 1,
+        })
+        );
+    };
+    
 
-### `npm run build`
+기본, 누적 로직에서 item, value 는 배열형태로 전달
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+누적 로직 실행 시 count 는 1로 초기화 : (누적 로직에서 count는 라운드 갱신 마다 +1 씩 해서 자원 갱신 시 count * value 로 전달 받으려고 생각중)
+    
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 플레이어 이동
+    function movePlayer(btn, event) {
+        const button = btn;
+        const buttonRect = button.getBoundingClientRect();
+        const x = event.clientX - buttonRect.left;
+        const y = event.clientY - buttonRect.top;
+        const redBox = document.createElement("div");
+        redBox.style.width = "55px";
+        redBox.style.height = "58px";
+        redBox.style.transform = `translateX(${x-10}px) translateY(${y-10}px)`;
+        redBox.style.backgroundImage = `url(${farmer})`;
+        button.appendChild(redBox);
+    }
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
