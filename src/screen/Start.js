@@ -8,7 +8,9 @@ function Start() {
   const navigation = useNavigate();
 
   function naviHandler() {
-    navigation("/gameroomboard");
+    document.body.classList.add("noBackground"); // 배경 이미지 없애는 CSS 클래스 추가
+
+    navigation("/start");
   }
 
   const [name, setName] = useState("");

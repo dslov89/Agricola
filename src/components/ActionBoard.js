@@ -13,12 +13,33 @@ import { ReactComponent as Sheep } from "../asset/sheep.svg";
 import { ReactComponent as Facility } from "../asset/facility.svg";
 import MainModal from "./MainModal";
 import { sendingClient } from "./GameRoomBoard";
+import SubModal from "./SubModal";
+
 
 function ActionBoard({ data, setData }) {
   const [isTurn, setIsTurn] = useState(true);
   const [roundNum, setRoundNum] = useState(4);
   const [mainModalVisible, setMainModalVisible] = useState(false);
+  const [subModalVisible, setSubModalVisible] = useState(false);
   const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
+  const [subSulbi, setSubSulbi] = useState([
+    { id: 1, isHas: 1 },
+    { id: 2, isHas: 1 },
+    { id: 3, isHas: 1 },
+    { id: 4, isHas: 1 },
+    { id: 5, isHas: 1 },
+    { id: 6, isHas: 1 },
+    { id: 7, isHas: 1 },
+  ]);
+  const [jobCard, setJobCard] = useState([
+    { id: 1, isHas: 1 },
+    { id: 2, isHas: 1 },
+    { id: 3, isHas: 1 },
+    { id: 4, isHas: 1 },
+    { id: 5, isHas: 1 },
+    { id: 6, isHas: 1 },
+    { id: 7, isHas: 1 },
+  ]);
 
   const defaultActHandler = (item, value, cardIndex) => {
     sendingClient.current.send(
@@ -89,6 +110,7 @@ function ActionBoard({ data, setData }) {
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
+
       setData({ ...data, reed: data.reed + 1, rock: data.rock+1, food: data.food+1 });
       const item = ['reed', 'rock', 'food']
       const value = [1, 1, 1]
@@ -231,11 +253,10 @@ function ActionBoard({ data, setData }) {
           player_array: newPlayerArray,
         };
       });
-      
+
       //자원 획득 api
       //  보조 설비 카드 api
     }
-    
   }
 
   //   교습2 버튼 클릭 시 실행할 함수
@@ -338,14 +359,43 @@ function ActionBoard({ data, setData }) {
     setMainModalVisible(true);
   }
   function cardBtn2Handler() {
-    console.log("보조설비");
+    setSubModalVisible(true);
   }
 
   //설비 클릭 시
   function facilityHandler() {}
 
   //울타리 클릭 시
-  function fenceHandler() {}
+  function fenceHandler(i) {
+    if (isTurn && data.round_array[i] === 0)  {
+      const buttonClass = ".facilityBtn3";
+      const buttonsssss = document.querySelector(buttonClass);
+      // 농부 이미지
+  
+      const redBox = document.createElement("div");
+      redBox.style.width = "55px";
+      redBox.style.height = "58px";
+      redBox.style.transform = "translateX(20px)";
+      redBox.style.backgroundImage = `url(${farmer})`;
+
+      buttonsssss.appendChild(redBox);
+
+      setData((prevState) => {
+        const newRoundArray = [...prevState.round_array];
+        newRoundArray[i] = 1;
+
+        const newPlayerArray = [...prevState.player_array];
+        newPlayerArray[i] = 1;
+
+        return {
+          ...prevState,
+          round_array: newRoundArray,
+          player_array: newPlayerArray,
+        };
+      });
+
+    }
+  }
 
   //곡식 활용 클릭 시
   function roundGrainHandler() {
@@ -411,7 +461,8 @@ function ActionBoard({ data, setData }) {
         onClick={spaceHandler}
       ></div>
       {/* 곡식 종자 버튼 */}
-      <div className="actionBtn  actionBtn2 grain" onClick={grainHandler}></div>
+      <div className="actionBtn  actionBtn2 grain" 
+      onClick={grainHandler}></div>
       {/* 농지 버튼 */}
       <div
         className="actionBtn  actionBtn2  clay"
@@ -447,6 +498,13 @@ function ActionBoard({ data, setData }) {
         <MainModal setIsVisible={setMainModalVisible} mainSulbi={mainSulbi} />
       )}
       <div className="cardBtn2" onClick={cardBtn2Handler}></div>
+      {subModalVisible && (
+        <SubModal
+          setIsVisible={setSubModalVisible}
+          subSulbi={subSulbi}
+          jobCard={jobCard}
+        />
+      )}
       {roundNum >= 1 && (
         <Facility className="facilityBtn" onClick={facilityHandler} />
       )}
@@ -454,8 +512,9 @@ function ActionBoard({ data, setData }) {
       {roundNum >= 2 && (
         <Grain className="facilityBtn2" onClick={roundGrainHandler} />
       )}
-      {roundNum >= 3 && (
-        <Fence className="facilityBtn3" onClick={fenceHandler} />
+      {roundNum >= 3 && (        
+
+        <Fence className="facilityBtn3" onClick={() => fenceHandler(18)} />
       )}
       {roundNum >= 4 && (
         <Sheep className="facilityBtn4" onClick={sheepHandler} />
