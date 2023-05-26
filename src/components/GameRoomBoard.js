@@ -3,13 +3,17 @@ import { useNavigate } from "react-router-dom";
 import * as SockJS from "sockjs-client";
 import * as Stomp from "@stomp/stompjs";
 import axios from "axios";
-import { nameValue } from "../screen/Start";
+
+
+let sendingClient = null;
+function sendClient(client){
+  sendingClient = client;
+}
 
 const Gameroomboard = () => {
   const client = useRef();
   const navigation = useNavigate();
   const [rooms, setRooms] = useState([]);
-
   function naviHandler() {
     navigation("/start");
   }
@@ -21,10 +25,19 @@ const Gameroomboard = () => {
     });
     client.current.connect({}, () => {
       client.current.subscribe(
-        `/user/sub/game-room/`+ roomId,
+        `/user/sub/game-room/` + roomId,
         (message) => {
           console.log(message.body);
-          if (message.body === "OK") {
+          if (message.body === "OK" + ' ' + 1) { //turn example
+            client.current.subscribe(
+              `/sub/game-room/` + roomId,
+              (message) => {
+                console.log(message.body);
+              }
+            )
+            localStorage.setItem('turn', message.body[3]);
+            console.log(localStorage.getItem("turn"));
+            sendClient(client);
             naviHandler();
           } else {
             alert("게임에 진입할 수 없습니다.");
@@ -41,7 +54,7 @@ const Gameroomboard = () => {
       {},
       JSON.stringify({
         roomId: roomId,
-        userId: nameValue,
+        userId: 2,
         action: [1, 2, 3],
         content: "hello",
       })
@@ -54,7 +67,7 @@ const Gameroomboard = () => {
       {},
       JSON.stringify({
         roomId: roomId,
-        userId: nameValue,
+        userId: 2,
         action: [1, 2, 3],
         content: "hello",
       })
@@ -62,8 +75,7 @@ const Gameroomboard = () => {
   };
 
   const createRoom = (roomId) => {
-    axios
-      .post("http://localhost:8080/game-rooms", null, {
+    axios.post("http://localhost:8080/game-rooms", null, {
         params: {
           roomId: roomId,
         },
@@ -75,39 +87,32 @@ const Gameroomboard = () => {
         console.log(error);
       });
   };
-
-  // 방 목록 불러와서 중복되는 방 있으면 생성하지 않음(현재 이대로 하면 방이 생성이 안됨,,)
-
-  // useEffect(() => {
-  //   if (rooms.length > 0) {
-  //     const lastRoomId = rooms[rooms.length - 1];
-  //     axios
-  //       .get(`http://localhost:8080/game-rooms/${lastRoomId}`)
-  //       .then(function (response) {
-  //         const roomExists = response.data.length > 0;
-  //         if (roomExists) {
-  //           console.log(`Room ${lastRoomId} already exists.`);
-  //         } else {
-  //           createRoom(lastRoomId);
-  //         }
-  //       })
-  //       .catch(function (error) {
-  //         console.log(error);
-  //       });
-  //   }
-  // }, [rooms]);
-
-  useEffect(() => {
-    if (rooms.length > 0) {
-      createRoom(rooms[rooms.length - 1]);
-    }
-  }, [rooms]);
-
+  
+    useEffect(() => {
+      if (rooms.length > 0) {
+        const lastRoomId = rooms[rooms.length - 1];
+        const checkRoomExists = async () => {
+          try {
+            const response = await axios.get(
+              `http://localhost:8080/game-rooms/${lastRoomId}`
+            );
+            const roomExists = response.data.length > 0;
+            console.log(roomExists);
+            if (roomExists) {
+              console.log(`Room ${lastRoomId} already exists.`);
+            }
+          } catch (error) {
+            console.log(error);
+            createRoom(lastRoomId);
+          }
+        };
+        checkRoomExists();
+      }
+    }, [rooms]);
   const handleCreateRoom = () => {
     const newRoomId = rooms.length + 1;
     setRooms((prevRooms) => [...prevRooms, newRoomId]);
   };
-
   return (
     <div>
       <button onClick={handleCreateRoom}>방 생성하기</button>
@@ -124,3 +129,4 @@ const Gameroomboard = () => {
 };
 
 export default Gameroomboard;
+export { sendingClient };
