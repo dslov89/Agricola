@@ -6,6 +6,8 @@ import background from "../image/plow.png";
 import woodroom from "../image/wood_room.png";
 import soilroom from "../image/soil_room.png";
 import rockroom from "../image/rock_room.png";
+import house from "../image/house.png";
+import sheep from "../image/sheep.png";
 
 import land from "../asset/land.svg";
 import SockJS from 'sockjs-client';
@@ -62,6 +64,30 @@ const checkFenceSequence = (farm, indexSequence, count_ul) => {
 };
   //농장 버튼을 클릭시
   function farmHandler(index) {
+    // 외양간 설치
+    if(isTurn && data.player_array[6] === 2) {
+      if(data.farm[index] === "fence" || data.farm[index] === "empty") {
+        //이름을 외양간으로 바꿔주기, 그 방
+        const roomClass = `.room${Math.floor(index / 5) + 1}_${
+          (index % 5) + 1
+        }`;
+        const roomElement = document.querySelector(roomClass);
+        const redBox = document.createElement("div");
+        redBox.style.margin = "30px";
+        redBox.style.width = "35px";
+        redBox.style.height = "35px";
+        redBox.style.backgroundImage = `url(${house})`;
+        roomElement.appendChild(redBox);
+        setData({ ...data, tree: data.tree - 2,
+          player_array: {...data.player_array,[6]: 0,},
+        });
+        data.farm[index] = "house";
+        alert("외양간 하나 지음");
+        setIsGameFinished(false); // 새로운 종료 버튼을 활성화
+        setIsTurn(false);
+      }
+    }
+    
     //방 버튼을 눌렀을 때
     if (isTurn && data.player_array[6] === 1) {
       setIsGameFinished(true); // 새로운 종료 버튼을 활성화
@@ -125,7 +151,9 @@ const checkFenceSequence = (farm, indexSequence, count_ul) => {
               }
               else {
                 if (data.farm[index + dx[i]] === "wood_room" || data.farm[index + dx[i]] === "soil_room" || data.farm[index + dx[i]] === "rock_room") {
-                  setData({ ...data, tree: data.tree - 5, reed: data.reed - 2, });
+                  setData({ ...data, tree: data.tree - 5, reed: data.reed - 2, 
+                    player_array: {...data.player_array,[6]: 2,},
+                  });
                   const roomClass = `.room${Math.floor(index / 5) + 1}_${
                     (index % 5) + 1
                   }`;
@@ -149,8 +177,10 @@ const checkFenceSequence = (farm, indexSequence, count_ul) => {
             newArray[0] = 0;
             return { ...prevState, array: newArray };
           });
-          setIsTurn(false);
         }
+        //여기서 턴을 종료하지 않고 외양간 설치 기능을 넣어준다.
+        alert("외양간을 설치하거나 종료해주세요!")
+        
       }
       //유저가 클릭한 방이 나무인 경우 -> 한번에 업그레이드
       else if (data.farm[index] === 'wood_room') {
@@ -183,16 +213,11 @@ const checkFenceSequence = (farm, indexSequence, count_ul) => {
             redBox.style.left = "0";
             roomElement.appendChild(redBox);
           });
-          setData({ ...data, clay: data.clay - 5*count_wood, reed: data.reed - 2*count_wood});
+          setData({ ...data, clay: data.clay - 5*count_wood, 
+            reed: data.reed - 2*count_wood,
+            player_array: {...data.player_array,[6]: 2,}});
           alert("흙방 지음");
-
-          setData((prevState) => {
-            const newArray = [...prevState.player_array];
-            newArray[0] = 0;
-            return { ...prevState, array: newArray };
-          });
-          setIsTurn(false);
-
+          alert("외양간 짓거나, 종료해주세요.")
         }
         else {
           alert("자원이 부족");
@@ -231,16 +256,11 @@ const checkFenceSequence = (farm, indexSequence, count_ul) => {
             redBox.style.left = "0";
             roomElement.appendChild(redBox);
           });
-          setData({ ...data, rock: data.rock - 5*count_soil, reed: data.reed - 2*count_soil});
+          setData({ ...data, rock: data.rock - 5*count_soil, 
+            reed: data.reed - 2*count_soil,
+            player_array: {...data.player_array,[6]: 2,}});
           alert("돌방 지음");
-
-          setData((prevState) => {
-            const newArray = [...prevState.player_array];
-            newArray[0] = 0;
-            return { ...prevState, array: newArray };
-          });
-          setIsTurn(false);
-
+          alert("외양간 짓거나, 종료해주세요.")
         }
         else {
           alert("자원이 부족");
@@ -249,14 +269,15 @@ const checkFenceSequence = (farm, indexSequence, count_ul) => {
 
       //유저가 클릭한 방이 돌인 경우
       else{
-        alert("더 이상 업그레이드 불가 합니다.")
+        setData({ ...data, 
+          player_array: {...data.player_array,[6]: 2,}});
+        alert("업그레이드 불가능, 외양간 짓거나, 종료해주세요.")
       }
       
     } 
 
     //농지 버튼 클릭 시 가는 기능 - 밭 갈기
     if (isTurn && data.player_array[9] === 1) {
-      //외양간, 울타리 집 짓기를 모두 포함
 
       if(data.farm[index] !== 'empty') {
         alert('해당 방은 이미 예약되어 있습니다.');
@@ -296,7 +317,7 @@ const checkFenceSequence = (farm, indexSequence, count_ul) => {
 
     //울타리 설치 기능 -> 갔는지 확인\
     if(isTurn && data.player_array[18] === 1 ){
-      if(data.farm[index] === 'empty') { //비어있거나 외양간만 있을 때 지을 수 있음 
+      if(data.farm[index] === 'empty' || data.farm[index] === 'house') { //비어있거나 외양간만 있을 때 지을 수 있음 
         const pre_indexSequence = [];
         // farm 배열 순회
         for (let i = 0; i < data.farm.length; i++) {
@@ -604,20 +625,47 @@ const checkFenceSequence = (farm, indexSequence, count_ul) => {
         });
       });
     }
+    //동물 키우는 것에 대한 로직
+  if(isTurn && data.player_array[19] === 1 ){ 
+    // 4라운드이기 때문에 양만 키우기 가능 
+    // 그렇지만 전체적인 코드를 짜겠습니다.
+    // 조건은 방에는 동물 하나만 키울 수 있다.
+    // 울타리에서는 2배 키우기 가능 -> fence에 있으면 4마리 가능
+    if(data.farm[index] === "fence" || data.farm[index] === "house") {
+      alert("hello");
+    }
+    else if(index === 5 || index ===10) {
+      alert("hello");
+
+    }
   }
+}
+  //외양간 버튼
+  
 
   // 새로운 종료 버튼 클릭시 게임 종료
   function handleFinishGame() {
+    // main -> 자원 수들, 
+    // const jsonData = JSON.stringify({
+    //   user_id: data.name,
+    //   farm: data.farm,
+    //   farm_fence: data,farm_fence,
+    //   tree: data.tree, // 자원 다 보내기
+    //   action: [0,1] //전체 다 보내기
+    // });
+
+    //connection.send("http://localhost:8080/farm/update", {}, jsonData);
+
     setIsGameFinished(false); // 새로운 종료 버튼 비활성화
     setIsTurn(false); // 턴 초기화
   }
 
-  //외양간 관련 기능
 
-  //동물 키우는 것에 대한 로직
+  
 
   return (
     <div>
+
       {isGameFinished && (
         <button className="finishButton" onClick={handleFinishGame}>
           종료

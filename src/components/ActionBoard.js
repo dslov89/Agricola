@@ -19,6 +19,8 @@ function ActionBoard({ data, setData }) {
   const [isTurn, setIsTurn] = useState(true);
   const [roundNum, setRoundNum] = useState(4);
   const [mainModalVisible, setMainModalVisible] = useState(false);
+  const [isGameFinished, setIsGameFinished] = useState(false);
+
   const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
 
   const defaultActHandler = (item, value) => {
@@ -330,14 +332,52 @@ function ActionBoard({ data, setData }) {
 
     }
   }
-
   //곡식 활용 클릭 시
   function grainHandler() {}
 
   //양 시장 클릭 시
-  function sheepHandler() {}
+  function sheepHandler(i) {
+    if (isTurn && data.round_array[i] === 0)  {
+      const buttonClass = ".facilityBtn4";
+      const buttonsssss = document.querySelector(buttonClass);
+      // 농부 이미지
+  
+      const redBox = document.createElement("div");
+      redBox.style.width = "55px";
+      redBox.style.height = "58px";
+      redBox.style.transform = "translateX(20px)";
+      redBox.style.backgroundImage = `url(${farmer})`;
+
+      buttonsssss.appendChild(redBox);
+
+      setData((prevState) => {
+        const newRoundArray = [...prevState.round_array];
+        newRoundArray[i] = 1;
+
+        const newPlayerArray = [...prevState.player_array];
+        newPlayerArray[i] = 1;
+
+        return {
+          ...prevState,
+          round_array: newRoundArray,
+          player_array: newPlayerArray,
+        };
+      });
+
+    }    
+  }
+  function handleFinishGame() {
+    setIsGameFinished(false); // 새로운 종료 버튼 비활성화
+    setIsTurn(false); // 턴 초기화
+  }
 
   return (
+    <div>
+      {isGameFinished && (
+        <button className="finishButton" onClick={handleFinishGame}>
+          종료
+        </button>
+      )}
     <div className="boardContainer">
       <Board className="round" />
 
@@ -413,9 +453,9 @@ function ActionBoard({ data, setData }) {
         <Fence className="facilityBtn3" onClick={() => fenceHandler(18)} />
       )}
       {roundNum >= 4 && (
-        <Sheep className="facilityBtn4" onClick={sheepHandler} />
+        <Sheep className="facilityBtn4" onClick={() => sheepHandler(19)} />
       )}
-    </div>
+    </div></div>
   );
 }
 
