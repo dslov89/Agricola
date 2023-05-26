@@ -8,39 +8,38 @@
 
 slack에 올라 온 수정 사항 (1,2,3,4 번) 읽고 해보기
 
------
 
 # 수정 및 추가한 코드
 
 ### 기본 로직
 
-                const defaultActHandler = (item, value, cardIndex) => {
-                    sendingClient.current.send(
-                    '/main-board/resource/update',
-                    {},
-                    JSON.stringify({
-                        Resoure_ID: item,
-                        quantity : value,
-                        turn: 0,
-                        card: cardIndex
-                    })
-                    );
-                };
+        const defaultActHandler = (item, value, cardIndex) => {
+            sendingClient.current.send(
+            '/main-board/resource/update',
+            {},
+            JSON.stringify({
+                Resoure_ID: item,
+                quantity : value,
+                turn: 0,
+                card: cardIndex
+            })
+            );
+        };
 
 ### 누적 로직
-                const accumulatedActHandler = (item, value, cardIndex) => {
-                    sendingClient.current.send(
-                    '/main-board/resource/update',
-                    {},
-                    JSON.stringify({
-                        Resoure_ID: item,
-                        quantity : value,
-                        turn: 0,
-                        card: cardIndex,
-                        count: 1,
-                    })
-                    );
-                };
+        const accumulatedActHandler = (item, value, cardIndex) => {
+            sendingClient.current.send(
+            '/main-board/resource/update',
+            {},
+            JSON.stringify({
+                Resoure_ID: item,
+                quantity : value,
+                turn: 0,
+                card: cardIndex,
+                count: 1,
+            })
+            );
+        };
     
 
 기본, 누적 로직에서 item, value 는 배열형태로 전달
@@ -49,18 +48,18 @@ slack에 올라 온 수정 사항 (1,2,3,4 번) 읽고 해보기
     
 
 ### 플레이어 이동
-                function movePlayer(btn, event) {
-                    const button = btn;
-                    const buttonRect = button.getBoundingClientRect();
-                    const x = event.clientX - buttonRect.left;
-                    const y = event.clientY - buttonRect.top;
-                    const redBox = document.createElement("div");
-                    redBox.style.width = "55px";
-                    redBox.style.height = "58px";
-                    redBox.style.transform = `translateX(${x-10}px) translateY(${y-10}px)`;
-                    redBox.style.backgroundImage = `url(${farmer})`;
-                    button.appendChild(redBox);
-                }
+        function movePlayer(btn, event) {
+            const button = btn;
+            const buttonRect = button.getBoundingClientRect();
+            const x = event.clientX - buttonRect.left;
+            const y = event.clientY - buttonRect.top;
+            const redBox = document.createElement("div");
+            redBox.style.width = "55px";
+            redBox.style.height = "58px";
+            redBox.style.transform = `translateX(${x-10}px) translateY(${y-10}px)`;
+            redBox.style.backgroundImage = `url(${farmer})`;
+            button.appendChild(redBox);
+        }
 
 ---
 
