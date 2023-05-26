@@ -12,109 +12,154 @@ import { ReactComponent as Grain } from "../asset/grain.svg";
 import { ReactComponent as Sheep } from "../asset/sheep.svg";
 import { ReactComponent as Facility } from "../asset/facility.svg";
 import MainModal from "./MainModal";
+import { sendingClient } from "./GameRoomBoard";
+import SubModal from "./SubModal";
 
-//import SockJS from "sockjs-client";
 
 function ActionBoard({ data, setData }) {
   const [isTurn, setIsTurn] = useState(true);
   const [roundNum, setRoundNum] = useState(4);
   const [mainModalVisible, setMainModalVisible] = useState(false);
-  const [isGameFinished, setIsGameFinished] = useState(false);
-
+  const [subModalVisible, setSubModalVisible] = useState(false);
   const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
+  const [subSulbi, setSubSulbi] = useState([
+    { id: 1, isHas: 1 },
+    { id: 2, isHas: 1 },
+    { id: 3, isHas: 1 },
+    { id: 4, isHas: 1 },
+    { id: 5, isHas: 1 },
+    { id: 6, isHas: 1 },
+    { id: 7, isHas: 1 },
+  ]);
+  const [jobCard, setJobCard] = useState([
+    { id: 1, isHas: 1 },
+    { id: 2, isHas: 1 },
+    { id: 3, isHas: 1 },
+    { id: 4, isHas: 1 },
+    { id: 5, isHas: 1 },
+    { id: 6, isHas: 1 },
+    { id: 7, isHas: 1 },
+  ]);
 
-  const defaultActHandler = (item, value) => {
-    axios.post('/main-board/resource/update', {
-        User_ID: nameValue,
+  const defaultActHandler = (item, value, cardIndex) => {
+    sendingClient.current.send(
+      '/main-board/resource/update',
+      {},
+      JSON.stringify({
         Resoure_ID: item,
         quantity : value,
         turn: 0,
-    })
-    .then(function (response) {
-      console.log(response)
-    })
-    .catch(function (error){
-      console.log(error);
-    })
-    console.log(123);
+        card: cardIndex
+      })
+    );
+    console.log("default");
+  };
 
-    // client.current.send(
-    //   "/main-board/resource/update",
-    //   {},
-    //   JSON.stringify({
-    //     User_ID: nameValue,
-    //     Resoure_ID: item,
-    //     quantity : value,
-    //     turn: 0
-    //   })
-    // );
+  const accumulatedActHandler = (item, value, cardIndex) => {
+    sendingClient.current.send(
+      '/main-board/resource/update',
+      {},
+      JSON.stringify({
+        Resoure_ID: item,
+        quantity : value,
+        turn: 0,
+        card: cardIndex,
+        count: 1,
+      })
+    );
+    console.log("accumulated");
   };
 
   //   덤블 버튼 클릭 시 실행할 함수
-  function dumbleHandler() {
+  function dumbleHandler(event) {
     // 내턴인지 확인
     if (isTurn) {
+      const button = event.target;
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
-      defaultActHandler('tree', 3);
-
+      const item = ['tree']
+      const value = [1]
+      accumulatedActHandler(item, value, 0);
+      movePlayer(button, event);
       setIsTurn(false);
     }
   }
 
   //   수풀 버튼 클릭 시 실행할 함수
-  function bushHandler() {
+  function bushHandler(event) {
     // 내턴인지 확인
     if (isTurn) {
+      const button = event.target;
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
+      const item = ['tree']
+      const value = [2]
+      accumulatedActHandler(item, value, 1);
+      movePlayer(button, event);
       setIsTurn(false);
     }
   }
 
   //   자원 시장 버튼 클릭 시 실행할 함수
-  function resourceHandler() {
+  function resourceHandler(event) {
     // 내턴인지 확인
     if (isTurn) {
+      const button = event.target;
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
+
       setData({ ...data, reed: data.reed + 1, rock: data.rock+1, food: data.food+1 });
+      const item = ['reed', 'rock', 'food']
+      const value = [1, 1, 1]
+      defaultActHandler(item, value, 2)
+      movePlayer(button, event);
       setIsTurn(false);
     }
   }
 
   //   점토 채쿨장 버튼 클릭 시 실행할 함수
-  function clayHandler() {
+  function clayHandler(event) {
     // 내턴인지 확인
     if (isTurn) {
+      const button = event.target;
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
+      const item = ['clay']
+      const value = [2]
+      accumulatedActHandler(item, value, 3);
+      movePlayer(button, event);
       setIsTurn(false);
     }
   }
 
   //   교습 버튼 클릭 시 실행할 함수
-  function teach1Handler() {
+  function teach1Handler(event) {
     // 내턴인지 확인
     if (isTurn) {
+      const button = event.target;
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
+      const item = ['food']
+      const value = [-2]
+      defaultActHandler(item, value, 4);
+      movePlayer(button, event);
       setIsTurn(false);
     }
   }
 
   //   유랑극단 버튼 클릭 시 실행할 함수
-  function theaterHandler() {
-    // 내턴인지 확인
+  function theaterHandler(event) {
     if (isTurn) {
-      //자원 획득 api
-      //  보조 설비 카드 api
-      //   턴 끝났으니 false로 변경
+      const button = event.target;  
+      const item = ['food'];
+      const value = [1];
+      accumulatedActHandler(item, value, 5);
+      movePlayer(button, event);
       setIsTurn(false);
     }
   }
@@ -129,15 +174,7 @@ function ActionBoard({ data, setData }) {
       // 두 클래스를 합친 새로운 클래스
       const newClass = `${buttonClass1}${buttonClass2}`;
       const buttonsssss = document.querySelector(newClass);
-
-      const redBox = document.createElement("div");
-      redBox.style.width = "55px";
-      redBox.style.height = "58px";
-      redBox.style.transform = "translateX(25px) translateY(40px)";
-
-      redBox.style.backgroundImage = `url(${farmer})`;
-
-      buttonsssss.appendChild(redBox);
+      movePlayer(buttonsssss, i);
 
       setData((prevState) => {
         const newRoundArray = [...prevState.round_array];
@@ -161,23 +198,30 @@ function ActionBoard({ data, setData }) {
   }
 
   //   회합 장소 버튼 클릭 시 실행할 함수
-  function spaceHandler() {
+  function spaceHandler(event) {
     // 내턴인지 확인
     if (isTurn) {
+      const button = event.target;
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
+      movePlayer(button, event);
       setIsTurn(false);
     }
   }
 
   //   곡식 종자 버튼 클릭 시 실행할 함수
-  function grainHandler() {
+  function grainHandler(event) {
     // 내턴인지 확인
     if (isTurn) {
+      const button = event.target;
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
+      const item = ['seed']
+      const value = [-2]
+      defaultActHandler(item, value, 8);
+      movePlayer(button, event);
       setData({ ...data, seed: data.seed + 1 });
       setIsTurn(false);
     }
@@ -194,16 +238,7 @@ function ActionBoard({ data, setData }) {
       // 두 클래스를 합친 새로운 클래스
       const newClass = `${buttonClass1}${buttonClass2}`;
       const buttonsssss = document.querySelector(newClass);
-
-      // 농부 이미지
-
-      const redBox = document.createElement("div");
-      redBox.style.width = "55px";
-      redBox.style.height = "58px";
-      redBox.style.transform = "translateX(20px)";
-      redBox.style.backgroundImage = `url(${farmer})`;
-
-      buttonsssss.appendChild(redBox);
+      movePlayer(buttonsssss, i);
 
       setData((prevState) => {
         const newRoundArray = [...prevState.round_array];
@@ -218,76 +253,105 @@ function ActionBoard({ data, setData }) {
           player_array: newPlayerArray,
         };
       });
-      
+
       //자원 획득 api
       //  보조 설비 카드 api
     }
-    
   }
 
   //   교습2 버튼 클릭 시 실행할 함수
-  function teach2Handler() {
+  function teach2Handler(event) {
     // 내턴인지 확인
     if (isTurn) {
+      const button = event.target;
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
+      const item = ['food']
+      const value = [-1]
+      defaultActHandler(item, value, 10);
+      movePlayer(button, event);
       setIsTurn(false);
     }
   }
 
   //   날품팔이 버튼 클릭 시 실행할 함수
-  function goodsHandler() {
+  function goodsHandler(event) {
     // 내턴인지 확인
     if (isTurn) {
+      const button = event.target;
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
+      const item = ['food']
+      const value = [2]
+      defaultActHandler(item, value, 11)
+      movePlayer(button, event);
       setData({ ...data, food: data.food + 1 });
       setIsTurn(false);
     }
   }
 
   //   숲 버튼 클릭 시 실행할 함수
-  function forestHandler() {
+  function forestHandler(event) {
     // 내턴인지 확인
     if (isTurn) {
+      const button = event.target;
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
+      const item = ['tree']
+      const value = [3]
+      accumulatedActHandler(item, value, 12);
+      movePlayer(button, event);
       setIsTurn(false);
     }
   }
 
   //   흙 채굴장 버튼 클릭 시 실행할 함수
-  function soilHandler() {
+  function soilHandler(event) {
     // 내턴인지 확인
     if (isTurn) {
+      const button = event.target;
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
+      const item = ['clay']
+      const value = [1]
+      accumulatedActHandler(item, value, 13);
+      movePlayer(button, event);
       setIsTurn(false);
     }
   }
 
   //    갈대밭 버튼 클릭 시 실행할 함수
-  function reedHandler() {
+  function reedHandler(event) {
     // 내턴인지 확인
     if (isTurn) {
+      const button = event.target;
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
+      const item = ['reed']
+      const value = [1]
+      accumulatedActHandler(item, value, 14);
+      movePlayer(button, event);
       setIsTurn(false);
     }
   }
 
   //   낚시 버튼 클릭 시 실행할 함수
-  function fishingHandler() {
+  function fishingHandler(event) {
     // 내턴인지 확인
     if (isTurn) {
+      const button = event.target;
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
+      const item = ['food']
+      const value = [1]
+      accumulatedActHandler(item, value, 15);
+      movePlayer(button, event);
       setIsTurn(false);
     }
   }
@@ -295,7 +359,7 @@ function ActionBoard({ data, setData }) {
     setMainModalVisible(true);
   }
   function cardBtn2Handler() {
-    console.log("보조설비");
+    setSubModalVisible(true);
   }
 
   //설비 클릭 시
@@ -332,52 +396,45 @@ function ActionBoard({ data, setData }) {
 
     }
   }
+
   //곡식 활용 클릭 시
-  function grainHandler() {}
+  function roundGrainHandler() {
+    if(isTurn){
+      console.log("123123123");
+      setIsTurn(false);
+    }
+
+  }
+
+  // 플레이어 이동
+  function movePlayer(btn, event) {
+    const button = btn;
+    const buttonRect = button.getBoundingClientRect();
+    const x = event.clientX - buttonRect.left;
+    const y = event.clientY - buttonRect.top;
+    const redBox = document.createElement("div");
+    redBox.style.width = "55px";
+    redBox.style.height = "58px";
+    redBox.style.transform = `translateX(${x-10}px) translateY(${y-10}px)`;
+    redBox.style.backgroundImage = `url(${farmer})`;
+    button.appendChild(redBox);
+  }
 
   //양 시장 클릭 시
-  function sheepHandler(i) {
-    if (isTurn && data.round_array[i] === 0)  {
-      const buttonClass = ".facilityBtn4";
-      const buttonsssss = document.querySelector(buttonClass);
-      // 농부 이미지
-  
-      const redBox = document.createElement("div");
-      redBox.style.width = "55px";
-      redBox.style.height = "58px";
-      redBox.style.transform = "translateX(20px)";
-      redBox.style.backgroundImage = `url(${farmer})`;
-
-      buttonsssss.appendChild(redBox);
-
-      setData((prevState) => {
-        const newRoundArray = [...prevState.round_array];
-        newRoundArray[i] = 1;
-
-        const newPlayerArray = [...prevState.player_array];
-        newPlayerArray[i] = 1;
-
-        return {
-          ...prevState,
-          round_array: newRoundArray,
-          player_array: newPlayerArray,
-        };
-      });
-
-    }    
-  }
-  function handleFinishGame() {
-    setIsGameFinished(false); // 새로운 종료 버튼 비활성화
-    setIsTurn(false); // 턴 초기화
+  function sheepHandler() {
+    // 내턴인지 확인
+    if (isTurn) {
+      //자원 획득 api
+      //  보조 설비 카드 api
+      //   턴 끝났으니 false로 변경
+      const item = ['sheep']
+      const value = [1]
+      accumulatedActHandler(item, value, 19);
+      setIsTurn(false);
+    }
   }
 
   return (
-    <div>
-      {isGameFinished && (
-        <button className="finishButton" onClick={handleFinishGame}>
-          종료
-        </button>
-      )}
     <div className="boardContainer">
       <Board className="round" />
 
@@ -441,21 +498,28 @@ function ActionBoard({ data, setData }) {
         <MainModal setIsVisible={setMainModalVisible} mainSulbi={mainSulbi} />
       )}
       <div className="cardBtn2" onClick={cardBtn2Handler}></div>
+      {subModalVisible && (
+        <SubModal
+          setIsVisible={setSubModalVisible}
+          subSulbi={subSulbi}
+          jobCard={jobCard}
+        />
+      )}
       {roundNum >= 1 && (
         <Facility className="facilityBtn" onClick={facilityHandler} />
       )}
       {/* <Facility className="facilityBtn" /> */}
       {roundNum >= 2 && (
-        <Grain className="facilityBtn2" onClick={grainHandler} />
+        <Grain className="facilityBtn2" onClick={roundGrainHandler} />
       )}
       {roundNum >= 3 && (        
 
         <Fence className="facilityBtn3" onClick={() => fenceHandler(18)} />
       )}
       {roundNum >= 4 && (
-        <Sheep className="facilityBtn4" onClick={() => sheepHandler(19)} />
+        <Sheep className="facilityBtn4" onClick={sheepHandler} />
       )}
-    </div></div>
+    </div>
   );
 }
 
