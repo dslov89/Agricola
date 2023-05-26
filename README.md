@@ -48,18 +48,18 @@ slack에 올라 온 수정 사항 (1,2,3,4 번) 읽고 해보기
     
 
 ### 플레이어 이동
-        function movePlayer(btn, event) {
-            const button = btn;
-            const buttonRect = button.getBoundingClientRect();
-            const x = event.clientX - buttonRect.left;
-            const y = event.clientY - buttonRect.top;
-            const redBox = document.createElement("div");
-            redBox.style.width = "55px";
-            redBox.style.height = "58px";
-            redBox.style.transform = `translateX(${x-10}px) translateY(${y-10}px)`;
-            redBox.style.backgroundImage = `url(${farmer})`;
-            button.appendChild(redBox);
-        }
+    function movePlayer(btn, event) {
+        const button = btn;
+        const buttonRect = button.getBoundingClientRect();
+        const x = event.clientX - buttonRect.left;
+        const y = event.clientY - buttonRect.top;
+        const redBox = document.createElement("div");
+        redBox.style.width = "55px";
+        redBox.style.height = "58px";
+        redBox.style.transform = `translateX(${x-10}px) translateY(${y-10}px)`;
+        redBox.style.backgroundImage = `url(${farmer})`;
+        button.appendChild(redBox);
+    }
 
 ---
 
