@@ -4,7 +4,7 @@ import "./ActionBoard.css";
 import farmer from "../image/farmer.png";
 import "./FarmBoard.css";
 import axios from 'axios';
-import { nameValue } from "../screen/Start";
+import { nameValue, sendingClient } from "../screen/Start";
 
 import { ReactComponent as Land } from "../asset/land.svg";
 import { ReactComponent as Fence } from "../asset/fence.svg";
@@ -12,7 +12,6 @@ import { ReactComponent as Grain } from "../asset/grain.svg";
 import { ReactComponent as Sheep } from "../asset/sheep.svg";
 import { ReactComponent as Facility } from "../asset/facility.svg";
 import MainModal from "./MainModal";
-import { sendingClient } from "./GameRoomBoard";
 
 function ActionBoard({ data, setData }) {
   const [isTurn, setIsTurn] = useState(true);
@@ -224,7 +223,7 @@ function ActionBoard({ data, setData }) {
 
         const newPlayerArray = [...prevState.player_array];
         newPlayerArray[i] = 1;
-
+        setIsTurn(false);
         return {
           ...prevState,
           round_array: newRoundArray,
@@ -356,20 +355,6 @@ function ActionBoard({ data, setData }) {
 
   }
 
-  // 플레이어 이동
-  function movePlayer(btn, event) {
-    const button = btn;
-    const buttonRect = button.getBoundingClientRect();
-    const x = event.clientX - buttonRect.left;
-    const y = event.clientY - buttonRect.top;
-    const redBox = document.createElement("div");
-    redBox.style.width = "55px";
-    redBox.style.height = "58px";
-    redBox.style.transform = `translateX(${x-10}px) translateY(${y-10}px)`;
-    redBox.style.backgroundImage = `url(${farmer})`;
-    button.appendChild(redBox);
-  }
-
   //양 시장 클릭 시
   function sheepHandler() {
     // 내턴인지 확인
@@ -382,6 +367,20 @@ function ActionBoard({ data, setData }) {
       accumulatedActHandler(item, value, 19);
       setIsTurn(false);
     }
+  }
+
+  // 플레이어 이동
+  function movePlayer(btn, event) {
+    const button = btn;
+    const buttonRect = button.getBoundingClientRect();
+    const x = event.clientX - buttonRect.left;
+    const y = event.clientY - buttonRect.top;
+    const redBox = document.createElement("div");
+    redBox.style.width = "55px";
+    redBox.style.height = "58px";
+    redBox.style.transform = `translateX(${x-10}px) translateY(${y-10}px)`;
+    redBox.style.backgroundImage = `url(${farmer})`;
+    button.appendChild(redBox);
   }
 
   return (

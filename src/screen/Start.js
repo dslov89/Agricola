@@ -1,13 +1,26 @@
 import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import * as SockJS from "sockjs-client";
+import * as Stomp from "@stomp/stompjs";
 import "./first.css";
 
 export let nameValue = "";
+export let sendingClient = null;
+
+function sendClient(client){
+  sendingClient = client;
+}
 
 function Start() {
   const navigation = useNavigate();
+  const client = useRef();
 
-  function naviHandler() {
+  function connectHandler() {
+    client.current = Stomp.Stomp.over(() => {
+      const sock = new SockJS("http://localhost:8080/enter");
+      return sock;
+    });
+    sendClient(client);
     navigation("/gameroomboard");
   }
 
@@ -31,11 +44,10 @@ function Start() {
             value={name}
             onChange={handleChange}
           />
-          <button onClick={naviHandler}>입장</button>
+          <button onClick={connectHandler}>입장</button>
         </li>
       </ul>
     </div>
   );
 }
-
 export default Start;
