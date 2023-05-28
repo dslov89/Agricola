@@ -7,7 +7,6 @@ import ErrorPage from "./screen/Error";
 import Main from "./screen/Main";
 import Start from "./screen/Start";
 import Gameroomboard from "./components/GameRoomBoard.js";
-// import Gameroomboard from "./components/test.js";
 
 const router = createBrowserRouter([
   {

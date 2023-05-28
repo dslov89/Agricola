@@ -2,9 +2,15 @@ import { useState } from "react";
 import { ReactComponent as Board } from "../asset/roundCard.svg";
 import "./ActionBoard.css";
 import farmer from "../image/farmer.png";
+
 import "./FarmBoard.css";
-import axios from 'axios';
+
 import { nameValue } from "../screen/Start";
+
+import * as SockJS from "sockjs-client";
+import * as Stomp from "@stomp/stompjs";
+import "./FarmBoard.css";
+import axios from "axios";
 
 import { ReactComponent as Land } from "../asset/land.svg";
 import { ReactComponent as Fence } from "../asset/fence.svg";
@@ -12,9 +18,13 @@ import { ReactComponent as Grain } from "../asset/grain.svg";
 import { ReactComponent as Sheep } from "../asset/sheep.svg";
 import { ReactComponent as Facility } from "../asset/facility.svg";
 import MainModal from "./MainModal";
+
 import { sendingClient } from "./GameRoomBoard";
 import SubModal from "./SubModal";
 
+import { nameValue } from "../screen/Start";
+
+// tree:1, clay:2, rock:3, reed:4, seed:5, vegetable:6, food:7, sheep:8, pig:9, cow:10
 
 function ActionBoard({ data, setData }) {
   const [isTurn, setIsTurn] = useState(true);
@@ -43,13 +53,13 @@ function ActionBoard({ data, setData }) {
 
   const defaultActHandler = (item, value, cardIndex) => {
     sendingClient.current.send(
-      '/main-board/resource/update',
+      "/main-board/resource/update",
       {},
       JSON.stringify({
         Resoure_ID: item,
-        quantity : value,
+        quantity: value,
         turn: 0,
-        card: cardIndex
+        card: cardIndex,
       })
     );
     console.log("default");
@@ -57,11 +67,11 @@ function ActionBoard({ data, setData }) {
 
   const accumulatedActHandler = (item, value, cardIndex) => {
     sendingClient.current.send(
-      '/main-board/resource/update',
+      "/main-board/resource/update",
       {},
       JSON.stringify({
         Resoure_ID: item,
-        quantity : value,
+        quantity: value,
         turn: 0,
         card: cardIndex,
         count: 1,
@@ -78,10 +88,23 @@ function ActionBoard({ data, setData }) {
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
-      const item = ['tree']
-      const value = [1]
+      const item = ["tree"];
+      const value = [1];
       accumulatedActHandler(item, value, 0);
       movePlayer(button, event);
+      axios
+        .post(`https://localhost:8080/main-board/resource/update`, {
+          resource_id: 1,
+          User: nameValue,
+          quantity: 3,
+        })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
       setIsTurn(false);
     }
   }
@@ -94,8 +117,8 @@ function ActionBoard({ data, setData }) {
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
-      const item = ['tree']
-      const value = [2]
+      const item = ["tree"];
+      const value = [2];
       accumulatedActHandler(item, value, 1);
       movePlayer(button, event);
       setIsTurn(false);
@@ -111,10 +134,15 @@ function ActionBoard({ data, setData }) {
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
 
-      setData({ ...data, reed: data.reed + 1, rock: data.rock+1, food: data.food+1 });
-      const item = ['reed', 'rock', 'food']
-      const value = [1, 1, 1]
-      defaultActHandler(item, value, 2)
+      setData({
+        ...data,
+        reed: data.reed + 1,
+        rock: data.rock + 1,
+        food: data.food + 1,
+      });
+      const item = ["reed", "rock", "food"];
+      const value = [1, 1, 1];
+      defaultActHandler(item, value, 2);
       movePlayer(button, event);
       setIsTurn(false);
     }
@@ -128,8 +156,8 @@ function ActionBoard({ data, setData }) {
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
-      const item = ['clay']
-      const value = [2]
+      const item = ["clay"];
+      const value = [2];
       accumulatedActHandler(item, value, 3);
       movePlayer(button, event);
       setIsTurn(false);
@@ -144,8 +172,8 @@ function ActionBoard({ data, setData }) {
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
-      const item = ['food']
-      const value = [-2]
+      const item = ["food"];
+      const value = [-2];
       defaultActHandler(item, value, 4);
       movePlayer(button, event);
       setIsTurn(false);
@@ -155,8 +183,8 @@ function ActionBoard({ data, setData }) {
   //   유랑극단 버튼 클릭 시 실행할 함수
   function theaterHandler(event) {
     if (isTurn) {
-      const button = event.target;  
-      const item = ['food'];
+      const button = event.target;
+      const item = ["food"];
       const value = [1];
       accumulatedActHandler(item, value, 5);
       movePlayer(button, event);
@@ -218,8 +246,8 @@ function ActionBoard({ data, setData }) {
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
-      const item = ['seed']
-      const value = [-2]
+      const item = ["seed"];
+      const value = [-2];
       defaultActHandler(item, value, 8);
       movePlayer(button, event);
       setData({ ...data, seed: data.seed + 1 });
@@ -267,8 +295,8 @@ function ActionBoard({ data, setData }) {
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
-      const item = ['food']
-      const value = [-1]
+      const item = ["food"];
+      const value = [-1];
       defaultActHandler(item, value, 10);
       movePlayer(button, event);
       setIsTurn(false);
@@ -283,9 +311,9 @@ function ActionBoard({ data, setData }) {
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
-      const item = ['food']
-      const value = [2]
-      defaultActHandler(item, value, 11)
+      const item = ["food"];
+      const value = [2];
+      defaultActHandler(item, value, 11);
       movePlayer(button, event);
       setData({ ...data, food: data.food + 1 });
       setIsTurn(false);
@@ -300,8 +328,8 @@ function ActionBoard({ data, setData }) {
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
-      const item = ['tree']
-      const value = [3]
+      const item = ["tree"];
+      const value = [3];
       accumulatedActHandler(item, value, 12);
       movePlayer(button, event);
       setIsTurn(false);
@@ -316,8 +344,8 @@ function ActionBoard({ data, setData }) {
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
-      const item = ['clay']
-      const value = [1]
+      const item = ["clay"];
+      const value = [1];
       accumulatedActHandler(item, value, 13);
       movePlayer(button, event);
       setIsTurn(false);
@@ -332,8 +360,8 @@ function ActionBoard({ data, setData }) {
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
-      const item = ['reed']
-      const value = [1]
+      const item = ["reed"];
+      const value = [1];
       accumulatedActHandler(item, value, 14);
       movePlayer(button, event);
       setIsTurn(false);
@@ -348,8 +376,8 @@ function ActionBoard({ data, setData }) {
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
-      const item = ['food']
-      const value = [1]
+      const item = ["food"];
+      const value = [1];
       accumulatedActHandler(item, value, 15);
       movePlayer(button, event);
       setIsTurn(false);
@@ -367,11 +395,11 @@ function ActionBoard({ data, setData }) {
 
   //울타리 클릭 시
   function fenceHandler(i) {
-    if (isTurn && data.round_array[i] === 0)  {
+    if (isTurn && data.round_array[i] === 0) {
       const buttonClass = ".facilityBtn3";
       const buttonsssss = document.querySelector(buttonClass);
       // 농부 이미지
-  
+
       const redBox = document.createElement("div");
       redBox.style.width = "55px";
       redBox.style.height = "58px";
@@ -393,17 +421,15 @@ function ActionBoard({ data, setData }) {
           player_array: newPlayerArray,
         };
       });
-
     }
   }
 
   //곡식 활용 클릭 시
   function roundGrainHandler() {
-    if(isTurn){
+    if (isTurn) {
       console.log("123123123");
       setIsTurn(false);
     }
-
   }
 
   // 플레이어 이동
@@ -415,7 +441,7 @@ function ActionBoard({ data, setData }) {
     const redBox = document.createElement("div");
     redBox.style.width = "55px";
     redBox.style.height = "58px";
-    redBox.style.transform = `translateX(${x-10}px) translateY(${y-10}px)`;
+    redBox.style.transform = `translateX(${x - 10}px) translateY(${y - 10}px)`;
     redBox.style.backgroundImage = `url(${farmer})`;
     button.appendChild(redBox);
   }
@@ -427,8 +453,8 @@ function ActionBoard({ data, setData }) {
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
-      const item = ['sheep']
-      const value = [1]
+      const item = ["sheep"];
+      const value = [1];
       accumulatedActHandler(item, value, 19);
       setIsTurn(false);
     }
@@ -461,8 +487,7 @@ function ActionBoard({ data, setData }) {
         onClick={spaceHandler}
       ></div>
       {/* 곡식 종자 버튼 */}
-      <div className="actionBtn  actionBtn2 grain" 
-      onClick={grainHandler}></div>
+      <div className="actionBtn  actionBtn2 grain" onClick={grainHandler}></div>
       {/* 농지 버튼 */}
       <div
         className="actionBtn  actionBtn2  clay"
@@ -512,8 +537,7 @@ function ActionBoard({ data, setData }) {
       {roundNum >= 2 && (
         <Grain className="facilityBtn2" onClick={roundGrainHandler} />
       )}
-      {roundNum >= 3 && (        
-
+      {roundNum >= 3 && (
         <Fence className="facilityBtn3" onClick={() => fenceHandler(18)} />
       )}
       {roundNum >= 4 && (

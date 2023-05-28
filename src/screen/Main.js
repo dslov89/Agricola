@@ -1,8 +1,6 @@
 import "./Main.css";
-
 import ActionBoard from "../components/ActionBoard";
 import Users from "../components/Users";
-
 import Farms from "../components/Farms";
 import { useState } from "react";
 
@@ -23,22 +21,41 @@ function Main() {
     fence: 0,
     house: 0,
 
-    round_array: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    player_array: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    round_array: [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ],
+    player_array: [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ],
 
-    farm: ['empty','empty','empty','empty','empty',
-          'wood_room','empty','empty','empty','empty',
-          'wood_room','empty','empty','empty','empty'],
+    farm: [
+      "empty",
+      "empty",
+      "empty",
+      "empty",
+      "empty",
+      "wood_room",
+      "empty",
+      "empty",
+      "empty",
+      "empty",
+      "wood_room",
+      "empty",
+      "empty",
+      "empty",
+      "empty",
+    ],
 
-    farm_fence: [[0, 0, 0, 0, 0, 0],  // 0번째줄 가로
-                 [0, 0, 0, 0, 0, 0],  // 1번째줄 세로
-                 [0, 0, 0, 0, 0, 0],  // 2번째줄 가로
-                 [0, 0, 0, 0, 0, 0],  // 3번째줄 세로
-                 [0, 0, 0, 0, 0, 0],  // 4번째줄 가로
-                 [0, 0, 0, 0, 0, 0],  // 5번째줄
-                 [0, 0, 0, 0, 0, 0]],// 6번째줄  
+    farm_fence: [
+      [0, 0, 0, 0, 0, 0], // 0번째줄 가로
+      [0, 0, 0, 0, 0, 0], // 1번째줄 세로
+      [0, 0, 0, 0, 0, 0], // 2번째줄 가로
+      [0, 0, 0, 0, 0, 0], // 3번째줄 세로
+      [0, 0, 0, 0, 0, 0], // 4번째줄 가로
+      [0, 0, 0, 0, 0, 0], // 5번째줄
+      [0, 0, 0, 0, 0, 0],
+    ], // 6번째줄
   });
-  
 
   return (
     <div className="backGround">

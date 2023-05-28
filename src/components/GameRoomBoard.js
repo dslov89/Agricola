@@ -27,6 +27,7 @@ const Gameroomboard = () => {
         `/user/sub/game-room/` + roomId,
         (message) => {
           console.log(message.body);
+
           if (message.body === "OK" + " " + 1) {
             //turn example
             client.current.subscribe(`/sub/game-room/` + roomId, (message) => {
@@ -35,6 +36,7 @@ const Gameroomboard = () => {
             localStorage.setItem("turn", message.body[3]);
             console.log(localStorage.getItem("turn"));
             sendClient(client);
+
             naviHandler();
           } else {
             alert("게임에 진입할 수 없습니다.");
