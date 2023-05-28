@@ -165,35 +165,11 @@ function ActionBoard({ data, setData }) {
   }
 
   // 농장 확장 버튼 클릭 시 실행할 함수
-  function farmExtendHandler(i) {
+  function farmExtendHandler(event) {
     // 내턴인지 확인
-    if (isTurn && data.round_array[i] === 0) {
-      const buttonClass1 = ".actionBtn2";
-      const buttonClass2 = ".farmExtend";
-
-      // 두 클래스를 합친 새로운 클래스
-      const newClass = `${buttonClass1}${buttonClass2}`;
-      const buttonsssss = document.querySelector(newClass);
-      movePlayer(buttonsssss, i);
-
-      setData((prevState) => {
-        const newRoundArray = [...prevState.round_array];
-        newRoundArray[i] = 1;
-
-        const newPlayerArray = [...prevState.player_array];
-        newPlayerArray[i] = 1;
-
-        return {
-          ...prevState,
-          round_array: newRoundArray,
-          player_array: newPlayerArray,
-        };
-      });
-
-      //농부수 -1하기
-
-      //자원 획득 api
-      //  보조 설비 카드 api
+    if (isTurn) {
+      const button = event.target;  
+      movePlayer(button, event);
     }
   }
 
@@ -228,34 +204,11 @@ function ActionBoard({ data, setData }) {
   }
 
   //   농지 버튼 클릭 시 실행할 함수
-  function farmlandHandler(i) {
+  function farmlandHandler(event) {
     // 내턴인지 확인
-
-    if (isTurn && data.round_array[i] === 0) {
-      const buttonClass1 = ".actionBtn2";
-      const buttonClass2 = ".clay";
-
-      // 두 클래스를 합친 새로운 클래스
-      const newClass = `${buttonClass1}${buttonClass2}`;
-      const buttonsssss = document.querySelector(newClass);
-      movePlayer(buttonsssss, i);
-
-      setData((prevState) => {
-        const newRoundArray = [...prevState.round_array];
-        newRoundArray[i] = 1;
-
-        const newPlayerArray = [...prevState.player_array];
-        newPlayerArray[i] = 1;
-
-        return {
-          ...prevState,
-          round_array: newRoundArray,
-          player_array: newPlayerArray,
-        };
-      });
-
-      //자원 획득 api
-      //  보조 설비 카드 api
+    if(isTurn) {
+      const button = event.target;
+      movePlayer(button, event)
     }
   }
 
@@ -366,34 +319,11 @@ function ActionBoard({ data, setData }) {
   function facilityHandler() {}
 
   //울타리 클릭 시
-  function fenceHandler(i) {
-    if (isTurn && data.round_array[i] === 0)  {
-      const buttonClass = ".facilityBtn3";
-      const buttonsssss = document.querySelector(buttonClass);
-      // 농부 이미지
-  
-      const redBox = document.createElement("div");
-      redBox.style.width = "55px";
-      redBox.style.height = "58px";
-      redBox.style.transform = "translateX(20px)";
-      redBox.style.backgroundImage = `url(${farmer})`;
-
-      buttonsssss.appendChild(redBox);
-
-      setData((prevState) => {
-        const newRoundArray = [...prevState.round_array];
-        newRoundArray[i] = 1;
-
-        const newPlayerArray = [...prevState.player_array];
-        newPlayerArray[i] = 1;
-
-        return {
-          ...prevState,
-          round_array: newRoundArray,
-          player_array: newPlayerArray,
-        };
-      });
-
+  function fenceHandler(event) {
+    if (isTurn) {
+      const button = event.target;
+      
+      movePlayer(button, event);
     }
   }
 

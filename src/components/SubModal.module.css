@@ -1,0 +1,101 @@
+.container {
+    /* 모달창 크기 */
+    width: 990px;
+    height: 965px;
+  
+    /* 최상단 위치 */
+    z-index: 999;
+  
+    /* 중앙 배치 */
+    /* top, bottom, left, right 는 브라우저 기준으로 작동한다. */
+    /* translate는 본인의 크기 기준으로 작동한다. */
+    position: absolute;
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+  
+    /* 모달창 디자인 */
+    background-color: rgb(207, 189, 121);
+    border: 1px solid black;
+    border-radius: 12px;
+  }
+  
+  .close {
+    position: absolute;
+    right: -15px;
+    top: -15px;
+    font-size: 30px;
+    border-radius: 30px;
+  }
+  
+  .sub1 {
+    position: absolute;
+    left: 10px;
+    top: 15px;
+  }
+  .sub2 {
+    position: absolute;
+    left: 205px;
+    top: 15px;
+  }
+  .sub3 {
+    position: absolute;
+    left: 400px;
+    top: 15px;
+  }
+  .sub4 {
+    position: absolute;
+    left: 595px;
+    top: 15px;
+  }
+  .sub5 {
+    position: absolute;
+    left: 790px;
+    top: 15px;
+  }
+  .sub6 {
+    position: absolute;
+    left: 10px;
+    top: 330px;
+  }
+  .sub7 {
+    position: absolute;
+    left: 205px;
+    top: 330px;
+  }
+  
+  .job1 {
+    position: absolute;
+    left: 400px;
+    top: 330px;
+  }
+  .job2 {
+    position: absolute;
+    left: 595px;
+    top: 330px;
+  }
+  .job3 {
+    position: absolute;
+    left: 790px;
+    top: 330px;
+  }
+  .job4 {
+    position: absolute;
+    left: 108px;
+    top: 645px;
+  }
+  .job5 {
+    position: absolute;
+    left: 303px;
+    top: 645px;
+  }
+  .job6 {
+    position: absolute;
+    left: 498px;
+    top: 645px;
+  }
+  .job7 {
+    position: absolute;
+    left: 693px;
+    top: 645px;
+  }
