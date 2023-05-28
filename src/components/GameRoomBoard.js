@@ -4,9 +4,8 @@ import * as SockJS from "sockjs-client";
 import * as Stomp from "@stomp/stompjs";
 import axios from "axios";
 
-
 let sendingClient = null;
-function sendClient(client){
+function sendClient(client) {
   sendingClient = client;
 }
 
@@ -28,14 +27,12 @@ const Gameroomboard = () => {
         `/user/sub/game-room/` + roomId,
         (message) => {
           console.log(message.body);
-          if (message.body === "OK" + ' ' + 1) { //turn example
-            client.current.subscribe(
-              `/sub/game-room/` + roomId,
-              (message) => {
-                console.log(message.body);
-              }
-            )
-            localStorage.setItem('turn', message.body[3]);
+          if (message.body === "OK" + " " + 1) {
+            //turn example
+            client.current.subscribe(`/sub/game-room/` + roomId, (message) => {
+              console.log(message.body);
+            });
+            localStorage.setItem("turn", message.body[3]);
             console.log(localStorage.getItem("turn"));
             sendClient(client);
             naviHandler();
@@ -75,7 +72,8 @@ const Gameroomboard = () => {
   };
 
   const createRoom = (roomId) => {
-    axios.post("http://localhost:8080/game-rooms", null, {
+    axios
+      .post("http://localhost:8080/game-rooms", null, {
         params: {
           roomId: roomId,
         },
@@ -87,28 +85,28 @@ const Gameroomboard = () => {
         console.log(error);
       });
   };
-  
-    useEffect(() => {
-      if (rooms.length > 0) {
-        const lastRoomId = rooms[rooms.length - 1];
-        const checkRoomExists = async () => {
-          try {
-            const response = await axios.get(
-              `http://localhost:8080/game-rooms/${lastRoomId}`
-            );
-            const roomExists = response.data.length > 0;
-            console.log(roomExists);
-            if (roomExists) {
-              console.log(`Room ${lastRoomId} already exists.`);
-            }
-          } catch (error) {
-            console.log(error);
-            createRoom(lastRoomId);
+
+  useEffect(() => {
+    if (rooms.length > 0) {
+      const lastRoomId = rooms[rooms.length - 1];
+      const checkRoomExists = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:8080/game-rooms/${lastRoomId}`
+          );
+          const roomExists = response.data.length > 0;
+          console.log(roomExists);
+          if (roomExists) {
+            console.log(`Room ${lastRoomId} already exists.`);
           }
-        };
-        checkRoomExists();
-      }
-    }, [rooms]);
+        } catch (error) {
+          console.log(error);
+          createRoom(lastRoomId);
+        }
+      };
+      checkRoomExists();
+    }
+  }, [rooms]);
   const handleCreateRoom = () => {
     const newRoomId = rooms.length + 1;
     setRooms((prevRooms) => [...prevRooms, newRoomId]);
