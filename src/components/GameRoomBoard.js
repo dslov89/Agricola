@@ -15,7 +15,9 @@ const Gameroomboard = () => {
   
 
   const connectHandler = (roomId) => {
-    sendingClient.current.connect({}, () => {
+    sendingClient.current.connect({}, (message) => {
+      console.log("커넥트 메시지");
+      console.log(message.body);
       sendingClient.current.subscribe(
         `/user/sub/game-room/` + roomId,
         (message) => {
@@ -124,7 +126,6 @@ const Gameroomboard = () => {
         <div key={newRoomId}>
           <h1>GameRoom {newRoomId}</h1>
           <button onClick={() => enterRoom(newRoomId)}>게임 입장</button>
-          {/* <button onClick={() => connectHandler(newRoomId)}>게임 연결</button> */}
         </div>
       ))}
     </div>
