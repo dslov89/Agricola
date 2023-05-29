@@ -7,6 +7,7 @@ import * as SockJS from "sockjs-client";
 import * as Stomp from "@stomp/stompjs";
 import "./FarmBoard.css";
 import axios from "axios";
+import { nameValue, sendingClient } from "../screen/Start";
 
 import { ReactComponent as Land } from "../asset/land.svg";
 import { ReactComponent as Fence } from "../asset/fence.svg";
@@ -14,13 +15,6 @@ import { ReactComponent as Grain } from "../asset/grain.svg";
 import { ReactComponent as Sheep } from "../asset/sheep.svg";
 import { ReactComponent as Facility } from "../asset/facility.svg";
 import MainModal from "./MainModal";
-
-import { sendingClient } from "./GameRoomBoard";
-import SubModal from "./SubModal";
-
-import { nameValue } from "../screen/Start";
-
-// tree:1, clay:2, rock:3, reed:4, seed:5, vegetable:6, food:7, sheep:8, pig:9, cow:10
 
 function ActionBoard({ data, setData }) {
   const [isTurn, setIsTurn] = useState(true);
@@ -270,7 +264,7 @@ function ActionBoard({ data, setData }) {
 
         const newPlayerArray = [...prevState.player_array];
         newPlayerArray[i] = 1;
-
+        setIsTurn(false);
         return {
           ...prevState,
           round_array: newRoundArray,
@@ -454,6 +448,20 @@ function ActionBoard({ data, setData }) {
       accumulatedActHandler(item, value, 19);
       setIsTurn(false);
     }
+  }
+
+  // 플레이어 이동
+  function movePlayer(btn, event) {
+    const button = btn;
+    const buttonRect = button.getBoundingClientRect();
+    const x = event.clientX - buttonRect.left;
+    const y = event.clientY - buttonRect.top;
+    const redBox = document.createElement("div");
+    redBox.style.width = "55px";
+    redBox.style.height = "58px";
+    redBox.style.transform = `translateX(${x - 10}px) translateY(${y - 10}px)`;
+    redBox.style.backgroundImage = `url(${farmer})`;
+    button.appendChild(redBox);
   }
 
   return (
