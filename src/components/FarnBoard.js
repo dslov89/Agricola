@@ -2,11 +2,27 @@ import "./FarmBoard.css";
 import { ReactComponent as Farm } from "../asset/farm.svg";
 
 function FarmBoard() {
-  
   return (
     <>
-      <Farm />
-      <h3 className="userFarm">User 1</h3>
+      <div className="farmContainer">
+        <div className="farmItem">
+          <Farm />
+          <h3 className="userFarm1">User 1</h3>
+        </div>
+        <div className="farmItem">
+          <Farm />
+          <h3 className="userFarm2">User 2</h3>
+        </div>
+        <div className="farmItem">
+          <Farm />
+          <h3 className="userFarm2">User 2</h3>
+        </div>
+        <div className="farmItem">
+          <Farm />
+          <h3 className="userFarm2">User 2</h3>
+        </div>
+      </div>
+  
       <div className="fence fenceRow1 fenceRow01" />
       <div className="fence fenceRow1 fenceRow02" />
       <div className="fence fenceRow1 fenceRow03" />
