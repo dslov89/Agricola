@@ -3,10 +3,6 @@ import { ReactComponent as Board } from "../asset/roundCard.svg";
 import "./ActionBoard.css";
 import farmer from "../image/farmer.png";
 
-import "./FarmBoard.css";
-
-import { nameValue } from "../screen/Start";
-
 import * as SockJS from "sockjs-client";
 import * as Stomp from "@stomp/stompjs";
 import "./FarmBoard.css";

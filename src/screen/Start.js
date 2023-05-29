@@ -8,17 +8,8 @@ function Start() {
   const navigation = useNavigate();
 
   function naviHandler() {
-    document.body.classList.add("noBackground"); // 배경 이미지 없애는 CSS 클래스 추가
-
-    navigation("/start");
+    navigation("/gameroomboard");
   }
-
-  const [name, setName] = useState("");
-
-  const handleChange = (event) => {
-    setName(event.target.value);
-    nameValue = event.target.value;
-  };
 
   return (
     <div className="App">
@@ -27,12 +18,6 @@ function Start() {
       </header>
       <ul>
         <li>
-          <input
-            type="text"
-            placeholder="아이디 입력하세요."
-            value={name}
-            onChange={handleChange}
-          />
           <button onClick={naviHandler}>입장</button>
         </li>
       </ul>
