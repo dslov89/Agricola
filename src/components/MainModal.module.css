@@ -1,7 +1,7 @@
 .container {
   /* 모달창 크기 */
-  width: 700px;
-  height: 500px;
+  width: 850px;
+  height: 605px;
 
   /* 최상단 위치 */
   z-index: 999;
@@ -22,58 +22,60 @@
 
 .close {
   position: absolute;
-  right: -70px;
-  top: -50px;
-  font-size: 20px;
+  right: -15px;
+  top: -15px;
+  font-size: 30px;
+  border-radius: 30px;
 }
 
 .main1 {
   position: absolute;
-  left: -55px;
-  top: 0px;
+  left: 15px;
+  top: 45px;
 }
 .main2 {
   position: absolute;
-  left: 110px;
-  top: 0px;
+  left: 185px;
+  top: 45px;
 }
 .main3 {
   position: absolute;
-  left: 275x;
-  top: 0px;
+  left: 355px;
+  top: 45px;
 }
 .main4 {
   position: absolute;
-  left: 445px;
-  top: 0px;
+  left: 525px;
+  top: 45px;
 }
 .main5 {
   position: absolute;
-  left: 620px;
-  top: 0px;
+  left: 695px;
+  top: 45px;
 }
 .main6 {
   position: absolute;
-  left: -55px;
-  top: 280px;
+  left: 15px;
+  top: 335px;
 }
 .main7 {
   position: absolute;
-  left: 110px;
-  top: 280px;
+  left: 185px;
+  top: 335px;
 }
 .main8 {
   position: absolute;
-  left: 275x;
-  top: 280px;
+  left: 355px;
+  top: 335px;
 }
 .main9 {
   position: absolute;
-  left: 445px;
-  top: 280px;
+  left: 525px;
+  top: 335px;
 }
 .main10 {
   position: absolute;
-  left: 620px;
-  top: 280px;
+  left: 695px;
+  top: 335px;
 }
+

@@ -8,8 +8,8 @@ import { useState } from "react";
 
 function Main() {
   const [data, setData] = useState({
-    name: "User 1",
-    tree: 10,
+    name: ["User 1", "User 2", "User 3", "User 4"],
+    tree: 20,
     clay: 10,
     rock: 10,
     reed: 6,
@@ -23,15 +23,22 @@ function Main() {
     fence: 0,
     house: 0,
 
-    round_array: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    player_array: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    round_array: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    player_array: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 
     farm: ['empty','empty','empty','empty','empty',
           'wood_room','empty','empty','empty','empty',
           'wood_room','empty','empty','empty','empty'],
 
-
+    farm_fence: [[0, 0, 0, 0, 0, 0],  // 0번째줄 가로
+                 [0, 0, 0, 0, 0, 0],  // 1번째줄 세로
+                 [0, 0, 0, 0, 0, 0],  // 2번째줄 가로
+                 [0, 0, 0, 0, 0, 0],  // 3번째줄 세로
+                 [0, 0, 0, 0, 0, 0],  // 4번째줄 가로
+                 [0, 0, 0, 0, 0, 0],  // 5번째줄
+                 [0, 0, 0, 0, 0, 0]],// 6번째줄  
   });
+  
 
   return (
     <div className="backGround">

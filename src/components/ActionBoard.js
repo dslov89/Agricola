@@ -12,12 +12,35 @@ import { ReactComponent as Grain } from "../asset/grain.svg";
 import { ReactComponent as Sheep } from "../asset/sheep.svg";
 import { ReactComponent as Facility } from "../asset/facility.svg";
 import MainModal from "./MainModal";
+import { sendingClient } from "./GameRoomBoard";
+import SubModal from "./SubModal";
+
 
 function ActionBoard({ data, setData }) {
   const [isTurn, setIsTurn] = useState(true);
   const [roundNum, setRoundNum] = useState(4);
   const [mainModalVisible, setMainModalVisible] = useState(false);
+  const [subModalVisible, setSubModalVisible] = useState(false);
   const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
+  const [subSulbi, setSubSulbi] = useState([
+    { id: 1, isHas: 1 },
+    { id: 2, isHas: 1 },
+    { id: 3, isHas: 1 },
+    { id: 4, isHas: 1 },
+    { id: 5, isHas: 1 },
+    { id: 6, isHas: 1 },
+    { id: 7, isHas: 1 },
+  ]);
+  const [jobCard, setJobCard] = useState([
+    { id: 1, isHas: 1 },
+    { id: 2, isHas: 1 },
+    { id: 3, isHas: 1 },
+    { id: 4, isHas: 1 },
+    { id: 5, isHas: 1 },
+    { id: 6, isHas: 1 },
+    { id: 7, isHas: 1 },
+  ]);
+
 
   const defaultActHandler = (item, value, cardIndex) => {
     sendingClient.current.send(
@@ -27,7 +50,9 @@ function ActionBoard({ data, setData }) {
         Resoure_ID: item,
         quantity : value,
         turn: 0,
-        card: cardIndex
+
+        card: cardIndex,
+       
       })
     );
     console.log("default");
@@ -88,6 +113,7 @@ function ActionBoard({ data, setData }) {
       //자원 획득 api
       //  보조 설비 카드 api
       //   턴 끝났으니 false로 변경
+
       setData({ ...data, reed: data.reed + 1, rock: data.rock+1, food: data.food+1 });
       const item = ['reed', 'rock', 'food']
       const value = [1, 1, 1]
@@ -142,35 +168,14 @@ function ActionBoard({ data, setData }) {
   }
 
   // 농장 확장 버튼 클릭 시 실행할 함수
-  function farmExtendHandler(i) {
+  function farmExtendHandler(event) {
     // 내턴인지 확인
-    if (isTurn && data.round_array[i] === 0) {
-      const buttonClass1 = ".actionBtn2";
-      const buttonClass2 = ".farmExtend";
 
-      // 두 클래스를 합친 새로운 클래스
-      const newClass = `${buttonClass1}${buttonClass2}`;
-      const buttonsssss = document.querySelector(newClass);
-      movePlayer(buttonsssss, i);
+    if (isTurn) {
+      const button = event.target;  
+      movePlayer(button, event);
+      serverHandler(event)
 
-      setData((prevState) => {
-        const newRoundArray = [...prevState.round_array];
-        newRoundArray[i] = 1;
-
-        const newPlayerArray = [...prevState.player_array];
-        newPlayerArray[i] = 1;
-
-        return {
-          ...prevState,
-          round_array: newRoundArray,
-          player_array: newPlayerArray,
-        };
-      });
-
-      //농부수 -1하기
-
-      //자원 획득 api
-      //  보조 설비 카드 api
     }
   }
 
@@ -204,37 +209,18 @@ function ActionBoard({ data, setData }) {
     }
   }
 
-  //   농지 버튼 클릭 시 실행할 함수
-  function farmlandHandler(i) {
+  //=농지 버튼 클릭 시 실행할 함수
+  function farmlandHandler(event) {
     // 내턴인지 확인
 
-    if (isTurn && data.round_array[i] === 0) {
-      const buttonClass1 = ".actionBtn2";
-      const buttonClass2 = ".clay";
+    if(isTurn) {
+      const button = event.target;
+      movePlayer(button, event);
+      //const userId = getCurrentUserId();
+      serverHandler(9);
+      //updateActions(9, 1, userId);
 
-      // 두 클래스를 합친 새로운 클래스
-      const newClass = `${buttonClass1}${buttonClass2}`;
-      const buttonsssss = document.querySelector(newClass);
-      movePlayer(buttonsssss, i);
-
-      setData((prevState) => {
-        const newRoundArray = [...prevState.round_array];
-        newRoundArray[i] = 1;
-
-        const newPlayerArray = [...prevState.player_array];
-        newPlayerArray[i] = 1;
-        setIsTurn(false);
-        return {
-          ...prevState,
-          round_array: newRoundArray,
-          player_array: newPlayerArray,
-        };
-      });
-      
-      //자원 획득 api
-      //  보조 설비 카드 api
     }
-    
   }
 
   //   교습2 버튼 클릭 시 실행할 함수
@@ -337,14 +323,20 @@ function ActionBoard({ data, setData }) {
     setMainModalVisible(true);
   }
   function cardBtn2Handler() {
-    console.log("보조설비");
+    setSubModalVisible(true);
   }
 
   //설비 클릭 시
   function facilityHandler() {}
 
   //울타리 클릭 시
-  function fenceHandler() {}
+  function fenceHandler(event) {
+    if (isTurn) {
+      const button = event.target;
+      movePlayer(button, event);
+      //갔는지 확인은 어떻게 하지?
+    }
+  }
 
   //곡식 활용 클릭 시
   function roundGrainHandler() {
@@ -354,6 +346,8 @@ function ActionBoard({ data, setData }) {
     }
 
   }
+
+  
 
   //양 시장 클릭 시
   function sheepHandler() {
@@ -365,6 +359,7 @@ function ActionBoard({ data, setData }) {
       const item = ['sheep']
       const value = [1]
       accumulatedActHandler(item, value, 19);
+
       setIsTurn(false);
     }
   }
@@ -402,7 +397,7 @@ function ActionBoard({ data, setData }) {
       {/* 농장 확장 버튼 */}
       <div
         className="actionBtn actionBtn2 farmExtend"
-        onClick={() => farmExtendHandler(6)}
+        onClick={farmExtendHandler}
       ></div>
       {/* 회합 장소 버튼 */}
       <div
@@ -410,11 +405,12 @@ function ActionBoard({ data, setData }) {
         onClick={spaceHandler}
       ></div>
       {/* 곡식 종자 버튼 */}
-      <div className="actionBtn  actionBtn2 grain" onClick={grainHandler}></div>
+      <div className="actionBtn  actionBtn2 grain" 
+      onClick={grainHandler}></div>
       {/* 농지 버튼 */}
       <div
         className="actionBtn  actionBtn2  clay"
-        onClick={() => farmlandHandler(9)}
+        onClick={farmlandHandler}
       ></div>
 
       {/* 교습2 버튼 */}
@@ -446,6 +442,13 @@ function ActionBoard({ data, setData }) {
         <MainModal setIsVisible={setMainModalVisible} mainSulbi={mainSulbi} />
       )}
       <div className="cardBtn2" onClick={cardBtn2Handler}></div>
+      {subModalVisible && (
+        <SubModal
+          setIsVisible={setSubModalVisible}
+          subSulbi={subSulbi}
+          jobCard={jobCard}
+        />
+      )}
       {roundNum >= 1 && (
         <Facility className="facilityBtn" onClick={facilityHandler} />
       )}
@@ -453,7 +456,8 @@ function ActionBoard({ data, setData }) {
       {roundNum >= 2 && (
         <Grain className="facilityBtn2" onClick={roundGrainHandler} />
       )}
-      {roundNum >= 3 && (
+      {roundNum >= 3 && (        
+
         <Fence className="facilityBtn3" onClick={fenceHandler} />
       )}
       {roundNum >= 4 && (

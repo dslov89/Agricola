@@ -1,9 +1,74 @@
 .farmContainer {
-  position: relative;
-  top: 0px;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.farmItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 200px;
+}
+
+
+.userFarm1 {
+  width: 95px;
+  height: 21px;
+  background: #155505;
+  position: absolute;
+  top: 312px;
+  border: 2px solid #ca8500;
+  border-radius: 8px;
+  font-size: 13px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  color: #ffffff;
+}
+.userFarm2 {
+  width: 95px;
+  height: 21px;
+  background: #155505;
+  position: absolute;
+  top: 867px;
+  border: 2px solid #ca8500;
+  border-radius: 8px;
+  font-size: 13px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  color: #ffffff;
+}
+.userFarm3 {
+  width: 95px;
+  height: 21px;
+  background: #155505;
+  position: absolute;
+  top: 1422px;
+  border: 2px solid #ca8500;
+  border-radius: 8px;
+  font-size: 13px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  color: #ffffff;
+}
+.userFarm4 {
+  width: 95px;
+  height: 21px;
+  background: #155505;
+  position: absolute;
+  top: 1977px;
+  border: 2px solid #ca8500;
+  border-radius: 8px;
+  font-size: 13px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  color: #ffffff;
 }
 
 .farmContainer2 {
@@ -18,6 +83,8 @@
   width: 75px;
   height: 75px;
   left: 130px;
+  cursor: pointer; /* 기본 커서를 포인터로 설정 */
+
 }
 
 .plowing-img {
@@ -105,10 +172,17 @@
 .fence {
   width: 82px;
   height: 9px;
-  background: #fb0000;
+  
   position: absolute;
+  /*border: 0.1px solid #b22222;*/
+}
+.fenceCol {
+  width: 9px;
+  height: 84px;
+  position: absolute;
+
   border-radius: 2px;
-  border: 0.1px solid #b22222;
+  /*border: 0.1px solid #b22222;*/
 }
 
 .fenceRow1 {
@@ -139,16 +213,6 @@
 }
 .fenceRow05 {
   left: 439px;
-}
-
-.fenceCol {
-  width: 9px;
-  height: 82px;
-  background: #fb0000;
-  position: absolute;
-
-  border-radius: 2px;
-  border: 0.1px solid #b22222;
 }
 
 .fenceCol1 {
@@ -185,18 +249,11 @@
   left: 526px;
 }
 
-.userFarm {
-  width: 95px;
-  height: 21px;
-  background: #155505;
-  position: absolute;
-  top: 312px;
-  border: 2px solid #ca8500;
-  border-radius: 8px;
-  font-size: 13px;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-
-  color: #ffffff;
+.finishButton {
+  background-color: red;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
 }
