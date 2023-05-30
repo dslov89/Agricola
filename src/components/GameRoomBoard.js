@@ -13,8 +13,7 @@ const Gameroomboard = () => {
   }
   
   const connectHandler = (roomId) => {
-    sendingClient.current.connect({}, (message) => {
-      localStorage.setItem("UUID", message.headers["user-name"]);
+    sendingClient.current.connect({}, () => {
       sendingClient.current.subscribe(
         `/user/sub/game-room/` + roomId,
         (message) => {
@@ -24,6 +23,7 @@ const Gameroomboard = () => {
             sendingClient.current.subscribe(
               `/sub/game-room/` + roomId,
               (message) => {
+                console.log("두번째 구독");
                 console.log(message.body);
               }
             );
@@ -43,15 +43,13 @@ const Gameroomboard = () => {
   
 
   const sendHandler = (roomId) => {
-    console.log("UUID >>");
-    console.log(localStorage.getItem("UUID"));
     sendingClient.current.send(
       "/main-board/user/init",
       {},
       JSON.stringify({
         roomId: roomId,
-        userId: localStorage.getItem("UUID"),
-        action: [1, 2, 3],
+        userId: localStorage.getItem("turn"),
+        action: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         content: "hello",
       })
     );
