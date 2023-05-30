@@ -7,6 +7,7 @@ import { nameValue, sendingClient } from "../screen/Start";
 const Gameroomboard = () => {
   const navigation = useNavigate();
   const [rooms, setRooms] = useState([]);
+  let roomID;
 
   function naviHandler() {
     navigation("/start");
@@ -15,6 +16,7 @@ const Gameroomboard = () => {
 
   const connectHandler = (roomId) => {
     sendingClient.current.connect({}, (message) => {
+
       localStorage.setItem("UUID", message.headers["user-name"]);
       sendingClient.current.subscribe(
         `/user/sub/game-room/` + roomId,
@@ -27,6 +29,7 @@ const Gameroomboard = () => {
                 console.log(message.body);
               }
             )
+
             localStorage.setItem("turn", message.body[3]);
             console.log(localStorage.getItem("turn"));
             naviHandler();
@@ -48,6 +51,7 @@ const Gameroomboard = () => {
       {},
       JSON.stringify({
         roomId: roomId,
+
         userId: localStorage.getItem("UUID"),
         action: [1, 2, 3],
         content: "hello",
@@ -59,18 +63,33 @@ const Gameroomboard = () => {
     connectHandler(roomId);
     setTimeout(() => {
       sendHandler(roomId);
+
     }, 300);
   };
 
   const createRoom = () => {
     axios.post("http://localhost:8080/game-rooms", null, {})
       .then(function (response) {
+
         setRooms((prevRooms) => [...prevRooms, response.data]);
       })
       .catch(function (error) {
         console.log(error);
       });
   };
+  const getRooms = () => {
+    axios.get("http://localhost:8080/game-rooms").then((response) => {
+      console.log("getRoom 쓰는중")
+      console.log(response.data);
+      console.log("룸 개수");
+      const roomData = response.data;
+      const roomArray = roomData.map((gameroomid) => gameroomid.id);
+      setRooms(roomArray);
+      console.log("룸 데이터");
+      console.log(roomArray);
+    });
+  }
+
 
   const getRooms = () => {
     axios.get("http://localhost:8080/game-rooms").then((response) => {
@@ -89,6 +108,7 @@ const Gameroomboard = () => {
       const response = await axios.get(
         `http://localhost:8080/game-rooms/${lastRoomId}`
       );
+
       if (response.data) {
         alert("중복된 방이 있습니다. 새로고침을 진행합니다.");
         getRooms();
@@ -114,6 +134,7 @@ const Gameroomboard = () => {
     <div>
       <button onClick={checkRooms}>방 불러오기</button>
       <button onClick={handleCreateRoom}>방 생성하기</button>
+
       {rooms.map((ID) => (
         <div key={ID}>
           <h1>GameRoom {ID}</h1>

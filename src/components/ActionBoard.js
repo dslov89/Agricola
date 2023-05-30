@@ -15,6 +15,7 @@ import MainModal from "./MainModal";
 import { sendingClient } from "./GameRoomBoard";
 import SubModal from "./SubModal";
 
+
 function ActionBoard({ data, setData }) {
   const [isTurn, setIsTurn] = useState(true);
   const [roundNum, setRoundNum] = useState(4);
@@ -40,6 +41,7 @@ function ActionBoard({ data, setData }) {
     { id: 7, isHas: 1 },
   ]);
 
+
   const defaultActHandler = (item, value, cardIndex) => {
     sendingClient.current.send(
       '/main-board/resource/update',
@@ -48,7 +50,9 @@ function ActionBoard({ data, setData }) {
         Resoure_ID: item,
         quantity : value,
         turn: 0,
-        card: cardIndex
+
+        card: cardIndex,
+       
       })
     );
     console.log("default");
@@ -164,35 +168,14 @@ function ActionBoard({ data, setData }) {
   }
 
   // 농장 확장 버튼 클릭 시 실행할 함수
-  function farmExtendHandler(i) {
+  function farmExtendHandler(event) {
     // 내턴인지 확인
-    if (isTurn && data.round_array[i] === 0) {
-      const buttonClass1 = ".actionBtn2";
-      const buttonClass2 = ".farmExtend";
 
-      // 두 클래스를 합친 새로운 클래스
-      const newClass = `${buttonClass1}${buttonClass2}`;
-      const buttonsssss = document.querySelector(newClass);
-      movePlayer(buttonsssss, i);
+    if (isTurn) {
+      const button = event.target;  
+      movePlayer(button, event);
+      serverHandler(event)
 
-      setData((prevState) => {
-        const newRoundArray = [...prevState.round_array];
-        newRoundArray[i] = 1;
-
-        const newPlayerArray = [...prevState.player_array];
-        newPlayerArray[i] = 1;
-
-        return {
-          ...prevState,
-          round_array: newRoundArray,
-          player_array: newPlayerArray,
-        };
-      });
-
-      //농부수 -1하기
-
-      //자원 획득 api
-      //  보조 설비 카드 api
     }
   }
 
@@ -226,35 +209,17 @@ function ActionBoard({ data, setData }) {
     }
   }
 
-  //   농지 버튼 클릭 시 실행할 함수
-  function farmlandHandler(i) {
+  //=농지 버튼 클릭 시 실행할 함수
+  function farmlandHandler(event) {
     // 내턴인지 확인
 
-    if (isTurn && data.round_array[i] === 0) {
-      const buttonClass1 = ".actionBtn2";
-      const buttonClass2 = ".clay";
+    if(isTurn) {
+      const button = event.target;
+      movePlayer(button, event);
+      //const userId = getCurrentUserId();
+      serverHandler(9);
+      //updateActions(9, 1, userId);
 
-      // 두 클래스를 합친 새로운 클래스
-      const newClass = `${buttonClass1}${buttonClass2}`;
-      const buttonsssss = document.querySelector(newClass);
-      movePlayer(buttonsssss, i);
-
-      setData((prevState) => {
-        const newRoundArray = [...prevState.round_array];
-        newRoundArray[i] = 1;
-
-        const newPlayerArray = [...prevState.player_array];
-        newPlayerArray[i] = 1;
-        setIsTurn(false);
-        return {
-          ...prevState,
-          round_array: newRoundArray,
-          player_array: newPlayerArray,
-        };
-      });
-
-      //자원 획득 api
-      //  보조 설비 카드 api
     }
   }
 
@@ -365,34 +330,11 @@ function ActionBoard({ data, setData }) {
   function facilityHandler() {}
 
   //울타리 클릭 시
-  function fenceHandler(i) {
-    if (isTurn && data.round_array[i] === 0)  {
-      const buttonClass = ".facilityBtn3";
-      const buttonsssss = document.querySelector(buttonClass);
-      // 농부 이미지
-  
-      const redBox = document.createElement("div");
-      redBox.style.width = "55px";
-      redBox.style.height = "58px";
-      redBox.style.transform = "translateX(20px)";
-      redBox.style.backgroundImage = `url(${farmer})`;
-
-      buttonsssss.appendChild(redBox);
-
-      setData((prevState) => {
-        const newRoundArray = [...prevState.round_array];
-        newRoundArray[i] = 1;
-
-        const newPlayerArray = [...prevState.player_array];
-        newPlayerArray[i] = 1;
-
-        return {
-          ...prevState,
-          round_array: newRoundArray,
-          player_array: newPlayerArray,
-        };
-      });
-
+  function fenceHandler(event) {
+    if (isTurn) {
+      const button = event.target;
+      movePlayer(button, event);
+      //갔는지 확인은 어떻게 하지?
     }
   }
 
@@ -405,6 +347,8 @@ function ActionBoard({ data, setData }) {
 
   }
 
+  
+
   //양 시장 클릭 시
   function sheepHandler() {
     // 내턴인지 확인
@@ -415,6 +359,7 @@ function ActionBoard({ data, setData }) {
       const item = ['sheep']
       const value = [1]
       accumulatedActHandler(item, value, 19);
+
       setIsTurn(false);
     }
   }
@@ -452,7 +397,7 @@ function ActionBoard({ data, setData }) {
       {/* 농장 확장 버튼 */}
       <div
         className="actionBtn actionBtn2 farmExtend"
-        onClick={() => farmExtendHandler(6)}
+        onClick={farmExtendHandler}
       ></div>
       {/* 회합 장소 버튼 */}
       <div
@@ -465,7 +410,7 @@ function ActionBoard({ data, setData }) {
       {/* 농지 버튼 */}
       <div
         className="actionBtn  actionBtn2  clay"
-        onClick={() => farmlandHandler(9)}
+        onClick={farmlandHandler}
       ></div>
 
       {/* 교습2 버튼 */}
@@ -513,7 +458,7 @@ function ActionBoard({ data, setData }) {
       )}
       {roundNum >= 3 && (        
 
-        <Fence className="facilityBtn3" onClick={() => fenceHandler(18)} />
+        <Fence className="facilityBtn3" onClick={fenceHandler} />
       )}
       {roundNum >= 4 && (
         <Sheep className="facilityBtn4" onClick={sheepHandler} />
