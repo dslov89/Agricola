@@ -4,7 +4,7 @@ import "./ActionBoard.css";
 import farmer from "../image/farmer.png";
 import "./FarmBoard.css";
 import axios from 'axios';
-import { nameValue } from "../screen/Start";
+import { nameValue, sendingClient } from "../screen/Start";
 
 import { ReactComponent as Land } from "../asset/land.svg";
 import { ReactComponent as Fence } from "../asset/fence.svg";
@@ -40,30 +40,7 @@ function ActionBoard({ data, setData }) {
     { id: 6, isHas: 1 },
     { id: 7, isHas: 1 },
   ]);
-  const serverHandler = (cardIndex) => {
-    sendingClient.current.send(
-      '/main-board/resource/update',
-      {},
-      JSON.stringify({
-        turn: 1,
-        card: cardIndex
-      })
-    );
-    console.log("action farm");
-  };
 
-  // function updateActions(index, value, userId) {
-  //   const updatedActions = [...actions]; // actions 배열 복사
-  //   updatedActions[index][0] = userId; // user_id 변경
-  //   updatedActions[index][1] = value; // 값 변경
-  
-  //   // 변경된 배열을 서버로 전송하여 저장
-  //   sendingClient.current.send(
-  //     '/main-board/actions/update',
-  //     {},
-  //     JSON.stringify(updatedActions)
-  //   );
-  // }
 
   const defaultActHandler = (item, value, cardIndex) => {
     sendingClient.current.send(
@@ -73,8 +50,9 @@ function ActionBoard({ data, setData }) {
         Resoure_ID: item,
         quantity : value,
         turn: 0,
+
         card: cardIndex,
-        
+       
       })
     );
     console.log("default");
@@ -192,10 +170,12 @@ function ActionBoard({ data, setData }) {
   // 농장 확장 버튼 클릭 시 실행할 함수
   function farmExtendHandler(event) {
     // 내턴인지 확인
+
     if (isTurn) {
       const button = event.target;  
       movePlayer(button, event);
       serverHandler(event)
+
     }
   }
 
@@ -232,12 +212,14 @@ function ActionBoard({ data, setData }) {
   //=농지 버튼 클릭 시 실행할 함수
   function farmlandHandler(event) {
     // 내턴인지 확인
+
     if(isTurn) {
       const button = event.target;
       movePlayer(button, event);
       //const userId = getCurrentUserId();
       serverHandler(9);
       //updateActions(9, 1, userId);
+
     }
   }
 
@@ -365,6 +347,23 @@ function ActionBoard({ data, setData }) {
 
   }
 
+  
+
+  //양 시장 클릭 시
+  function sheepHandler() {
+    // 내턴인지 확인
+    if (isTurn) {
+      //자원 획득 api
+      //  보조 설비 카드 api
+      //   턴 끝났으니 false로 변경
+      const item = ['sheep']
+      const value = [1]
+      accumulatedActHandler(item, value, 19);
+
+      setIsTurn(false);
+    }
+  }
+
   // 플레이어 이동
   function movePlayer(btn, event) {
     const button = btn;
@@ -377,19 +376,6 @@ function ActionBoard({ data, setData }) {
     redBox.style.transform = `translateX(${x-10}px) translateY(${y-10}px)`;
     redBox.style.backgroundImage = `url(${farmer})`;
     button.appendChild(redBox);
-  }
-
-  //양 시장 클릭 시
-  function sheepHandler() {
-    // 내턴인지 확인
-    if (isTurn) {
-      //자원 획득 api
-      //  보조 설비 카드 api
-      //   턴 끝났으니 false로 변경
-      const item = ['sheep']
-      const value = [1]
-      accumulatedActHandler(item, value, 19);
-    }
   }
 
   return (
