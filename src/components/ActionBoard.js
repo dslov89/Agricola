@@ -12,7 +12,6 @@ import { ReactComponent as Grain } from "../asset/grain.svg";
 import { ReactComponent as Sheep } from "../asset/sheep.svg";
 import { ReactComponent as Facility } from "../asset/facility.svg";
 import MainModal from "./MainModal";
-import { sendingClient } from "./GameRoomBoard";
 import SubModal from "./SubModal";
 
 
@@ -174,7 +173,6 @@ function ActionBoard({ data, setData }) {
     if (isTurn) {
       const button = event.target;  
       movePlayer(button, event);
-      serverHandler(event)
 
     }
   }
@@ -217,7 +215,6 @@ function ActionBoard({ data, setData }) {
       const button = event.target;
       movePlayer(button, event);
       //const userId = getCurrentUserId();
-      serverHandler(9);
       //updateActions(9, 1, userId);
 
     }
