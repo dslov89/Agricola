@@ -12,13 +12,13 @@ const Gameroomboard = () => {
     navigation("/start");
   }
   
-
   const connectHandler = (roomId) => {
     sendingClient.current.connect({}, (message) => {
       localStorage.setItem("UUID", message.headers["user-name"]);
       sendingClient.current.subscribe(
         `/user/sub/game-room/` + roomId,
         (message) => {
+          console.log("첫 구독");
           console.log(message.body);
           if (message.body !== "FULL") { //turn example
             sendingClient.current.subscribe(
@@ -26,7 +26,7 @@ const Gameroomboard = () => {
               (message) => {
                 console.log(message.body);
               }
-            )
+            );
             localStorage.setItem("turn", message.body[3]);
             console.log(localStorage.getItem("turn"));
             naviHandler();
@@ -36,13 +36,15 @@ const Gameroomboard = () => {
         },
         { gameRoomId: roomId }
       );
-    });
-    
+    }
+    );
   };
 
   
 
   const sendHandler = (roomId) => {
+    console.log("UUID >>");
+    console.log(localStorage.getItem("UUID"));
     sendingClient.current.send(
       "/main-board/user/init",
       {},
@@ -53,6 +55,7 @@ const Gameroomboard = () => {
         content: "hello",
       })
     );
+    
   };
 
   const enterRoom = (roomId) => {
@@ -74,6 +77,7 @@ const Gameroomboard = () => {
 
   const getRooms = () => {
     axios.get("http://localhost:8080/game-rooms").then((response) => {
+      console.log("getRooms");
       const roomData = response.data;
       const roomArray = roomData.map((gameroomid) => gameroomid.id);
       setRooms(roomArray);
