@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { ReactComponent as Board } from "../asset/roundCard.svg";
 import "./ActionBoard.css";
 import farmer from "../image/farmer.png";
@@ -15,10 +15,11 @@ import { ReactComponent as Grain } from "../asset/grain.svg";
 import { ReactComponent as Sheep } from "../asset/sheep.svg";
 import { ReactComponent as Facility } from "../asset/facility.svg";
 import MainModal from "./MainModal";
+import SubModal from "./SubModal";
+import { DataContext } from "../store/data-context";
 
 function ActionBoard({ data, setData }) {
   const [isTurn, setIsTurn] = useState(true);
-  const [roundNum, setRoundNum] = useState(4);
   const [mainModalVisible, setMainModalVisible] = useState(false);
   const [subModalVisible, setSubModalVisible] = useState(false);
   const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
@@ -40,6 +41,8 @@ function ActionBoard({ data, setData }) {
     { id: 6, isHas: 1 },
     { id: 7, isHas: 1 },
   ]);
+  const { farmData, setFarmData } = useContext(DataContext);
+  const [roundNum, setRoundNum] = useState(farmData.round);
 
   const defaultActHandler = (item, value, cardIndex) => {
     sendingClient.current.send(
@@ -375,11 +378,31 @@ function ActionBoard({ data, setData }) {
   }
   function cardBtn1Handler() {
     setMainModalVisible(true);
+    console.log(farmData.round);
+    console.log(roundNum);
+    console.log(farmData.userId);
+    sendHandler();
   }
   function cardBtn2Handler() {
     setSubModalVisible(true);
+    // cardSubscribe();
   }
 
+  // const cardSubscribe = () => {
+  //   sendingClient.current.subscribe(
+  //     `/main-board/card/update/` + farmData.roomId,
+  //     (message) => {
+  //       console.log(message.body + "여기야 여기");
+  //       const msg = JSON.parse(message.body);
+
+  //       // setFarmData({
+  //       //   ...farmData,
+  //       //   round: msg.round,
+  //       //   roomId: msg.roomId,
+  //       // });
+  //     }
+  //   );
+  // };
   //설비 클릭 시
   function facilityHandler() {}
 
@@ -464,6 +487,39 @@ function ActionBoard({ data, setData }) {
     button.appendChild(redBox);
   }
 
+  const sendHandler = () => {
+    console.log(farmData.roomId);
+    sendingClient.current.send(
+      "/main-board/card/update",
+      {},
+      JSON.stringify({
+        roomId: farmData.roomId,
+        round: 1,
+        action: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        currentTurn: 1,
+        turnArray: [
+          [0, 1],
+          [1, 2],
+        ],
+        job: [
+          [1, 1],
+          [2, 1],
+          [3, 1],
+        ],
+        main: [
+          [1, 1],
+          [2, 1],
+          [3, 1],
+        ],
+        sub: [
+          [1, 1],
+          [2, 1],
+          [3, 1],
+        ],
+      })
+    );
+  };
+
   return (
     <div className="boardContainer">
       <Board className="round" />
@@ -534,17 +590,17 @@ function ActionBoard({ data, setData }) {
           jobCard={jobCard}
         />
       )}
-      {roundNum >= 1 && (
+      {farmData.round >= 1 && (
         <Facility className="facilityBtn" onClick={facilityHandler} />
       )}
       {/* <Facility className="facilityBtn" /> */}
-      {roundNum >= 2 && (
+      {farmData.round >= 2 && (
         <Grain className="facilityBtn2" onClick={roundGrainHandler} />
       )}
-      {roundNum >= 3 && (
+      {farmData.round >= 3 && (
         <Fence className="facilityBtn3" onClick={() => fenceHandler(18)} />
       )}
-      {roundNum >= 4 && (
+      {farmData.round >= 4 && (
         <Sheep className="facilityBtn4" onClick={sheepHandler} />
       )}
     </div>

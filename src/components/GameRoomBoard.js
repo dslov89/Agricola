@@ -1,33 +1,77 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { nameValue, sendingClient } from "../screen/Start";
+import { DataContext } from "../store/data-context";
 
 const Gameroomboard = () => {
   const navigation = useNavigate();
   const [rooms, setRooms] = useState([]);
   let roomID;
+  const { farmData, setFarmData } = useContext(DataContext);
 
   function naviHandler() {
     navigation("/start");
   }
+
+  const sendHandler2 = () => {
+    console.log(farmData.roomId);
+    sendingClient.current.send(
+      "/main-board/card/update",
+      {},
+      JSON.stringify({
+        roomId: farmData.roomId,
+        round: 1,
+        action: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        currentTurn: 1,
+        turnArray: [
+          [0, 1],
+          [1, 2],
+        ],
+        job: [
+          [1, 1],
+          [2, 1],
+          [3, 1],
+        ],
+        main: [
+          [1, 1],
+          [2, 1],
+          [3, 1],
+        ],
+        sub: [
+          [1, 1],
+          [2, 1],
+          [3, 1],
+        ],
+      })
+    );
+  };
 
   const connectHandler = (roomId) => {
     sendingClient.current.connect({}, () => {
       sendingClient.current.subscribe(
         `/user/sub/game-room/` + roomId,
         (message) => {
-          console.log(message.body);
+          console.log(message.body + "이 메세지는 user-id ex)1,2,3,4같은거");
+          setFarmData({ ...farmData, userId: message });
           if (message.body !== "FULL") {
             //turn example
             sendingClient.current.subscribe(
               `/sub/game-room/` + roomId,
               (message) => {
-                console.log(message.body);
+                console.log(message.body + "여기야 여기");
+                const msg = JSON.parse(message.body);
+                setFarmData({
+                  ...farmData,
+                  round: msg.round,
+                  roomId: msg.roomId,
+                });
               }
             );
-            localStorage.setItem("turn", message.body[3]);
-            console.log(localStorage.getItem("turn"));
+            // localStorage.setItem("turn", message.body[3]);
+            console.log(message.body[3]);
+            setFarmData({ ...farmData, userId: message.body[3] });
+            // console.log(localStorage.getItem("turn"));
             naviHandler();
           } else {
             alert("게임에 진입할 수 없습니다.");
@@ -56,6 +100,9 @@ const Gameroomboard = () => {
     setTimeout(() => {
       sendHandler(roomId);
     }, 300);
+    // setTimeout(() => {
+    //   sendHandler2();
+    // }, 300);
   };
 
   const createRoom = () => {

@@ -24,6 +24,13 @@ function Start() {
     navigation("/gameroomboard");
   }
 
+  const [name, setName] = useState("");
+
+  const handleChange = (event) => {
+    setName(event.target.value);
+    nameValue = event.target.value;
+  };
+
   return (
     <div className="App">
       <header>

@@ -7,6 +7,7 @@ import ErrorPage from "./screen/Error";
 import Main from "./screen/Main";
 import Start from "./screen/Start";
 import Gameroomboard from "./components/GameRoomBoard.js";
+import DataContextProvider from "./store/data-context";
 
 const router = createBrowserRouter([
   {
@@ -24,7 +25,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <DataContextProvider>
+      <RouterProvider router={router} />;
+    </DataContextProvider>
+  );
 }
 
 export default App;

@@ -1,6 +1,6 @@
 import "./FarmBoard.css";
 import FarmBoard from "./FarnBoard";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import background from "../image/plow.png";
 import axios from "axios";
 
@@ -10,9 +10,12 @@ import rockroom from "../image/rock_room.png";
 
 import land from "../asset/land.svg";
 import SockJS from "sockjs-client";
+import CardBoard from "./CardBoard";
+import { DataContext } from "../store/data-context";
 
 function Farms({ data, setData }) {
   const [isTurn, setIsTurn] = useState(true);
+  const { farmData, setFarmData } = useContext(DataContext);
   const [isGameFinished, setIsGameFinished] = useState(false);
   const getFenceCount = (count, SequenceCount) => {
     return 2 * count + 2 * SequenceCount;
@@ -661,7 +664,10 @@ function Farms({ data, setData }) {
       )}
 
       <div className="farmContainer">
-        <FarmBoard className="round" />
+        <div style={{ flexDirection: "row", display: "flex" }}>
+          <FarmBoard className="round" />
+          <CardBoard />
+        </div>
         <div
           className={`Btn room1_1 ${data.fenceColor}`}
           onClick={() => farmHandler(0)}

@@ -22,7 +22,7 @@ function FarmBoard() {
           <h3 className="userFarm2">User 2</h3>
         </div>
       </div>
-  
+
       <div className="fence fenceRow1 fenceRow01" />
       <div className="fence fenceRow1 fenceRow02" />
       <div className="fence fenceRow1 fenceRow03" />
