@@ -1,0 +1,129 @@
+.round {
+  width: 1536px;
+  height: 801px;
+}
+
+.boardContainer {
+  display: flex;
+  position: relative;
+  right: 122px;
+}
+
+.actionBtn {
+  position: absolute;
+  width: 110px;
+  height: 80px;
+  left: 130px;
+  cursor: pointer; /* 기본 커서를 포인터로 설정 */
+
+  background-color: transparent;
+}
+
+.dumble {
+  top: 28px;
+}
+
+.bush {
+  top: 150px;
+}
+
+.resource {
+  top: 250px;
+  height: 60px;
+}
+
+.clay {
+  top: 327px;
+}
+
+.teach1 {
+  top: 427px;
+  height: 90px;
+}
+
+.theater {
+  top: 530px;
+}
+
+.actionBtn2 {
+  left: 312px;
+}
+
+.farmExtend {
+  top: 11px;
+  height: 130px;
+}
+
+.space {
+  height: 70px;
+  top: 150px;
+}
+
+.grain {
+  height: 67px;
+  top: 233px;
+}
+
+.actionBtn3 {
+  left: 457px;
+  width: 130px;
+}
+
+.forest {
+  top: 220px;
+}
+
+.cardBtn1 {
+  width: 58px;
+  height: 58px;
+  position: absolute;
+  top: 345px;
+  left: 970px;
+  cursor: pointer; /* 기본 커서를 포인터로 설정 */
+
+  /* background: #636363; */
+}
+
+.cardBtn2 {
+  width: 58px;
+  height: 58px;
+  position: absolute;
+  top: 345px;
+  left: 1040px;
+  cursor: pointer; /* 기본 커서를 포인터로 설정 */
+
+  /* background: #636363; */
+}
+
+.margin_farmer {
+  left: 332px;
+}
+
+.facilityBtn {
+  position: absolute;
+  top: 5px;
+  left: 440px;
+  cursor: pointer; /* 기본 커서를 포인터로 설정 */
+
+}
+.facilityBtn2 {
+  position: absolute;
+  top: 5px;
+  left: 605px;
+  cursor: pointer; /* 기본 커서를 포인터로 설정 */
+
+}
+.facilityBtn3 {
+  position: absolute;
+  top: 5px;
+  left: 765px;
+  cursor: pointer; /* 기본 커서를 포인터로 설정 */
+
+}
+.facilityBtn4 {
+  position: absolute;
+  top: 5px;
+  left: 930px;
+  cursor: pointer; /* 기본 커서를 포인터로 설정 */
+
+}

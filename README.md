@@ -1,70 +1,45 @@
-# Getting Started with Create React App
+# 현재 한 것
+slack에 올라 온 수정 사항 (1,2,3,4 번)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+1번 입장하기 눌렀을때 웹소켓 버튼 눌러서 연결되고 각 방 만들때는 입장하기만 있는게 좋을거 같음  **완료**
 
-## Available Scripts
+2번 처음에 게임방 나오는 화면에 접속했을때 내가 그냥 id없이 get으로 /game-rooms하면 현재 있는 모든 게임방 불러옴 그거로 접속하자 마자 이미 만들어져 있는 게임방을 불러와야함 **완료**
 
-In the project directory, you can run:
+3번 roomId는 front에서 값을 저장하는게 아니라 rest api 사용하면 내가 Request로 그 게임방 id 보낼꺼임 그럼 그거로 id값 설정해주게 로직 바꿔야함 **완료**
 
-### `npm start`
+4번 그리고 이제 inituser하면 사람수에 맞게 turn response로 보내니까 그거 기반으로 turn 저장해주면 될거 같음 **완료**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+UUID 받아서 로컬 스토리지에 저장함. 나중에 같이 보내주면 될 듯?
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+# 해야 할 것
 
-### `npm test`
+send 할 때 Dto랑 이름 맞추기
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+# 수정 및 추가한 코드(큰 것만)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+GameRoomApi.java
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    @PostMapping()
+    public String createGameRoom(){
+        Long gameRoomID = gameRoomService.createGameRoom();
+        <!-- return gameRoomID + "is created"; -->
+        return String.valueOf(gameRoomID);
+    }
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+게임룸 자릿수가 2가 넘는 ID(ex. 10, 21 ...) 받아오기 용이하게 하기 위해 수정하였음.
 
-### `npm run eject`
+CommonReq.java
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+    public class CommonReq {
+    private  Long roomId; //방 ID
+    <!-- private  Long userId; -->
+    private  String userId; //자원 업데이트 된 유저 id
+    private  List<Long> action = new ArrayList<>(); //행동버튼 눌림 여부
+    private  String content;// 각 req마다 다를 내용 임시로 common에 설정
+    }
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+userId에 UUID를 넣기 위해 Long에서 String으로 변경하였음.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

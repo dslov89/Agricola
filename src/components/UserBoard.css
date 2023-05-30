@@ -1,0 +1,67 @@
+.tree {
+  position: absolute;
+  top: 43px;
+}
+.tree1 {
+  left: 11px;
+}
+.tree2 {
+  left: 67px;
+}
+.tree3 {
+  left: 128px;
+}
+.tree4 {
+  left: 188px;
+}
+.tree5 {
+  position: absolute;
+  top: 77px;
+}
+.tree6 {
+  position: absolute;
+  top: 123px;
+}
+.tree7 {
+  position: absolute;
+  top: 171px;
+  left: 26px;
+}
+.tree8 {
+  position: absolute;
+  top: 171px;
+  left: 106px;
+}
+.tree9 {
+  position: absolute;
+  top: 171px;
+  left: 181px;
+}
+
+.text {
+  position: relative;
+  margin-bottom: -6px;
+  top: 1px;
+}
+.text2 {
+  position: relative;
+  top: -12px;
+}
+.text3 {
+  position: relative;
+  top: -18px;
+}
+.user {
+  /* position: absolute; */
+  width: 244px;
+  height: 242px;
+}
+
+.userName {
+  color: #ea2828;
+  font-size: 18px;
+  position: absolute;
+  top: -11px;
+  left: 48px;
+  font-weight: 900;
+}
