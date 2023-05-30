@@ -8,7 +8,7 @@ import { useState } from "react";
 
 function Main() {
   const [data, setData] = useState({
-    name: ["User 1"],
+    name: ["User 1", "User 2", "User 3", "User 4"],
     tree: 20,
     clay: 10,
     rock: 10,
@@ -20,7 +20,7 @@ function Main() {
     pig: 0,
     cow: 0,
     person: 0,
-    fence: 15,
+    fence: 0,
     house: 0,
 
     round_array: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],

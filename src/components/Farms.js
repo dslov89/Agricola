@@ -277,7 +277,7 @@ const checkFenceSequence = (farm, indexSequence, count_ul) => {
     } 
 
     //농지 버튼 클릭 시 가는 기능 - 밭 갈기
-    if (isTurn && data.player_array[9] === 1) {
+    if (isTurn) {
 
       if(data.farm[index] !== 'empty') {
         alert('해당 방은 이미 예약되어 있습니다.');
@@ -653,7 +653,11 @@ const checkFenceSequence = (farm, indexSequence, count_ul) => {
     //   tree: data.tree, // 자원 다 보내기
     //   action: [0,1] //전체 다 보내기
     // });
+    //defaultActHandler()
+  
+    console.log("default");
 
+    //xhr.send(jsonData);
     //connection.send("http://localhost:8080/farm/update", {}, jsonData);
 
     setIsGameFinished(false); // 새로운 종료 버튼 비활성화

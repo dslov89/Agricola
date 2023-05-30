@@ -40,6 +40,30 @@ function ActionBoard({ data, setData }) {
     { id: 6, isHas: 1 },
     { id: 7, isHas: 1 },
   ]);
+  const serverHandler = (cardIndex) => {
+    sendingClient.current.send(
+      '/main-board/resource/update',
+      {},
+      JSON.stringify({
+        turn: 1,
+        card: cardIndex
+      })
+    );
+    console.log("action farm");
+  };
+
+  // function updateActions(index, value, userId) {
+  //   const updatedActions = [...actions]; // actions 배열 복사
+  //   updatedActions[index][0] = userId; // user_id 변경
+  //   updatedActions[index][1] = value; // 값 변경
+  
+  //   // 변경된 배열을 서버로 전송하여 저장
+  //   sendingClient.current.send(
+  //     '/main-board/actions/update',
+  //     {},
+  //     JSON.stringify(updatedActions)
+  //   );
+  // }
 
   const defaultActHandler = (item, value, cardIndex) => {
     sendingClient.current.send(
@@ -49,7 +73,8 @@ function ActionBoard({ data, setData }) {
         Resoure_ID: item,
         quantity : value,
         turn: 0,
-        card: cardIndex
+        card: cardIndex,
+        
       })
     );
     console.log("default");
@@ -170,6 +195,7 @@ function ActionBoard({ data, setData }) {
     if (isTurn) {
       const button = event.target;  
       movePlayer(button, event);
+      serverHandler(event)
     }
   }
 
@@ -203,12 +229,15 @@ function ActionBoard({ data, setData }) {
     }
   }
 
-  //   농지 버튼 클릭 시 실행할 함수
+  //=농지 버튼 클릭 시 실행할 함수
   function farmlandHandler(event) {
     // 내턴인지 확인
     if(isTurn) {
       const button = event.target;
-      movePlayer(button, event)
+      movePlayer(button, event);
+      //const userId = getCurrentUserId();
+      serverHandler(9);
+      //updateActions(9, 1, userId);
     }
   }
 
@@ -322,8 +351,8 @@ function ActionBoard({ data, setData }) {
   function fenceHandler(event) {
     if (isTurn) {
       const button = event.target;
-      
       movePlayer(button, event);
+      //갔는지 확인은 어떻게 하지?
     }
   }
 
@@ -360,7 +389,6 @@ function ActionBoard({ data, setData }) {
       const item = ['sheep']
       const value = [1]
       accumulatedActHandler(item, value, 19);
-      setIsTurn(false);
     }
   }
 
@@ -383,7 +411,7 @@ function ActionBoard({ data, setData }) {
       {/* 농장 확장 버튼 */}
       <div
         className="actionBtn actionBtn2 farmExtend"
-        onClick={() => farmExtendHandler(6)}
+        onClick={farmExtendHandler}
       ></div>
       {/* 회합 장소 버튼 */}
       <div
@@ -396,7 +424,7 @@ function ActionBoard({ data, setData }) {
       {/* 농지 버튼 */}
       <div
         className="actionBtn  actionBtn2  clay"
-        onClick={() => farmlandHandler(9)}
+        onClick={farmlandHandler}
       ></div>
 
       {/* 교습2 버튼 */}
@@ -444,7 +472,7 @@ function ActionBoard({ data, setData }) {
       )}
       {roundNum >= 3 && (        
 
-        <Fence className="facilityBtn3" onClick={() => fenceHandler(18)} />
+        <Fence className="facilityBtn3" onClick={fenceHandler} />
       )}
       {roundNum >= 4 && (
         <Sheep className="facilityBtn4" onClick={sheepHandler} />
