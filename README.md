@@ -29,5 +29,17 @@ GameRoomApi.java
 
 게임룸 자릿수가 2가 넘는 ID(ex. 10, 21 ...) 받아오기 용이하게 하기 위해 수정하였음.
 
+CommonReq.java
+
+    public class CommonReq {
+    private  Long roomId; //방 ID
+    <!-- private  Long userId; -->
+    private  String userId; //자원 업데이트 된 유저 id
+    private  List<Long> action = new ArrayList<>(); //행동버튼 눌림 여부
+    private  String content;// 각 req마다 다를 내용 임시로 common에 설정
+    }
+
+userId에 UUID를 넣기 위해 Long에서 String으로 변경하였음.
+
 ---
 
