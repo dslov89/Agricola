@@ -6,6 +6,7 @@
 .farmItem {
   display: flex;
   align-items: center;
+  top:20px;
   margin-bottom: 200px;
 }
 
@@ -24,67 +25,60 @@
   text-align: center;
 
   color: #ffffff;
+  
 }
 .userFarm2 {
   width: 95px;
   height: 21px;
   background: #155505;
   position: absolute;
-  top: 867px;
+  top: 312px; /* Adjust the top value based on the desired positioning */
   border: 2px solid #ca8500;
   border-radius: 8px;
   font-size: 13px;
   justify-content: center;
   align-items: center;
   text-align: center;
-
   color: #ffffff;
 }
+
 .userFarm3 {
   width: 95px;
   height: 21px;
   background: #155505;
   position: absolute;
-  top: 1422px;
+  top: 452px; /* Adjust the top value based on the desired positioning */
   border: 2px solid #ca8500;
   border-radius: 8px;
   font-size: 13px;
   justify-content: center;
   align-items: center;
   text-align: center;
-
   color: #ffffff;
 }
+
 .userFarm4 {
   width: 95px;
   height: 21px;
   background: #155505;
   position: absolute;
-  top: 1977px;
+  top: 592px; /* Adjust the top value based on the desired positioning */
   border: 2px solid #ca8500;
   border-radius: 8px;
   font-size: 13px;
   justify-content: center;
   align-items: center;
   text-align: center;
-
   color: #ffffff;
 }
 
-.farmContainer2 {
-  position: relative;
-}
-.farmContainer3 {
-  position: relative;
-  top: -4px;
-}
 .Btn {
   position: absolute;
   width: 75px;
   height: 75px;
   left: 130px;
   cursor: pointer; /* 기본 커서를 포인터로 설정 */
-
+  background-color: red;
 }
 
 .plowing-img {

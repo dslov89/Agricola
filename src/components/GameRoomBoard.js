@@ -7,31 +7,38 @@ import { nameValue, sendingClient } from "../screen/Start";
 const Gameroomboard = () => {
   const navigation = useNavigate();
   const [rooms, setRooms] = useState([]);
-
   function naviHandler() {
     navigation("/start");
   }
   
   const connectHandler = (roomId) => {
-    sendingClient.current.connect({}, (message) => {
-      localStorage.setItem("UUID", message.headers["user-name"]);
+    sendingClient.current.connect({}, () => {
       sendingClient.current.subscribe(
         `/user/sub/game-room/` + roomId,
         (message) => {
           console.log("첫 구독");
           console.log(message.body);
-          if (message.body !== "FULL") { //turn example
+          if (message.body === "FULL") {
+            alert("정원 초과");
+          } else {
+            let msg = JSON.parse(message.body);
+            let jobCardValue = msg.jobCards; //message.body 내 jobCards value값
+            let subCardsValue = msg.subCards; //message.body 내 subCards value값
+            let turnValue = msg.turn; //message.body 내 turn value값
+            console.log(msg.enter);
+            // console.log(msg.enter);
+            // enter는 true일 때만 입장
+            // cards와 turn은 state에 저장
+            //turn example
             sendingClient.current.subscribe(
               `/sub/game-room/` + roomId,
               (message) => {
+                //4때 다 뿌림
+                console.log("두번째 구독");
                 console.log(message.body);
               }
             );
-            localStorage.setItem("turn", message.body[3]);
-            console.log(localStorage.getItem("turn"));
             naviHandler();
-          } else {
-            alert("게임에 진입할 수 없습니다.");
           }
         },
         { gameRoomId: roomId }
@@ -43,16 +50,11 @@ const Gameroomboard = () => {
   
 
   const sendHandler = (roomId) => {
-    console.log("UUID >>");
-    console.log(localStorage.getItem("UUID"));
     sendingClient.current.send(
-      "/main-board/user/init",
+      "/main-board/user/init", //카드 초기 설정
       {},
       JSON.stringify({
         roomId: roomId,
-        userId: localStorage.getItem("UUID"),
-        action: [1, 2, 3],
-        content: "hello",
       })
     );
     
