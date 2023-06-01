@@ -590,19 +590,19 @@ function ActionBoard({ data, setData }) {
           jobCard={jobCard}
         />
       )}
-      {farmData.round >= 1 && (
-        <Facility className="facilityBtn" onClick={facilityHandler} />
-      )}
+      {/* {farmData.round >= 1 && ( */}
+      <Facility className="facilityBtn" onClick={facilityHandler} />
+      {/* )} */}
       {/* <Facility className="facilityBtn" /> */}
-      {farmData.round >= 2 && (
-        <Grain className="facilityBtn2" onClick={roundGrainHandler} />
-      )}
-      {farmData.round >= 3 && (
-        <Fence className="facilityBtn3" onClick={() => fenceHandler(18)} />
-      )}
-      {farmData.round >= 4 && (
-        <Sheep className="facilityBtn4" onClick={sheepHandler} />
-      )}
+      {/* {farmData.round >= 2 && ( */}
+      <Grain className="facilityBtn2" onClick={roundGrainHandler} />
+      {/* )} */}
+      {/* {farmData.round >= 3 && ( */}
+      <Fence className="facilityBtn3" onClick={() => fenceHandler(18)} />
+      {/* )} */}
+      {/* {farmData.round >= 4 && ( */}
+      <Sheep className="facilityBtn4" onClick={sheepHandler} />
+      {/* )} */}
     </div>
   );
 }

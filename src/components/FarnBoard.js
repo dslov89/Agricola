@@ -9,7 +9,7 @@ function FarmBoard() {
           <Farm />
           <h3 className="userFarm1">User 1</h3>
         </div>
-        <div className="farmItem">
+        {/* <div className="farmItem">
           <Farm />
           <h3 className="userFarm2">User 2</h3>
         </div>
@@ -20,7 +20,7 @@ function FarmBoard() {
         <div className="farmItem">
           <Farm />
           <h3 className="userFarm2">User 2</h3>
-        </div>
+        </div> */}
       </div>
 
       <div className="fence fenceRow1 fenceRow01" />

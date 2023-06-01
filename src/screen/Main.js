@@ -71,7 +71,20 @@ function Main() {
           <Users data={data} setData={setData} />
         </div>
         {/* <div style={{ flexDirection: "column" }}> */}
+        <div>
+          <Farms data={data} setData={setData} />
+        </div>
+        <div style={{ position: "relative" }}>
+          <h1 style={{ position: "absolute", top: "0px", zIndex: 99 }}>
+            ㅗㅑㅗㅑ
+          </h1>
+          <Farms data={data} setData={setData} />
+        </div>
         <Farms data={data} setData={setData} />
+        <Farms data={data} setData={setData} />
+        {/* <Farms data={data} setData={setData} />
+        <Farms data={data} setData={setData} />
+        <Farms data={data} setData={setData} /> */}
         {/* <CardBoard /> */}
         {/* </div> */}
         {/* </div> */}

@@ -9,7 +9,6 @@
   margin-bottom: 200px;
 }
 
-
 .userFarm1 {
   width: 95px;
   height: 21px;
@@ -84,7 +83,6 @@
   height: 75px;
   left: 130px;
   cursor: pointer; /* 기본 커서를 포인터로 설정 */
-
 }
 
 .plowing-img {
@@ -172,7 +170,7 @@
 .fence {
   width: 82px;
   height: 9px;
-  
+
   position: absolute;
   /*border: 0.1px solid #b22222;*/
 }
