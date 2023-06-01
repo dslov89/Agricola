@@ -87,7 +87,9 @@ const Gameroomboard = () => {
       "/main-board/user/init",
       {},
       JSON.stringify({
+        messageType:'INIT',
         roomId: roomId,
+        round:0,
         userId: 2,
         action: [1, 2, 3],
         content: "hello",
