@@ -49,9 +49,9 @@ function ActionBoard({ data, setData }) {
         Resoure_ID: item,
         quantity : value,
         turn: 0,
-
+        count: 1,
         card: cardIndex,
-       
+      
       })
     );
     console.log("default");
