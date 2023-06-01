@@ -52,9 +52,22 @@ const Gameroomboard = () => {
       sendingClient.current.subscribe(
         `/user/sub/game-room/` + roomId,
         (message) => {
-          console.log(message.body + "이 메세지는 user-id ex)1,2,3,4같은거");
           setFarmData({ ...farmData, userId: message });
-          if (message.body !== "FULL") {
+
+          console.log("첫 구독");
+          console.log(message.body);
+          if (message.body === "FULL") {
+            alert("정원 초과");
+          } else {
+            let msg = JSON.parse(message.body);
+            let jobCardValue = msg.jobCards; //message.body 내 jobCards value값
+            let subCardsValue = msg.subCards; //message.body 내 subCards value값
+            let turnValue = msg.turn; //message.body 내 turn value값
+            console.log(msg.enter);
+            // console.log(msg.enter);
+            // enter는 true일 때만 입장
+            // cards와 turn은 state에 저장
+
             //turn example
             sendingClient.current.subscribe(
               `/sub/game-room/` + roomId,
@@ -73,8 +86,6 @@ const Gameroomboard = () => {
             setFarmData({ ...farmData, userId: message.body[3] });
             // console.log(localStorage.getItem("turn"));
             naviHandler();
-          } else {
-            alert("게임에 진입할 수 없습니다.");
           }
         },
         { gameRoomId: roomId }
@@ -84,15 +95,10 @@ const Gameroomboard = () => {
 
   const sendHandler = (roomId) => {
     sendingClient.current.send(
-      "/main-board/user/init",
+      "/main-board/user/init", //카드 초기 설정
       {},
       JSON.stringify({
-        messageType:'INIT',
         roomId: roomId,
-        round:0,
-        userId: 2,
-        action: [1, 2, 3],
-        content: "hello",
       })
     );
   };
@@ -111,42 +117,37 @@ const Gameroomboard = () => {
     axios
       .post("http://localhost:8080/game-rooms", null, {})
       .then(function (response) {
-        console.log(response.data);
-        roomID = response.data;
+        setRooms((prevRooms) => [...prevRooms, response.data]);
       })
       .catch(function (error) {
         console.log(error);
       });
   };
+
   const getRooms = () => {
     axios.get("http://localhost:8080/game-rooms").then((response) => {
-      console.log("getRoom 쓰는중");
-      console.log(response.data);
-      console.log("룸 개수");
+      console.log("getRooms");
       const roomData = response.data;
       const roomArray = roomData.map((gameroomid) => gameroomid.id);
       setRooms(roomArray);
-      console.log("룸 데이터");
-      console.log(roomArray);
     });
   };
 
   const checkRoomExists = async () => {
-    let lastRoomId = rooms[rooms.length - 1] + 1;
-    let newRoomId = rooms.length + 1;
+    let lastRoomId = 1;
+    if (rooms.length !== 0) {
+      lastRoomId = rooms[rooms.length - 1] + 1;
+    }
     try {
       const response = await axios.get(
         `http://localhost:8080/game-rooms/${lastRoomId}`
       );
-      console.log(response.data);
       if (response.data) {
-        console.log(`Room ${lastRoomId} already exists.`);
+        alert("중복된 방이 있습니다. 새로고침을 진행합니다.");
+        getRooms();
       }
     } catch (error) {
-      console.log(error);
-      console.log(lastRoomId);
       createRoom();
-      setRooms((prevRooms) => [...prevRooms, newRoomId]);
     }
   };
 
@@ -166,11 +167,10 @@ const Gameroomboard = () => {
     <div>
       <button onClick={checkRooms}>방 불러오기</button>
       <button onClick={handleCreateRoom}>방 생성하기</button>
-      {rooms.map((newRoomId) => (
-        <div key={newRoomId}>
-          <h1>GameRoom {newRoomId}</h1>
-          <button onClick={() => enterRoom(newRoomId)}>게임 입장</button>
-          {/* <button onClick={() => connectHandler(newRoomId)}>게임 연결</button> */}
+      {rooms.map((ID) => (
+        <div key={ID}>
+          <h1>GameRoom {ID}</h1>
+          <button onClick={() => enterRoom(ID)}>게임 입장</button>
         </div>
       ))}
     </div>

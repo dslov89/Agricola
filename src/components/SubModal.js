@@ -100,3 +100,4 @@ function SubModal({ setIsVisible, subSulbi, jobCard }) {
 }
 
 export default SubModal;
+
