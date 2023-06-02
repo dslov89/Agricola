@@ -41,16 +41,17 @@ function ActionBoard({ data, setData }) {
     { id: 6, isHas: 1 },
     { id: 7, isHas: 1 },
   ]);
-  const { farmData, setFarmData, updateFarmerCount } = useContext(DataContext);
+  const { farmData, setFarmData, updateFarmerCount, updateFarmData } =
+    useContext(DataContext);
   const [roundNum, setRoundNum] = useState(farmData.round);
 
   useEffect(() => {
     if (
-      farmData.currentTurn === farmData.turn &&
+      farmData.currentTurn === farmData.turn % 4 &&
       farmData.farmer_count[(farmData.turn - 1) % 4] != 0
     ) {
       updateFarmerCount((farmData.turn - 1) % 4);
-
+      updateFarmData();
       setIsTurn(true);
     } else {
       setIsTurn(false);
@@ -66,7 +67,7 @@ function ActionBoard({ data, setData }) {
         roomId: farmData.roomId,
         round: farmData.round,
         action: farmData.action,
-        currentTurn: farmData.currentTurn,
+        currentTurn: (farmData.currentTurn + 1) % 4,
         farmer_count: farmData.farmer_count,
         tree: res.tree,
         soil: res.soil,
@@ -115,11 +116,6 @@ function ActionBoard({ data, setData }) {
   //   덤블 버튼 클릭 시 실행할 함수
   function dumbleHandler(event) {
     // 내턴인지 확인
-    // if (
-    //   farmData.currentTurn === farmData.turn &&
-    //   farmData.farmer_count[farmData.turn - 1] != 0
-    // ) {
-    //   updateFarmerCount(farmData.turn - 1);
     const button = event.target;
     //자원 획득 api
     //  보조 설비 카드 api
@@ -537,57 +533,91 @@ function ActionBoard({ data, setData }) {
         <div className="actionBtn dumble" onClick={dumbleHandler}></div>
       )}
       {/* 수풀 버튼 */}
-      <div className="actionBtn bush" onClick={bushHandler}></div>
+      {isTurn && <div className="actionBtn bush" onClick={bushHandler}></div>}
       {/* 자원 시장 버튼 */}
-      <div className="actionBtn resource" onClick={resourceHandler}></div>
+      {isTurn && (
+        <div className="actionBtn resource" onClick={resourceHandler}></div>
+      )}
       {/* 점토 채굴장 버튼 */}
-      <div className="actionBtn clay" onClick={clayHandler}></div>
+      {isTurn && <div className="actionBtn clay" onClick={clayHandler}></div>}
       {/* 교습1 버튼 */}
-      <div className="actionBtn teach1" onClick={teach1Handler}></div>
+      {isTurn && (
+        <div className="actionBtn teach1" onClick={teach1Handler}></div>
+      )}
       {/* 유랑극당 버튼 */}
-      <div className="actionBtn theater" onClick={theaterHandler}></div>
+      {isTurn && (
+        <div className="actionBtn theater" onClick={theaterHandler}></div>
+      )}
       {/* 농장 확장 버튼 */}
-      <div
-        className="actionBtn actionBtn2 farmExtend"
-        onClick={farmExtendHandler}
-      ></div>
+      {isTurn && (
+        <div
+          className="actionBtn actionBtn2 farmExtend"
+          onClick={farmExtendHandler}
+        ></div>
+      )}
       {/* 회합 장소 버튼 */}
-      <div
-        className="actionBtn   actionBtn2 space"
-        onClick={spaceHandler}
-      ></div>
+      {isTurn && (
+        <div
+          className="actionBtn   actionBtn2 space"
+          onClick={spaceHandler}
+        ></div>
+      )}
       {/* 곡식 종자 버튼 */}
-      <div className="actionBtn  actionBtn2 grain" onClick={grainHandler}></div>
+      {isTurn && (
+        <div
+          className="actionBtn  actionBtn2 grain"
+          onClick={grainHandler}
+        ></div>
+      )}
       {/* 농지 버튼 */}
-      <div
-        className="actionBtn  actionBtn2  clay"
-        onClick={farmlandHandler}
-      ></div>
-
+      {isTurn && (
+        <div
+          className="actionBtn  actionBtn2  clay"
+          onClick={farmlandHandler}
+        ></div>
+      )}
       {/* 교습2 버튼 */}
-      <div
-        className="actionBtn actionBtn2  teach1"
-        onClick={teach2Handler}
-      ></div>
+      {isTurn && (
+        <div
+          className="actionBtn actionBtn2  teach1"
+          onClick={teach2Handler}
+        ></div>
+      )}
       {/* 날품팔이 버튼 */}
-      <div
-        className="actionBtn actionBtn2  theater"
-        onClick={goodsHandler}
-      ></div>
+      {isTurn && (
+        <div
+          className="actionBtn actionBtn2  theater"
+          onClick={goodsHandler}
+        ></div>
+      )}
       {/* 숲 버튼 */}
-      <div
-        className="actionBtn  actionBtn3 forest"
-        onClick={forestHandler}
-      ></div>
+      {isTurn && (
+        <div
+          className="actionBtn  actionBtn3 forest"
+          onClick={forestHandler}
+        ></div>
+      )}
       {/* 흙 채굴장 버튼 */}
-      <div className="actionBtn  actionBtn3  clay" onClick={soilHandler}></div>
+      {isTurn && (
+        <div
+          className="actionBtn  actionBtn3  clay"
+          onClick={soilHandler}
+        ></div>
+      )}
       {/* 갈대밭 버튼 */}
-      <div className="actionBtn actionBtn3  teach1" onClick={reedHandler}></div>
+      {isTurn && (
+        <div
+          className="actionBtn actionBtn3  teach1"
+          onClick={reedHandler}
+        ></div>
+      )}
       {/* 낚시 버튼 */}
-      <div
-        className="actionBtn actionBtn3  theater"
-        onClick={fishingHandler}
-      ></div>
+      {isTurn && (
+        <div
+          className="actionBtn actionBtn3  theater"
+          onClick={fishingHandler}
+        ></div>
+      )}
       <div className="cardBtn1" onClick={cardBtn1Handler}></div>
       {mainModalVisible && (
         <MainModal setIsVisible={setMainModalVisible} mainSulbi={mainSulbi} />
@@ -600,17 +630,17 @@ function ActionBoard({ data, setData }) {
           jobCard={jobCard}
         />
       )}
-      {/* {farmData.round >= 1 && ( */}
-      <Facility className="facilityBtn" onClick={facilityHandler} />
-      {/* )} */}
+      {farmData.round >= 2 && (
+        <Facility className="facilityBtn" onClick={facilityHandler} />
+      )}
       {/* <Facility className="facilityBtn" /> */}
-      {roundNum >= 2 && (
+      {farmData.round >= 3 && (
         <Grain className="facilityBtn2" onClick={roundGrainHandler} />
       )}
-      {roundNum >= 3 && (
+      {farmData.round >= 4 && (
         <Fence className="facilityBtn3" onClick={fenceHandler} />
       )}
-      {roundNum >= 4 && (
+      {farmData.round >= 5 && (
         <Sheep className="facilityBtn4" onClick={sheepHandler} />
       )}
     </div>
