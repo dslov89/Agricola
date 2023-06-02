@@ -41,11 +41,11 @@ function DataContextProvider({ children }) {
     }
   };
 
-  const updateAction = (index, count) => {
+  const updateAction = async (index, count) => {
     const updatedAction = [...farmData.action]; // action 배열을 복사합니다.
     updatedAction[index][0] = 1; // 첫 번째 인덱스의 첫 번째 요소를 1로 변경합니다.
-    updatedAction[index][1] += count;
-    setFarmData((prevFarmData) => ({
+    updatedAction[index][1] = count;
+    await setFarmData((prevFarmData) => ({
       ...prevFarmData,
       action: updatedAction, // 업데이트된 action 배열을 설정합니다.
     }));

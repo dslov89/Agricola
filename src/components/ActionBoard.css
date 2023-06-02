@@ -16,7 +16,7 @@
   left: 130px;
   cursor: pointer; /* 기본 커서를 포인터로 설정 */
 
-  background-color: transparent;
+  background-color: "white";
 }
 
 .dumble {
@@ -104,26 +104,22 @@
   top: 5px;
   left: 440px;
   cursor: pointer; /* 기본 커서를 포인터로 설정 */
-
 }
 .facilityBtn2 {
   position: absolute;
   top: 5px;
   left: 605px;
   cursor: pointer; /* 기본 커서를 포인터로 설정 */
-
 }
 .facilityBtn3 {
   position: absolute;
   top: 5px;
   left: 765px;
   cursor: pointer; /* 기본 커서를 포인터로 설정 */
-
 }
 .facilityBtn4 {
   position: absolute;
   top: 5px;
   left: 930px;
   cursor: pointer; /* 기본 커서를 포인터로 설정 */
-
 }
