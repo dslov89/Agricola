@@ -40,32 +40,56 @@ function ActionBoard({ data, setData }) {
     { id: 7, isHas: 1 },
   ]);
 
+  function setActionArray(turn, cardIndex) {
+    let actionArray = 
+    [
+      [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], 
+      [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], 
+      [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], 
+      [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]
+    ];
+    actionArray[cardIndex][0] = turn;
+    actionArray[cardIndex][1] = 1;
+    return actionArray;
+  };
 
   const defaultActHandler = (item, value, cardIndex) => {
+    let resources = {};
+    let turn = 0;
+    let action = setActionArray(turn, cardIndex);
+    item.forEach((element, index) => {
+      resources[element] = value[index];
+    });
+    console.log(resources);
     sendingClient.current.send(
       '/main-board/resource/update',
       {},
       JSON.stringify({
-        Resoure_ID: item,
-        quantity : value,
-        turn: 0,
-        count: 1,
-        card: cardIndex,
-      
+        messageType: 'RESOURCE',
+        action : action,
+        ...resources,
+        turn: turn,
       })
     );
     console.log("default");
   };
 
   const accumulatedActHandler = (item, value, cardIndex) => {
+    let resources = {};
+    let turn = 0;
+    let action = setActionArray(turn, cardIndex);
+    item.forEach((element, index) => {
+      resources[element] = value[index];
+    });
+    console.log(resources);
     sendingClient.current.send(
       '/main-board/resource/update',
       {},
       JSON.stringify({
-        Resoure_ID: item,
-        quantity : value,
-        turn: 0,
-        card: cardIndex,
+        messageType: 'RESOURCE',
+        action : action,
+        ...resources,
+        turn: turn,
         count: 1,
       })
     );
@@ -114,9 +138,9 @@ function ActionBoard({ data, setData }) {
       //   턴 끝났으니 false로 변경
 
       setData({ ...data, reed: data.reed + 1, rock: data.rock+1, food: data.food+1 });
-      const item = ['reed', 'rock', 'food']
-      const value = [1, 1, 1]
-      defaultActHandler(item, value, 2)
+      const item = ['reed', 'rock', 'food'];
+      const value = [1, 1, 1];
+      defaultActHandler(item, value, 2);
       movePlayer(button, event);
       setIsTurn(false);
     }
