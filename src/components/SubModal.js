@@ -86,6 +86,7 @@ function SubModal({ setIsVisible, subSulbi, jobCard }) {
         <img
           src={require("../asset/job/j" + `${jobCard[5].id}` + ".png")}
           className={styles.job6}
+          // onClick={() => console.log("hi")}
         />
       )}
       {jobCard[6].isHas && (

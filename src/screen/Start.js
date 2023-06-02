@@ -7,7 +7,7 @@ import "./first.css";
 export let nameValue = "";
 export let sendingClient = null;
 
-function sendClient(client){
+function sendClient(client) {
   sendingClient = client;
 }
 

@@ -1,53 +1,108 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { nameValue, sendingClient } from "../screen/Start";
-
+import { DataContext } from "../store/data-context";
 
 const Gameroomboard = () => {
   const navigation = useNavigate();
   const [rooms, setRooms] = useState([]);
+  let roomID;
+  const { farmData, setFarmData } = useContext(DataContext);
+
   function naviHandler() {
     navigation("/start");
   }
-  
+
+  const sendHandler2 = () => {
+    console.log(farmData.roomId);
+    sendingClient.current.send(
+      "/main-board/card/update",
+      {},
+      JSON.stringify({
+        roomId: farmData.roomId,
+        round: 1,
+        action: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        currentTurn: 1,
+        turnArray: [
+          [0, 1],
+          [1, 2],
+        ],
+        job: [
+          [1, 1],
+          [2, 1],
+          [3, 1],
+        ],
+        main: [
+          [1, 1],
+          [2, 1],
+          [3, 1],
+        ],
+        sub: [
+          [1, 1],
+          [2, 1],
+          [3, 1],
+        ],
+      })
+    );
+  };
+
   const connectHandler = (roomId) => {
     sendingClient.current.connect({}, () => {
       sendingClient.current.subscribe(
         `/user/sub/game-room/` + roomId,
         (message) => {
+          setFarmData({ ...farmData, userId: message });
+
           console.log("첫 구독");
           console.log(message.body);
-          if (message.body === "FULL") {
+          const initMsg = JSON.parse(message.body);
+          if (!initMsg.enter) {
             alert("정원 초과");
           } else {
-            let msg = JSON.parse(message.body);
-            let jobCardValue = msg.jobCards; //message.body 내 jobCards value값
-            let subCardsValue = msg.subCards; //message.body 내 subCards value값
-            let turnValue = msg.turn; //message.body 내 turn value값
-            console.log(msg.enter);
+            // let jobCardValue = msg.jobCards; //message.body 내 jobCards value값
+            // let subCardsValue = msg.subCards; //message.body 내 subCards value값
+            // let turnValue = msg.turn; //message.body 내 turn value값
+            console.log(initMsg.jobCards + "job");
+            setFarmData({
+              ...farmData,
+              jobCards: initMsg.jobCards,
+              subCards: initMsg.subCards,
+              turn: initMsg.turn,
+            });
+
             // console.log(msg.enter);
             // enter는 true일 때만 입장
             // cards와 turn은 state에 저장
+
             //turn example
             sendingClient.current.subscribe(
               `/sub/game-room/` + roomId,
               (message) => {
-                //4때 다 뿌림
-                console.log("두번째 구독");
-                console.log(message.body);
+                console.log(message.body + "여기야 여기");
+                const msg = JSON.parse(message.body);
+                setFarmData({
+                  ...farmData,
+                  round: msg.round,
+                  roomId: msg.roomId,
+                  messageType: msg.messageType,
+                  action: msg.action,
+                  currentTurn: msg.currentTurn,
+                  farmer_count: msg.farmer_count,
+                  jobCards: initMsg.jobCards,
+                  subCards: initMsg.subCards,
+                  turn: initMsg.turn,
+                });
               }
             );
+
             naviHandler();
           }
         },
         { gameRoomId: roomId }
       );
-    }
-    );
+    });
   };
-
-  
 
   const sendHandler = (roomId) => {
     sendingClient.current.send(
@@ -57,7 +112,6 @@ const Gameroomboard = () => {
         roomId: roomId,
       })
     );
-    
   };
 
   const enterRoom = (roomId) => {
@@ -65,10 +119,14 @@ const Gameroomboard = () => {
     setTimeout(() => {
       sendHandler(roomId);
     }, 300);
+    // setTimeout(() => {
+    //   sendHandler2();
+    // }, 300);
   };
 
   const createRoom = () => {
-    axios.post("http://localhost:8080/game-rooms", null, {})
+    axios
+      .post("http://localhost:8080/game-rooms", null, {})
       .then(function (response) {
         setRooms((prevRooms) => [...prevRooms, response.data]);
       })
@@ -84,7 +142,7 @@ const Gameroomboard = () => {
       const roomArray = roomData.map((gameroomid) => gameroomid.id);
       setRooms(roomArray);
     });
-  }
+  };
 
   const checkRoomExists = async () => {
     let lastRoomId = 1;
@@ -110,7 +168,7 @@ const Gameroomboard = () => {
 
   const checkRooms = () => {
     getRooms();
-  }
+  };
 
   const handleCreateRoom = () => {
     checkRoomExists();

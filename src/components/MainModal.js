@@ -1,7 +1,10 @@
+import { useContext } from "react";
 import mainsulbi from "../asset/mainsulbi.png";
 import styles from "./MainModal.module.css";
+import { DataContext } from "../store/data-context";
 
 function MainModal({ setIsVisible, mainSulbi }) {
+  const { farmData, setFarmData } = useContext(DataContext);
   const closeModal = () => {
     setIsVisible(false);
   };
@@ -16,12 +19,14 @@ function MainModal({ setIsVisible, mainSulbi }) {
         <img
           src={require("../asset/main/main1.png")}
           className={styles.main1}
+          onClick={() => setFarmData({ ...farmData, main: [1] })}
         />
       )}
       {mainSulbi[1] && (
         <img
           src={require("../asset/main/main2.png")}
           className={styles.main2}
+          // onClick={() => setFarmData(...farmData, { main: [2] })}
         />
       )}
       {mainSulbi[2] && (
