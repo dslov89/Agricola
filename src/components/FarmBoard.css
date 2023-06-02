@@ -76,7 +76,6 @@
   height: 75px;
   left: 130px;
   cursor: pointer; /* 기본 커서를 포인터로 설정 */
-  background-color: red;
 }
 
 .plowing-img {
@@ -84,6 +83,13 @@
   height: 75px;
   position: relative; /* imgContainer가 position을 가지도록 설정 */
   z-index: 999; /* 다른 엘리먼트들보다 z-index 값이 높도록 설정 */
+}
+
+.room {
+  position: absolute;
+  width: 75px;
+  height: 75px;
+  left: 130px;
 }
 
 .room1_1 {

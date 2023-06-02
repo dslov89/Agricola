@@ -1,9 +1,10 @@
 import "./Main.css";
+
 import ActionBoard from "../components/ActionBoard";
 import Users from "../components/Users";
+
 import Farms from "../components/Farms";
 import { useState } from "react";
-import CardBoard from "../components/CardBoard";
 
 function Main() {
   const [data, setData] = useState({
@@ -70,23 +71,7 @@ function Main() {
           {/* 유저 정보판 */}
           <Users data={data} setData={setData} />
         </div>
-        {/* <div style={{ flexDirection: "column" }}> */}
-        <div>
-          <Farms data={data} setData={setData} />
-        </div>
-        <div style={{ position: "relative" }}>
-          <h1 style={{ position: "absolute", top: "0px", zIndex: 99 }}>
-            ㅗㅑㅗㅑ
-          </h1>
-          <Farms data={data} setData={setData} />
-        </div>
         <Farms data={data} setData={setData} />
-        <Farms data={data} setData={setData} />
-        {/* <Farms data={data} setData={setData} />
-        <Farms data={data} setData={setData} />
-        <Farms data={data} setData={setData} /> */}
-        {/* <CardBoard /> */}
-        {/* </div> */}
         {/* </div> */}
       </div>
     </div>

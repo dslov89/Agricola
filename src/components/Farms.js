@@ -1,9 +1,7 @@
 import "./FarmBoard.css";
 import FarmBoard from "./FarnBoard";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import background from "../image/plow.png";
-import axios from "axios";
-import { ReactComponent as Farm } from "../asset/farm.svg";
 import { nameValue, sendingClient } from "../screen/Start";
 
 import woodroom from "../image/wood_room.png";
@@ -14,12 +12,9 @@ import sheep from "../image/sheep.png";
 
 import land from "../asset/land.svg";
 import SockJS from "sockjs-client";
-import CardBoard from "./CardBoard";
-import { DataContext } from "../store/data-context";
 
 function Farms({ data, setData }) {
   const [isTurn, setIsTurn] = useState(true);
-  const { farmData, setFarmData } = useContext(DataContext);
   const [isGameFinished, setIsGameFinished] = useState(false);
   const getFenceCount = (count, SequenceCount) => {
     return 2 * count + 2 * SequenceCount;
@@ -348,8 +343,8 @@ function Farms({ data, setData }) {
     }
 
     //울타리 설치 기능 -> 갔는지 확인\
-    if (isTurn && data.player_array[18] === 1) {
-      if (data.farm[index] === "empty") {
+    if (isTurn) {
+      if (data.farm[index] === "empty" || data.farm[index] === "house") {
         //비어있거나 외양간만 있을 때 지을 수 있음
         const pre_indexSequence = [];
         // farm 배열 순회
@@ -586,6 +581,7 @@ function Farms({ data, setData }) {
               fenceElement4.style.backgroundColor = "";
             }
           }
+
           setData(newData);
           //계산한 자원을 빼줌
           setData({ ...data, tree: data.tree - (x - pre_x) });
@@ -707,138 +703,18 @@ function Farms({ data, setData }) {
       )}
 
       <div className="farmContainer">
-        {/* <div style={{ flexDirection: "row", display: "flex" }}> */}
-        {/* <FarmBoard className="round" />
         <FarmBoard className="round" />
-        <FarmBoard className="round" />
-        <FarmBoard className="round" /> */}
-        {/* <CardBoard /> */}
-        {/* </div> */}
-        {/* <> */}
-        {/* <div className="farmContainer"> */}
-        {/* <div className="farmItem"> */}
-        <div style={{ position: "relative" }}>
-          <Farm />
-          <h3 className="userFarm1">User 1</h3>
-          {/* </div> */}
-          {/* <div className="farmItem">
-          <Farm />
-          <h3 className="userFarm2">User 2</h3>
-        </div>
-        <div className="farmItem">
-          <Farm />
-          <h3 className="userFarm2">User 2</h3>
-        </div>
-        <div className="farmItem">
-          <Farm />
-          <h3 className="userFarm2">User 2</h3>
-        </div> */}
-          {/* </div> */}
 
-          <div className="fence fenceRow1 fenceRow01" />
-          <div className="fence fenceRow1 fenceRow02" />
-          <div className="fence fenceRow1 fenceRow03" />
-          <div className="fence fenceRow1 fenceRow04" />
-          <div className="fence fenceRow1 fenceRow05" />
-
-          <div className="fence fenceRow2 fenceRow01" />
-          <div className="fence fenceRow2 fenceRow02" />
-          <div className="fence fenceRow2 fenceRow03" />
-          <div className="fence fenceRow2 fenceRow04" />
-          <div className="fence fenceRow2 fenceRow05" />
-
-          <div className="fence fenceRow3 fenceRow02" />
-          <div className="fence fenceRow3 fenceRow03" />
-          <div className="fence fenceRow3 fenceRow04" />
-          <div className="fence fenceRow3 fenceRow05" />
-
-          <div className="fence fenceRow4 fenceRow02" />
-          <div className="fence fenceRow4 fenceRow03" />
-          <div className="fence fenceRow4 fenceRow04" />
-          <div className="fence fenceRow4 fenceRow05" />
-
-          <div className="fenceCol fenceCol1 fenceCol01" />
-          <div className="fenceCol fenceCol1 fenceCol02" />
-          <div className="fenceCol fenceCol1 fenceCol03" />
-          <div className="fenceCol fenceCol1 fenceCol04" />
-          <div className="fenceCol fenceCol1 fenceCol05" />
-          <div className="fenceCol fenceCol1 fenceCol06" />
-
-          <div className="fenceCol fenceCol2 fenceCol02" />
-          <div className="fenceCol fenceCol2 fenceCol03" />
-          <div className="fenceCol fenceCol2 fenceCol04" />
-          <div className="fenceCol fenceCol2 fenceCol05" />
-          <div className="fenceCol fenceCol2 fenceCol06" />
-
-          <div className="fenceCol fenceCol3 fenceCol02" />
-          <div className="fenceCol fenceCol3 fenceCol03" />
-          <div className="fenceCol fenceCol3 fenceCol04" />
-          <div className="fenceCol fenceCol3 fenceCol05" />
-          <div className="fenceCol fenceCol3 fenceCol06" />
-          {/* </> */}
-        </div>
-        <div
-          className={`Btn room1_1 ${data.fenceColor}`}
-          onClick={() => farmHandler(0)}
-        ></div>
-        <div
-          className={`Btn room1_2 ${data.fenceColor}`}
-          onClick={() => farmHandler(1)}
-        ></div>
-        <div
-          className={`Btn room1_3 ${data.fenceColor}`}
-          onClick={() => farmHandler(2)}
-        ></div>
-        <div
-          className={`Btn room1_4 ${data.fenceColor}`}
-          onClick={() => farmHandler(3)}
-        ></div>
-        <div
-          className={`Btn room1_5 ${data.fenceColor}`}
-          onClick={() => farmHandler(4)}
-        ></div>
-
-        <div
-          className={`Btn room2_1 ${data.fenceColor}`}
-          onClick={() => farmHandler(5)}
-        ></div>
-        <div
-          className={`Btn room2_2 ${data.fenceColor}`}
-          onClick={() => farmHandler(6)}
-        ></div>
-        <div
-          className={`Btn room2_3 ${data.fenceColor}`}
-          onClick={() => farmHandler(7)}
-        ></div>
-        <div
-          className={`Btn room2_4 ${data.fenceColor}`}
-          onClick={() => farmHandler(8)}
-        ></div>
-        <div
-          className={`Btn room2_5 ${data.fenceColor}`}
-          onClick={() => farmHandler(9)}
-        ></div>
-
-        <div
-          className={`Btn room3_1 ${data.fenceColor}`}
-          onClick={() => farmHandler(10)}
-        ></div>
-        <div
-          className={`Btn room3_2 ${data.fenceColor}`}
-          onClick={() => farmHandler(11)}
-        ></div>
-        <div
-          className={`Btn room3_3 ${data.fenceColor}`}
-          onClick={() => farmHandler(12)}
-        ></div>
-        <div
-          className={`Btn room3_4 ${data.fenceColor}`}
-          onClick={() => farmHandler(13)}
-        ></div>
-        <div
-          className={`Btn room3_5 ${data.fenceColor}`}
-          onClick={() => farmHandler(14)}
-        ></div>
+        {data.farm.map((state, index) => (
+          <div
+            key={index}
+            className={`Btn room${Math.floor(index / 5) + 1}_${
+              (index % 5) + 1
+            } ${data.fenceColor}`}
+            style={{ display: "inline-block" }}
+            onClick={() => farmHandler(index)}
+          />
+        ))}
       </div>
     </div>
   );
