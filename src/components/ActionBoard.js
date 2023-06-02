@@ -50,26 +50,52 @@ function ActionBoard({ data, setData }) {
       farmData.farmer_count[(farmData.turn - 1) % 4] != 0
     ) {
       updateFarmerCount((farmData.turn - 1) % 4);
+
       setIsTurn(true);
     } else {
       setIsTurn(false);
     }
   }, [farmData.currentTurn]);
 
-  const defaultActHandler = (item, value, cardIndex) => {
+  const defaultActHandler = (res) => {
     sendingClient.current.send(
       "/main-board/resource/update",
       {},
       JSON.stringify({
-        Resoure_ID: item,
-        quantity: value,
-        turn: 0,
-        count: 1,
-        card: cardIndex,
+        messageType: "RESOURCE",
+        roomId: farmData.roomId,
+        round: farmData.round,
+        action: farmData.action,
+        currentTurn: farmData.currentTurn,
+        farmer_count: farmData.farmer_count,
+        tree: res.tree,
+        soil: res.soil,
+        reed: res.reed,
+        charcoal: res.charcoal,
+        sheep: res.sheep,
+        pig: res.pig,
+        cow: res.cow,
+        grain: res.grain,
+        vegetable: res.vegetable,
+        food: res.food,
       })
     );
     console.log("default");
   };
+  // const defaultActHandler = (item, value, cardIndex) => {
+  //   sendingClient.current.send(
+  //     "/main-board/resource/update",
+  //     {},
+  //     JSON.stringify({
+  //       Resoure_ID: item,
+  //       quantity: value,
+  //       turn: 0,
+  //       count: 1,
+  //       card: cardIndex,
+  //     })
+  //   );
+  //   console.log("default");
+  // };
 
   const accumulatedActHandler = (item, value, cardIndex) => {
     sendingClient.current.send(
@@ -100,6 +126,18 @@ function ActionBoard({ data, setData }) {
     //   턴 끝났으니 false로 변경
     const item = ["tree"];
     const value = [1];
+    const res = {
+      tree: 1,
+      soil: 0,
+      reed: 0,
+      charcoal: 0,
+      sheep: 0,
+      pig: 0,
+      cow: 0,
+      grain: 0,
+      vegetable: 0,
+      food: 0,
+    };
     // accumulatedActHandler(item, value, 0);
     // movePlayer(button, event);
     // axios
@@ -115,6 +153,7 @@ function ActionBoard({ data, setData }) {
     //     console.log(error);
     //   });
     console.log("덤불누름");
+    defaultActHandler(res);
 
     // setIsTurn(false);
     // }
@@ -122,6 +161,20 @@ function ActionBoard({ data, setData }) {
 
   //   수풀 버튼 클릭 시 실행할 함수
   function bushHandler(event) {
+    const res = {
+      tree: 1,
+      soil: 0,
+      reed: 0,
+      charcoal: 0,
+      sheep: 0,
+      pig: 0,
+      cow: 0,
+      grain: 0,
+      vegetable: 0,
+      food: 0,
+    };
+
+    defaultActHandler(res);
     // 내턴인지 확인
     if (isTurn) {
       const button = event.target;
