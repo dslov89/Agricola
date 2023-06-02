@@ -4,21 +4,31 @@ export const DataContext = createContext();
 
 function DataContextProvider({ children }) {
   const [farmData, setFarmData] = useState({
+    messageType: "",
     roomId: 0,
     round: 0,
     currentTurn: 0,
-    userId: 0,
-    action: [],
+    farmer_count: [],
+    turn: 0,
+    action: [[]],
     user1: [],
     user2: [],
     user3: [],
     user4: [],
-    job: [],
-    sub: [],
+    jobCards: [],
+    subCards: [],
     main: [],
   });
 
-  const values = { farmData, setFarmData };
+  const updateFarmerCount = (index) => {
+    setFarmData((prevFarmData) => {
+      const updatedFarmerCount = [...prevFarmData.farmer_count];
+      updatedFarmerCount[index] = prevFarmData.farmer_count[index] - 1;
+      return { ...prevFarmData, farmer_count: updatedFarmerCount };
+    });
+  };
+
+  const values = { farmData, setFarmData, updateFarmerCount };
 
   return <DataContext.Provider value={values}>{children}</DataContext.Provider>;
 }

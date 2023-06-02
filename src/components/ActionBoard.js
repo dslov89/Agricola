@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ReactComponent as Board } from "../asset/roundCard.svg";
 import "./ActionBoard.css";
 import farmer from "../image/farmer.png";
@@ -19,7 +19,7 @@ import SubModal from "./SubModal";
 import { DataContext } from "../store/data-context";
 
 function ActionBoard({ data, setData }) {
-  const [isTurn, setIsTurn] = useState(true);
+  const [isTurn, setIsTurn] = useState(false);
   const [mainModalVisible, setMainModalVisible] = useState(false);
   const [subModalVisible, setSubModalVisible] = useState(false);
   const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
@@ -41,8 +41,20 @@ function ActionBoard({ data, setData }) {
     { id: 6, isHas: 1 },
     { id: 7, isHas: 1 },
   ]);
-  const { farmData, setFarmData } = useContext(DataContext);
+  const { farmData, setFarmData, updateFarmerCount } = useContext(DataContext);
   const [roundNum, setRoundNum] = useState(farmData.round);
+
+  useEffect(() => {
+    if (
+      farmData.currentTurn === farmData.turn &&
+      farmData.farmer_count[(farmData.turn - 1) % 4] != 0
+    ) {
+      updateFarmerCount((farmData.turn - 1) % 4);
+      setIsTurn(true);
+    } else {
+      setIsTurn(false);
+    }
+  }, [farmData.currentTurn]);
 
   const defaultActHandler = (item, value, cardIndex) => {
     sendingClient.current.send(
@@ -77,30 +89,35 @@ function ActionBoard({ data, setData }) {
   //   덤블 버튼 클릭 시 실행할 함수
   function dumbleHandler(event) {
     // 내턴인지 확인
-    if (isTurn) {
-      const button = event.target;
-      //자원 획득 api
-      //  보조 설비 카드 api
-      //   턴 끝났으니 false로 변경
-      const item = ["tree"];
-      const value = [1];
-      accumulatedActHandler(item, value, 0);
-      movePlayer(button, event);
-      axios
-        .post(`https://localhost:8080/main-board/resource/update`, {
-          resource_id: 1,
-          User: nameValue,
-          quantity: 3,
-        })
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+    // if (
+    //   farmData.currentTurn === farmData.turn &&
+    //   farmData.farmer_count[farmData.turn - 1] != 0
+    // ) {
+    //   updateFarmerCount(farmData.turn - 1);
+    const button = event.target;
+    //자원 획득 api
+    //  보조 설비 카드 api
+    //   턴 끝났으니 false로 변경
+    const item = ["tree"];
+    const value = [1];
+    // accumulatedActHandler(item, value, 0);
+    // movePlayer(button, event);
+    // axios
+    //   .post(`https://localhost:8080/main-board/resource/update`, {
+    //     resource_id: 1,
+    //     User: nameValue,
+    //     quantity: 3,
+    //   })
+    //   .then(function (response) {
+    //     console.log(response);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
+    console.log("덤불누름");
 
-      setIsTurn(false);
-    }
+    // setIsTurn(false);
+    // }
   }
 
   //   수풀 버튼 클릭 시 실행할 함수
@@ -426,6 +443,7 @@ function ActionBoard({ data, setData }) {
 
   const sendHandler = () => {
     console.log(farmData.roomId);
+    console.log(farmData);
     sendingClient.current.send(
       "/main-board/card/update",
       {},
@@ -462,7 +480,9 @@ function ActionBoard({ data, setData }) {
       <Board className="round" />
 
       {/* 덤블 버튼 */}
-      <div className="actionBtn dumble" onClick={dumbleHandler}></div>
+      {isTurn && (
+        <div className="actionBtn dumble" onClick={dumbleHandler}></div>
+      )}
       {/* 수풀 버튼 */}
       <div className="actionBtn bush" onClick={bushHandler}></div>
       {/* 자원 시장 버튼 */}

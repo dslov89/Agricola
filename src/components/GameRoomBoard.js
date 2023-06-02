@@ -56,14 +56,21 @@ const Gameroomboard = () => {
 
           console.log("첫 구독");
           console.log(message.body);
-          if (message.body === "FULL") {
+          const initMsg = JSON.parse(message.body);
+          if (!initMsg.enter) {
             alert("정원 초과");
           } else {
-            let msg = JSON.parse(message.body);
-            let jobCardValue = msg.jobCards; //message.body 내 jobCards value값
-            let subCardsValue = msg.subCards; //message.body 내 subCards value값
-            let turnValue = msg.turn; //message.body 내 turn value값
-            console.log(msg.enter);
+            // let jobCardValue = msg.jobCards; //message.body 내 jobCards value값
+            // let subCardsValue = msg.subCards; //message.body 내 subCards value값
+            // let turnValue = msg.turn; //message.body 내 turn value값
+            console.log(initMsg.jobCards + "job");
+            setFarmData({
+              ...farmData,
+              jobCards: initMsg.jobCards,
+              subCards: initMsg.subCards,
+              turn: initMsg.turn,
+            });
+
             // console.log(msg.enter);
             // enter는 true일 때만 입장
             // cards와 turn은 state에 저장
@@ -78,13 +85,17 @@ const Gameroomboard = () => {
                   ...farmData,
                   round: msg.round,
                   roomId: msg.roomId,
+                  messageType: msg.messageType,
+                  action: msg.action,
+                  currentTurn: msg.currentTurn,
+                  farmer_count: msg.farmer_count,
+                  jobCards: initMsg.jobCards,
+                  subCards: initMsg.subCards,
+                  turn: initMsg.turn,
                 });
               }
             );
-            // localStorage.setItem("turn", message.body[3]);
-            console.log(message.body[3]);
-            setFarmData({ ...farmData, userId: message.body[3] });
-            // console.log(localStorage.getItem("turn"));
+
             naviHandler();
           }
         },
