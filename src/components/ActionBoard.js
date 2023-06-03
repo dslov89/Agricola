@@ -50,6 +50,7 @@ function ActionBoard({ data, setData }) {
   } = useContext(DataContext);
   const [roundNum, setRoundNum] = useState(farmData.round);
 
+  // 현재 자신의 턴인지
   useEffect(() => {
     if (
       farmData.currentTurn === farmData.turn % 4 &&
