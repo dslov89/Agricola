@@ -2,14 +2,14 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  background: #91bb5f;
+  background: #92c15d;
 }
 .backGround2 {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  background: #91bb5f;
+  background: #92c15d;
   width: 95%;
   height: 95%;
 }
