@@ -8,6 +8,7 @@ import Main from "./screen/Main";
 import Start from "./screen/Start";
 import Gameroomboard from "./components/GameRoomBoard.js";
 import DataContextProvider from "./store/data-context";
+import UserContextProvider from "./store/user-context";
 
 const router = createBrowserRouter([
   {
@@ -27,7 +28,9 @@ const router = createBrowserRouter([
 function App() {
   return (
     <DataContextProvider>
-      <RouterProvider router={router} />;
+      <UserContextProvider>
+        <RouterProvider router={router} />;
+      </UserContextProvider>
     </DataContextProvider>
   );
 }
