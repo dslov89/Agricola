@@ -600,7 +600,11 @@ function ActionBoard({ data, setData }) {
   return (
     <div className="boardContainer">
       <Board className="round" />
-
+      {isTurn && (
+        <h2 style={{ position: "absolute", top: "-75px", left: "160px" }}>
+          Your Turn!
+        </h2>
+      )}
       {/* 덤블 버튼 */}
       {isTurn && (
         <div className="actionBtn dumble" onClick={dumbleHandler}></div>
