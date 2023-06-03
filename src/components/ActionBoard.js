@@ -17,6 +17,7 @@ import { ReactComponent as Facility } from "../asset/facility.svg";
 import MainModal from "./MainModal";
 import SubModal from "./SubModal";
 import { DataContext } from "../store/data-context";
+import { UserContext } from "../store/user-context";
 
 function ActionBoard({ data, setData }) {
   const [isTurn, setIsTurn] = useState(false);
@@ -48,8 +49,10 @@ function ActionBoard({ data, setData }) {
     updateFarmData,
     updateAction,
   } = useContext(DataContext);
+  const { userData, setUserData } = useContext(UserContext);
   const [roundNum, setRoundNum] = useState(farmData.round);
 
+  // 현재 자신의 턴인지
   useEffect(() => {
     if (
       farmData.currentTurn === farmData.turn % 4 &&
@@ -227,6 +230,20 @@ function ActionBoard({ data, setData }) {
 
   //   자원 시장 버튼 클릭 시 실행할 함수
   function resourceHandler(event) {
+    const res = {
+      tree: 1,
+      soil: 0,
+      reed: 0,
+      charcoal: 0,
+      sheep: 0,
+      pig: 0,
+      cow: 0,
+      grain: 0,
+      vegetable: 0,
+      food: 0,
+    };
+    accumulatedActHandler(res, 2);
+
     // 내턴인지 확인
     if (isTurn) {
       const button = event.target;
@@ -583,7 +600,11 @@ function ActionBoard({ data, setData }) {
   return (
     <div className="boardContainer">
       <Board className="round" />
-
+      {isTurn && (
+        <h2 style={{ position: "absolute", top: "-75px", left: "160px" }}>
+          Your Turn!
+        </h2>
+      )}
       {/* 덤블 버튼 */}
       {isTurn && (
         <div className="actionBtn dumble" onClick={dumbleHandler}></div>
