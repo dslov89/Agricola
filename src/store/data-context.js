@@ -44,10 +44,41 @@ function DataContextProvider({ children }) {
       farmData.farmer_count.filter((count) => count === 1).length === 1 &&
       farmData.farmer_count.filter((count) => count === 0).length === 3
     ) {
+      // if (
+      //   // farmData.farmer_count.filter((count) => count === 1).length === 1 &&
+      //   farmData.farmer_count.filter((count) => count === 0).length === 4
+      // ) {
+      const modifiedFarmData = farmData.action.map((item, index) => {
+        if (
+          index === 0 ||
+          index === 5 ||
+          index === 13 ||
+          index === 14 ||
+          index === 15 ||
+          index === 17
+        ) {
+          if (item[0] === 0) {
+            return [item[0], item[1] + 1];
+          }
+        }
+        if (index === 1) {
+          if (item[0] === 0) {
+            return [item[0], item[1] + 2];
+          }
+        }
+        if (index === 3 || index === 12) {
+          if (item[0] === 0) {
+            return [item[0], item[1] + 3];
+          }
+        }
+        return item;
+      });
+
       setFarmData((prevFarmData) => ({
         ...prevFarmData,
         round: prevFarmData.round + 1,
         farmer_count: [2, 2, 2, 2],
+        action: modifiedFarmData,
       }));
     }
   };

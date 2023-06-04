@@ -60,16 +60,12 @@ function ActionBoard({ data, setData }) {
     ) {
       updateFarmerCount((farmData.turn - 1) % 4);
       updateFarmData();
+
       setIsTurn(true);
     } else {
       setIsTurn(false);
     }
   }, [farmData.currentTurn]);
-
-  useEffect(() => {
-    if (farmData.round >= 1) {
-    }
-  }, [farmData.round]);
 
   // index는 액션버튼 순서 0부터
   const defaultActHandler = async (res, index) => {
@@ -526,18 +522,41 @@ function ActionBoard({ data, setData }) {
   }
 
   // 플레이어 이동
-  function movePlayer(btn, event) {
-    const button = btn;
-    const buttonRect = button.getBoundingClientRect();
-    const x = event.clientX - buttonRect.left;
-    const y = event.clientY - buttonRect.top;
-    const redBox = document.createElement("div");
-    redBox.style.width = "55px";
-    redBox.style.height = "58px";
-    redBox.style.transform = `translateX(${x - 10}px) translateY(${y - 10}px)`;
-    redBox.style.backgroundImage = `url(${farmer})`;
-    button.appendChild(redBox);
-  }
+  // function movePlayer(btn, event) {
+  //   const button = btn;
+  //   const buttonRect = button.getBoundingClientRect();
+  //   const x = event.clientX - buttonRect.left;
+  //   const y = event.clientY - buttonRect.top;
+  //   const redBox = document.createElement("div");
+  //   redBox.style.width = "55px";
+  //   redBox.style.height = "58px";
+  //   redBox.style.transform = `translateX(${x - 10}px) translateY(${y - 10}px)`;
+  //   redBox.style.backgroundImage = `url(${farmer})`;
+  //   button.appendChild(redBox);
+  // }
+
+  // const movePlayer = (btn, event, index) => {
+  //   const button = btn;
+  //   const buttonRect = button.getBoundingClientRect();
+  //   const x = event.clientX - buttonRect.left;
+  //   const y = event.clientY - buttonRect.top;
+  //   const redBox = document.createElement("div");
+  //   redBox.style.width = "55px";
+  //   redBox.style.height = "58px";
+  //   redBox.style.transform = `translateX(${x - 10}px) translateY(${y - 10}px)`;
+  //   console.log("나 움직였어요 ㅎ_ㅎ");
+  //   if (farmData.action[index][0] === 1)
+  //     redBox.style.backgroundImage = `url(${redplayer})`;
+  //   else if (farmData.action[index][0] === 2)
+  //     redBox.style.backgroundImage = `url(${blueplayer})`;
+  //   else if (farmData.action[index][0] === 3)
+  //     redBox.style.backgroundImage = `url(${greenplayer})`;
+  //   else if (farmData.action[index][0] === 4)
+  //     redBox.style.backgroundImage = `url(${yellowplayer})`;
+  //   button.appendChild(redBox);
+  // };
+
+  useEffect(() => {}, [farmData.action]);
 
   //양 시장 클릭 시
   function sheepHandler() {
@@ -610,12 +629,15 @@ function ActionBoard({ data, setData }) {
           Your Turn!
         </h2>
       )}
+      {/* <div style={{ position: "relative" }}> */}
       {/* 덤블 버튼 */}
       {isTurn && (
         <div className="actionBtn dumble" onClick={dumbleHandler}></div>
       )}
+
       {/* 수풀 버튼 */}
       {isTurn && <div className="actionBtn bush" onClick={bushHandler}></div>}
+
       {/* 자원 시장 버튼 */}
       {isTurn && (
         <div className="actionBtn resource" onClick={resourceHandler}></div>

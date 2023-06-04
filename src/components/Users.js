@@ -32,7 +32,7 @@ function Users() {
           vegetable: prevUserData.user3.vegetable + farmData.vegetable,
           food: prevUserData.user3.food + farmData.food,
 
-          house: prevUserData.user4.house + farmData.house,
+          house: prevUserData.user3.house + farmData.house,
           farmer: farmData.farmer_count[2],
         },
       }));
@@ -72,7 +72,7 @@ function Users() {
           vegetable: prevUserData.user1.vegetable + farmData.vegetable,
           food: prevUserData.user1.food + farmData.food,
 
-          house: prevUserData.user4.house + farmData.house,
+          house: prevUserData.user1.house + farmData.house,
           farmer: farmData.farmer_count[0],
         },
       }));
@@ -92,7 +92,7 @@ function Users() {
           vegetable: prevUserData.user2.vegetable + farmData.vegetable,
 
           food: prevUserData.user2.food + farmData.food,
-          house: prevUserData.user4.house + farmData.house,
+          house: prevUserData.user2.house + farmData.house,
           farmer: farmData.farmer_count[1],
         },
       }));
