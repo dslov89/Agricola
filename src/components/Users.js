@@ -6,19 +6,8 @@ import { UserContext } from "../store/user-context";
 
 function Users() {
   //   여기에서 user 정보 받아와서 data로 각 user 정보 넘겨주기
-  const {
-    farmData,
-    setFarmData,
-    updateFarmerCount,
-    updateFarmData,
-    updateAction,
-  } = useContext(DataContext);
+  const { farmData } = useContext(DataContext);
   const { userData, setUserData } = useContext(UserContext);
-
-  const user1 = farmData.user1;
-  const user2 = farmData.user2;
-  const user3 = farmData.user3;
-  const user4 = farmData.user4;
 
   useEffect(() => {
     userDataUpdate();
@@ -42,6 +31,8 @@ function Users() {
           grain: prevUserData.user3.grain + farmData.grain,
           vegetable: prevUserData.user3.vegetable + farmData.vegetable,
           food: prevUserData.user3.food + farmData.food,
+
+          house: prevUserData.user4.house + farmData.house,
           farmer: farmData.farmer_count[2],
         },
       }));
@@ -60,6 +51,8 @@ function Users() {
           grain: prevUserData.user4.grain + farmData.grain,
           vegetable: prevUserData.user4.vegetable + farmData.vegetable,
           food: prevUserData.user4.food + farmData.food,
+
+          house: prevUserData.user4.house + farmData.house,
           farmer: farmData.farmer_count[3],
         },
       }));
@@ -78,6 +71,8 @@ function Users() {
           grain: prevUserData.user1.grain + farmData.grain,
           vegetable: prevUserData.user1.vegetable + farmData.vegetable,
           food: prevUserData.user1.food + farmData.food,
+
+          house: prevUserData.user4.house + farmData.house,
           farmer: farmData.farmer_count[0],
         },
       }));
@@ -95,7 +90,9 @@ function Users() {
           cow: prevUserData.user2.cow + farmData.cow,
           grain: prevUserData.user2.grain + farmData.grain,
           vegetable: prevUserData.user2.vegetable + farmData.vegetable,
+
           food: prevUserData.user2.food + farmData.food,
+          house: prevUserData.user4.house + farmData.house,
           farmer: farmData.farmer_count[1],
         },
       }));

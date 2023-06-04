@@ -114,6 +114,7 @@ const Gameroomboard = () => {
                     cow: msg.cow,
                     grain: msg.grain,
                     vegetable: msg.vegetable,
+                    food: msg.food,
                   });
                   // const userId = msg.currentTurn;
                   // if (userId === 0) {

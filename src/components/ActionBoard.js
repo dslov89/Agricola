@@ -66,6 +66,11 @@ function ActionBoard({ data, setData }) {
     }
   }, [farmData.currentTurn]);
 
+  useEffect(() => {
+    if (farmData.round >= 1) {
+    }
+  }, [farmData.round]);
+
   // index는 액션버튼 순서 0부터
   const defaultActHandler = async (res, index) => {
     await updateAction(index, 0);
@@ -231,16 +236,16 @@ function ActionBoard({ data, setData }) {
   //   자원 시장 버튼 클릭 시 실행할 함수
   function resourceHandler(event) {
     const res = {
-      tree: 1,
+      tree: 0,
       soil: 0,
-      reed: 0,
-      charcoal: 0,
+      reed: 1,
+      charcoal: 1,
       sheep: 0,
       pig: 0,
       cow: 0,
       grain: 0,
       vegetable: 0,
-      food: 0,
+      food: 1,
     };
     accumulatedActHandler(res, 2);
 
