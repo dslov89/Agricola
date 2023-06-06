@@ -10,7 +10,31 @@ function DataContextProvider({ children }) {
     currentTurn: 5,
     farmer_count: [],
     turn: 0,
-    action: [[]],
+    action: [
+      [0, 1],
+      [0, 2],
+      [0, 0],
+      [0, 2],
+      [0, 0],
+
+      [0, 1],
+      [0, 0],
+      [0, 0],
+      [0, 0],
+      [0, 0],
+
+      [0, 0],
+      [0, 0],
+      [0, 3],
+      [0, 1],
+      [0, 1],
+
+      [0, 1],
+      [0, 0],
+      [0, 0],
+      [0, 0],
+      [0, 1],
+    ],
 
     tree: 0,
     soil: 0,
@@ -81,6 +105,8 @@ function DataContextProvider({ children }) {
         farmer_count: [2, 2, 2, 2],
         action: modifiedFarmData,
       }));
+
+      updateFarmerCount((farmData.turn - 1) % 4);
     }
   };
 

@@ -54,15 +54,25 @@ function ActionBoard({ data, setData }) {
 
   // 현재 자신의 턴인지
   useEffect(() => {
+    if (farmData.currentTurn === farmData.turn % 4) {
+      // updateFarmerCount((farmData.turn - 1) % 4);
+      // updateFarmData();
+      setIsTurn(true);
+    } else {
+      setIsTurn(false);
+    }
+  }, [farmData.currentTurn, farmData.round]);
+
+  useEffect(() => {
     if (
       farmData.currentTurn === farmData.turn % 4 &&
       farmData.farmer_count[(farmData.turn - 1) % 4] != 0
     ) {
       updateFarmerCount((farmData.turn - 1) % 4);
       // updateFarmData();
-      setIsTurn(true);
+      // setIsTurn(true);
     } else {
-      setIsTurn(false);
+      // setIsTurn(true);
     }
   }, [farmData.currentTurn]);
 
@@ -73,8 +83,6 @@ function ActionBoard({ data, setData }) {
   // index는 액션버튼 순서 0부터
   const defaultActHandler = async (res, index) => {
     await updateAction(index, 0);
-    // await updateFarmData();
-    // await updateFarmerCount((farmData.turn - 1) % 4);
 
     sendingClient.current.send(
       "/main-board/resource/update",
@@ -116,8 +124,8 @@ function ActionBoard({ data, setData }) {
   //   console.log("default");
   // };
 
-  const accumulatedActHandler = async (res, index) => {
-    await updateAction(index, 0);
+  const accumulatedActHandler = async (res, index, count) => {
+    await updateAction(index, count);
 
     sendingClient.current.send(
       "/main-board/resource/update",
@@ -160,49 +168,49 @@ function ActionBoard({ data, setData }) {
 
   //   덤블 버튼 클릭 시 실행할 함수
   function dumbleHandler(event) {
-    // if (farmData.action[0][0] === 0) {
-    const res = {
-      tree: farmData.action[0][1],
-      soil: 0,
-      reed: 0,
-      charcoal: 0,
-      sheep: 0,
-      pig: 0,
-      cow: 0,
-      grain: 0,
-      vegetable: 0,
-      food: 0,
-    };
+    if (farmData.action[0][0] === 0) {
+      const res = {
+        tree: farmData.action[0][1],
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: 0,
+      };
 
-    console.log("덤불누름");
-    // defaultActHandler(res, 0);
-    accumulatedActHandler(res, 0);
-    // } else {
-    //   alert("이미 다른 플레이어가 선택한 버튼입니다.");
-    // }
+      console.log("덤불누름");
+      // defaultActHandler(res, 0);
+      accumulatedActHandler(res, 0, 1);
+    } else {
+      alert("이미 다른 플레이어가 선택한 버튼입니다.");
+    }
   }
 
   //   수풀 버튼 클릭 시 실행할 함수
   async function bushHandler(event) {
     // 다른 유저가 action 칸 가 있는지 확인
-    // if (farmData.action[1][0] === 0) {
-    const res = {
-      tree: farmData.action[1][1],
-      soil: 0,
-      reed: 0,
-      charcoal: 0,
-      sheep: 0,
-      pig: 0,
-      cow: 0,
-      grain: 0,
-      vegetable: 0,
-      food: 0,
-    };
+    if (farmData.action[1][0] === 0) {
+      const res = {
+        tree: farmData.action[1][1],
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: 0,
+      };
 
-    await defaultActHandler(res, 1);
-    // } else {
-    //   alert("이미 다른 플레이어가 선택한 버튼입니다.");
-    // }
+      accumulatedActHandler(res, 1, 2);
+    } else {
+      alert("이미 다른 플레이어가 선택한 버튼입니다.");
+    }
   }
 
   //   자원 시장 버튼 클릭 시 실행할 함수
@@ -243,7 +251,7 @@ function ActionBoard({ data, setData }) {
         food: 0,
       };
 
-      defaultActHandler(res, 3);
+      accumulatedActHandler(res, 3, 2);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
@@ -287,7 +295,7 @@ function ActionBoard({ data, setData }) {
         food: farmData.action[5][1],
       };
 
-      accumulatedActHandler(res, 5);
+      accumulatedActHandler(res, 5, 1);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
@@ -332,7 +340,7 @@ function ActionBoard({ data, setData }) {
         food: 0,
       };
 
-      accumulatedActHandler(res, 8);
+      defaultActHandler(res, 8);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
@@ -366,7 +374,7 @@ function ActionBoard({ data, setData }) {
         food: -1,
       };
 
-      accumulatedActHandler(res, 10);
+      defaultActHandler(res, 10);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
@@ -410,7 +418,7 @@ function ActionBoard({ data, setData }) {
         food: 0,
       };
 
-      accumulatedActHandler(res, 12);
+      accumulatedActHandler(res, 12, 3);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
@@ -432,7 +440,7 @@ function ActionBoard({ data, setData }) {
         food: 0,
       };
 
-      accumulatedActHandler(res, 13);
+      accumulatedActHandler(res, 13, 1);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
@@ -454,7 +462,7 @@ function ActionBoard({ data, setData }) {
         food: 0,
       };
 
-      accumulatedActHandler(res, 14);
+      accumulatedActHandler(res, 14, 1);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
@@ -476,7 +484,7 @@ function ActionBoard({ data, setData }) {
         food: farmData.action[15][1],
       };
 
-      accumulatedActHandler(res, 15);
+      accumulatedActHandler(res, 15, 1);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }

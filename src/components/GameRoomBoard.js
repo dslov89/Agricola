@@ -86,7 +86,7 @@ const Gameroomboard = () => {
                   round: msg.round,
                   roomId: msg.roomId,
                   messageType: msg.messageType,
-                  action: msg.action,
+                  // action: msg.action,
                   currentTurn: msg.currentTurn,
                   farmer_count: msg.farmer_count,
                   jobCards: initMsg.jobCards,
