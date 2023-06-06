@@ -7,74 +7,35 @@ function DataContextProvider({ children }) {
     messageType: "",
     roomId: 0,
     round: 0,
-    currentTurn: 0,
-    farmer_count: [],
+    currentTurn: 5,
+    farmer_count: [2, 2, 2, 2],
     turn: 0,
-    action: [[]],
-    user1: {
-      name: "User 1",
-      tree: 0,
-      soil: 0,
-      reed: 0,
-      charcoal: 0,
-      sheep: 0,
-      pig: 0,
-      cow: 0,
-      grain: 0,
-      vegetable: 0,
-      food: 0,
-      farmer: 0,
-      fence: 0,
-      house: 0,
-    },
-    user2: {
-      name: "User 2",
-      tree: 0,
-      soil: 0,
-      reed: 0,
-      charcoal: 0,
-      sheep: 0,
-      pig: 0,
-      cow: 0,
-      grain: 0,
-      vegetable: 0,
-      food: 0,
-      farmer: 0,
-      fence: 0,
-      house: 0,
-    },
-    user3: {
-      name: "User 3",
-      tree: 0,
-      soil: 0,
-      reed: 0,
-      charcoal: 0,
-      sheep: 0,
-      pig: 0,
-      cow: 0,
-      grain: 0,
-      vegetable: 0,
-      food: 0,
-      farmer: 0,
-      fence: 0,
-      house: 0,
-    },
-    user4: {
-      name: "User 4",
-      tree: 0,
-      soil: 0,
-      reed: 0,
-      charcoal: 0,
-      sheep: 0,
-      pig: 0,
-      cow: 0,
-      grain: 0,
-      vegetable: 0,
-      food: 0,
-      farmer: 0,
-      fence: 0,
-      house: 0,
-    },
+    action: [
+      [0, 1],
+      [0, 2],
+      [0, 0],
+      [0, 2],
+      [0, 0],
+
+      [0, 1],
+      [0, 0],
+      [0, 0],
+      [0, 0],
+      [0, 0],
+
+      [0, 0],
+      [0, 0],
+      [0, 3],
+      [0, 1],
+      [0, 1],
+
+      [0, 1],
+      [0, 0],
+      [0, 0],
+      [0, 0],
+      [0, 1],
+    ],
+
     tree: 0,
     soil: 0,
     reed: 0,
@@ -103,15 +64,54 @@ function DataContextProvider({ children }) {
   };
 
   const updateFarmData = () => {
+    // if (
+    //   farmData.farmer_count.filter((count) => count === 1).length === 1 &&
+    //   farmData.farmer_count.filter((count) => count === 0).length === 3
+    // ) {
     if (
-      farmData.farmer_count.filter((count) => count === 1).length === 1 &&
-      farmData.farmer_count.filter((count) => count === 0).length === 3
+      // farmData.farmer_count.filter((count) => count === 1).length === 1 &&
+      farmData.farmer_count.filter((count) => count === 0).length === 4
     ) {
+      const modifiedFarmData = farmData.action.map((item, index) => {
+        if (
+          index === 0 ||
+          index === 5 ||
+          index === 13 ||
+          index === 14 ||
+          index === 15 ||
+          index === 17
+        ) {
+          if (item[0] === 0) {
+            return [item[0], item[1] + 1];
+          }
+        }
+        if (index === 1) {
+          if (item[0] === 0) {
+            return [item[0], item[1] + 2];
+          }
+        }
+        if (index === 3 || index === 12) {
+          if (item[0] === 0) {
+            return [item[0], item[1] + 3];
+          }
+        }
+
+        return [0, item[1]];
+      });
+      let currentTurn = farmData.currentTurn;
+      if (farmData.action[7][0] !== 0) {
+        currentTurn = farmData.action[7][0] % 4;
+      }
+
       setFarmData((prevFarmData) => ({
         ...prevFarmData,
         round: prevFarmData.round + 1,
         farmer_count: [2, 2, 2, 2],
+        action: modifiedFarmData,
+        currentTurn: currentTurn,
       }));
+
+      updateFarmerCount((farmData.currentTurn + 3) % 4);
     }
   };
 

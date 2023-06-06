@@ -6,27 +6,21 @@ import { UserContext } from "../store/user-context";
 
 function Users() {
   //   여기에서 user 정보 받아와서 data로 각 user 정보 넘겨주기
-  const {
-    farmData,
-    setFarmData,
-    updateFarmerCount,
-    updateFarmData,
-    updateAction,
-  } = useContext(DataContext);
+  const { farmData } = useContext(DataContext);
   const { userData, setUserData } = useContext(UserContext);
-
-  const user1 = farmData.user1;
-  const user2 = farmData.user2;
-  const user3 = farmData.user3;
-  const user4 = farmData.user4;
 
   useEffect(() => {
     userDataUpdate();
+    // farmerUpdate();
   }, [farmData.currentTurn]);
+
+  useEffect(() => {
+    farmerUpdate();
+  }, [farmData.round]);
 
   async function userDataUpdate() {
     const userId = farmData.currentTurn;
-    console.log(userData);
+
     if (userId === 0) {
       await setUserData((prevUserData) => ({
         ...prevUserData,
@@ -42,6 +36,8 @@ function Users() {
           grain: prevUserData.user3.grain + farmData.grain,
           vegetable: prevUserData.user3.vegetable + farmData.vegetable,
           food: prevUserData.user3.food + farmData.food,
+
+          house: prevUserData.user3.house + farmData.house,
           farmer: farmData.farmer_count[2],
         },
       }));
@@ -60,6 +56,8 @@ function Users() {
           grain: prevUserData.user4.grain + farmData.grain,
           vegetable: prevUserData.user4.vegetable + farmData.vegetable,
           food: prevUserData.user4.food + farmData.food,
+
+          house: prevUserData.user4.house + farmData.house,
           farmer: farmData.farmer_count[3],
         },
       }));
@@ -78,6 +76,8 @@ function Users() {
           grain: prevUserData.user1.grain + farmData.grain,
           vegetable: prevUserData.user1.vegetable + farmData.vegetable,
           food: prevUserData.user1.food + farmData.food,
+
+          house: prevUserData.user1.house + farmData.house,
           farmer: farmData.farmer_count[0],
         },
       }));
@@ -95,12 +95,35 @@ function Users() {
           cow: prevUserData.user2.cow + farmData.cow,
           grain: prevUserData.user2.grain + farmData.grain,
           vegetable: prevUserData.user2.vegetable + farmData.vegetable,
+
           food: prevUserData.user2.food + farmData.food,
+          house: prevUserData.user2.house + farmData.house,
           farmer: farmData.farmer_count[1],
         },
       }));
     }
-    console.log(userData);
+  }
+
+  function farmerUpdate() {
+    setUserData((prev) => ({
+      ...prev,
+      user1: {
+        ...prev.user1,
+        farmer: 2,
+      },
+      user2: {
+        ...prev.user2,
+        farmer: 2,
+      },
+      user3: {
+        ...prev.user3,
+        farmer: 2,
+      },
+      user4: {
+        ...prev.user4,
+        farmer: 2,
+      },
+    }));
   }
 
   return (
