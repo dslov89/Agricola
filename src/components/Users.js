@@ -15,7 +15,7 @@ function Users() {
 
   async function userDataUpdate() {
     const userId = farmData.currentTurn;
-    console.log(userData);
+
     if (userId === 0) {
       await setUserData((prevUserData) => ({
         ...prevUserData,
@@ -97,7 +97,6 @@ function Users() {
         },
       }));
     }
-    console.log(userData);
   }
 
   return (

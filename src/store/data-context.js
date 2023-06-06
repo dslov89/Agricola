@@ -7,7 +7,7 @@ function DataContextProvider({ children }) {
     messageType: "",
     roomId: 0,
     round: 0,
-    currentTurn: 0,
+    currentTurn: 5,
     farmer_count: [],
     turn: 0,
     action: [[]],
@@ -40,14 +40,14 @@ function DataContextProvider({ children }) {
   };
 
   const updateFarmData = () => {
+    // if (
+    //   farmData.farmer_count.filter((count) => count === 1).length === 1 &&
+    //   farmData.farmer_count.filter((count) => count === 0).length === 3
+    // ) {
     if (
-      farmData.farmer_count.filter((count) => count === 1).length === 1 &&
-      farmData.farmer_count.filter((count) => count === 0).length === 3
+      // farmData.farmer_count.filter((count) => count === 1).length === 1 &&
+      farmData.farmer_count.filter((count) => count === 0).length === 4
     ) {
-      // if (
-      //   // farmData.farmer_count.filter((count) => count === 1).length === 1 &&
-      //   farmData.farmer_count.filter((count) => count === 0).length === 4
-      // ) {
       const modifiedFarmData = farmData.action.map((item, index) => {
         if (
           index === 0 ||
@@ -71,7 +71,8 @@ function DataContextProvider({ children }) {
             return [item[0], item[1] + 3];
           }
         }
-        return item;
+
+        return [0, item[1]];
       });
 
       setFarmData((prevFarmData) => ({

@@ -63,7 +63,7 @@ const Gameroomboard = () => {
             // let jobCardValue = msg.jobCards; //message.body 내 jobCards value값
             // let subCardsValue = msg.subCards; //message.body 내 subCards value값
             // let turnValue = msg.turn; //message.body 내 turn value값
-            console.log(initMsg.jobCards + "job");
+
             setFarmData({
               ...farmData,
               jobCards: initMsg.jobCards,
@@ -116,118 +116,7 @@ const Gameroomboard = () => {
                     vegetable: msg.vegetable,
                     food: msg.food,
                   });
-                  // const userId = msg.currentTurn;
-                  // if (userId === 0) {
-                  //   setFarmData((farmData) => ({
-                  //     ...farmData,
-                  //     user3: {
-                  //       ...farmData.user3,
-                  //       tree: farmData.user3.tree + msg.tree,
-                  //       soil: farmData.user3.soil + msg.soil,
-                  //       reed: farmData.user3.reed + msg.reed,
-                  //       charcoal: farmData.user3.charcoal + msg.charcoal,
-                  //       sheep: farmData.user3.sheep + msg.sheep,
-                  //       pig: farmData.user3.pig + msg.pig,
-                  //       cow: farmData.user3.cow + msg.cow,
-                  //       grain: farmData.user3.grain + msg.grain,
-                  //       vegetable: farmData.user3.vegetable + msg.vegetable,
-                  //       food: farmData.user3.food + msg.food,
-                  //       farmer: msg.farmer_count[2],
-                  //     },
-                  //     round: msg.round,
-                  //     roomId: msg.roomId,
-                  //     messageType: msg.messageType,
-                  //     action: msg.action,
-                  //     currentTurn: msg.currentTurn,
-                  //     farmer_count: msg.farmer_count,
-                  //     jobCards: initMsg.jobCards,
-                  //     subCards: initMsg.subCards,
-                  //     turn: initMsg.turn,
-                  //   }));
-                  // } else if (userId === 1) {
-                  //   setFarmData((farmData) => ({
-                  //     ...farmData,
-                  //     user4: {
-                  //       ...farmData.user4,
-                  //       tree: farmData.user4.tree + msg.tree,
-                  //       soil: farmData.user4.soil + msg.soil,
-                  //       reed: farmData.user4.reed + msg.reed,
-                  //       charcoal: farmData.user4.charcoal + msg.charcoal,
-                  //       sheep: farmData.user4.sheep + msg.sheep,
-                  //       pig: farmData.user4.pig + msg.pig,
-                  //       cow: farmData.user4.cow + msg.cow,
-                  //       grain: farmData.user4.grain + msg.grain,
-                  //       vegetable: farmData.user4.vegetable + msg.vegetable,
-                  //       food: farmData.user4.food + msg.food,
-                  //       farmer: msg.farmer_count[3],
-                  //     },
-                  //     round: msg.round,
-                  //     roomId: msg.roomId,
-                  //     messageType: msg.messageType,
-                  //     action: msg.action,
-                  //     currentTurn: msg.currentTurn,
-                  //     farmer_count: msg.farmer_count,
-                  //     jobCards: initMsg.jobCards,
-                  //     subCards: initMsg.subCards,
-                  //     turn: initMsg.turn,
-                  //   }));
-                  // } else if (userId === 2) {
-                  //   setFarmData((farmData) => ({
-                  //     ...farmData,
-                  //     user1: {
-                  //       ...farmData.user1,
-                  //       tree: farmData.user1.tree + msg.tree,
-                  //       soil: farmData.user1.soil + msg.soil,
-                  //       reed: farmData.user1.reed + msg.reed,
-                  //       charcoal: farmData.user1.charcoal + msg.charcoal,
-                  //       sheep: farmData.user1.sheep + msg.sheep,
-                  //       pig: farmData.user1.pig + msg.pig,
-                  //       cow: farmData.user1.cow + msg.cow,
-                  //       grain: farmData.user1.grain + msg.grain,
-                  //       vegetable: farmData.user1.vegetable + msg.vegetable,
-                  //       food: farmData.user1.food + msg.food,
-                  //       farmer: msg.farmer_count[0],
-                  //     },
-                  //     round: msg.round,
-                  //     roomId: msg.roomId,
-                  //     messageType: msg.messageType,
-                  //     action: msg.action,
-                  //     currentTurn: msg.currentTurn,
-                  //     farmer_count: msg.farmer_count,
-                  //     jobCards: initMsg.jobCards,
-                  //     subCards: initMsg.subCards,
-                  //     turn: initMsg.turn,
-                  //   }));
-                  // } else {
-                  //   setFarmData((farmData) => ({
-                  //     ...farmData,
-                  //     user2: {
-                  //       ...farmData.user2,
-                  //       tree: farmData.user2.tree + msg.tree,
-                  //       soil: farmData.user2.soil + msg.soil,
-                  //       reed: farmData.user2.reed + msg.reed,
-                  //       charcoal: farmData.user2.charcoal + msg.charcoal,
-                  //       sheep: farmData.user2.sheep + msg.sheep,
-                  //       pig: farmData.user2.pig + msg.pig,
-                  //       cow: farmData.user2.cow + msg.cow,
-                  //       grain: farmData.user2.grain + msg.grain,
-                  //       vegetable: farmData.user2.vegetable + msg.vegetable,
-                  //       food: farmData.user2.food + msg.food,
-                  //       farmer: msg.farmer_count[1],
-                  //     },
-                  //     round: msg.round,
-                  //     roomId: msg.roomId,
-                  //     messageType: msg.messageType,
-                  //     action: msg.action,
-                  //     currentTurn: msg.currentTurn,
-                  //     farmer_count: msg.farmer_count,
-                  //     jobCards: initMsg.jobCards,
-                  //     subCards: initMsg.subCards,
-                  //     turn: initMsg.turn,
-                  //   }));
-                  // }
                 }
-                console.log(farmData);
               }
             );
 

@@ -59,17 +59,23 @@ function ActionBoard({ data, setData }) {
       farmData.farmer_count[(farmData.turn - 1) % 4] != 0
     ) {
       updateFarmerCount((farmData.turn - 1) % 4);
-      updateFarmData();
-
+      // updateFarmData();
       setIsTurn(true);
     } else {
       setIsTurn(false);
     }
   }, [farmData.currentTurn]);
 
+  useEffect(() => {
+    updateFarmData();
+  }, [farmData.action]);
+
   // index는 액션버튼 순서 0부터
   const defaultActHandler = async (res, index) => {
     await updateAction(index, 0);
+    // await updateFarmData();
+    // await updateFarmerCount((farmData.turn - 1) % 4);
+
     sendingClient.current.send(
       "/main-board/resource/update",
       {},
@@ -112,6 +118,7 @@ function ActionBoard({ data, setData }) {
 
   const accumulatedActHandler = async (res, index) => {
     await updateAction(index, 0);
+
     sendingClient.current.send(
       "/main-board/resource/update",
       {},
@@ -153,116 +160,70 @@ function ActionBoard({ data, setData }) {
 
   //   덤블 버튼 클릭 시 실행할 함수
   function dumbleHandler(event) {
-    if (farmData.action[0][0] === 0) {
-      // 내턴인지 확인
-      const button = event.target;
-      //자원 획득 api
-      //  보조 설비 카드 api
-      //   턴 끝났으니 false로 변경
-      const item = ["tree"];
-      const value = [1];
-      const res = {
-        tree: 1,
-        soil: 0,
-        reed: 0,
-        charcoal: 0,
-        sheep: 0,
-        pig: 0,
-        cow: 0,
-        grain: 0,
-        vegetable: 0,
-        food: 0,
-      };
-      // accumulatedActHandler(item, value, 0);
-      // movePlayer(button, event);
-      // axios
-      //   .post(`https://localhost:8080/main-board/resource/update`, {
-      //     resource_id: 1,
-      //     User: nameValue,
-      //     quantity: 3,
-      //   })
-      //   .then(function (response) {
-      //     console.log(response);
-      //   })
-      //   .catch(function (error) {
-      //     console.log(error);
-      //   });
-      console.log("덤불누름");
-      // defaultActHandler(res, 0);
-      accumulatedActHandler(res, 0);
-    }
-
-    // setIsTurn(false);
-    // }
-  }
-
-  //   수풀 버튼 클릭 시 실행할 함수
-  function bushHandler(event) {
-    // 다른 유저가 action 칸 가 있는지 확인
-    if (farmData.action[1][0] === 0) {
-      const res = {
-        tree: farmData.action[1][1],
-        soil: 0,
-        reed: 0,
-        charcoal: 0,
-        sheep: 0,
-        pig: 0,
-        cow: 0,
-        grain: 0,
-        vegetable: 0,
-        food: 0,
-      };
-
-      defaultActHandler(res, 1);
-      // // 내턴인지 확인
-      // if (isTurn) {
-      //   const button = event.target;
-      //   //자원 획득 api
-      //   //  보조 설비 카드 api
-      //   //   턴 끝났으니 false로 변경
-      //   const item = ["tree"];
-      //   const value = [2];
-      //   accumulatedActHandler(item, value, 1);
-      //   movePlayer(button, event);
-      //   setIsTurn(false);
-      // }
-    }
-  }
-
-  //   자원 시장 버튼 클릭 시 실행할 함수
-  function resourceHandler(event) {
+    // if (farmData.action[0][0] === 0) {
     const res = {
-      tree: 0,
+      tree: farmData.action[0][1],
       soil: 0,
-      reed: 1,
-      charcoal: 1,
+      reed: 0,
+      charcoal: 0,
       sheep: 0,
       pig: 0,
       cow: 0,
       grain: 0,
       vegetable: 0,
-      food: 1,
+      food: 0,
     };
-    accumulatedActHandler(res, 2);
 
-    // 내턴인지 확인
-    if (isTurn) {
-      const button = event.target;
-      //자원 획득 api
-      //  보조 설비 카드 api
-      //   턴 끝났으니 false로 변경
+    console.log("덤불누름");
+    // defaultActHandler(res, 0);
+    accumulatedActHandler(res, 0);
+    // } else {
+    //   alert("이미 다른 플레이어가 선택한 버튼입니다.");
+    // }
+  }
 
-      setData({
-        ...data,
-        reed: data.reed + 1,
-        rock: data.rock + 1,
-        food: data.food + 1,
-      });
-      const item = ["reed", "rock", "food"];
-      const value = [1, 1, 1];
-      defaultActHandler(item, value, 2);
-      movePlayer(button, event);
-      setIsTurn(false);
+  //   수풀 버튼 클릭 시 실행할 함수
+  async function bushHandler(event) {
+    // 다른 유저가 action 칸 가 있는지 확인
+    // if (farmData.action[1][0] === 0) {
+    const res = {
+      tree: farmData.action[1][1],
+      soil: 0,
+      reed: 0,
+      charcoal: 0,
+      sheep: 0,
+      pig: 0,
+      cow: 0,
+      grain: 0,
+      vegetable: 0,
+      food: 0,
+    };
+
+    await defaultActHandler(res, 1);
+    // } else {
+    //   alert("이미 다른 플레이어가 선택한 버튼입니다.");
+    // }
+  }
+
+  //   자원 시장 버튼 클릭 시 실행할 함수
+  function resourceHandler(event) {
+    if (farmData.action[2][0] === 0) {
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 1,
+        charcoal: 1,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: 1,
+      };
+
+      defaultActHandler(res, 2);
+    } else {
+      alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
   }
 
@@ -283,46 +244,52 @@ function ActionBoard({ data, setData }) {
       };
 
       defaultActHandler(res, 3);
+    } else {
+      alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
-    // 내턴인지 확인
-    // if (isTurn) {
-    //   const button = event.target;
-    //   //자원 획득 api
-    //   //  보조 설비 카드 api
-    //   //   턴 끝났으니 false로 변경
-    //   const item = ["clay"];
-    //   const value = [2];
-    //   accumulatedActHandler(item, value, 3);
-    //   movePlayer(button, event);
-    //   setIsTurn(false);
-    // }
   }
 
   //   교습 버튼 클릭 시 실행할 함수
   function teach1Handler(event) {
     // 내턴인지 확인
-    if (isTurn) {
-      const button = event.target;
-      //자원 획득 api
-      //  보조 설비 카드 api
-      //   턴 끝났으니 false로 변경
-      const item = ["food"];
-      const value = [-2];
-      defaultActHandler(item, value, 4);
-      movePlayer(button, event);
-      setIsTurn(false);
+    if (farmData.action[4][0] === 0) {
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: -2,
+      };
+
+      defaultActHandler(res, 4);
+    } else {
+      alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
   }
 
-  //   유랑극단 버튼 클릭 시 실행할 함수
   function theaterHandler(event) {
-    if (isTurn) {
-      const button = event.target;
-      const item = ["food"];
-      const value = [1];
-      accumulatedActHandler(item, value, 5);
-      movePlayer(button, event);
-      setIsTurn(false);
+    if (farmData.action[5][0] === 0) {
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: farmData.action[5][1],
+      };
+
+      accumulatedActHandler(res, 5);
+    } else {
+      alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
   }
 
@@ -351,18 +318,23 @@ function ActionBoard({ data, setData }) {
 
   //   곡식 종자 버튼 클릭 시 실행할 함수
   function grainHandler(event) {
-    // 내턴인지 확인
-    if (isTurn) {
-      const button = event.target;
-      //자원 획득 api
-      //  보조 설비 카드 api
-      //   턴 끝났으니 false로 변경
-      const item = ["seed"];
-      const value = [-2];
-      defaultActHandler(item, value, 8);
-      movePlayer(button, event);
-      setData({ ...data, seed: data.seed + 1 });
-      setIsTurn(false);
+    if (farmData.action[8][0] === 0) {
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 1,
+        vegetable: 0,
+        food: 0,
+      };
+
+      accumulatedActHandler(res, 8);
+    } else {
+      alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
   }
 
@@ -380,98 +352,133 @@ function ActionBoard({ data, setData }) {
 
   //   교습2 버튼 클릭 시 실행할 함수
   function teach2Handler(event) {
-    // 내턴인지 확인
-    if (isTurn) {
-      const button = event.target;
-      //자원 획득 api
-      //  보조 설비 카드 api
-      //   턴 끝났으니 false로 변경
-      const item = ["food"];
-      const value = [-1];
-      defaultActHandler(item, value, 10);
-      movePlayer(button, event);
-      setIsTurn(false);
+    if (farmData.action[10][0] === 0) {
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: -1,
+      };
+
+      accumulatedActHandler(res, 10);
+    } else {
+      alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
   }
 
   //   날품팔이 버튼 클릭 시 실행할 함수
   function goodsHandler(event) {
-    // 내턴인지 확인
-    if (isTurn) {
-      const button = event.target;
-      //자원 획득 api
-      //  보조 설비 카드 api
-      //   턴 끝났으니 false로 변경
-      const item = ["food"];
-      const value = [2];
-      defaultActHandler(item, value, 11);
-      movePlayer(button, event);
-      setData({ ...data, food: data.food + 1 });
-      setIsTurn(false);
+    if (farmData.action[11][0] === 0) {
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: 2,
+      };
+
+      defaultActHandler(res, 11);
+    } else {
+      alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
   }
 
   //   숲 버튼 클릭 시 실행할 함수
   function forestHandler(event) {
-    // 내턴인지 확인
-    if (isTurn) {
-      const button = event.target;
-      //자원 획득 api
-      //  보조 설비 카드 api
-      //   턴 끝났으니 false로 변경
-      const item = ["tree"];
-      const value = [3];
-      accumulatedActHandler(item, value, 12);
-      movePlayer(button, event);
-      setIsTurn(false);
+    if (farmData.action[12][0] === 0) {
+      const res = {
+        tree: farmData.action[12][1],
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: 0,
+      };
+
+      accumulatedActHandler(res, 12);
+    } else {
+      alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
   }
 
   //   흙 채굴장 버튼 클릭 시 실행할 함수
   function soilHandler(event) {
-    // 내턴인지 확인
-    if (isTurn) {
-      const button = event.target;
-      //자원 획득 api
-      //  보조 설비 카드 api
-      //   턴 끝났으니 false로 변경
-      const item = ["clay"];
-      const value = [1];
-      accumulatedActHandler(item, value, 13);
-      movePlayer(button, event);
-      setIsTurn(false);
+    if (farmData.action[13][0] === 0) {
+      const res = {
+        tree: 0,
+        soil: farmData.action[13][1],
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: 0,
+      };
+
+      accumulatedActHandler(res, 13);
+    } else {
+      alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
   }
 
   //    갈대밭 버튼 클릭 시 실행할 함수
   function reedHandler(event) {
-    // 내턴인지 확인
-    if (isTurn) {
-      const button = event.target;
-      //자원 획득 api
-      //  보조 설비 카드 api
-      //   턴 끝났으니 false로 변경
-      const item = ["reed"];
-      const value = [1];
-      accumulatedActHandler(item, value, 14);
-      movePlayer(button, event);
-      setIsTurn(false);
+    if (farmData.action[14][0] === 0) {
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: farmData.action[14][1],
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: 0,
+      };
+
+      accumulatedActHandler(res, 14);
+    } else {
+      alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
   }
 
   //   낚시 버튼 클릭 시 실행할 함수
   function fishingHandler(event) {
-    // 내턴인지 확인
-    if (isTurn) {
-      const button = event.target;
-      //자원 획득 api
-      //  보조 설비 카드 api
-      //   턴 끝났으니 false로 변경
-      const item = ["food"];
-      const value = [1];
-      accumulatedActHandler(item, value, 15);
-      movePlayer(button, event);
-      setIsTurn(false);
+    if (farmData.action[15][0] === 0) {
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: farmData.action[15][1],
+      };
+
+      accumulatedActHandler(res, 15);
+    } else {
+      alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
   }
   function cardBtn1Handler() {
@@ -522,58 +529,6 @@ function ActionBoard({ data, setData }) {
   }
 
   // 플레이어 이동
-  // function movePlayer(btn, event) {
-  //   const button = btn;
-  //   const buttonRect = button.getBoundingClientRect();
-  //   const x = event.clientX - buttonRect.left;
-  //   const y = event.clientY - buttonRect.top;
-  //   const redBox = document.createElement("div");
-  //   redBox.style.width = "55px";
-  //   redBox.style.height = "58px";
-  //   redBox.style.transform = `translateX(${x - 10}px) translateY(${y - 10}px)`;
-  //   redBox.style.backgroundImage = `url(${farmer})`;
-  //   button.appendChild(redBox);
-  // }
-
-  // const movePlayer = (btn, event, index) => {
-  //   const button = btn;
-  //   const buttonRect = button.getBoundingClientRect();
-  //   const x = event.clientX - buttonRect.left;
-  //   const y = event.clientY - buttonRect.top;
-  //   const redBox = document.createElement("div");
-  //   redBox.style.width = "55px";
-  //   redBox.style.height = "58px";
-  //   redBox.style.transform = `translateX(${x - 10}px) translateY(${y - 10}px)`;
-  //   console.log("나 움직였어요 ㅎ_ㅎ");
-  //   if (farmData.action[index][0] === 1)
-  //     redBox.style.backgroundImage = `url(${redplayer})`;
-  //   else if (farmData.action[index][0] === 2)
-  //     redBox.style.backgroundImage = `url(${blueplayer})`;
-  //   else if (farmData.action[index][0] === 3)
-  //     redBox.style.backgroundImage = `url(${greenplayer})`;
-  //   else if (farmData.action[index][0] === 4)
-  //     redBox.style.backgroundImage = `url(${yellowplayer})`;
-  //   button.appendChild(redBox);
-  // };
-
-  useEffect(() => {}, [farmData.action]);
-
-  //양 시장 클릭 시
-  function sheepHandler() {
-    // 내턴인지 확인
-    if (isTurn) {
-      //자원 획득 api
-      //  보조 설비 카드 api
-      //   턴 끝났으니 false로 변경
-      const item = ["sheep"];
-      const value = [1];
-      accumulatedActHandler(item, value, 19);
-
-      setIsTurn(false);
-    }
-  }
-
-  // 플레이어 이동
   function movePlayer(btn, event) {
     const button = btn;
     const buttonRect = button.getBoundingClientRect();
@@ -585,6 +540,19 @@ function ActionBoard({ data, setData }) {
     redBox.style.transform = `translateX(${x - 10}px) translateY(${y - 10}px)`;
     redBox.style.backgroundImage = `url(${farmer})`;
     button.appendChild(redBox);
+  }
+
+  //양 시장 클릭 시
+  function sheepHandler() {
+    // 내턴인지 확인
+    if (isTurn) {
+      //자원 획득 api
+      //  보조 설비 카드 api
+      //   턴 끝났으니 false로 변경
+      const item = ["sheep"];
+      const value = [1];
+      setIsTurn(false);
+    }
   }
 
   const sendHandler = () => {
