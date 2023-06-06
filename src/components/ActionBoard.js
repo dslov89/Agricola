@@ -225,25 +225,30 @@ function ActionBoard({ data, setData }) {
   function teach1Handler(event) {
     // 내턴인지 확인
     if (farmData.action[4][0] === 0) {
-      const res = {
-        tree: 0,
-        soil: 0,
-        reed: 0,
-        charcoal: 0,
-        sheep: 0,
-        pig: 0,
-        cow: 0,
-        grain: 0,
-        vegetable: 0,
-        food: -2,
-      };
+      if (userData[`user${farmData.turn}`].food >= 2) {
+        const res = {
+          tree: 0,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: -2,
+        };
 
-      defaultActHandler(res, 4);
+        defaultActHandler(res, 4);
+      } else {
+        alert("식량이 부족합니다");
+      }
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
   }
 
+  // 유랑극단 버튼 클릭 시 실행할 함수
   function theaterHandler(event) {
     if (farmData.action[5][0] === 0) {
       const res = {
@@ -336,20 +341,24 @@ function ActionBoard({ data, setData }) {
   //   교습2 버튼 클릭 시 실행할 함수
   function teach2Handler(event) {
     if (farmData.action[10][0] === 0) {
-      const res = {
-        tree: 0,
-        soil: 0,
-        reed: 0,
-        charcoal: 0,
-        sheep: 0,
-        pig: 0,
-        cow: 0,
-        grain: 0,
-        vegetable: 0,
-        food: -1,
-      };
+      if (userData[`user${farmData.turn}`].food >= 1) {
+        const res = {
+          tree: 0,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: -1,
+        };
 
-      defaultActHandler(res, 10);
+        defaultActHandler(res, 10);
+      } else {
+        alert("식량이 부족합니다");
+      }
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
@@ -466,31 +475,12 @@ function ActionBoard({ data, setData }) {
   }
   function cardBtn1Handler() {
     setMainModalVisible(true);
-    console.log(farmData.round);
-    console.log(roundNum);
-    console.log(farmData.userId);
-    sendHandler();
   }
   function cardBtn2Handler() {
     setSubModalVisible(true);
     // cardSubscribe();
   }
 
-  // const cardSubscribe = () => {
-  //   sendingClient.current.subscribe(
-  //     `/main-board/card/update/` + farmData.roomId,
-  //     (message) => {
-  //       console.log(message.body + "여기야 여기");
-  //       const msg = JSON.parse(message.body);
-
-  //       // setFarmData({
-  //       //   ...farmData,
-  //       //   round: msg.round,
-  //       //   roomId: msg.roomId,
-  //       // });
-  //     }
-  //   );
-  // };
   //설비 클릭 시
   function facilityHandler() {}
 
@@ -537,40 +527,6 @@ function ActionBoard({ data, setData }) {
       setIsTurn(false);
     }
   }
-
-  const sendHandler = () => {
-    console.log(farmData.roomId);
-    console.log(farmData);
-    sendingClient.current.send(
-      "/main-board/card/update",
-      {},
-      JSON.stringify({
-        roomId: farmData.roomId,
-        round: 1,
-        action: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        currentTurn: 1,
-        turnArray: [
-          [0, 1],
-          [1, 2],
-        ],
-        job: [
-          [1, 1],
-          [2, 1],
-          [3, 1],
-        ],
-        main: [
-          [1, 1],
-          [2, 1],
-          [3, 1],
-        ],
-        sub: [
-          [1, 1],
-          [2, 1],
-          [3, 1],
-        ],
-      })
-    );
-  };
 
   return (
     <div className="boardContainer">
@@ -690,10 +646,10 @@ function ActionBoard({ data, setData }) {
       )}
       {/* <Facility className="facilityBtn" /> */}
       {farmData.round >= 3 && (
-        <Grain className="facilityBtn2" onClick={roundGrainHandler} />
+        <Fence className="facilityBtn2" onClick={roundGrainHandler} />
       )}
       {farmData.round >= 4 && (
-        <Fence className="facilityBtn3" onClick={fenceHandler} />
+        <Grain className="facilityBtn3" onClick={fenceHandler} />
       )}
       {farmData.round >= 5 && (
         <Sheep className="facilityBtn4" onClick={sheepHandler} />
