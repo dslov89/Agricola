@@ -8,7 +8,7 @@ function DataContextProvider({ children }) {
     roomId: 0,
     round: 0,
     currentTurn: 5,
-    farmer_count: [],
+    farmer_count: [2, 2, 2, 2],
     turn: 0,
     action: [
       [0, 1],
@@ -106,7 +106,7 @@ function DataContextProvider({ children }) {
         action: modifiedFarmData,
       }));
 
-      updateFarmerCount((farmData.turn - 1) % 4);
+      updateFarmerCount((farmData.currentTurn + 3) % 4);
     }
   };
 

@@ -11,7 +11,12 @@ function Users() {
 
   useEffect(() => {
     userDataUpdate();
+    // farmerUpdate();
   }, [farmData.currentTurn]);
+
+  useEffect(() => {
+    farmerUpdate();
+  }, [farmData.round]);
 
   async function userDataUpdate() {
     const userId = farmData.currentTurn;
@@ -97,6 +102,28 @@ function Users() {
         },
       }));
     }
+  }
+
+  function farmerUpdate() {
+    setUserData((prev) => ({
+      ...prev,
+      user1: {
+        ...prev.user1,
+        farmer: 2,
+      },
+      user2: {
+        ...prev.user2,
+        farmer: 2,
+      },
+      user3: {
+        ...prev.user3,
+        farmer: 2,
+      },
+      user4: {
+        ...prev.user4,
+        farmer: 2,
+      },
+    }));
   }
 
   return (
