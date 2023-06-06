@@ -98,12 +98,17 @@ function DataContextProvider({ children }) {
 
         return [0, item[1]];
       });
+      let currentTurn = farmData.currentTurn;
+      if (farmData.action[7][0] !== 0) {
+        currentTurn = farmData.action[7][0] % 4;
+      }
 
       setFarmData((prevFarmData) => ({
         ...prevFarmData,
         round: prevFarmData.round + 1,
         farmer_count: [2, 2, 2, 2],
         action: modifiedFarmData,
+        currentTurn: currentTurn,
       }));
 
       updateFarmerCount((farmData.currentTurn + 3) % 4);

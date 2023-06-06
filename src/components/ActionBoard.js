@@ -55,8 +55,6 @@ function ActionBoard({ data, setData }) {
   // 현재 자신의 턴인지
   useEffect(() => {
     if (farmData.currentTurn === farmData.turn % 4) {
-      // updateFarmerCount((farmData.turn - 1) % 4);
-      // updateFarmData();
       setIsTurn(true);
     } else {
       setIsTurn(false);
@@ -69,10 +67,7 @@ function ActionBoard({ data, setData }) {
       farmData.farmer_count[(farmData.turn - 1) % 4] != 0
     ) {
       updateFarmerCount((farmData.turn - 1) % 4);
-      // updateFarmData();
-      // setIsTurn(true);
     } else {
-      // setIsTurn(true);
     }
   }, [farmData.currentTurn]);
 
@@ -109,21 +104,6 @@ function ActionBoard({ data, setData }) {
     console.log("default");
   };
 
-  // const defaultActHandler = (item, value, cardIndex) => {
-  //   sendingClient.current.send(
-  //     "/main-board/resource/update",
-  //     {},
-  //     JSON.stringify({
-  //       Resoure_ID: item,
-  //       quantity: value,
-  //       turn: 0,
-  //       count: 1,
-  //       card: cardIndex,
-  //     })
-  //   );
-  //   console.log("default");
-  // };
-
   const accumulatedActHandler = async (res, index, count) => {
     await updateAction(index, count);
 
@@ -151,20 +131,6 @@ function ActionBoard({ data, setData }) {
     );
     console.log("accumulated");
   };
-  // const accumulatedActHandler = (item, value, cardIndex) => {
-  //   sendingClient.current.send(
-  //     "/main-board/resource/update",
-  //     {},
-  //     JSON.stringify({
-  //       Resoure_ID: item,
-  //       quantity: value,
-  //       turn: 0,
-  //       card: cardIndex,
-  //       count: 1,
-  //     })
-  //   );
-  //   console.log("accumulated");
-  // };
 
   //   덤블 버튼 클릭 시 실행할 함수
   function dumbleHandler(event) {
@@ -182,8 +148,6 @@ function ActionBoard({ data, setData }) {
         food: 0,
       };
 
-      console.log("덤불누름");
-      // defaultActHandler(res, 0);
       accumulatedActHandler(res, 0, 1);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
@@ -313,14 +277,25 @@ function ActionBoard({ data, setData }) {
 
   //   회합 장소 버튼 클릭 시 실행할 함수
   function spaceHandler(event) {
-    // 내턴인지 확인
-    if (isTurn) {
-      const button = event.target;
-      //자원 획득 api
-      //  보조 설비 카드 api
-      //   턴 끝났으니 false로 변경
-      movePlayer(button, event);
-      setIsTurn(false);
+    //  유저 없는 지 확인
+    if (farmData.action[7][0] === 0) {
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: 0,
+      };
+
+      defaultActHandler(res, 7);
+      //보조 설비 카드 창 활성화
+    } else {
+      alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
   }
 
