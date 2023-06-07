@@ -103,7 +103,8 @@ const Gameroomboard = () => {
                     action: msg.action,
                     currentTurn: msg.currentTurn,
                     farmer_count: msg.farmer_count,
-
+                    jobCards: initMsg.jobCards.map((item) => [item, 1]),
+                    subCards: initMsg.subCards.map((item) => [item, 1]),
                     turn: initMsg.turn,
                     tree: msg.tree,
                     soil: msg.soil,

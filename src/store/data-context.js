@@ -50,8 +50,8 @@ function DataContextProvider({ children }) {
     fence: 0,
     house: 0,
 
-    jobCards: [],
-    subCards: [],
+    jobCards: [[]],
+    subCards: [[]],
     main: [],
   });
 
