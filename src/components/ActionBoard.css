@@ -17,6 +17,13 @@
   cursor: pointer; /* 기본 커서를 포인터로 설정 */
 }
 
+.player {
+  position: absolute;
+  width: 110px;
+  height: 80px;
+  left: 130px;
+}
+
 .dumble {
   top: 28px;
 }
