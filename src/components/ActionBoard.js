@@ -152,7 +152,7 @@ function ActionBoard({ data, setData }) {
         vegetable: 0,
         food: 0,
       };
-      if(userData[`user${farmData.turn}`].job.includes(9))  // 직업 09 나무꾼
+      if(userData[`user${farmData.turn}`].job.includes(9))  // 직업 09. 나무꾼
         res.tree += 1;
 
       accumulatedActHandler(res, 0, 1);
@@ -177,7 +177,7 @@ function ActionBoard({ data, setData }) {
         vegetable: 0,
         food: 0,
       };
-      if(userData[`user${farmData.turn}`].job.includes(9))  // 직업 09 나무꾼
+      if(userData[`user${farmData.turn}`].job.includes(9))  // 직업 09. 나무꾼
         res.tree += 1;
 
       accumulatedActHandler(res, 1, 2);
@@ -327,11 +327,11 @@ function ActionBoard({ data, setData }) {
         vegetable: 0,
         food: 0,
       };
-      if(userData[`user${farmData.turn}`].sub.includes(2)) // 곡식용 삽
+      if(userData[`user${farmData.turn}`].sub.includes(2)) // 보조 02. 곡식용 삽
         res.grain += 1;
-      if(userData[`user${farmData.turn}`].job.includes(1)) // 장작 채집자
+      if(userData[`user${farmData.turn}`].job.includes(1)) // 직업 01. 장작 채집자
         res.tree += 1;
-      if(userData[`user${farmData.turn}`].job.includes(2)) // 채소 장수
+      if(userData[`user${farmData.turn}`].job.includes(2)) // 직업 02. 채소 장수
         res.vegetable += 1;
 
       defaultActHandler(res, 8);
@@ -343,7 +343,7 @@ function ActionBoard({ data, setData }) {
   //=농지 버튼 클릭 시 실행할 함수
   function farmlandHandler() {
     if (farmData.action[9][0] === 0) {
-      if(userData[`user${farmData.turn}`].job.includes(1)) { // 장작 채집자)
+      if(userData[`user${farmData.turn}`].job.includes(1)) { // 직업 01. 장작 채집자)
         const res = {
           tree: 1,
           soil: 0,
@@ -404,8 +404,10 @@ function ActionBoard({ data, setData }) {
         food: 2,
       };
 
-      if (userData[`user${farmData.turn}`].sub.includes(16))   // 양토 채굴장
+      if (userData[`user${farmData.turn}`].sub.includes(16))   // 보조 16. 양토 채굴장
         res.soil += 3;
+      if(userData[`user${farmData.turn}`].job.includes(16))  // 직업 09. 농번기 일꾼
+        res.grain += 1;
 
       defaultActHandler(res, 11);
     } else {
@@ -428,7 +430,7 @@ function ActionBoard({ data, setData }) {
         vegetable: 0,
         food: 0,
       };
-      if(userData[`user${farmData.turn}`].job.includes(9))  // 직업 09 나무꾼
+      if(userData[`user${farmData.turn}`].job.includes(9))  // 직업 09. 나무꾼
         res.tree += 1;
 
       accumulatedActHandler(res, 12, 3);
@@ -497,7 +499,7 @@ function ActionBoard({ data, setData }) {
         food: farmData.action[15][1],
       };
 
-      if(userData[`user${farmData.turn}`].sub.includes(26)) // 통나무배
+      if(userData[`user${farmData.turn}`].sub.includes(26)) // 보조 26. 통나무배
         res.charcoal += 1;
       
       accumulatedActHandler(res, 15, 1);
@@ -526,7 +528,7 @@ function ActionBoard({ data, setData }) {
   //곡식 활용 클릭 시
   function roundGrainHandler() {
     if (farmData.action[18][0] === 0) {
-      if(userData[`user${farmData.turn}`].job.includes(1)) { // 장작 채집자)
+      if(userData[`user${farmData.turn}`].job.includes(1)) { // 직업 01. 장작 채집자
         const res = {
           tree: 1,
           soil: 0,
