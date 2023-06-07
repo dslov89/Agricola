@@ -56,6 +56,7 @@ function ActionBoard({ data, setData }) {
   const { userData, setUserData } = useContext(UserContext);
   const [roundNum, setRoundNum] = useState(farmData.round);
 
+
   // 현재 자신의 턴인지
   useEffect(() => {
     if (farmData.currentTurn === farmData.turn % 4) {
@@ -151,6 +152,8 @@ function ActionBoard({ data, setData }) {
         vegetable: 0,
         food: 0,
       };
+      if(userData[`user${farmData.turn}`].job.includes(9))  // 직업 09. 나무꾼
+        res.tree += 1;
 
       accumulatedActHandler(res, 0, 1);
     } else {
@@ -174,6 +177,8 @@ function ActionBoard({ data, setData }) {
         vegetable: 0,
         food: 0,
       };
+      if(userData[`user${farmData.turn}`].job.includes(9))  // 직업 09. 나무꾼
+        res.tree += 1;
 
       accumulatedActHandler(res, 1, 2);
     } else {
@@ -268,6 +273,12 @@ function ActionBoard({ data, setData }) {
         food: farmData.action[5][1],
       };
 
+      if(userData[`user${farmData.turn}`].job.includes(20))  // 직업 20. 마술사
+      {
+        res.tree += 1;
+        res.grain += 1;
+      }
+
       accumulatedActHandler(res, 5, 1);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
@@ -322,6 +333,12 @@ function ActionBoard({ data, setData }) {
         vegetable: 0,
         food: 0,
       };
+      if(userData[`user${farmData.turn}`].sub.includes(2)) // 보조 02. 곡식용 삽
+        res.grain += 1;
+      if(userData[`user${farmData.turn}`].job.includes(1)) // 직업 01. 장작 채집자
+        res.tree += 1;
+      if(userData[`user${farmData.turn}`].job.includes(2)) // 직업 02. 채소 장수
+        res.vegetable += 1;
 
       defaultActHandler(res, 8);
     } else {
@@ -331,11 +348,22 @@ function ActionBoard({ data, setData }) {
 
   //=농지 버튼 클릭 시 실행할 함수
   function farmlandHandler() {
-    // 내턴인지 확인
-
-    if (isTurn) {
-      //const userId = getCurrentUserId();
-      //updateActions(9, 1, userId);
+    if (farmData.action[9][0] === 0) {
+      if(userData[`user${farmData.turn}`].job.includes(1)) { // 직업 01. 장작 채집자)
+        const res = {
+          tree: 1,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 0,
+        };
+        defaultActHandler(res, 9);
+      }
     }
   }
 
@@ -365,6 +393,7 @@ function ActionBoard({ data, setData }) {
     }
   }
 
+  
   //   날품팔이 버튼 클릭 시 실행할 함수
   function goodsHandler() {
     if (farmData.action[11][0] === 0) {
@@ -380,6 +409,11 @@ function ActionBoard({ data, setData }) {
         vegetable: 0,
         food: 2,
       };
+
+      if (userData[`user${farmData.turn}`].sub.includes(16))   // 보조 16. 양토 채굴장
+        res.soil += 3;
+      if(userData[`user${farmData.turn}`].job.includes(16))  // 직업 09. 농번기 일꾼
+        res.grain += 1;
 
       defaultActHandler(res, 11);
     } else {
@@ -402,6 +436,10 @@ function ActionBoard({ data, setData }) {
         vegetable: 0,
         food: 0,
       };
+      if(userData[`user${farmData.turn}`].job.includes(9))  // 직업 09. 나무꾼
+        res.tree += 1;
+      if(userData[`user${farmData.turn}`].job.includes(19))  // 직업 19. 지질학자
+        res.soil += 1;
 
       accumulatedActHandler(res, 12, 3);
     } else {
@@ -424,6 +462,8 @@ function ActionBoard({ data, setData }) {
         vegetable: 0,
         food: 0,
       };
+      if(userData[`user${farmData.turn}`].job.includes(19))  // 직업 19. 지질학자
+        res.soil += 1;      
 
       accumulatedActHandler(res, 13, 1);
     } else {
@@ -469,6 +509,9 @@ function ActionBoard({ data, setData }) {
         food: farmData.action[15][1],
       };
 
+      if(userData[`user${farmData.turn}`].sub.includes(26)) // 보조 26. 통나무배
+        res.charcoal += 1;
+      
       accumulatedActHandler(res, 15, 1);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
@@ -494,10 +537,24 @@ function ActionBoard({ data, setData }) {
 
   //곡식 활용 클릭 시
   function roundGrainHandler() {
-    if (isTurn) {
-      console.log("123123123");
-      setIsTurn(false);
+    if (farmData.action[18][0] === 0) {
+      if(userData[`user${farmData.turn}`].job.includes(1)) { // 직업 01. 장작 채집자
+        const res = {
+          tree: 1,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 0,
+        };
+        defaultActHandler(res, 18);
+      }
     }
+    
   }
 
   //양 시장 클릭 시
