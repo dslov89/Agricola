@@ -311,38 +311,6 @@ function ActionBoard({ data, setData }) {
   //   곡식 종자 버튼 클릭 시 실행할 함수
   function grainHandler() {
     if (farmData.action[8][0] === 0) {
-      if (userData[`user${farmData.turn}`].sub.includes(2)) {     // 곡식용 삽
-        const res = {
-          tree: 0,
-          soil: 0,
-          reed: 0,
-          charcoal: 0,
-          sheep: 0,
-          pig: 0,
-          cow: 0,
-          grain: 2,
-          vegetable: 0,
-          food: 0,
-        };
-  
-        defaultActHandler(res, 8);
-      } else {
-          const res = {
-            tree: 0,
-            soil: 0,
-            reed: 0,
-            charcoal: 0,
-            sheep: 0,
-            pig: 0,
-            cow: 0,
-            grain: 1,
-            vegetable: 0,
-            food: 0,
-          };
-    
-          defaultActHandler(res, 8);
-      }
-
       const res = {
         tree: 0,
         soil: 0,
@@ -355,7 +323,11 @@ function ActionBoard({ data, setData }) {
         vegetable: 0,
         food: 0,
       };
-
+      if (userData[`user${farmData.turn}`].sub.includes(2)) {     // 곡식용 삽
+        res.grain += 1;
+      } else if(userData[`user${farmData.turn}`].job.includes(1)) { // 장작 채집자)
+        res.tree += 1;
+      }
       defaultActHandler(res, 8);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
@@ -364,11 +336,22 @@ function ActionBoard({ data, setData }) {
 
   //=농지 버튼 클릭 시 실행할 함수
   function farmlandHandler() {
-    // 내턴인지 확인
-
-    if (isTurn) {
-      //const userId = getCurrentUserId();
-      //updateActions(9, 1, userId);
+    if (farmData.action[9][0] === 0) {
+      if(userData[`user${farmData.turn}`].job.includes(1)) { // 장작 채집자)
+        const res = {
+          tree: 1,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 0,
+        };
+        defaultActHandler(res, 9);
+      }
     }
   }
 
@@ -402,38 +385,22 @@ function ActionBoard({ data, setData }) {
   //   날품팔이 버튼 클릭 시 실행할 함수
   function goodsHandler() {
     if (farmData.action[11][0] === 0) {
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: 2,
+      };
       if (userData[`user${farmData.turn}`].sub.includes(16)) {    // 양토 채굴장
-        const res = {
-          tree: 0,
-          soil: 3,
-          reed: 0,
-          charcoal: 0,
-          sheep: 0,
-          pig: 0,
-          cow: 0,
-          grain: 0,
-          vegetable: 0,
-          food: 2,
-        }
-        defaultActHandler(res, 11);
+        res.soil += 3;
       }
-      else{
-        const res = {
-          tree: 0,
-          soil: 0,
-          reed: 0,
-          charcoal: 0,
-          sheep: 0,
-          pig: 0,
-          cow: 0,
-          grain: 0,
-          vegetable: 0,
-          food: 2,
-        };
-        defaultActHandler(res, 11);
-      }
-
-      
+      defaultActHandler(res, 11);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
@@ -508,41 +475,22 @@ function ActionBoard({ data, setData }) {
   //   낚시 버튼 클릭 시 실행할 함수
   function fishingHandler() {
     if (farmData.action[15][0] === 0) {
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: farmData.action[15][1],
+      };
       if(userData[`user${farmData.turn}`].sub.includes(26)){  // 통나무배
-        const res = {
-          tree: 0,
-          soil: 0,
-          reed: 0,
-          charcoal: 1,
-          sheep: 0,
-          pig: 0,
-          cow: 0,
-          grain: 0,
-          vegetable: 0,
-          food: farmData.action[15][1] + 1,
-        };
-  
-        accumulatedActHandler(res, 15, 1);
+        res.charcoal += 1;
       }
-      else{
-        const res = {
-          tree: 0,
-          soil: 0,
-          reed: 0,
-          charcoal: 0,
-          sheep: 0,
-          pig: 0,
-          cow: 0,
-          grain: 0,
-          vegetable: 0,
-          food: farmData.action[15][1],
-        };
-  
-        accumulatedActHandler(res, 15, 1);
-
-      }
-
-      
+      accumulatedActHandler(res, 15, 1);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
@@ -567,10 +515,24 @@ function ActionBoard({ data, setData }) {
 
   //곡식 활용 클릭 시
   function roundGrainHandler() {
-    if (isTurn) {
-      console.log("123123123");
-      setIsTurn(false);
+    if (farmData.action[18][0] === 0) {
+      if(userData[`user${farmData.turn}`].job.includes(1)) { // 장작 채집자)
+        const res = {
+          tree: 1,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 0,
+        };
+        defaultActHandler(res, 18);
+      }
     }
+    
   }
 
   //양 시장 클릭 시
