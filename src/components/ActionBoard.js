@@ -311,6 +311,38 @@ function ActionBoard({ data, setData }) {
   //   곡식 종자 버튼 클릭 시 실행할 함수
   function grainHandler() {
     if (farmData.action[8][0] === 0) {
+      if (userData[`user${farmData.turn}`].job.includes(2)) {
+        const res = {
+          tree: 0,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 2,
+          vegetable: 0,
+          food: 0,
+        };
+  
+        defaultActHandler(res, 8);
+      } else {
+          const res = {
+            tree: 0,
+            soil: 0,
+            reed: 0,
+            charcoal: 0,
+            sheep: 0,
+            pig: 0,
+            cow: 0,
+            grain: 1,
+            vegetable: 0,
+            food: 0,
+          };
+    
+          defaultActHandler(res, 8);
+      }
+
       const res = {
         tree: 0,
         soil: 0,
