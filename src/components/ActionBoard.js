@@ -273,6 +273,12 @@ function ActionBoard({ data, setData }) {
         food: farmData.action[5][1],
       };
 
+      if(userData[`user${farmData.turn}`].job.includes(20))  // 직업 20. 마술사
+      {
+        res.tree += 1;
+        res.grain += 1;
+      }
+
       accumulatedActHandler(res, 5, 1);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
