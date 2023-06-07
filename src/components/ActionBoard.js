@@ -152,6 +152,8 @@ function ActionBoard({ data, setData }) {
         vegetable: 0,
         food: 0,
       };
+      if(userData[`user${farmData.turn}`].job.includes(9))  // 직업 09 나무꾼
+        res.tree += 1;
 
       accumulatedActHandler(res, 0, 1);
     } else {
@@ -175,6 +177,8 @@ function ActionBoard({ data, setData }) {
         vegetable: 0,
         food: 0,
       };
+      if(userData[`user${farmData.turn}`].job.includes(9))  // 직업 09 나무꾼
+        res.tree += 1;
 
       accumulatedActHandler(res, 1, 2);
     } else {
@@ -424,6 +428,8 @@ function ActionBoard({ data, setData }) {
         vegetable: 0,
         food: 0,
       };
+      if(userData[`user${farmData.turn}`].job.includes(9))  // 직업 09 나무꾼
+        res.tree += 1;
 
       accumulatedActHandler(res, 12, 3);
     } else {
