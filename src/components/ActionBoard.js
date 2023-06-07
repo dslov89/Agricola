@@ -56,6 +56,7 @@ function ActionBoard({ data, setData }) {
   const { userData, setUserData } = useContext(UserContext);
   const [roundNum, setRoundNum] = useState(farmData.round);
 
+
   // 현재 자신의 턴인지
   useEffect(() => {
     if (farmData.currentTurn === farmData.turn % 4) {
@@ -365,23 +366,42 @@ function ActionBoard({ data, setData }) {
     }
   }
 
+  
   //   날품팔이 버튼 클릭 시 실행할 함수
   function goodsHandler() {
     if (farmData.action[11][0] === 0) {
-      const res = {
-        tree: 0,
-        soil: 0,
-        reed: 0,
-        charcoal: 0,
-        sheep: 0,
-        pig: 0,
-        cow: 0,
-        grain: 0,
-        vegetable: 0,
-        food: 2,
-      };
+      if (userData[`user${farmData.turn}`].job.includes(16)) { 
+        const res = {
+          tree: 0,
+          soil: 3,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 2,
+        }
+        defaultActHandler(res, 11);
+      }
+      else{
+        const res = {
+          tree: 0,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 2,
+        };
+        defaultActHandler(res, 11);
+      }
 
-      defaultActHandler(res, 11);
+      
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
