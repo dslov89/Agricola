@@ -637,8 +637,8 @@ function ActionBoard({ data, setData }) {
       {subModalVisible && (
         <SubModal
           setIsVisible={setSubModalVisible}
-          subSulbi={subSulbi}
-          jobCard={jobCard}
+          subSulbi={farmData.subCards}
+          jobCard={farmData.jobCards}
         />
       )}
       {farmData.round >= 2 && (

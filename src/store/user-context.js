@@ -19,6 +19,9 @@ function UserContextProvider({ children }) {
       farmer: 2,
       fence: 0,
       house: 0,
+      main: [],
+      job: [],
+      sub: [],
     },
     user2: {
       name: "User 2",
@@ -35,6 +38,9 @@ function UserContextProvider({ children }) {
       farmer: 2,
       fence: 0,
       house: 0,
+      main: [],
+      job: [],
+      sub: [],
     },
     user3: {
       name: "User 3",
@@ -51,6 +57,9 @@ function UserContextProvider({ children }) {
       farmer: 2,
       fence: 0,
       house: 0,
+      main: [],
+      job: [],
+      sub: [],
     },
     user4: {
       name: "User 4",
@@ -67,6 +76,9 @@ function UserContextProvider({ children }) {
       farmer: 2,
       fence: 0,
       house: 0,
+      main: [],
+      job: [],
+      sub: [],
     },
   });
 
