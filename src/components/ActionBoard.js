@@ -323,11 +323,13 @@ function ActionBoard({ data, setData }) {
         vegetable: 0,
         food: 0,
       };
-      if (userData[`user${farmData.turn}`].sub.includes(2)) {     // 곡식용 삽
+      if(userData[`user${farmData.turn}`].sub.includes(2)) // 곡식용 삽
         res.grain += 1;
-      } else if(userData[`user${farmData.turn}`].job.includes(1)) { // 장작 채집자)
+      if(userData[`user${farmData.turn}`].job.includes(1)) // 장작 채집자
         res.tree += 1;
-      }
+      if(userData[`user${farmData.turn}`].job.includes(2)) // 채소 장수
+        res.vegetable += 1;
+
       defaultActHandler(res, 8);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
@@ -397,9 +399,10 @@ function ActionBoard({ data, setData }) {
         vegetable: 0,
         food: 2,
       };
-      if (userData[`user${farmData.turn}`].sub.includes(16)) {    // 양토 채굴장
+
+      if (userData[`user${farmData.turn}`].sub.includes(16))   // 양토 채굴장
         res.soil += 3;
-      }
+
       defaultActHandler(res, 11);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
@@ -487,9 +490,10 @@ function ActionBoard({ data, setData }) {
         vegetable: 0,
         food: farmData.action[15][1],
       };
-      if(userData[`user${farmData.turn}`].sub.includes(26)){  // 통나무배
+
+      if(userData[`user${farmData.turn}`].sub.includes(26)) // 통나무배
         res.charcoal += 1;
-      }
+      
       accumulatedActHandler(res, 15, 1);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
