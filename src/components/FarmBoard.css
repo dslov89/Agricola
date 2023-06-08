@@ -1,0 +1,266 @@
+.farmContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.farmItem {
+  display: flex;
+  align-items: center;
+  top: 20px;
+  margin-bottom: 200px;
+}
+
+.userFarm1 {
+  width: 95px;
+  height: 21px;
+  background: #155505;
+  position: absolute;
+  top: 312px;
+  border: 2px solid #ca8500;
+  border-radius: 8px;
+  font-size: 13px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  color: #ffffff;
+}
+.userFarm2 {
+  width: 95px;
+  height: 21px;
+  background: #155505;
+  position: absolute;
+  top: 312px; /* Adjust the top value based on the desired positioning */
+  border: 2px solid #ca8500;
+  border-radius: 8px;
+  font-size: 13px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #ffffff;
+}
+
+.userFarm3 {
+  width: 95px;
+  height: 21px;
+  background: #155505;
+  position: absolute;
+  top: 452px; /* Adjust the top value based on the desired positioning */
+  border: 2px solid #ca8500;
+  border-radius: 8px;
+  font-size: 13px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #ffffff;
+}
+
+.userFarm4 {
+  width: 95px;
+  height: 21px;
+  background: #155505;
+  position: absolute;
+  top: 592px; /* Adjust the top value based on the desired positioning */
+  border: 2px solid #ca8500;
+  border-radius: 8px;
+  font-size: 13px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #ffffff;
+}
+
+.Btn {
+  position: absolute;
+  width: 75px;
+  height: 75px;
+  left: 130px;
+  cursor: pointer; /* 기본 커서를 포인터로 설정 */
+}
+
+.plowing-img {
+  width: 75px;
+  height: 75px;
+  position: relative; /* imgContainer가 position을 가지도록 설정 */
+  z-index: 999; /* 다른 엘리먼트들보다 z-index 값이 높도록 설정 */
+}
+
+.room {
+  position: absolute;
+  width: 75px;
+  height: 75px;
+  left: 130px;
+}
+
+.room1_1 {
+  top: 30px;
+  left: 50px;
+}
+
+.room2_1 {
+  top: 130px;
+  left: 50px;
+}
+
+.room3_1 {
+  top: 230px;
+  left: 50px;
+}
+
+.room1_2 {
+  top: 30px;
+  left: 150px;
+}
+
+.room2_2 {
+  top: 130px;
+  left: 150px;
+}
+
+.room3_2 {
+  top: 230px;
+  left: 150px;
+}
+
+.room1_3 {
+  top: 30px;
+  left: 250px;
+}
+
+.room2_3 {
+  top: 130px;
+  left: 250px;
+}
+
+.room3_3 {
+  top: 230px;
+  left: 250px;
+}
+
+.room1_4 {
+  top: 30px;
+  left: 345px;
+}
+
+.room2_4 {
+  top: 130px;
+  left: 345px;
+}
+
+.room3_4 {
+  top: 230px;
+  left: 345px;
+}
+
+.room1_5 {
+  top: 30px;
+  left: 445px;
+}
+
+.room2_5 {
+  top: 130px;
+  left: 445px;
+}
+
+.room3_5 {
+  top: 230px;
+  left: 445px;
+}
+
+.fence {
+  width: 82px;
+  height: 9px;
+
+  position: absolute;
+  /*border: 0.1px solid #b22222;*/
+}
+.fenceCol {
+  width: 9px;
+  height: 84px;
+  position: absolute;
+
+  border-radius: 2px;
+  /*border: 0.1px solid #b22222;*/
+}
+
+.fenceRow1 {
+  top: 16px;
+}
+
+.fenceRow2 {
+  top: 115px;
+}
+.fenceRow3 {
+  top: 213px;
+}
+.fenceRow4 {
+  top: 313px;
+}
+
+.fenceRow01 {
+  left: 45px;
+}
+.fenceRow02 {
+  left: 141px;
+}
+.fenceRow03 {
+  left: 239px;
+}
+.fenceRow04 {
+  left: 339px;
+}
+.fenceRow05 {
+  left: 439px;
+}
+
+.fenceCol1 {
+  top: 27px;
+}
+.fenceCol2 {
+  top: 127px;
+}
+.fenceCol3 {
+  top: 223px;
+}
+
+.fenceCol01 {
+  left: 32px;
+}
+
+.fenceCol02 {
+  left: 132px;
+}
+
+.fenceCol03 {
+  left: 230px;
+}
+
+.fenceCol04 {
+  left: 329px;
+}
+
+.fenceCol05 {
+  left: 427px;
+}
+
+.fenceCol06 {
+  left: 526px;
+}
+
+.finishButton {
+  background-color: red;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.nobread {
+  background-color: red;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer
+}
