@@ -27,7 +27,6 @@ function ActionBoard({ data, setData }) {
   const [isTurn, setIsTurn] = useState(false);
   const [mainModalVisible, setMainModalVisible] = useState(false);
   const [subModalVisible, setSubModalVisible] = useState(false);
-  const [isAlways, setIsAlways] = useState(1);
   const [scoreBoardVisible, setScoreBoardVisible] = useState(true);
   const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
   const [subSulbi, setSubSulbi] = useState([
@@ -84,7 +83,7 @@ function ActionBoard({ data, setData }) {
   }, [farmData.action]);
 
   const alwaysActHandler = async (res) => {
-    await updateAlways(farmData.turn); // 첫 놈 제외 갱신
+    await updateAlways(farmData.turn); // 누른 놈 제외 갱신
     sendingClient.current.send(
       "/main-board/resource/update",
       {},
@@ -107,31 +106,25 @@ function ActionBoard({ data, setData }) {
         food: res.food,
       })
     );
-    if(isAlways === 1){ // 최초에 한번만 실행
-      setIsAlways(0);
-      setTimeout(() => {
-        console.log("셋유저데이타");
-        setUserData((prevUserData) => ({
-          ...prevUserData,
-          [`user${farmData.turn}`]: {
-            ...prevUserData[`user${farmData.turn}`],
-            tree: prevUserData[`user${farmData.turn}`].tree + res.tree,
-            soil: prevUserData[`user${farmData.turn}`].soil + res.soil,
-            reed: prevUserData[`user${farmData.turn}`].reed + res.reed,
-            charcoal: prevUserData[`user${farmData.turn}`].charcoal + res.charcoal,
-            sheep: prevUserData[`user${farmData.turn}`].sheep + res.sheep,
-            pig: prevUserData[`user${farmData.turn}`].pig + res.pig,
-            cow: prevUserData[`user${farmData.turn}`].cow + res.cow,
-            grain: prevUserData[`user${farmData.turn}`].grain + res.grain,
-            vegetable: prevUserData[`user${farmData.turn}`].vegetable + res.vegetable,
-            food: prevUserData[`user${farmData.turn}`].food + res.food,
-          },
-        }));
-      }, 300);
+    if(farmData.action[20][1] === farmData.turn){ // 누른 사람은 갱신이 안되어있으므로 따로 갱신해줌
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        [`user${farmData.turn}`]: {
+          ...prevUserData[`user${farmData.turn}`],
+          tree: prevUserData[`user${farmData.turn}`].tree + res.tree,
+          soil: prevUserData[`user${farmData.turn}`].soil + res.soil,
+          reed: prevUserData[`user${farmData.turn}`].reed + res.reed,
+          charcoal: prevUserData[`user${farmData.turn}`].charcoal + res.charcoal,
+          sheep: prevUserData[`user${farmData.turn}`].sheep + res.sheep,
+          pig: prevUserData[`user${farmData.turn}`].pig + res.pig,
+          cow: prevUserData[`user${farmData.turn}`].cow + res.cow,
+          grain: prevUserData[`user${farmData.turn}`].grain + res.grain,
+          vegetable: prevUserData[`user${farmData.turn}`].vegetable + res.vegetable,
+          food: prevUserData[`user${farmData.turn}`].food + res.food,
+        },
+      }));
     }
-    
-    
-    
+
     console.log("always");
   };
 

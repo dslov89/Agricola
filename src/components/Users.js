@@ -14,7 +14,7 @@ function Users() {
   }, [farmData.currentTurn]);
 
   useEffect(() => {
-    userDataUpdate2();
+      userDataUpdate2();
   }, [farmData.action[20][0]]);
 
 
@@ -114,9 +114,9 @@ function Users() {
 
   async function userDataUpdate2() {
     const userId = farmData.action[20][1];
-    console.log("실행중");
+    const userIndex = farmData.turn;
     console.log(userId);
-    if (userId === 3) {
+    if (userId === 3 && userIndex !== 3) {
       await setUserData((prevUserData) => ({
         ...prevUserData,
         user3: {
@@ -136,7 +136,7 @@ function Users() {
           farmer: farmData.farmer_count[2],
         },
       }));
-    } else if (userId === 4) {
+    } else if (userId === 4 && userIndex !== 4) {
       await setUserData((prevUserData) => ({
         ...prevUserData,
         user4: {
@@ -156,7 +156,7 @@ function Users() {
           farmer: farmData.farmer_count[3],
         },
       }));
-    } else if (userId === 1) {
+    } else if (userId === 1 && userIndex !== 1) {
       await setUserData((prevUserData) => ({
         ...prevUserData,
         user1: {
@@ -176,7 +176,7 @@ function Users() {
           farmer: farmData.farmer_count[0],
         },
       }));
-    } else {
+    } else if (userId === 2 && userIndex !== 2){
       await setUserData((prevUserData) => ({
         ...prevUserData,
         user2: {
