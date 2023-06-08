@@ -27,6 +27,7 @@ function ActionBoard({ data, setData }) {
   const [isTurn, setIsTurn] = useState(false);
   const [mainModalVisible, setMainModalVisible] = useState(false);
   const [subModalVisible, setSubModalVisible] = useState(false);
+  const [isAlways, setIsAlways] = useState(1);
   const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
   const [subSulbi, setSubSulbi] = useState([
     { id: 1, isHas: 1 },
@@ -52,6 +53,7 @@ function ActionBoard({ data, setData }) {
     updateFarmerCount,
     updateFarmData,
     updateAction,
+    updateAlways,
   } = useContext(DataContext);
   const { userData, setUserData } = useContext(UserContext);
   const [roundNum, setRoundNum] = useState(farmData.round);
@@ -79,6 +81,79 @@ function ActionBoard({ data, setData }) {
   useEffect(() => {
     updateFarmData();
   }, [farmData.action]);
+
+  const alwaysActHandler = async (res) => {
+    await updateAlways(farmData.turn); // 첫 놈 제외 갱신
+    sendingClient.current.send(
+      "/main-board/resource/update",
+      {},
+      JSON.stringify({
+        messageType: "RESOURCE",
+        roomId: farmData.roomId,
+        action: farmData.action,
+        round: farmData.round,
+        currentTurn: (farmData.currentTurn)%4,
+        farmer_count: farmData.farmer_count,
+        tree: res.tree,
+        soil: res.soil,
+        reed: res.reed,
+        charcoal: res.charcoal,
+        sheep: res.sheep,
+        pig: res.pig,
+        cow: res.cow,
+        grain: res.grain,
+        vegetable: res.vegetable,
+        food: res.food,
+      })
+    );
+    if(isAlways === 1){ // 최초에 한번만 실행
+      setIsAlways(0);
+      setTimeout(() => {
+        console.log("셋유저데이타");
+        setUserData((prevUserData) => ({
+          ...prevUserData,
+          [`user${farmData.turn}`]: {
+            ...prevUserData[`user${farmData.turn}`],
+            tree: prevUserData[`user${farmData.turn}`].tree + res.tree,
+            soil: prevUserData[`user${farmData.turn}`].soil + res.soil,
+            reed: prevUserData[`user${farmData.turn}`].reed + res.reed,
+            charcoal: prevUserData[`user${farmData.turn}`].charcoal + res.charcoal,
+            sheep: prevUserData[`user${farmData.turn}`].sheep + res.sheep,
+            pig: prevUserData[`user${farmData.turn}`].pig + res.pig,
+            cow: prevUserData[`user${farmData.turn}`].cow + res.cow,
+            grain: prevUserData[`user${farmData.turn}`].grain + res.grain,
+            vegetable: prevUserData[`user${farmData.turn}`].vegetable + res.vegetable,
+            food: prevUserData[`user${farmData.turn}`].food + res.food,
+          },
+        }));
+      }, 300);
+    }
+    
+    
+    
+    console.log("always");
+  };
+
+  function hwaduckHandler() {
+    if (true) { // 화덕 갖고있는지 확인
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: 3,
+      };
+
+      alwaysActHandler(res);
+    } else {
+      alert("너 화덕 안갖고 있어");
+    }
+  }
 
   // index는 액션버튼 순서 0부터
   const defaultActHandler = async (res, index) => {
@@ -414,7 +489,7 @@ function ActionBoard({ data, setData }) {
         res.soil += 3;
       if(userData[`user${farmData.turn}`].job.includes(16))  // 직업 09. 농번기 일꾼
         res.grain += 1;
-
+      
       defaultActHandler(res, 11);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
@@ -631,13 +706,20 @@ function ActionBoard({ data, setData }) {
   };
 
   return (
+    
     <div className="boardContainer">
+    <div style ={{ position: "absolute", top: "-75px", left: "400px", zIndex: "9999"}}>
+        <button onClick={hwaduckHandler}>화덕</button></div>
+
       <Board className="round" />
       {isTurn && (
         <h2 style={{ position: "absolute", top: "-75px", left: "160px" }}>
           Your Turn!
         </h2>
       )}
+
+
+
       {/* 덤블 버튼 */}
       {isTurn ? (
         <div className="actionBtn dumble" onClick={dumbleHandler}>
