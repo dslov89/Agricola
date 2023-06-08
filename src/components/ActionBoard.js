@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import { ReactComponent as Board } from "../asset/roundCard.svg";
 import "./ActionBoard.css";
 
-
 import * as SockJS from "sockjs-client";
 import * as Stomp from "@stomp/stompjs";
 import "./FarmBoard.css";
@@ -14,6 +13,7 @@ import { ReactComponent as Fence } from "../asset/fence.svg";
 import { ReactComponent as Grain } from "../asset/grain.svg";
 import { ReactComponent as Sheep } from "../asset/sheep.svg";
 import { ReactComponent as Facility } from "../asset/facility.svg";
+import ScoreBoard from "./ScoreBoard";
 import MainModal from "./MainModal";
 import SubModal from "./SubModal";
 import { DataContext } from "../store/data-context";
@@ -28,6 +28,7 @@ function ActionBoard({ data, setData }) {
   const [mainModalVisible, setMainModalVisible] = useState(false);
   const [subModalVisible, setSubModalVisible] = useState(false);
   const [isAlways, setIsAlways] = useState(1);
+  const [scoreBoardVisible, setScoreBoardVisible] = useState(true);
   const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
   const [subSulbi, setSubSulbi] = useState([
     { id: 1, isHas: 1 },
@@ -690,6 +691,31 @@ function ActionBoard({ data, setData }) {
     position: "absolute",
   };
 
+  function main10() {
+    //수확때
+    if (farmData.round > 5) {
+      if (userData[`user${farmData.turn}`].reed >= 1) {
+        const res = {
+          tree: 0,
+          soil: 0,
+          reed: -1,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 3,
+        };
+        defaultActHandler(res);
+      } else {
+        alert("갈대 자원이 부족합니다.");
+      }
+    } else {
+      alert("수확 때 가능합니다.");
+    }
+  }
+
   const moveOtherPlayer = (index) => {
     if(index === 1 || index === 5)
       return (<div style={btnStyle2}>
@@ -712,13 +738,26 @@ function ActionBoard({ data, setData }) {
         <button onClick={hwaduckHandler}>화덕</button></div>
 
       <Board className="round" />
-      {isTurn && (
+      {isTurn && farmData.round < 7 && (
         <h2 style={{ position: "absolute", top: "-75px", left: "160px" }}>
           Your Turn!
         </h2>
       )}
 
+      {farmData.round === 6 && (
+        <h2 style={{ position: "absolute", top: "-75px", left: "300px" }}>
+          Harvest
+        </h2>
+      )}
+      {farmData.round === 7 && (
+        <h2 style={{ position: "absolute", top: "-75px", left: "160px" }}>
+          Game Over!
+        </h2>
+      )}
 
+      {farmData.round === 7 && scoreBoardVisible && (
+        <ScoreBoard setIsVisible={setScoreBoardVisible} />
+      )}
 
       {/* 덤블 버튼 */}
       {isTurn ? (
@@ -726,159 +765,145 @@ function ActionBoard({ data, setData }) {
           {moveOtherPlayer(0)}
         </div>
       ) : (
-        <div className="player dumble">
-          {moveOtherPlayer(0)}
-        </div>
+        <div className="player dumble">{moveOtherPlayer(0)}</div>
       )}
 
       {/* 수풀 버튼 */}
-      {isTurn ? ( <div className="actionBtn bush" onClick={bushHandler}>
+      {isTurn ? (
+        <div className="actionBtn bush" onClick={bushHandler}>
           {moveOtherPlayer(1)}
         </div>
       ) : (
-        <div className="player bush">
-          {moveOtherPlayer(1)}
-        </div>
+        <div className="player bush">{moveOtherPlayer(1)}</div>
       )}
 
       {/* 자원 시장 버튼 */}
-      {isTurn ? ( <div className="actionBtn resource" onClick={resourceHandler}>
+      {isTurn ? (
+        <div className="actionBtn resource" onClick={resourceHandler}>
           {moveOtherPlayer(2)}
         </div>
       ) : (
-        <div className="player resource">
-          {moveOtherPlayer(2)}
-        </div>
+        <div className="player resource">{moveOtherPlayer(2)}</div>
       )}
 
       {/* 점토 채굴장 버튼 */}
-      {isTurn ? ( <div className="actionBtn clay" onClick={clayHandler}>
+      {isTurn ? (
+        <div className="actionBtn clay" onClick={clayHandler}>
           {moveOtherPlayer(3)}
         </div>
       ) : (
-        <div className="player clay">
-          {moveOtherPlayer(3)}
-        </div>
+        <div className="player clay">{moveOtherPlayer(3)}</div>
       )}
 
       {/* 교습1 버튼 */}
-      {isTurn ? ( <div className="actionBtn teach1" onClick={teach1Handler}>
+      {isTurn ? (
+        <div className="actionBtn teach1" onClick={teach1Handler}>
           {moveOtherPlayer(4)}
         </div>
       ) : (
-        <div className="player teach1">
-          {moveOtherPlayer(4)}
-        </div>
+        <div className="player teach1">{moveOtherPlayer(4)}</div>
       )}
 
       {/* 유랑극당 버튼 */}
-      {isTurn ? ( <div className="actionBtn theater" onClick={theaterHandler}>
+      {isTurn ? (
+        <div className="actionBtn theater" onClick={theaterHandler}>
           {moveOtherPlayer(5)}
         </div>
       ) : (
-        <div className="player theater">
-          {moveOtherPlayer(5)}
-        </div>
+        <div className="player theater">{moveOtherPlayer(5)}</div>
       )}
-      
+
       {/* 농장 확장 버튼 */}
-      {isTurn ? ( <div className="actionBtn actionBtn2 farmExtend" onClick={farmExtendHandler}>
+      {isTurn ? (
+        <div
+          className="actionBtn actionBtn2 farmExtend"
+          onClick={farmExtendHandler}
+        >
           {moveOtherPlayer(6)}
         </div>
       ) : (
-        <div className="player actionBtn2 farmExtend">
-          {moveOtherPlayer(6)}
-        </div>
-      )}  
+        <div className="player actionBtn2 farmExtend">{moveOtherPlayer(6)}</div>
+      )}
 
       {/* 회합 장소 버튼 */}
-      {isTurn ? ( <div className="actionBtn actionBtn2 space" onClick={spaceHandler}>
+      {isTurn ? (
+        <div className="actionBtn actionBtn2 space" onClick={spaceHandler}>
           {moveOtherPlayer(7)}
         </div>
       ) : (
-        <div className="player actionBtn2 space">
-          {moveOtherPlayer(7)}
-        </div>
-      )}  
+        <div className="player actionBtn2 space">{moveOtherPlayer(7)}</div>
+      )}
 
       {/* 곡식 종자 버튼 */}
-      {isTurn ? ( <div className="actionBtn actionBtn2 grain" onClick={grainHandler}>
+      {isTurn ? (
+        <div className="actionBtn actionBtn2 grain" onClick={grainHandler}>
           {moveOtherPlayer(8)}
         </div>
       ) : (
-        <div className="player actionBtn2 grain">
-          {moveOtherPlayer(8)}
-        </div>
+        <div className="player actionBtn2 grain">{moveOtherPlayer(8)}</div>
       )}
 
       {/* 농지 버튼 */}
-      {isTurn ? ( <div className="actionBtn actionBtn2 clay" onClick={clayHandler}>
+      {isTurn ? (
+        <div className="actionBtn actionBtn2 clay" onClick={clayHandler}>
           {moveOtherPlayer(9)}
         </div>
       ) : (
-        <div className="player actionBtn2 clay">
-          {moveOtherPlayer(9)}
-        </div>
+        <div className="player actionBtn2 clay">{moveOtherPlayer(9)}</div>
       )}
 
       {/* 교습2 버튼 */}
-      {isTurn ? ( <div className="actionBtn actionBtn2 teach1" onClick={teach2Handler}>
+      {isTurn ? (
+        <div className="actionBtn actionBtn2 teach1" onClick={teach2Handler}>
           {moveOtherPlayer(10)}
         </div>
       ) : (
-        <div className="player actionBtn2 teach1">
-          {moveOtherPlayer(10)}
-        </div>
+        <div className="player actionBtn2 teach1">{moveOtherPlayer(10)}</div>
       )}
 
       {/* 날품팔이 버튼 */}
-      {isTurn ? ( <div className="actionBtn actionBtn2 theater" onClick={goodsHandler}>
+      {isTurn ? (
+        <div className="actionBtn actionBtn2 theater" onClick={goodsHandler}>
           {moveOtherPlayer(11)}
         </div>
       ) : (
-        <div className="player actionBtn2 theater">
-          {moveOtherPlayer(11)}
-        </div>
+        <div className="player actionBtn2 theater">{moveOtherPlayer(11)}</div>
       )}
 
       {/* 숲 버튼 */}
-      {isTurn ? ( <div className="actionBtn actionBtn3 forest" onClick={forestHandler}>
+      {isTurn ? (
+        <div className="actionBtn actionBtn3 forest" onClick={forestHandler}>
           {moveOtherPlayer(12)}
         </div>
       ) : (
-        <div className="player actionBtn3 forest">
-          {moveOtherPlayer(12)}
-        </div>
+        <div className="player actionBtn3 forest">{moveOtherPlayer(12)}</div>
       )}
 
       {/* 흙 채굴장 버튼 */}
-      {isTurn ? ( <div className="actionBtn actionBtn3 clay" onClick={soilHandler}>
+      {isTurn ? (
+        <div className="actionBtn actionBtn3 clay" onClick={soilHandler}>
           {moveOtherPlayer(13)}
         </div>
       ) : (
-        <div className="player actionBtn3 clay">
-          {moveOtherPlayer(13)}
-        </div>
+        <div className="player actionBtn3 clay">{moveOtherPlayer(13)}</div>
       )}
 
       {/* 갈대밭 버튼 */}
-      {isTurn ? ( <div className="actionBtn actionBtn3 teach1" onClick={reedHandler}>
+      {isTurn ? (
+        <div className="actionBtn actionBtn3 teach1" onClick={reedHandler}>
           {moveOtherPlayer(14)}
         </div>
       ) : (
-        <div className="player actionBtn3 teach1">
-          {moveOtherPlayer(14)}
-        </div>
+        <div className="player actionBtn3 teach1">{moveOtherPlayer(14)}</div>
       )}
 
       {/* 낚시 버튼 */}
-      {isTurn ? ( <div className="actionBtn actionBtn3 theater" onClick={fishingHandler}>
+      {isTurn ? (
+        <div className="actionBtn actionBtn3 theater" onClick={fishingHandler}>
           {moveOtherPlayer(15)}
         </div>
       ) : (
-        <div className="player actionBtn3 theater">
-          {moveOtherPlayer(15)}
-        </div>
+        <div className="player actionBtn3 theater">{moveOtherPlayer(15)}</div>
       )}
 
       <div className="cardBtn1" onClick={cardBtn1Handler}></div>
