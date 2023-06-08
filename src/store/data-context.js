@@ -131,7 +131,7 @@ function DataContextProvider({ children }) {
     const updatedAlways = [...farmData.action];
     updatedAlways[20][1] = id;
     updatedAlways[20][0] += 1; // 배열 변경함
-    console.log("업뎃중");
+    console.log("업뎃하니까 갱신해주세요");
     await setFarmData((prevFarmData) => ({
       ...prevFarmData,
       action: updatedAlways, 
