@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import { ReactComponent as Board } from "../asset/roundCard.svg";
 import "./ActionBoard.css";
 
-
 import * as SockJS from "sockjs-client";
 import * as Stomp from "@stomp/stompjs";
 import "./FarmBoard.css";
@@ -28,24 +27,7 @@ function ActionBoard({ data, setData }) {
   const [mainModalVisible, setMainModalVisible] = useState(false);
   const [subModalVisible, setSubModalVisible] = useState(false);
   const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
-  const [subSulbi, setSubSulbi] = useState([
-    { id: 1, isHas: 1 },
-    { id: 2, isHas: 1 },
-    { id: 3, isHas: 1 },
-    { id: 4, isHas: 1 },
-    { id: 5, isHas: 1 },
-    { id: 6, isHas: 1 },
-    { id: 7, isHas: 1 },
-  ]);
-  const [jobCard, setJobCard] = useState([
-    { id: 1, isHas: 1 },
-    { id: 2, isHas: 1 },
-    { id: 3, isHas: 1 },
-    { id: 4, isHas: 1 },
-    { id: 5, isHas: 1 },
-    { id: 6, isHas: 1 },
-    { id: 7, isHas: 1 },
-  ]);
+
   const {
     farmData,
     setFarmData,
@@ -54,7 +36,8 @@ function ActionBoard({ data, setData }) {
     updateAction,
   } = useContext(DataContext);
   const { userData, setUserData } = useContext(UserContext);
-  const [roundNum, setRoundNum] = useState(farmData.round);
+  const [isSub, setIsSub] = useState(false);
+  const [isJob, setIsJob] = useState(false);
 
   // 현재 자신의 턴인지
   useEffect(() => {
@@ -73,11 +56,141 @@ function ActionBoard({ data, setData }) {
       updateFarmerCount((farmData.turn - 1) % 4);
     } else {
     }
+    // cardAddHandler();
   }, [farmData.currentTurn]);
 
   useEffect(() => {
     updateFarmData();
   }, [farmData.action]);
+
+  useEffect(() => {
+    if (farmData.currentTurn - 1 === farmData.turn % 4) {
+      if (farmData.cardType === "JOB") {
+        setFarmData((prevFarmData) => {
+          const updatedJobCards = prevFarmData.jobCards.map((jobCard) => {
+            if (jobCard[0] === farmData.cardIndex) {
+              return [farmData.cardIndex, 0];
+            }
+            return jobCard;
+          });
+          return { ...prevFarmData, jobCards: updatedJobCards };
+        });
+      }
+    }
+  }, [farmData.cardIndex]);
+
+  // function cardAddHandler() {
+  //   if (farmData.messageType === "CARD") {
+  //     // if(farmData.currentTurn===(farmData.turn+1)%4){
+  //     // }
+  //     // 카드면 현재턴의 어딘가에 저장하기
+  //     if (farmData.currentTurn === 1) {
+  //       if (farmData.cardType === "MAIN") {
+  //         setUserData((prevUserData) => ({
+  //           ...prevUserData,
+  //           user4: {
+  //             ...prevUserData.user4,
+  //             main: [...prevUserData.user4.main, farmData.cardIndex],
+  //           },
+  //         }));
+  //       } else if (farmData.cardType === "JOB") {
+  //         setUserData((prevUserData) => ({
+  //           ...prevUserData,
+  //           user4: {
+  //             ...prevUserData.user4,
+  //             job: [...prevUserData.user4.job, farmData.cardIndex],
+  //           },
+  //         }));
+  //       } else {
+  //         setUserData((prevUserData) => ({
+  //           ...prevUserData,
+  //           user4: {
+  //             ...prevUserData.user4,
+  //             sub: [...prevUserData.user4.sub, farmData.cardIndex],
+  //           },
+  //         }));
+  //       }
+  //     } else if (farmData.currentTurn === 2) {
+  //       if (farmData.cardType === "MAIN") {
+  //         setUserData((prevUserData) => ({
+  //           ...prevUserData,
+  //           user1: {
+  //             ...prevUserData.user1,
+  //             main: [...prevUserData.user1.main, farmData.cardIndex],
+  //           },
+  //         }));
+  //       } else if (farmData.cardType === "JOB") {
+  //         setUserData((prevUserData) => ({
+  //           ...prevUserData,
+  //           user1: {
+  //             ...prevUserData.user1,
+  //             job: [...prevUserData.user1.job, farmData.cardIndex],
+  //           },
+  //         }));
+  //       } else {
+  //         setUserData((prevUserData) => ({
+  //           ...prevUserData,
+  //           user1: {
+  //             ...prevUserData.user1,
+  //             sub: [...prevUserData.user1.sub, farmData.cardIndex],
+  //           },
+  //         }));
+  //       }
+  //     } else if (farmData.currentTurn === 3) {
+  //       if (farmData.cardType === "MAIN") {
+  //         setUserData((prevUserData) => ({
+  //           ...prevUserData,
+  //           user2: {
+  //             ...prevUserData.user2,
+  //             main: [...prevUserData.user2.main, farmData.cardIndex],
+  //           },
+  //         }));
+  //       } else if (farmData.cardType === "JOB") {
+  //         setUserData((prevUserData) => ({
+  //           ...prevUserData,
+  //           user2: {
+  //             ...prevUserData.user2,
+  //             job: [...prevUserData.user2.job, farmData.cardIndex],
+  //           },
+  //         }));
+  //       } else {
+  //         setUserData((prevUserData) => ({
+  //           ...prevUserData,
+  //           user2: {
+  //             ...prevUserData.user2,
+  //             sub: [...prevUserData.user2.sub, farmData.cardIndex],
+  //           },
+  //         }));
+  //       }
+  //     } else {
+  //       if (farmData.cardType === "MAIN") {
+  //         setUserData((prevUserData) => ({
+  //           ...prevUserData,
+  //           user3: {
+  //             ...prevUserData.user3,
+  //             main: [...prevUserData.user3.main, farmData.cardIndex],
+  //           },
+  //         }));
+  //       } else if (farmData.cardType === "JOB") {
+  //         setUserData((prevUserData) => ({
+  //           ...prevUserData,
+  //           user3: {
+  //             ...prevUserData.user3,
+  //             job: [...prevUserData.user3.job, farmData.cardIndex],
+  //           },
+  //         }));
+  //       } else {
+  //         setUserData((prevUserData) => ({
+  //           ...prevUserData,
+  //           user3: {
+  //             ...prevUserData.user3,
+  //             sub: [...prevUserData.user3.sub, farmData.cardIndex],
+  //           },
+  //         }));
+  //       }
+  //     }
+  //   }
+  // }
 
   // index는 액션버튼 순서 0부터
   const defaultActHandler = async (res, index) => {
@@ -134,6 +247,33 @@ function ActionBoard({ data, setData }) {
       })
     );
     console.log("accumulated");
+  };
+
+  const notTurnHandler = async (res, index) => {
+    await updateAction(index, 0);
+
+    sendingClient.current.send(
+      "/main-board/resource/update",
+      {},
+      JSON.stringify({
+        messageType: "RESOURCE",
+        roomId: farmData.roomId,
+        round: farmData.round,
+        action: farmData.action,
+        currentTurn: farmData.currentTurn,
+        farmer_count: farmData.farmer_count,
+        tree: res.tree,
+        soil: res.soil,
+        reed: res.reed,
+        charcoal: res.charcoal,
+        sheep: res.sheep,
+        pig: res.pig,
+        cow: res.cow,
+        grain: res.grain,
+        vegetable: res.vegetable,
+        food: res.food,
+      })
+    );
   };
 
   //   덤블 버튼 클릭 시 실행할 함수
@@ -243,7 +383,8 @@ function ActionBoard({ data, setData }) {
           food: -2,
         };
 
-        defaultActHandler(res, 4);
+        notTurnHandler(res, 4);
+        setIsJob(true);
       } else {
         alert("식량이 부족합니다");
       }
@@ -279,7 +420,6 @@ function ActionBoard({ data, setData }) {
     // 내턴인지 확인
 
     if (isTurn) {
-
     }
   }
 
@@ -356,7 +496,8 @@ function ActionBoard({ data, setData }) {
           food: -1,
         };
 
-        defaultActHandler(res, 10);
+        notTurnHandler(res, 10);
+        setIsJob(true);
       } else {
         alert("식량이 부족합니다");
       }
@@ -515,24 +656,17 @@ function ActionBoard({ data, setData }) {
 
   const checkOtherPlayer = (index) => {
     if (farmData.action[index][0] !== 0) {
-      if(farmData.action[index][0] === 1)
-      { 
-        return <img src={redplayer}/>;
-      }
-      else if(farmData.action[index][0] === 2)
-      {
-        return <img src={yellowplayer}/>;
-      }
-      else if(farmData.action[index][0] === 3)
-      {
-        return <img src={greenplayer}/>;
-      }
-      else if(farmData.action[index][0] === 4)
-      {
-        return <img src={blueplayer}/>;
+      if (farmData.action[index][0] === 1) {
+        return <img src={redplayer} />;
+      } else if (farmData.action[index][0] === 2) {
+        return <img src={yellowplayer} />;
+      } else if (farmData.action[index][0] === 3) {
+        return <img src={greenplayer} />;
+      } else if (farmData.action[index][0] === 4) {
+        return <img src={blueplayer} />;
       }
     }
-  }
+  };
 
   const btnStyle = {
     width: "55px",
@@ -559,18 +693,11 @@ function ActionBoard({ data, setData }) {
   };
 
   const moveOtherPlayer = (index) => {
-    if(index === 1 || index === 5)
-      return (<div style={btnStyle2}>
-        {checkOtherPlayer(index)}
-      </div>);
-    else if(index === 12 || index === 14)
-      return (<div style={btnStyle3}>
-        {checkOtherPlayer(index)}
-      </div>);
-    else
-      return (<div style={btnStyle}>
-        {checkOtherPlayer(index)}
-      </div>);
+    if (index === 1 || index === 5)
+      return <div style={btnStyle2}>{checkOtherPlayer(index)}</div>;
+    else if (index === 12 || index === 14)
+      return <div style={btnStyle3}>{checkOtherPlayer(index)}</div>;
+    else return <div style={btnStyle}>{checkOtherPlayer(index)}</div>;
   };
 
   return (
@@ -587,159 +714,145 @@ function ActionBoard({ data, setData }) {
           {moveOtherPlayer(0)}
         </div>
       ) : (
-        <div className="player dumble">
-          {moveOtherPlayer(0)}
-        </div>
+        <div className="player dumble">{moveOtherPlayer(0)}</div>
       )}
 
       {/* 수풀 버튼 */}
-      {isTurn ? ( <div className="actionBtn bush" onClick={bushHandler}>
+      {isTurn ? (
+        <div className="actionBtn bush" onClick={bushHandler}>
           {moveOtherPlayer(1)}
         </div>
       ) : (
-        <div className="player bush">
-          {moveOtherPlayer(1)}
-        </div>
+        <div className="player bush">{moveOtherPlayer(1)}</div>
       )}
 
       {/* 자원 시장 버튼 */}
-      {isTurn ? ( <div className="actionBtn resource" onClick={resourceHandler}>
+      {isTurn ? (
+        <div className="actionBtn resource" onClick={resourceHandler}>
           {moveOtherPlayer(2)}
         </div>
       ) : (
-        <div className="player resource">
-          {moveOtherPlayer(2)}
-        </div>
+        <div className="player resource">{moveOtherPlayer(2)}</div>
       )}
 
       {/* 점토 채굴장 버튼 */}
-      {isTurn ? ( <div className="actionBtn clay" onClick={clayHandler}>
+      {isTurn ? (
+        <div className="actionBtn clay" onClick={clayHandler}>
           {moveOtherPlayer(3)}
         </div>
       ) : (
-        <div className="player clay">
-          {moveOtherPlayer(3)}
-        </div>
+        <div className="player clay">{moveOtherPlayer(3)}</div>
       )}
 
       {/* 교습1 버튼 */}
-      {isTurn ? ( <div className="actionBtn teach1" onClick={teach1Handler}>
+      {isTurn ? (
+        <div className="actionBtn teach1" onClick={teach1Handler}>
           {moveOtherPlayer(4)}
         </div>
       ) : (
-        <div className="player teach1">
-          {moveOtherPlayer(4)}
-        </div>
+        <div className="player teach1">{moveOtherPlayer(4)}</div>
       )}
 
       {/* 유랑극당 버튼 */}
-      {isTurn ? ( <div className="actionBtn theater" onClick={theaterHandler}>
+      {isTurn ? (
+        <div className="actionBtn theater" onClick={theaterHandler}>
           {moveOtherPlayer(5)}
         </div>
       ) : (
-        <div className="player theater">
-          {moveOtherPlayer(5)}
-        </div>
+        <div className="player theater">{moveOtherPlayer(5)}</div>
       )}
-      
+
       {/* 농장 확장 버튼 */}
-      {isTurn ? ( <div className="actionBtn actionBtn2 farmExtend" onClick={farmExtendHandler}>
+      {isTurn ? (
+        <div
+          className="actionBtn actionBtn2 farmExtend"
+          onClick={farmExtendHandler}
+        >
           {moveOtherPlayer(6)}
         </div>
       ) : (
-        <div className="player actionBtn2 farmExtend">
-          {moveOtherPlayer(6)}
-        </div>
-      )}  
+        <div className="player actionBtn2 farmExtend">{moveOtherPlayer(6)}</div>
+      )}
 
       {/* 회합 장소 버튼 */}
-      {isTurn ? ( <div className="actionBtn actionBtn2 space" onClick={spaceHandler}>
+      {isTurn ? (
+        <div className="actionBtn actionBtn2 space" onClick={spaceHandler}>
           {moveOtherPlayer(7)}
         </div>
       ) : (
-        <div className="player actionBtn2 space">
-          {moveOtherPlayer(7)}
-        </div>
-      )}  
+        <div className="player actionBtn2 space">{moveOtherPlayer(7)}</div>
+      )}
 
       {/* 곡식 종자 버튼 */}
-      {isTurn ? ( <div className="actionBtn actionBtn2 grain" onClick={grainHandler}>
+      {isTurn ? (
+        <div className="actionBtn actionBtn2 grain" onClick={grainHandler}>
           {moveOtherPlayer(8)}
         </div>
       ) : (
-        <div className="player actionBtn2 grain">
-          {moveOtherPlayer(8)}
-        </div>
+        <div className="player actionBtn2 grain">{moveOtherPlayer(8)}</div>
       )}
 
       {/* 농지 버튼 */}
-      {isTurn ? ( <div className="actionBtn actionBtn2 clay" onClick={clayHandler}>
+      {isTurn ? (
+        <div className="actionBtn actionBtn2 clay" onClick={clayHandler}>
           {moveOtherPlayer(9)}
         </div>
       ) : (
-        <div className="player actionBtn2 clay">
-          {moveOtherPlayer(9)}
-        </div>
+        <div className="player actionBtn2 clay">{moveOtherPlayer(9)}</div>
       )}
 
       {/* 교습2 버튼 */}
-      {isTurn ? ( <div className="actionBtn actionBtn2 teach1" onClick={teach2Handler}>
+      {isTurn ? (
+        <div className="actionBtn actionBtn2 teach1" onClick={teach2Handler}>
           {moveOtherPlayer(10)}
         </div>
       ) : (
-        <div className="player actionBtn2 teach1">
-          {moveOtherPlayer(10)}
-        </div>
+        <div className="player actionBtn2 teach1">{moveOtherPlayer(10)}</div>
       )}
 
       {/* 날품팔이 버튼 */}
-      {isTurn ? ( <div className="actionBtn actionBtn2 theater" onClick={goodsHandler}>
+      {isTurn ? (
+        <div className="actionBtn actionBtn2 theater" onClick={goodsHandler}>
           {moveOtherPlayer(11)}
         </div>
       ) : (
-        <div className="player actionBtn2 theater">
-          {moveOtherPlayer(11)}
-        </div>
+        <div className="player actionBtn2 theater">{moveOtherPlayer(11)}</div>
       )}
 
       {/* 숲 버튼 */}
-      {isTurn ? ( <div className="actionBtn actionBtn3 forest" onClick={forestHandler}>
+      {isTurn ? (
+        <div className="actionBtn actionBtn3 forest" onClick={forestHandler}>
           {moveOtherPlayer(12)}
         </div>
       ) : (
-        <div className="player actionBtn3 forest">
-          {moveOtherPlayer(12)}
-        </div>
+        <div className="player actionBtn3 forest">{moveOtherPlayer(12)}</div>
       )}
 
       {/* 흙 채굴장 버튼 */}
-      {isTurn ? ( <div className="actionBtn actionBtn3 clay" onClick={soilHandler}>
+      {isTurn ? (
+        <div className="actionBtn actionBtn3 clay" onClick={soilHandler}>
           {moveOtherPlayer(13)}
         </div>
       ) : (
-        <div className="player actionBtn3 clay">
-          {moveOtherPlayer(13)}
-        </div>
+        <div className="player actionBtn3 clay">{moveOtherPlayer(13)}</div>
       )}
 
       {/* 갈대밭 버튼 */}
-      {isTurn ? ( <div className="actionBtn actionBtn3 teach1" onClick={reedHandler}>
+      {isTurn ? (
+        <div className="actionBtn actionBtn3 teach1" onClick={reedHandler}>
           {moveOtherPlayer(14)}
         </div>
       ) : (
-        <div className="player actionBtn3 teach1">
-          {moveOtherPlayer(14)}
-        </div>
+        <div className="player actionBtn3 teach1">{moveOtherPlayer(14)}</div>
       )}
 
       {/* 낚시 버튼 */}
-      {isTurn ? ( <div className="actionBtn actionBtn3 theater" onClick={fishingHandler}>
+      {isTurn ? (
+        <div className="actionBtn actionBtn3 theater" onClick={fishingHandler}>
           {moveOtherPlayer(15)}
         </div>
       ) : (
-        <div className="player actionBtn3 theater">
-          {moveOtherPlayer(15)}
-        </div>
+        <div className="player actionBtn3 theater">{moveOtherPlayer(15)}</div>
       )}
 
       <div className="cardBtn1" onClick={cardBtn1Handler}></div>
@@ -752,6 +865,10 @@ function ActionBoard({ data, setData }) {
           setIsVisible={setSubModalVisible}
           subSulbi={farmData.subCards}
           jobCard={farmData.jobCards}
+          isJob={isJob}
+          isSub={isSub}
+          setIsJob={setIsJob}
+          setIsSub={setIsSub}
         />
       )}
       {farmData.round >= 2 && (

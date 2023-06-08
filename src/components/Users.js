@@ -11,12 +11,125 @@ function Users() {
 
   useEffect(() => {
     userDataUpdate();
+    cardAddHandler();
     // farmerUpdate();
   }, [farmData.currentTurn]);
 
   useEffect(() => {
     farmerUpdate();
   }, [farmData.round]);
+  function cardAddHandler() {
+    if (farmData.messageType === "CARD") {
+      // if(farmData.currentTurn===(farmData.turn+1)%4){
+      // }
+      // 카드면 현재턴의 어딘가에 저장하기
+      if (farmData.currentTurn === 1) {
+        if (farmData.cardType === "MAIN") {
+          setUserData((prevUserData) => ({
+            ...prevUserData,
+            user4: {
+              ...prevUserData.user4,
+              main: [...prevUserData.user4.main, farmData.cardIndex],
+            },
+          }));
+        } else if (farmData.cardType === "JOB") {
+          setUserData((prevUserData) => ({
+            ...prevUserData,
+            user4: {
+              ...prevUserData.user4,
+              job: [...prevUserData.user4.job, farmData.cardIndex],
+            },
+          }));
+        } else {
+          setUserData((prevUserData) => ({
+            ...prevUserData,
+            user4: {
+              ...prevUserData.user4,
+              sub: [...prevUserData.user4.sub, farmData.cardIndex],
+            },
+          }));
+        }
+      } else if (farmData.currentTurn === 2) {
+        if (farmData.cardType === "MAIN") {
+          setUserData((prevUserData) => ({
+            ...prevUserData,
+            user1: {
+              ...prevUserData.user1,
+              main: [...prevUserData.user1.main, farmData.cardIndex],
+            },
+          }));
+        } else if (farmData.cardType === "JOB") {
+          setUserData((prevUserData) => ({
+            ...prevUserData,
+            user1: {
+              ...prevUserData.user1,
+              job: [...prevUserData.user1.job, farmData.cardIndex],
+            },
+          }));
+        } else {
+          setUserData((prevUserData) => ({
+            ...prevUserData,
+            user1: {
+              ...prevUserData.user1,
+              sub: [...prevUserData.user1.sub, farmData.cardIndex],
+            },
+          }));
+        }
+      } else if (farmData.currentTurn === 3) {
+        if (farmData.cardType === "MAIN") {
+          setUserData((prevUserData) => ({
+            ...prevUserData,
+            user2: {
+              ...prevUserData.user2,
+              main: [...prevUserData.user2.main, farmData.cardIndex],
+            },
+          }));
+        } else if (farmData.cardType === "JOB") {
+          setUserData((prevUserData) => ({
+            ...prevUserData,
+            user2: {
+              ...prevUserData.user2,
+              job: [...prevUserData.user2.job, farmData.cardIndex],
+            },
+          }));
+        } else {
+          setUserData((prevUserData) => ({
+            ...prevUserData,
+            user2: {
+              ...prevUserData.user2,
+              sub: [...prevUserData.user2.sub, farmData.cardIndex],
+            },
+          }));
+        }
+      } else {
+        if (farmData.cardType === "MAIN") {
+          setUserData((prevUserData) => ({
+            ...prevUserData,
+            user3: {
+              ...prevUserData.user3,
+              main: [...prevUserData.user3.main, farmData.cardIndex],
+            },
+          }));
+        } else if (farmData.cardType === "JOB") {
+          setUserData((prevUserData) => ({
+            ...prevUserData,
+            user3: {
+              ...prevUserData.user3,
+              job: [...prevUserData.user3.job, farmData.cardIndex],
+            },
+          }));
+        } else {
+          setUserData((prevUserData) => ({
+            ...prevUserData,
+            user3: {
+              ...prevUserData.user3,
+              sub: [...prevUserData.user3.sub, farmData.cardIndex],
+            },
+          }));
+        }
+      }
+    }
+  }
 
   async function userDataUpdate() {
     const userId = farmData.currentTurn;

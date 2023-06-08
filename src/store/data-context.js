@@ -85,12 +85,12 @@ function DataContextProvider({ children }) {
             return [item[0], item[1] + 1];
           }
         }
-        if (index === 1) {
+        if (index === 1 || index === 3) {
           if (item[0] === 0) {
             return [item[0], item[1] + 2];
           }
         }
-        if (index === 3 || index === 12) {
+        if (index === 12) {
           if (item[0] === 0) {
             return [item[0], item[1] + 3];
           }
@@ -125,12 +125,34 @@ function DataContextProvider({ children }) {
     }));
   };
 
+  const updateJobCard = (index) => {
+    const updatedCard = [...farmData.jobCards]; // action 배열을 복사합니다.
+
+    updatedCard[index][1] = 0;
+    setFarmData((prevFarmData) => ({
+      ...prevFarmData,
+      jobCards: updatedCard, // 업데이트된 action 배열을 설정합니다.
+    }));
+  };
+
+  const updateSubCard = (index) => {
+    const updatedCard = [...farmData.subCards]; // action 배열을 복사합니다.
+
+    updatedCard[index][1] = 0;
+    setFarmData((prevFarmData) => ({
+      ...prevFarmData,
+      subCards: updatedCard, // 업데이트된 action 배열을 설정합니다.
+    }));
+  };
+
   const values = {
     farmData,
     setFarmData,
     updateFarmerCount,
     updateFarmData,
     updateAction,
+    updateJobCard,
+    updateSubCard,
   };
 
   return <DataContext.Provider value={values}>{children}</DataContext.Provider>;
