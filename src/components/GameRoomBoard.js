@@ -7,7 +7,6 @@ import { DataContext } from "../store/data-context";
 const Gameroomboard = () => {
   const navigation = useNavigate();
   const [rooms, setRooms] = useState([]);
-  let roomID;
   const { farmData, setFarmData } = useContext(DataContext);
 
   function naviHandler() {

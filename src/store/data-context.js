@@ -34,6 +34,8 @@ function DataContextProvider({ children }) {
       [0, 0],
       [0, 0],
       [0, 1],
+
+      [0, 0],
     ],
 
     tree: 0,
@@ -90,7 +92,7 @@ function DataContextProvider({ children }) {
             return [item[0], item[1] + 2];
           }
         }
-        if (index === 3 || index === 12) {
+        if (index === 3 || index === 12) {    // index 3은 +2인데 실수하신건감?
           if (item[0] === 0) {
             return [item[0], item[1] + 3];
           }
@@ -125,12 +127,25 @@ function DataContextProvider({ children }) {
     }));
   };
 
+  const updateAlways = async (id) => { 
+    const updatedAlways = [...farmData.action];
+    updatedAlways[20][1] = id;
+    updatedAlways[20][0] += 1; // 배열 변경함
+    console.log("업뎃중");
+    await setFarmData((prevFarmData) => ({
+      ...prevFarmData,
+      action: updatedAlways, 
+    }));
+    
+  };
+
   const values = {
     farmData,
     setFarmData,
     updateFarmerCount,
     updateFarmData,
     updateAction,
+    updateAlways,
   };
 
   return <DataContext.Provider value={values}>{children}</DataContext.Provider>;
