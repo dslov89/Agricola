@@ -70,10 +70,10 @@ function ActionBoard({ data, setData }) {
 
   useEffect(() => {
     if (
-      farmData.currentTurn === farmData.turn % 4 &&
-      farmData.farmer_count[(farmData.turn - 1) % 4] != 0
+      farmData.currentTurn === farmData.turn % 4 &&   // 내 턴이면서
+      farmData.farmer_count[(farmData.turn - 1) % 4] != 0   // 농부수가 남아있으면
     ) {
-      updateFarmerCount((farmData.turn - 1) % 4);
+      updateFarmerCount((farmData.turn - 1) % 4); // 그 놈 농부수 하나 줄여라
     } else {
     }
   }, [farmData.currentTurn]);
@@ -84,6 +84,8 @@ function ActionBoard({ data, setData }) {
 
   const alwaysActHandler = async (res) => {
     await updateAlways(farmData.turn); // 누른 놈 제외 갱신
+    const farmer_cnt = farmData.farmer_count;
+    farmer_cnt[(farmData.currentTurn +3 )%4] -= 1;
     sendingClient.current.send(
       "/main-board/resource/update",
       {},
@@ -93,7 +95,7 @@ function ActionBoard({ data, setData }) {
         action: farmData.action,
         round: farmData.round,
         currentTurn: (farmData.currentTurn)%4,
-        farmer_count: farmData.farmer_count,
+        farmer_count: farmer_cnt,
         tree: res.tree,
         soil: res.soil,
         reed: res.reed,
