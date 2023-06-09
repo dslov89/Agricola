@@ -3,6 +3,11 @@ import { ReactComponent as Farm } from "../asset/farm.svg";
 import woodRoomImage from "../image/wood_room.png";
 import rockRoomImage from "../image/rock_room.png";
 import soilRoomImage from "../image/soil_room.png";
+import { DataContext } from "../store/data-context";
+import { UserContext } from "../store/user-context";
+import React, { useContext, useEffect } from "react";
+
+
 
 const FarmComponent = ({ username, className, fenceArray, farmArray }) => {
   // 배열 정의
@@ -213,121 +218,70 @@ const UserFarm2 = ({ username, className }) => {
 };
 
 const App = () => {
-  let turn = 1;
-  const user1Farm = [
-    "empty",
-    "empty",
-    "empty",
-    "empty",
-    "empty",
-    "wood_room",
-    "empty",
-    "empty",
-    "empty",
-    "empty",
-    "wood_room",
-    "empty",
-    "empty",
-    "empty",
-    "empty",
-  ];
+  const {
+    userData,
+    setUserData,
+  } = useContext(UserContext)
+  const {farmData} = useContext(DataContext);
 
-  const user2Farm = [
-    "empty",
-    "empty",
-    "soil_room",
-    "soil_room",
-    "wood_room",
-    "wood_room",
-    "empty",
-    "empty",
-    "wood_room",
-    "empty",
-    "wood_room",
-    "rock_room",
-    "soil_room",
-    "empty",
-    "empty",
-  ];
+  useEffect(() => {
+    userDataUpdate();
+  }, [farmData.currentTurn]);
 
-  const user3Farm = [
-    "empty",
-    "empty",
-    "soil_room",
-    "soil_room",
-    "empty",
-    "wood_room",
-    "empty",
-    "empty",
-    "wood_room",
-    "empty",
-    "wood_room",
-    "empty",
-    "empty",
-    "empty",
-    "empty",
-  ];
+  async function userDataUpdate() {
+    const userId = farmData.currentTurn;
 
-  const user4Farm = [
-    "empty",
-    "empty",
-    "soil_room",
-    "soil_room",
-    "empty",
-    "wood_room",
-    "soil_room",
-    "empty",
-    "wood_room",
-    "empty",
-    "wood_room",
-    "rock_room",
-    "empty",
-    "empty",
-    "empty",
-  ];
-
-  const user1FenceArray = [
-    [0, 0, 0, 0, 0, 0], //row1
-    [0, 0, 0, 0, 0, 0], //col1
-    [0, 0, 0, 0, 0, 0], //row2
-    [0, 0, 0, 0, 0, 0], //col2
-    [0, 0, 0, 0, 0, 0], //row3
-    [0, 0, 0, 0, 0, 0], //col3
-    [0, 0, 0, 0, 0, 0], //row4
-  ];
-  const user2FenceArray = [
-    [0, 0, 0, 0, 0, 0], //row1
-    [0, 0, 0, 0, 0, 0], //col1
-    [0, 0, 1, 0, 0, 0], //row2
-    [0, 0, 1, 1, 0, 0], //col2
-    [0, 0, 1, 1, 0, 0], //row3
-    [0, 0, 0, 1, 1, 0], //col3
-    [0, 0, 0, 1, 0, 0], //row4
-  ];
-
-  const user3FenceArray = [
-    [1, 1, 1, 0, 0, 0],
-    [1, 0, 0, 1, 0, 0],
-    [1, 1, 0, 0, 0, 0],
-    [0, 0, 1, 1, 0, 0],
-    [0, 0, 0, 1, 1, 0],
-    [0, 0, 1, 0, 1, 1],
-    [0, 0, 1, 1, 1, 0],
-  ];
-
-  const user4FenceArray = [
-    [1, 0, 0, 0, 1, 0],
-    [1, 1, 0, 0, 1, 1],
-    [1, 0, 0, 0, 1, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 1, 1, 1, 1, 0],
-    [0, 1, 0, 0, 0, 1],
-    [0, 1, 1, 1, 1, 0],
-  ];
+    if(userId === 0) {
+      await setUserData((prevUserData) => ({
+        ...prevUserData,
+        user3: {
+          ...prevUserData.user3,
+          farm_array: userData.user3.farm_array,
+          farm_fence_array: userData.user3.farm_fence_array,
+        },
+      }));
+    } else if(userId === 1) {
+      await setUserData((prevUserData) => ({
+        ...prevUserData,
+        user4: {
+          ...prevUserData.user4,
+          farm_array: userData.user4.farm_array,
+          farm_fence_array: userData.user4.farm_fence_array,
+        },
+      }));
+    } else if(userId === 2) {
+      await setUserData((prevUserData) => ({
+        ...prevUserData,
+        user1: {
+          ...prevUserData.user1,
+          farm_array: userData.user1.farm_array,
+          farm_fence_array: userData.user1.farm_fence_array,
+        },
+      }));
+    } else {
+      await setUserData((prevUserData) => ({
+        ...prevUserData,
+        user2: {
+          ...prevUserData.user2,
+          farm_array: userData.user2.farm_array,
+          farm_fence_array: userData.user2.farm_fence_array,
+        },
+      }));
+    };
+  };
+  
+  const user1Farm = userData.user1.farm_array;
+  const user2Farm = userData.user2.farm_array;
+  const user3Farm = userData.user3.farm_array;
+  const user4Farm = userData.user4.farm_array;
+  const user1FenceArray = userData.user1.farm_fence_array;
+  const user2FenceArray = userData.user2.farm_fence_array;
+  const user3FenceArray = userData.user3.farm_fence_array;
+  const user4FenceArray = userData.user4.farm_fence_array;
 
   return (
     <div>
-      {turn === 1 && (
+      {farmData.turn === 1 && (
         <>
           <UserFarm2 username="User 1" className="1" />
           <UserFarm
@@ -351,7 +305,7 @@ const App = () => {
         </>
       )}
 
-      {turn === 2 && (
+      {farmData.turn === 2 && (
         <>
           <UserFarm2 username="User 2" className="2" />
           <UserFarm
@@ -375,7 +329,7 @@ const App = () => {
         </>
       )}
 
-      {turn === 3 && (
+      {farmData.turn === 3 && (
         <>
           <UserFarm2 username="User 3" className="3" />
           <UserFarm
@@ -399,7 +353,7 @@ const App = () => {
         </>
       )}
 
-      {turn === 4 && (
+      {farmData.turn === 4 && (
         <>
           <UserFarm2 username="User 4" className="4" />
           <UserFarm

@@ -64,14 +64,18 @@ function DataContextProvider({ children }) {
       return { ...prevFarmData, farmer_count: updatedFarmerCount };
     });
   };
+  const updateFarmerCount_harvest = (index) => {
+    setFarmData((prevFarmData) => {
+      const updatedFarmerCount = [...prevFarmData.farmer_count];
+      updatedFarmerCount[index] = prevFarmData.farmer_count[index] - prevFarmData.farmer_count[index];
+      return { ...prevFarmData, farmer_count: updatedFarmerCount };
+    });
+  };
+
+
 
   const updateFarmData = () => {
-    // if (
-    //   farmData.farmer_count.filter((count) => count === 1).length === 1 &&
-    //   farmData.farmer_count.filter((count) => count === 0).length === 3
-    // ) {
     if (
-      // farmData.farmer_count.filter((count) => count === 1).length === 1 &&
       farmData.farmer_count.filter((count) => count === 0).length === 4
     ) {
       const modifiedFarmData = farmData.action.map((item, index) => {
@@ -92,7 +96,9 @@ function DataContextProvider({ children }) {
             return [item[0], item[1] + 2];
           }
         }
+
         if (index === 12) {
+
           if (item[0] === 0) {
             return [item[0], item[1] + 3];
           }
@@ -114,6 +120,7 @@ function DataContextProvider({ children }) {
       }));
 
       updateFarmerCount((farmData.currentTurn + 3) % 4);
+      updateFarmerCount_harvest((farmData.currentTurn + 3) % 4);
     }
   };
 
@@ -161,6 +168,7 @@ function DataContextProvider({ children }) {
     farmData,
     setFarmData,
     updateFarmerCount,
+    updateFarmerCount_harvest,
     updateFarmData,
     updateAction,
     updateJobCard,

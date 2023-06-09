@@ -3,11 +3,17 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { nameValue, sendingClient } from "../screen/Start";
 import { DataContext } from "../store/data-context";
+import { UserContext } from "../store/user-context";
 
 const Gameroomboard = () => {
   const navigation = useNavigate();
   const [rooms, setRooms] = useState([]);
+  let roomID;
   const { farmData, setFarmData } = useContext(DataContext);
+  const {
+    userData,
+    setUserData,
+  } = useContext(UserContext);
 
   function naviHandler() {
     navigation("/start");
@@ -132,6 +138,14 @@ const Gameroomboard = () => {
                     cardIndex: msg.cardIndex,
                   });
                 }
+                if (msg.messageType === "FARM") {
+                  setUserData({
+                    ...userData,
+                    farm_array: msg.building,
+                    farm_fence_array: msg.fence,
+                    
+                  });
+                };
               }
             );
 
