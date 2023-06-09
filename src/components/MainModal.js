@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import mainsulbi from "../asset/mainsulbi.png";
 import styles from "./MainModal.module.css";
 import { DataContext } from "../store/data-context";
@@ -12,17 +12,21 @@ function MainModal({ setIsVisible, isMain, setIsMain }) {
     setIsVisible(false);
   };
   const mainSulbi = farmData.main;
+  const [clickedIndex, setClickedIndex] = useState(null);
 
   function mainHandler(index) {
-    // updateSubCard(index);
-    const updatedMain = [...farmData.main]; // action 배열을 복사합니다.
+    setClickedIndex(index);
+    // // updateSubCard(index);
+    // const updatedMain = [...farmData.main]; // action 배열을 복사합니다.
 
-    updatedMain[index] = 0;
-    setFarmData((prevFarmData) => ({
-      ...prevFarmData,
-      main: updatedMain, // 업데이트된 action 배열을 설정합니다.
-    }));
+    // updatedMain[index] = 0;
+    // setFarmData((prevFarmData) => ({
+    //   ...prevFarmData,
+    //   main: updatedMain, // 업데이트된 action 배열을 설정합니다.
+    // }));
+  }
 
+  const sendCard = () => {
     sendingClient.current.send(
       "/main-board/card/update",
       {},
@@ -34,11 +38,12 @@ function MainModal({ setIsVisible, isMain, setIsMain }) {
         currentTurn: (farmData.currentTurn + 1) % 4,
         farmer_count: farmData.farmer_count,
         cardType: "MAIN",
-        cardIndex: index,
+        cardIndex: clickedIndex,
       })
     );
     setIsMain(false);
-  }
+    setIsVisible(false);
+  };
 
   useEffect(() => {
     myCardCheck();
@@ -81,12 +86,20 @@ function MainModal({ setIsVisible, isMain, setIsMain }) {
       <button className={styles.close} onClick={closeModal}>
         X
       </button>
+      {isMain && (
+        <button className={styles.close2} onClick={sendCard}>
+          보내기
+        </button>
+      )}
       {mainSulbi[0] &&
         (isMain ? (
           <img
             src={require("../asset/main/main1.png")}
             className={styles.main1}
             onClick={() => mainHandler(0)}
+            style={{
+              border: clickedIndex === 0 ? "4px solid red" : "0px solid black",
+            }}
           />
         ) : (
           <img
@@ -100,6 +113,9 @@ function MainModal({ setIsVisible, isMain, setIsMain }) {
             src={require("../asset/main/main2.png")}
             className={styles.main2}
             onClick={() => mainHandler(1)}
+            style={{
+              border: clickedIndex === 1 ? "4px solid red" : "0px solid black",
+            }}
           />
         ) : (
           <img
@@ -113,6 +129,9 @@ function MainModal({ setIsVisible, isMain, setIsMain }) {
             src={require("../asset/main/main3.png")}
             className={styles.main3}
             onClick={() => mainHandler(2)}
+            style={{
+              border: clickedIndex === 2 ? "4px solid red" : "0px solid black",
+            }}
           />
         ) : (
           <img
@@ -126,6 +145,9 @@ function MainModal({ setIsVisible, isMain, setIsMain }) {
             src={require("../asset/main/main4.png")}
             className={styles.main4}
             onClick={() => mainHandler(3)}
+            style={{
+              border: clickedIndex === 3 ? "4px solid red" : "0px solid black",
+            }}
           />
         ) : (
           <img
@@ -139,6 +161,9 @@ function MainModal({ setIsVisible, isMain, setIsMain }) {
             src={require("../asset/main/main5.png")}
             className={styles.main5}
             onClick={() => mainHandler(4)}
+            style={{
+              border: clickedIndex === 4 ? "4px solid red" : "0px solid black",
+            }}
           />
         ) : (
           <img
@@ -152,6 +177,9 @@ function MainModal({ setIsVisible, isMain, setIsMain }) {
             src={require("../asset/main/main6.png")}
             className={styles.main6}
             onClick={() => mainHandler(5)}
+            style={{
+              border: clickedIndex === 5 ? "4px solid red" : "0px solid black",
+            }}
           />
         ) : (
           <img
@@ -165,6 +193,9 @@ function MainModal({ setIsVisible, isMain, setIsMain }) {
             src={require("../asset/main/main7.png")}
             className={styles.main7}
             onClick={() => mainHandler(6)}
+            style={{
+              border: clickedIndex === 6 ? "4px solid red" : "0px solid black",
+            }}
           />
         ) : (
           <img
@@ -178,6 +209,9 @@ function MainModal({ setIsVisible, isMain, setIsMain }) {
             src={require("../asset/main/main8.png")}
             className={styles.main8}
             onClick={() => mainHandler(7)}
+            style={{
+              border: clickedIndex === 7 ? "4px solid red" : "0px solid black",
+            }}
           />
         ) : (
           <img
@@ -191,6 +225,9 @@ function MainModal({ setIsVisible, isMain, setIsMain }) {
             src={require("../asset/main/main9.png")}
             className={styles.main9}
             onClick={() => mainHandler(8)}
+            style={{
+              border: clickedIndex === 8 ? "4px solid red" : "0px solid black",
+            }}
           />
         ) : (
           <img
@@ -204,6 +241,9 @@ function MainModal({ setIsVisible, isMain, setIsMain }) {
             src={require("../asset/main/main10.png")}
             className={styles.main10}
             onClick={() => mainHandler(9)}
+            style={{
+              border: clickedIndex === 9 ? "4px solid red" : "0px solid black",
+            }}
           />
         ) : (
           <img

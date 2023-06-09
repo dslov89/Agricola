@@ -15,11 +15,11 @@ function Users() {
     // farmerUpdate();
   }, [farmData.currentTurn]);
 
-  useEffect(() => {
-    if (farmData.food === -1 || farmData.food === -2) {
-      userDataUpdate();
-    }
-  }, [farmData.food, farmData.messageType]);
+  // useEffect(() => {
+  //   if (farmData.food === -1 || farmData.food === -2) {
+  //     userDataUpdate();
+  //   }
+  // }, [farmData.food, farmData.messageType]);
 
   useEffect(() => {
     userDataUpdate2();

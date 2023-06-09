@@ -27,6 +27,13 @@
   font-size: 30px;
   border-radius: 30px;
 }
+.close {
+  position: absolute;
+  right: 0px;
+  top: -15px;
+  font-size: 30px;
+  border-radius: 30px;
+}
 
 .main1 {
   position: absolute;
@@ -78,4 +85,3 @@
   left: 695px;
   top: 335px;
 }
-
