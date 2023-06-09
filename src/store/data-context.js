@@ -73,6 +73,7 @@ function DataContextProvider({ children }) {
     });
   };
 
+  // 갱신
   const updateFarmData = () => {
     if (farmData.farmer_count.filter((count) => count === 0).length === 4) {
       const modifiedFarmData = farmData.action.map((item, index) => {
@@ -116,7 +117,7 @@ function DataContextProvider({ children }) {
       }));
 
       updateFarmerCount((farmData.currentTurn + 3) % 4);
-      updateFarmerCount_harvest((farmData.currentTurn + 3) % 4);
+      // updateFarmerCount_harvest((farmData.currentTurn + 3) % 4);
     }
   };
 

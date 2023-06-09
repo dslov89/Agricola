@@ -17,12 +17,12 @@ function CardBoard({ userId }) {
         {mainCardList.map((imageName, index) => (
           <img
             key={index}
-            src={require("../asset/main/main" + `${imageName}.png`)} // 이미지 파일의 경로와 파일 이름
+            src={require("../asset/main/main" + `${imageName + 1}.png`)} // 이미지 파일의 경로와 파일 이름
             className={styles.main}
           />
         ))}
       </div>
-      <div style={{ marginTop: -4 }}>
+      <div>
         {jobCardList.map((imageName, index) => (
           <img
             key={index}
