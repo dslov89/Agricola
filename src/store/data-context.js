@@ -6,7 +6,7 @@ function DataContextProvider({ children }) {
   const [farmData, setFarmData] = useState({
     messageType: "",
     roomId: 0,
-    round: 0,
+    round: 1,
     currentTurn: 5,
     farmer_count: [2, 2, 2, 2],
     turn: 0,
@@ -67,17 +67,14 @@ function DataContextProvider({ children }) {
   const updateFarmerCount_harvest = (index) => {
     setFarmData((prevFarmData) => {
       const updatedFarmerCount = [...prevFarmData.farmer_count];
-      updatedFarmerCount[index] = prevFarmData.farmer_count[index] - prevFarmData.farmer_count[index];
+      updatedFarmerCount[index] =
+        prevFarmData.farmer_count[index] - prevFarmData.farmer_count[index];
       return { ...prevFarmData, farmer_count: updatedFarmerCount };
     });
   };
 
-
-
   const updateFarmData = () => {
-    if (
-      farmData.farmer_count.filter((count) => count === 0).length === 4
-    ) {
+    if (farmData.farmer_count.filter((count) => count === 0).length === 4) {
       const modifiedFarmData = farmData.action.map((item, index) => {
         if (
           index === 0 ||
@@ -98,7 +95,6 @@ function DataContextProvider({ children }) {
         }
 
         if (index === 12) {
-
           if (item[0] === 0) {
             return [item[0], item[1] + 3];
           }

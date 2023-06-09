@@ -318,7 +318,8 @@ function ActionBoard({ data, setData }) {
         food: 0,
       };
 
-      if(userData[`user${farmData.turn}`].job.includes(9))  //직업 09. 나무꾼
+      if (userData[`user${farmData.turn}`].job.includes(9))
+        //직업 09. 나무꾼
 
         res.tree += 1;
 
@@ -433,14 +434,16 @@ function ActionBoard({ data, setData }) {
     // 내턴인지 확인
 
     if (farmData.action[6][0] === 0) {
-      if(userData[`user${farmData.turn}`].tree >= 5 && userData[`user${farmData.turn}`].reed >= 2) {
+      if (
+        userData[`user${farmData.turn}`].tree >= 5 &&
+        userData[`user${farmData.turn}`].reed >= 2
+      ) {
         updateAction(6, 6);
-      } else{
+      } else {
         alert("식량이 부족합니다");
       }
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
-
     }
   }
 
@@ -503,18 +506,17 @@ function ActionBoard({ data, setData }) {
   //=농지 버튼 클릭 시 실행할 함수
   function farmlandHandler() {
     if (farmData.action[9][0] === 0) {
-
-      if(userData[`user${farmData.turn}`].job.includes(1)) { // 직업 01. 장작 채집자)
-        const update = { ... userData};
+      if (userData[`user${farmData.turn}`].job.includes(1)) {
+        // 직업 01. 장작 채집자)
+        const update = { ...userData };
         update[`user${farmData.turn}`].tree += 1;
-        setUserData(update); // 
-
+        setUserData(update); //
       }
       updateAction(9, 9);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
-  } 
+  }
 
   //   교습2 버튼 클릭 시 실행할 함수
   function teach2Handler() {
@@ -683,7 +685,6 @@ function ActionBoard({ data, setData }) {
   //설비 클릭 시
   function facilityHandler() {
     if (farmData.action[16][0] === 0) {
-
       const res = {
         tree: 0,
         soil: 0,
@@ -701,16 +702,18 @@ function ActionBoard({ data, setData }) {
       setIsMain(true);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
-
     }
   }
 
   //울타리 클릭 시
   function fenceHandler() {
     if (farmData.action[17][0] === 0) {
-      if(userData[`user${farmData.turn}`].tree >= 4 && farmData.round <= 1) {
+      if (userData[`user${farmData.turn}`].tree >= 4 && farmData.round <= 1) {
         updateAction(17, 17);
-      } else if(userData[`user${farmData.turn}`].tree >= 1 && farmData.round >=2) {
+      } else if (
+        userData[`user${farmData.turn}`].tree >= 1 &&
+        farmData.round >= 2
+      ) {
         updateAction(17, 17);
       } else {
         alert("자원 부족");
@@ -718,21 +721,27 @@ function ActionBoard({ data, setData }) {
       alert("굳굳");
     } else {
       alert("갈 수 없습니다.");
-    };
+    }
   }
 
   //곡식 활용 클릭 시
   function roundGrainHandler() {
-
-    let plow_count = userData[`user${farmData.turn}`].farm_array.filter((item) => item === "plow").length;
-    if (plow_count>0 && (userData[`user${farmData.turn}`].grain>0 || userData[`user${farmData.turn}`].vegetable>0)) {
+    let plow_count = userData[`user${farmData.turn}`].farm_array.filter(
+      (item) => item === "plow"
+    ).length;
+    if (
+      plow_count > 0 &&
+      (userData[`user${farmData.turn}`].grain > 0 ||
+        userData[`user${farmData.turn}`].vegetable > 0)
+    ) {
       if (farmData.action[18][0] === 0) {
-        if(userData[`user${farmData.turn}`].job.includes(1)) { // 직업 01. 장작 채집자
-          const newdata = {...userData};
+        if (userData[`user${farmData.turn}`].job.includes(1)) {
+          // 직업 01. 장작 채집자
+          const newdata = { ...userData };
           newdata[`user${farmData.turn}`].tree += 1;
-          setUserData(newdata)
+          setUserData(newdata);
         }
-        updateAction(18,18);
+        updateAction(18, 18);
       } else {
         alert("갈 수 없습니다.");
       }
@@ -745,14 +754,14 @@ function ActionBoard({ data, setData }) {
   function sheepHandler() {
     // 내턴인지 확인
     if (farmData.action[19][0] === 0) {
-      const userda = { ... userData};
-      userda[`user${farmData.turn}`].sheep +=1;
-      setUserData(userda)
-      
-      updateAction(19,19);
+      const userda = { ...userData };
+      userda[`user${farmData.turn}`].sheep += 1;
+      setUserData(userda);
+
+      updateAction(19, 19);
     } else {
       alert("갈 수 없습니다");
-    };
+    }
   }
   //수확
   function harvest() {
@@ -764,12 +773,9 @@ function ActionBoard({ data, setData }) {
         userData[`user${farmData.turn}`].food >=
         userData[`user${farmData.turn}`].farmer * 2
       ) {
-
-
       }
     }
   }
-
 
   const checkOtherPlayer = (index) => {
     if (farmData.action[index][0] !== 0) {
@@ -1026,10 +1032,11 @@ function ActionBoard({ data, setData }) {
 
       {/*수확 버튼*/}
       {isTurn && (farmData.round === 6 || farmData.round === 7) && (
-        <button className="harvestBtn" onClick={harvest}>수확
+        <button className="harvestBtn" onClick={harvest}>
+          수확
         </button>
       )}
-      
+
       <div className="cardBtn1" onClick={cardBtn1Handler}></div>
       {mainModalVisible && (
         <MainModal
@@ -1051,15 +1058,17 @@ function ActionBoard({ data, setData }) {
         />
       )}
 
-
-       {farmData.round >= 1 &&
+      {farmData.round >= 1 &&
         (isTurn ? (
-          <button className="actionBtn roundBtn1" onClick={() => facilityHandler(16)}>
+          <button
+            className="actionBtn roundBtn1"
+            onClick={() => facilityHandler(16)}
+          >
             {moveOtherPlayer(16)}
             <Facility className="facilityBtn1" />
           </button>
         ) : (
-          <button className="player roundBtn1" >
+          <button className="player roundBtn1">
             {moveOtherPlayer(16)}
             <Facility className="facilityBtn1" />
           </button>
@@ -1067,25 +1076,31 @@ function ActionBoard({ data, setData }) {
 
       {farmData.round >= 2 &&
         (isTurn ? (
-          <button className="actionBtn roundBtn2" onClick={() => fenceHandler(17)}>
+          <button
+            className="actionBtn roundBtn2"
+            onClick={() => fenceHandler(17)}
+          >
             {moveOtherPlayer(17)}
             <Fence className="facilityBtn1" />
           </button>
         ) : (
-          <button className="player roundBtn2" >
+          <button className="player roundBtn2">
             {moveOtherPlayer(17)}
             <Fence className="facilityBtn1" />
           </button>
         ))}
-      
+
       {farmData.round >= 3 &&
         (isTurn ? (
-          <button className="actionBtn roundBtn3" onClick={() => roundGrainHandler(18)}>
+          <button
+            className="actionBtn roundBtn3"
+            onClick={() => roundGrainHandler(18)}
+          >
             {moveOtherPlayer(18)}
             <Grain className="facilityBtn1" />
           </button>
         ) : (
-          <button className="player roundBtn3" >
+          <button className="player roundBtn3">
             {moveOtherPlayer(18)}
             <Grain className="facilityBtn1" />
           </button>
@@ -1093,19 +1108,19 @@ function ActionBoard({ data, setData }) {
 
       {farmData.round >= 4 &&
         (isTurn ? (
-          <button className="actionBtn roundBtn4" onClick={() => sheepHandler(19)}>
+          <button
+            className="actionBtn roundBtn4"
+            onClick={() => sheepHandler(19)}
+          >
             {moveOtherPlayer(19)}
             <Sheep className="facilityBtn1" />
           </button>
         ) : (
-          <button className="player roundBtn4" >
+          <button className="player roundBtn4">
             {moveOtherPlayer(19)}
             <Sheep className="facilityBtn1" />
           </button>
-        ))} 
-      
-
-
+        ))}
     </div>
   );
 }
