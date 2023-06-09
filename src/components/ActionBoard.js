@@ -965,7 +965,11 @@ function ActionBoard({ data, setData }) {
         />
       )}
       {farmData.round >= 2 && farmData.round < 6 && (
-        <Facility className="facilityBtn" onClick={facilityHandler(16)} />
+        <div className="actionBtn roundBtn1" onClick={() => facilityHandler(16)}>
+        {moveOtherPlayer(16)}
+
+        <Facility className="facilityBtn" />
+        </div>
       )}
       {farmData.round > 5 &&
         (
@@ -973,21 +977,24 @@ function ActionBoard({ data, setData }) {
       )}
       {/* <Facility className="facilityBtn" /> */}
       {farmData.round >= 3 && farmData.round < 6 && (
-        <Fence className="facilityBtn2" onClick={fenceHandler(17)} />
+        <div className="actionBtn roundBtn2" onClick={() => fenceHandler(17)}>
+          {moveOtherPlayer(17)}
+          <Fence className="facilityBtn2" />
+        </div>
       )}
       {farmData.round>5 &&
       (
           <Fence className="facility2"/>
       )}
       {farmData.round >= 4 && farmData.round < 6 && (
-        <Grain className="facilityBtn3" onClick={roundGrainHandler(18)} />
+        <Grain className="facilityBtn3" onClick={roundGrainHandler} />
       )}
       {farmData.round > 5 &&
         (
           <Grain className="facility3"/>
       )}
       {farmData.round >= 5 && farmData.round < 6 && (
-        <Sheep className="facilityBtn4" onClick={sheepHandler(19)} />
+        <Sheep className="facilityBtn4" onClick={sheepHandler} />
       )}
       {farmData.round>5&&(
           <Sheep className="facility4"/>
