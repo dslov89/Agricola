@@ -74,6 +74,27 @@
   width: 130px;
 }
 
+.roundBtn1 {
+  left: 430px;
+  top: 11px;
+  height: 5px;
+}
+.roundBtn2 {
+  left: 592px;
+  top: 11px;
+  height: 5px;
+}
+.roundBtn3 {
+  left: 699px;
+  top: 11px;
+  height: 5px;
+}
+.roundBtn4 {
+  left: 819px;
+  top: 11px;
+  height: 5px;
+}
+
 .forest {
   top: 220px;
 }
@@ -104,6 +125,30 @@
   left: 332px;
 }
 
+.facility1{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+.facility2{
+  position: absolute;
+  top: 5px;
+  left: 0px;
+}
+
+.facility3{
+  position: absolute;
+  top: 5px;
+  left: 0px;
+}
+
+.facility4{
+  position: absolute;
+  top: 5px;
+  left: 0px;
+}
+
 .facilityBtn {
   position: absolute;
   top: 5px;
@@ -127,4 +172,11 @@
   top: 5px;
   left: 930px;
   cursor: pointer; /* 기본 커서를 포인터로 설정 */
+}
+
+.harvestBtn{
+  position: absolute;
+  top: -75px;
+  left: 500px;
+  cursor: pointer; /*기본 커서를 포인터로 설정 */
 }

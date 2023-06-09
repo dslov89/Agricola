@@ -255,3 +255,12 @@
   border: none;
   cursor: pointer;
 }
+
+.nobread {
+  background-color: red;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer
+}
