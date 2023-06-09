@@ -3,9 +3,11 @@ import mainsulbi from "../asset/mainsulbi.png";
 import styles from "./MainModal.module.css";
 import { DataContext } from "../store/data-context";
 import { sendingClient } from "./GameRoomBoard";
+import { UserContext } from "../store/user-context";
 
 function MainModal({ setIsVisible, isMain, setIsMain }) {
   const { farmData, setFarmData } = useContext(DataContext);
+  const { userData, setUserData } = useContext(UserContext);
   const closeModal = () => {
     setIsVisible(false);
   };
@@ -36,6 +38,39 @@ function MainModal({ setIsVisible, isMain, setIsMain }) {
       })
     );
     setIsMain(false);
+  }
+
+  useEffect(() => {
+    myCardCheck();
+  }, [farmData.currentTurn]);
+
+  function myCardCheck() {
+    setFarmData((prevFarmData) => {
+      // 원래 배열 - 초기화된
+      const notUpdatedMainCards = [...prevFarmData.main];
+      // 내가 가진 카드
+      const main1 = userData.user1.job;
+      const main2 = userData.user2.job;
+      const main3 = userData.user3.job;
+      const main4 = userData.user4.job;
+
+      const updatedMainCards = notUpdatedMainCards.map((innerArray) => {
+        if (
+          main1.includes(innerArray[0]) ||
+          main2.includes(innerArray[0]) ||
+          main3.includes(innerArray[0]) ||
+          main4.includes(innerArray[0])
+        ) {
+          innerArray[1] = 0;
+        }
+        return innerArray;
+      });
+
+      return {
+        ...prevFarmData,
+        main: updatedMainCards,
+      };
+    });
   }
 
   return (

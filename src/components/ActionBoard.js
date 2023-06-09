@@ -445,7 +445,8 @@ function ActionBoard({ data, setData }) {
         food: 0,
       };
 
-      defaultActHandler(res, 7);
+      notTurnHandler(res, 7);
+      setIsSub(true);
       //보조 설비 카드 창 활성화
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");

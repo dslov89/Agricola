@@ -30,7 +30,6 @@ function SubModal({
   };
 
   useEffect(() => {
-    console.log(farmData.jobCards);
     myCardCheck();
   }, [farmData.currentTurn]);
 
@@ -41,8 +40,6 @@ function SubModal({
       // 내가 가진 카드
       const myjob = userData[`user${farmData.turn}`].job;
 
-      console.log(myjob);
-
       const updatedJobCards = notUpdatedJobCards.map((innerArray) => {
         if (myjob.includes(innerArray[0])) {
           innerArray[1] = 0;
@@ -50,9 +47,24 @@ function SubModal({
         return innerArray;
       });
 
-      console.log(updatedJobCards);
+      const notUpdatedSubCards = [...prevFarmData.subCards];
+      // 내가 가진 카드
+      const mysub = userData[`user${farmData.turn}`].sub;
 
-      return { ...prevFarmData, jobCards: updatedJobCards };
+      console.log(mysub);
+
+      const updatedSubCards = notUpdatedSubCards.map((innerArray) => {
+        if (mysub.includes(innerArray[0])) {
+          innerArray[1] = 0;
+        }
+        return innerArray;
+      });
+
+      return {
+        ...prevFarmData,
+        jobCards: updatedJobCards,
+        subCards: updatedSubCards,
+      };
     });
   }
 
