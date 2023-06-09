@@ -75,24 +75,24 @@
 }
 
 .roundBtn1 {
-  left: 457px;
+  left: 430px;
   top: 11px;
-  height: 130px;
+  height: 5px;
 }
 .roundBtn2 {
-  left: 579px;
+  left: 592px;
   top: 11px;
-  height: 130px;
+  height: 5px;
 }
 .roundBtn3 {
   left: 699px;
   top: 11px;
-  height: 130px;
+  height: 5px;
 }
 .roundBtn4 {
   left: 819px;
   top: 11px;
-  height: 130px;
+  height: 5px;
 }
 
 .forest {
@@ -127,26 +127,26 @@
 
 .facility1{
   position: absolute;
-  top: 5px;
-  left: 440px;
+  top: 0px;
+  left: 0px;
 }
 
 .facility2{
   position: absolute;
   top: 5px;
-  left: 605px;
+  left: 0px;
 }
 
 .facility3{
   position: absolute;
   top: 5px;
-  left: 765px;
+  left: 0px;
 }
 
 .facility4{
   position: absolute;
   top: 5px;
-  left: 930px;
+  left: 0px;
 }
 
 .facilityBtn {

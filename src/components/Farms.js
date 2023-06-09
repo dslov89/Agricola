@@ -48,7 +48,6 @@ function Farms({ data, setData }) {
       farmData.currentTurn === farmData.turn % 4 &&
       farmData.farmer_count[(farmData.turn - 1) % 4] != 0
     ) {
-      updateFarmerCount((farmData.turn - 1) % 4);
       updateFarmData();
       setIsTurn(true);
     } else {
@@ -515,14 +514,12 @@ function Farms({ data, setData }) {
         farmdefaulthandelr(res, 19);
     }
 
-    // 울타리
+    // 울타리 짓기 로직
     if (
       farmData.action[17][0] === farmData.currentTurn &&
       farmData.action[17][1] === 17
     ) {
       setIsGameFinished(true); // 새로운 종료 버튼을 활성화
-
-      
       if (userData[`user${farmData.turn}`].fence > 0) {
         if (
           userData[`user${farmData.turn}`].farm_array[index] === "empty" ||
