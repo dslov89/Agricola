@@ -71,8 +71,8 @@ const Gameroomboard = () => {
 
             setFarmData({
               ...farmData,
-              jobCards: initMsg.jobCards,
-              subCards: initMsg.subCards,
+              jobCards: initMsg.jobCards.map((item) => [item, 1]),
+              subCards: initMsg.subCards.map((item) => [item, 1]),
               turn: initMsg.turn,
             });
 
@@ -86,19 +86,20 @@ const Gameroomboard = () => {
               (message) => {
                 console.log(message.body + "여기야 여기");
                 const msg = JSON.parse(message.body);
-                setFarmData({
-                  ...farmData,
-                  round: msg.round,
-                  roomId: msg.roomId,
-                  messageType: msg.messageType,
-                  // action: msg.action,
-                  currentTurn: msg.currentTurn,
-                  farmer_count: msg.farmer_count,
-                  jobCards: initMsg.jobCards,
-                  subCards: initMsg.subCards,
-                  turn: initMsg.turn,
-                });
-                if (msg.messageType === "RESOURCE") {
+                if (msg.messageType === "INIT") {
+                  setFarmData({
+                    ...farmData,
+                    round: msg.round,
+                    roomId: msg.roomId,
+                    messageType: msg.messageType,
+                    // action: msg.action,
+                    currentTurn: msg.currentTurn,
+                    farmer_count: msg.farmer_count,
+                    jobCards: initMsg.jobCards.map((item) => [item, 1]),
+                    subCards: initMsg.subCards.map((item) => [item, 1]),
+                    turn: initMsg.turn,
+                  });
+                } else if (msg.messageType === "RESOURCE") {
                   setFarmData({
                     ...farmData,
                     round: msg.round,
@@ -107,8 +108,8 @@ const Gameroomboard = () => {
                     action: msg.action,
                     currentTurn: msg.currentTurn,
                     farmer_count: msg.farmer_count,
-                    jobCards: initMsg.jobCards,
-                    subCards: initMsg.subCards,
+                    jobCards: initMsg.jobCards.map((item) => [item, 1]),
+                    subCards: initMsg.subCards.map((item) => [item, 1]),
                     turn: initMsg.turn,
                     tree: msg.tree,
                     soil: msg.soil,
@@ -120,6 +121,21 @@ const Gameroomboard = () => {
                     grain: msg.grain,
                     vegetable: msg.vegetable,
                     food: msg.food,
+                  });
+                } else if (msg.messageType === "CARD") {
+                  setFarmData({
+                    ...farmData,
+                    round: msg.round,
+                    roomId: msg.roomId,
+                    messageType: msg.messageType,
+                    action: msg.action,
+                    currentTurn: msg.currentTurn,
+                    farmer_count: msg.farmer_count,
+                    jobCards: initMsg.jobCards.map((item) => [item, 1]),
+                    subCards: initMsg.subCards.map((item) => [item, 1]),
+                    turn: initMsg.turn,
+                    cardType: msg.cardType,
+                    cardIndex: msg.cardIndex,
                   });
                 }
                 if (msg.messageType === "FARM") {
