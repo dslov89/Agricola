@@ -316,76 +316,109 @@ const App = () => {
 
       {farmData.turn === 2 && (
         <>
-          <UserFarm2 username="User 2" className="2" />
-          <CardBoard userId="1" />
-          <UserFarm
-            username="User 1"
-            className="1"
-            fenceArray={user1FenceArray}
-            farmArray={user1Farm}
-          />
-          <UserFarm
-            username="User 3"
-            className="3"
-            fenceArray={user3FenceArray}
-            farmArray={user3Farm}
-          />
-          <UserFarm
-            username="User 4"
-            className="4"
-            fenceArray={user4FenceArray}
-            farmArray={user4Farm}
-          />
+          <div style={{ flexDirection: "row", display: "flex" }}>
+            <UserFarm2 username="User 2" className="2" />
+            <CardBoard userId="2" />
+          </div>
+          <div style={{ flexDirection: "row", display: "flex" }}>
+            <UserFarm
+              username="User 1"
+              className="1"
+              fenceArray={user1FenceArray}
+              farmArray={user1Farm}
+            />
+            <CardBoard userId="1" />
+          </div>
+          <div style={{ flexDirection: "row", display: "flex" }}>
+            <UserFarm
+              username="User 3"
+              className="3"
+              fenceArray={user3FenceArray}
+              farmArray={user3Farm}
+            />
+            <CardBoard userId="3" />
+          </div>
+          <div style={{ flexDirection: "row", display: "flex" }}>
+            <UserFarm
+              username="User 4"
+              className="4"
+              fenceArray={user4FenceArray}
+              farmArray={user4Farm}
+            />
+            <CardBoard userId="4" />
+          </div>
         </>
       )}
 
       {farmData.turn === 3 && (
         <>
-          <UserFarm2 username="User 3" className="3" />
-          <CardBoard userId="1" />
-          <UserFarm
-            username="User 1"
-            className="1"
-            fenceArray={user1FenceArray}
-            farmArray={user1Farm}
-          />
-          <UserFarm
-            username="User 2"
-            className="2"
-            fenceArray={user2FenceArray}
-            farmArray={user2Farm}
-          />
-          <UserFarm
-            username="User 4"
-            className="4"
-            fenceArray={user4FenceArray}
-            farmArray={user4Farm}
-          />
+          <div style={{ flexDirection: "row", display: "flex" }}>
+            <UserFarm2 username="User 3" className="3" />
+            <CardBoard userId="3" />
+          </div>
+          <div style={{ flexDirection: "row", display: "flex" }}>
+            <UserFarm
+              username="User 1"
+              className="1"
+              fenceArray={user1FenceArray}
+              farmArray={user1Farm}
+            />
+            <CardBoard userId="1" />
+          </div>
+          <div style={{ flexDirection: "row", display: "flex" }}>
+            <UserFarm
+              username="User 2"
+              className="2"
+              fenceArray={user2FenceArray}
+              farmArray={user2Farm}
+            />
+            <CardBoard userId="2" />
+          </div>
+          <div style={{ flexDirection: "row", display: "flex" }}>
+            <UserFarm
+              username="User 4"
+              className="4"
+              fenceArray={user4FenceArray}
+              farmArray={user4Farm}
+            />
+            <CardBoard userId="4" />
+          </div>
         </>
       )}
 
       {farmData.turn === 4 && (
         <>
-          <UserFarm2 username="User 4" className="4" />
-          <CardBoard userId="1" />
-          <UserFarm
-            username="User 1"
-            className="1"
-            fenceArray={user1FenceArray}
-            farmArray={user1Farm}
-          />
-          <UserFarm
-            username="User 2"
-            className="2"
-            fenceArray={user2FenceArray}
-            farmArray={user2Farm}
-          />
-          <UserFarm
-            username="User 3"
-            className="3"
-            fenceArray={user3FenceArray}
-            farmArray={user3Farm}
-          />
+          <div style={{ flexDirection: "row", display: "flex" }}>
+            <UserFarm2 username="User 4" className="4" />
+            <CardBoard userId="4" />
+          </div>
+          <div style={{ flexDirection: "row", display: "flex" }}>
+            <UserFarm
+              username="User 1"
+              className="1"
+              fenceArray={user1FenceArray}
+              farmArray={user1Farm}
+            />
+            <CardBoard userId="1" />
+          </div>
+          <div style={{ flexDirection: "row", display: "flex" }}>
+            <UserFarm
+              username="User 2"
+              className="2"
+              fenceArray={user2FenceArray}
+              farmArray={user2Farm}
+            />
+            <CardBoard userId="2" />
+          </div>
+          <div style={{ flexDirection: "row", display: "flex" }}>
+            <UserFarm
+              username="User 3"
+              className="3"
+              fenceArray={user3FenceArray}
+              farmArray={user3Farm}
+            />
+            <CardBoard userId="3" />
+          </div>
         </>
       )}
     </div>
