@@ -28,6 +28,14 @@
   border-radius: 30px;
 }
 
+.close2 {
+  position: absolute;
+  right: -130px;
+  top: -15px;
+  font-size: 30px;
+  border-radius: 30px;
+}
+
 .sub1 {
   position: absolute;
   left: 10px;

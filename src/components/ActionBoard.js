@@ -1043,6 +1043,7 @@ function ActionBoard({ data, setData }) {
           setIsVisible={setMainModalVisible}
           isMain={isMain}
           setIsMain={setIsMain}
+          setIsSub={setIsSub}
         />
       )}
       <div className="cardBtn2" onClick={cardBtn2Handler}></div>
@@ -1054,6 +1055,7 @@ function ActionBoard({ data, setData }) {
           isJob={isJob}
           isSub={isSub}
           setIsJob={setIsJob}
+          setIsMain={setIsMain}
           setIsSub={setIsSub}
         />
       )}

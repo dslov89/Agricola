@@ -5,7 +5,7 @@ import { DataContext } from "../store/data-context";
 import { sendingClient } from "./GameRoomBoard";
 import { UserContext } from "../store/user-context";
 
-function MainModal({ setIsVisible, isMain, setIsMain }) {
+function MainModal({ setIsVisible, isMain, setIsMain, setIsSub }) {
   const { farmData, setFarmData } = useContext(DataContext);
   const { userData, setUserData } = useContext(UserContext);
   const closeModal = () => {
@@ -42,6 +42,7 @@ function MainModal({ setIsVisible, isMain, setIsMain }) {
       })
     );
     setIsMain(false);
+    setIsSub(false);
     setIsVisible(false);
   };
 
@@ -86,11 +87,7 @@ function MainModal({ setIsVisible, isMain, setIsMain }) {
       <button className={styles.close} onClick={closeModal}>
         X
       </button>
-      {isMain && (
-        <button className={styles.close2} onClick={sendCard}>
-          보내기
-        </button>
-      )}
+      {isMain && <button onClick={sendCard}>보내기</button>}
       {mainSulbi[0] &&
         (isMain ? (
           <img
