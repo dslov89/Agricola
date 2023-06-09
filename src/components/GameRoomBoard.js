@@ -116,7 +116,6 @@ const Gameroomboard = () => {
                     grain: msg.grain,
                     vegetable: msg.vegetable,
                     food: msg.food,
-                    alway: [0, 0],
                   });
                 } else if (msg.messageType === "CARD") {
                   setFarmData({

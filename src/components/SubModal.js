@@ -2,6 +2,7 @@ import styles from "./SubModal.module.css";
 import { nameValue, sendingClient } from "../screen/Start";
 import { useContext, useEffect } from "react";
 import { DataContext } from "../store/data-context";
+import { UserContext } from "../store/user-context";
 
 function SubModal({
   setIsVisible,
@@ -22,17 +23,43 @@ function SubModal({
     updateJobCard,
   } = useContext(DataContext);
 
+  const { userData, setUserData } = useContext(UserContext);
+
   const closeModal = () => {
     setIsVisible(false);
   };
 
   useEffect(() => {
     console.log(farmData.jobCards);
+    myCardCheck();
   }, [farmData.currentTurn]);
+
+  function myCardCheck() {
+    setFarmData((prevFarmData) => {
+      // 원래 배열 - 초기화된
+      const notUpdatedJobCards = [...prevFarmData.jobCards];
+      // 내가 가진 카드
+      const myjob = userData[`user${farmData.turn}`].job;
+
+      console.log(myjob);
+
+      const updatedJobCards = notUpdatedJobCards.map((innerArray) => {
+        if (myjob.includes(innerArray[0])) {
+          innerArray[1] = 0;
+        }
+        return innerArray;
+      });
+
+      console.log(updatedJobCards);
+
+      return { ...prevFarmData, jobCards: updatedJobCards };
+    });
+  }
 
   function jobCardHandler(index, cardId) {
     updateJobCard(index);
     console.log(farmData.jobCards);
+    setIsVisible(false);
     sendingClient.current.send(
       "/main-board/card/update",
       {},
@@ -53,6 +80,7 @@ function SubModal({
   function subCardHandler(index, cardId) {
     updateSubCard(index);
     console.log(farmData.subCards);
+    setIsVisible(false);
     sendingClient.current.send(
       "/main-board/card/update",
       {},

@@ -52,7 +52,7 @@ function DataContextProvider({ children }) {
 
     jobCards: [[]],
     subCards: [[]],
-    main: [],
+    main: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   });
 
   const updateFarmerCount = (index) => {

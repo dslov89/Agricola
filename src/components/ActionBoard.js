@@ -26,7 +26,7 @@ function ActionBoard({ data, setData }) {
   const [isTurn, setIsTurn] = useState(false);
   const [mainModalVisible, setMainModalVisible] = useState(false);
   const [subModalVisible, setSubModalVisible] = useState(false);
-  const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
+  // const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
 
   const {
     farmData,
@@ -38,6 +38,7 @@ function ActionBoard({ data, setData }) {
   const { userData, setUserData } = useContext(UserContext);
   const [isSub, setIsSub] = useState(false);
   const [isJob, setIsJob] = useState(false);
+  const [isMain, setIsMain] = useState(false);
 
   // 현재 자신의 턴인지
   useEffect(() => {
@@ -56,141 +57,40 @@ function ActionBoard({ data, setData }) {
       updateFarmerCount((farmData.turn - 1) % 4);
     } else {
     }
-    // cardAddHandler();
   }, [farmData.currentTurn]);
 
   useEffect(() => {
     updateFarmData();
   }, [farmData.action]);
 
-  useEffect(() => {
-    if (farmData.currentTurn - 1 === farmData.turn % 4) {
-      if (farmData.cardType === "JOB") {
-        setFarmData((prevFarmData) => {
-          const updatedJobCards = prevFarmData.jobCards.map((jobCard) => {
-            if (jobCard[0] === farmData.cardIndex) {
-              return [farmData.cardIndex, 0];
-            }
-            return jobCard;
-          });
-          return { ...prevFarmData, jobCards: updatedJobCards };
-        });
-      }
-    }
-  }, [farmData.cardIndex]);
-
-  // function cardAddHandler() {
-  //   if (farmData.messageType === "CARD") {
-  //     // if(farmData.currentTurn===(farmData.turn+1)%4){
-  //     // }
-  //     // 카드면 현재턴의 어딘가에 저장하기
-  //     if (farmData.currentTurn === 1) {
-  //       if (farmData.cardType === "MAIN") {
-  //         setUserData((prevUserData) => ({
-  //           ...prevUserData,
-  //           user4: {
-  //             ...prevUserData.user4,
-  //             main: [...prevUserData.user4.main, farmData.cardIndex],
-  //           },
-  //         }));
-  //       } else if (farmData.cardType === "JOB") {
-  //         setUserData((prevUserData) => ({
-  //           ...prevUserData,
-  //           user4: {
-  //             ...prevUserData.user4,
-  //             job: [...prevUserData.user4.job, farmData.cardIndex],
-  //           },
-  //         }));
-  //       } else {
-  //         setUserData((prevUserData) => ({
-  //           ...prevUserData,
-  //           user4: {
-  //             ...prevUserData.user4,
-  //             sub: [...prevUserData.user4.sub, farmData.cardIndex],
-  //           },
-  //         }));
-  //       }
-  //     } else if (farmData.currentTurn === 2) {
-  //       if (farmData.cardType === "MAIN") {
-  //         setUserData((prevUserData) => ({
-  //           ...prevUserData,
-  //           user1: {
-  //             ...prevUserData.user1,
-  //             main: [...prevUserData.user1.main, farmData.cardIndex],
-  //           },
-  //         }));
-  //       } else if (farmData.cardType === "JOB") {
-  //         setUserData((prevUserData) => ({
-  //           ...prevUserData,
-  //           user1: {
-  //             ...prevUserData.user1,
-  //             job: [...prevUserData.user1.job, farmData.cardIndex],
-  //           },
-  //         }));
-  //       } else {
-  //         setUserData((prevUserData) => ({
-  //           ...prevUserData,
-  //           user1: {
-  //             ...prevUserData.user1,
-  //             sub: [...prevUserData.user1.sub, farmData.cardIndex],
-  //           },
-  //         }));
-  //       }
-  //     } else if (farmData.currentTurn === 3) {
-  //       if (farmData.cardType === "MAIN") {
-  //         setUserData((prevUserData) => ({
-  //           ...prevUserData,
-  //           user2: {
-  //             ...prevUserData.user2,
-  //             main: [...prevUserData.user2.main, farmData.cardIndex],
-  //           },
-  //         }));
-  //       } else if (farmData.cardType === "JOB") {
-  //         setUserData((prevUserData) => ({
-  //           ...prevUserData,
-  //           user2: {
-  //             ...prevUserData.user2,
-  //             job: [...prevUserData.user2.job, farmData.cardIndex],
-  //           },
-  //         }));
-  //       } else {
-  //         setUserData((prevUserData) => ({
-  //           ...prevUserData,
-  //           user2: {
-  //             ...prevUserData.user2,
-  //             sub: [...prevUserData.user2.sub, farmData.cardIndex],
-  //           },
-  //         }));
-  //       }
-  //     } else {
-  //       if (farmData.cardType === "MAIN") {
-  //         setUserData((prevUserData) => ({
-  //           ...prevUserData,
-  //           user3: {
-  //             ...prevUserData.user3,
-  //             main: [...prevUserData.user3.main, farmData.cardIndex],
-  //           },
-  //         }));
-  //       } else if (farmData.cardType === "JOB") {
-  //         setUserData((prevUserData) => ({
-  //           ...prevUserData,
-  //           user3: {
-  //             ...prevUserData.user3,
-  //             job: [...prevUserData.user3.job, farmData.cardIndex],
-  //           },
-  //         }));
-  //       } else {
-  //         setUserData((prevUserData) => ({
-  //           ...prevUserData,
-  //           user3: {
-  //             ...prevUserData.user3,
-  //             sub: [...prevUserData.user3.sub, farmData.cardIndex],
-  //           },
-  //         }));
-  //       }
+  // useEffect(() => {
+  //   if (farmData.currentTurn - 1 === farmData.turn % 4) {
+  //     if (farmData.cardType === "JOB") {
+  //       setFarmData((prevFarmData) => {
+  //         const updatedJobCards = prevFarmData.jobCards.map((jobCard) => {
+  //           if (jobCard[0] === farmData.cardIndex) {
+  //             return [farmData.cardIndex, 0];
+  //           }
+  //           return jobCard;
+  //         });
+  //         return { ...prevFarmData, jobCards: updatedJobCards };
+  //       });
   //     }
   //   }
-  // }
+  // }, [farmData.cardIndex]);
+
+  useEffect(() => {
+    if (farmData.cardType === "MAIN") {
+      const updatedAction = [...farmData.main];
+
+      updatedAction[farmData.cardIndex] = 0;
+
+      setFarmData((prevFarmData) => ({
+        ...prevFarmData,
+        main: updatedAction,
+      }));
+    }
+  }, [farmData.currentTurn]);
 
   // index는 액션버튼 순서 0부터
   const defaultActHandler = async (res, index) => {
@@ -624,7 +524,27 @@ function ActionBoard({ data, setData }) {
   }
 
   //설비 클릭 시
-  function facilityHandler() {}
+  function facilityHandler() {
+    if (farmData.action[16][0] === 0) {
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: 0,
+      };
+      notTurnHandler(res, 16);
+      setIsSub(true);
+      setIsMain(true);
+    } else {
+      alert("이미 다른 플레이어가 선택한 버튼입니다.");
+    }
+  }
 
   //울타리 클릭 시
   function fenceHandler() {
@@ -857,7 +777,11 @@ function ActionBoard({ data, setData }) {
 
       <div className="cardBtn1" onClick={cardBtn1Handler}></div>
       {mainModalVisible && (
-        <MainModal setIsVisible={setMainModalVisible} mainSulbi={mainSulbi} />
+        <MainModal
+          setIsVisible={setMainModalVisible}
+          isMain={isMain}
+          setIsMain={setIsMain}
+        />
       )}
       <div className="cardBtn2" onClick={cardBtn2Handler}></div>
       {subModalVisible && (
@@ -871,9 +795,13 @@ function ActionBoard({ data, setData }) {
           setIsSub={setIsSub}
         />
       )}
-      {farmData.round >= 2 && (
-        <Facility className="facilityBtn" onClick={facilityHandler} />
-      )}
+      {farmData.round >= 2 &&
+        (isTurn ? (
+          <Facility className="facilityBtn" onClick={facilityHandler} />
+        ) : (
+          <Facility className="facilityBtn" />
+        ))}
+
       {/* <Facility className="facilityBtn" /> */}
       {farmData.round >= 3 && (
         <Fence className="facilityBtn2" onClick={roundGrainHandler} />
