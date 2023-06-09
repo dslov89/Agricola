@@ -876,62 +876,77 @@ function Farms({ data, setData }) {
       const fenceButtonElement2 = document.querySelector("#fenceButton2");
       const fenceButtonElement3 = document.querySelector("#fenceButton3");
       const fenceButtonElement4 = document.querySelector("#fenceButton4");
-      fenceButtonElement1.addEventListener("click", function () {
-        setData((prevData) => {
-          if (prevData.tree - 1 >= 0) {
-            fenceButtonElement1.style.backgroundColor = "red";
-            fenceButtonElement1.style.cursor = "pointer";
-            const updatedTree = prevData.tree - 1;
-            const newData = { ...prevData, tree: updatedTree }; // newData로 업데이트된 상태 생성
-            return newData; // newData 반환
-          } else {
-            alert("지을 수 없습니다.");
-            return prevData;
-          }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const fenceButtonElement1 = document.querySelector("#fenceButton1");
+        fenceButtonElement1.addEventListener("click", function () {
+          setData((prevData) => {
+            if (prevData.tree - 1 >= 0) {
+              fenceButtonElement1.style.backgroundColor = "red";
+              fenceButtonElement1.style.cursor = "pointer";
+              const updatedTree = prevData.tree - 1;
+              const newData = { ...prevData, tree: updatedTree }; // newData로 업데이트된 상태 생성
+              return newData; // newData 반환
+            } else {
+              alert("지을 수 없습니다.");
+              return prevData;
+            }
+          });
         });
       });
-      fenceButtonElement2.addEventListener("click", function () {
-        setData((prevData) => {
-          if (prevData.tree - 1 >= 0) {
-            fenceButtonElement2.style.backgroundColor = "red";
-            fenceButtonElement2.style.cursor = "pointer";
-            const updatedTree = prevData.tree - 1;
-            const newData = { ...prevData, tree: updatedTree }; // newData로 업데이트된 상태 생성
-            return newData; // newData 반환
-          } else {
-            alert("지을 수 없습니다.");
-            return prevData;
-          }
+      document.addEventListener("DOMContentLoaded", function () {
+        const fenceButtonElement2 = document.querySelector("#fenceButton1");
+        fenceButtonElement2.addEventListener("click", function () {
+          setData((prevData) => {
+            if (prevData.tree - 1 >= 0) {
+              fenceButtonElement2.style.backgroundColor = "red";
+              fenceButtonElement2.style.cursor = "pointer";
+              const updatedTree = prevData.tree - 1;
+              const newData = { ...prevData, tree: updatedTree }; // newData로 업데이트된 상태 생성
+              return newData; // newData 반환
+            } else {
+              alert("지을 수 없습니다.");
+              return prevData;
+            }
+          });
         });
       });
-      fenceButtonElement3.addEventListener("click", function () {
-        setData((prevData) => {
-          if (prevData.tree - 1 >= 0) {
-            fenceButtonElement3.style.backgroundColor = "red";
-            fenceButtonElement3.style.cursor = "pointer";
-            const updatedTree = prevData.tree - 1;
-            const newData = { ...prevData, tree: updatedTree }; // newData로 업데이트된 상태 생성
-            return newData; // newData 반환
-          } else {
-            alert("지을 수 없습니다.");
-            return prevData;
-          }
+      document.addEventListener("DOMContentLoaded", function () {
+        const fenceButtonElement3 = document.querySelector("#fenceButton1");
+        fenceButtonElement3.addEventListener("click", function () {
+          setData((prevData) => {
+            if (prevData.tree - 1 >= 0) {
+              fenceButtonElement3.style.backgroundColor = "red";
+              fenceButtonElement3.style.cursor = "pointer";
+              const updatedTree = prevData.tree - 1;
+              const newData = { ...prevData, tree: updatedTree }; // newData로 업데이트된 상태 생성
+              return newData; // newData 반환
+            } else {
+              alert("지을 수 없습니다.");
+              return prevData;
+            }
+          });
         });
       });
-      fenceButtonElement4.addEventListener("click", function () {
-        setData((prevData) => {
-          if (prevData.tree - 1 >= 0) {
-            fenceButtonElement4.style.backgroundColor = "red";
-            fenceButtonElement4.style.cursor = "pointer";
-            const updatedTree = prevData.tree - 1;
-            const newData = { ...prevData, tree: updatedTree }; // newData로 업데이트된 상태 생성
-            return newData; // newData 반환
-          } else {
-            alert("지을 수 없습니다.");
-            return prevData;
-          }
+      document.addEventListener("DOMContentLoaded", function () {
+        const fenceButtonElement4 = document.querySelector("#fenceButton1");
+        fenceButtonElement4.addEventListener("click", function () {
+          setData((prevData) => {
+            if (prevData.tree - 1 >= 0) {
+              fenceButtonElement4.style.backgroundColor = "red";
+              fenceButtonElement4.style.cursor = "pointer";
+              const updatedTree = prevData.tree - 1;
+              const newData = { ...prevData, tree: updatedTree }; // newData로 업데이트된 상태 생성
+              return newData; // newData 반환
+            } else {
+              alert("지을 수 없습니다.");
+              return prevData;
+            }
+          });
         });
       });
+      
+      
     }
     //곡식활용
     if(farmData.action[19][0] === farmData.currentTurn && farmData.action[19][1] === 19) {
@@ -946,7 +961,6 @@ function Farms({ data, setData }) {
     if(farmData.action[19][0] === farmData.currentTurn && farmData.action[19][1] === 29) {
       //이분이 grain이나 vegetable이 있는 경우 음식으로 바꿔주는 로직
       //const res를 한다.
-      alert("hello");
 
     }
 

@@ -34,12 +34,8 @@ function DataContextProvider({ children }) {
       [0, 0],
       [0, 0],
       [0, 1],
-      
+
       [0, 0],
-      [0, 0],
-      [0, 0],
-      [0, 0],
-      
     ],
 
     tree: 0,
@@ -79,12 +75,7 @@ function DataContextProvider({ children }) {
 
 
   const updateFarmData = () => {
-    // if (
-    //   farmData.farmer_count.filter((count) => count === 1).length === 1 &&
-    //   farmData.farmer_count.filter((count) => count === 0).length === 3
-    // ) {
     if (
-      // farmData.farmer_count.filter((count) => count === 1).length === 1 &&
       farmData.farmer_count.filter((count) => count === 0).length === 4
     ) {
       const modifiedFarmData = farmData.action.map((item, index) => {
@@ -141,6 +132,18 @@ function DataContextProvider({ children }) {
     }));
   };
 
+  const updateAlways = async (id) => { 
+    const updatedAlways = [...farmData.action];
+    updatedAlways[20][1] = id;
+    updatedAlways[20][0] += 1; // 배열 변경함
+    console.log("업뎃하니까 갱신해주세요");
+    await setFarmData((prevFarmData) => ({
+      ...prevFarmData,
+      action: updatedAlways, 
+    }));
+    
+  };
+
   const values = {
     farmData,
     setFarmData,
@@ -148,6 +151,7 @@ function DataContextProvider({ children }) {
     updateFarmerCount_harvest,
     updateFarmData,
     updateAction,
+    updateAlways,
   };
 
   return <DataContext.Provider value={values}>{children}</DataContext.Provider>;
