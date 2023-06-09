@@ -61,6 +61,7 @@ function ActionBoard({ data, setData }) {
   const [isSub, setIsSub] = useState(false);
   const [isJob, setIsJob] = useState(false);
   const [isMain, setIsMain] = useState(false);
+  const [isBake, setIsBake] = useState(false);
 
   // 현재 자신의 턴인지
   useEffect(() => {
@@ -169,6 +170,28 @@ function ActionBoard({ data, setData }) {
 
     console.log("always");
   };
+
+  function returnBakeDiv() {
+    return <div
+      style={{
+        position: "absolute",
+        top: "-75px",
+        left: "400px",
+        zIndex: "9999",
+      }}
+    >
+      <button onClick={hwaroVegetableHandler}>화로-야채</button>
+      <button onClick={hwaroPigHandler}>화로-돼지</button>
+      <button onClick={hwaroSheepHandler}>화로-양</button>
+      <button onClick={hwaroCowHandler}>화로-소</button>
+      <button onClick={hwaroBakeHandler}>화로-빵굽기</button>
+      <button onClick={hwaduckVegetableHandler}>화덕-야채</button>
+      <button onClick={hwaduckPigHandler}>화덕-돼지</button>
+      <button onClick={hwaduckSheepHandler}>화덕-양</button>
+      <button onClick={hwaduckCowHandler}>화덕-소</button>
+      <button onClick={hwaduckBakeHandler}>화덕-빵굽기</button>
+    </div>
+  }
 
   function hwaduckVegetableHandler() {
     if (userData[`user${farmData.turn}`].vegetable > 0) {       // 자원 갖고 있는 지 확인
@@ -849,6 +872,7 @@ function ActionBoard({ data, setData }) {
   }
   function cardBtn1Handler() {
     setMainModalVisible(true);
+
   }
   function cardBtn2Handler() {
     setSubModalVisible(true);
@@ -888,8 +912,26 @@ function ActionBoard({ data, setData }) {
   //곡식 활용 클릭 시
   function roundGrainHandler() {  // 빵굽기 할 수 있는 카드를 가지고 있나 체크 해주기
     if (farmData.action[18][0] === 0) {
-      if (userData[`user${farmData.turn}`].job.includes(1)) {
-        // 직업 01. 장작 채집자
+      const mainCard = userData[`user${farmData.turn}`].main;
+      console.log(mainCard);
+
+
+      if(mainCard.includes(1) || mainCard.includes(2) || mainCard.includes(3)   // 해당 메인설비들 내려놨으면 빵굽기 가능
+      || mainCard.includes(4) || mainCard.includes(6) || mainCard.includes(7))  // 1,2 : 화로 //3,4 : 화덕// 6 : 흙가마// 7: 돌가마
+      {                                                                         // (사진 이름으로 인덱스 매겼어요)
+        
+        if(window.confirm("빵굽기를 하시겠습니까?")) {
+          setIsBake(true); //  이 놈 true 되면 보유하고 있는 메인 설비 목록 띄워주기
+          // 각 조건에 따라서 빵굽기 해줘야 함
+          // 보유하고 있는 메인 설비 클릭 가능하게 해주면 되지 않을까 생각 중
+          
+          } else {
+          // 빵 안구우니까 그냥 턴 넘겨주기
+        }
+      }
+
+      // 카드 로직 전에 빵굽기 먼저 해야 할듯?
+      if (userData[`user${farmData.turn}`].job.includes(1)) { // 직업 01. 장작 채집자 : 이 카드 가지고 곡식 활용 오면 나무 하나 추가로 얻음
         const res = {
           tree: 1,
           soil: 0,
@@ -904,6 +946,9 @@ function ActionBoard({ data, setData }) {
         };
         defaultActHandler(res, 18);
       }
+    }
+    else{
+      alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
   }
 
@@ -992,27 +1037,10 @@ function ActionBoard({ data, setData }) {
   };
 
   return (
+    
     <div className="boardContainer">
-      <div
-        style={{
-          position: "absolute",
-          top: "-75px",
-          left: "400px",
-          zIndex: "9999",
-        }}
-      >
-        <button onClick={hwaroVegetableHandler}>화로-야채</button>
-        <button onClick={hwaroPigHandler}>화로-돼지</button>
-        <button onClick={hwaroSheepHandler}>화로-양</button>
-        <button onClick={hwaroCowHandler}>화로-소</button>
-        <button onClick={hwaroBakeHandler}>화로-빵굽기</button>
-        <button onClick={hwaduckVegetableHandler}>화덕-야채</button>
-        <button onClick={hwaduckPigHandler}>화덕-돼지</button>
-        <button onClick={hwaduckSheepHandler}>화덕-양</button>
-        <button onClick={hwaduckCowHandler}>화덕-소</button>
-        <button onClick={hwaduckBakeHandler}>화덕-빵굽기</button>
-      </div>
-
+      {isBake && returnBakeDiv()}
+      {returnBakeDiv()}
       <Board className="round" />
       {isTurn && farmData.round < 7 && (
         <h2 style={{ position: "absolute", top: "-75px", left: "160px" }}>
@@ -1211,10 +1239,10 @@ function ActionBoard({ data, setData }) {
 
       {/* <Facility className="facilityBtn" /> */}
       {farmData.round >= 2 && (
-        <Fence className="facilityBtn2" onClick={roundGrainHandler} />
+        <Fence className="facilityBtn2" onClick={fenceHandler} />
       )}
       {farmData.round >= 3 && (
-        <Grain className="facilityBtn3" onClick={fenceHandler} />
+        <Grain className="facilityBtn3" onClick={roundGrainHandler} />
       )}
       {farmData.round >= 4 && (
         <Sheep className="facilityBtn4" onClick={sheepHandler} />
