@@ -77,7 +77,12 @@ function ActionBoard({ data, setData }) {
       farmData.farmer_count[(farmData.turn - 1) % 4] != 0
     ) {
       updateFarmerCount((farmData.turn - 1) % 4);
+      console.log("됨");
     } else {
+      console.log("뭐냐");
+      console.log(farmData.currentTurn);
+      console.log(farmData.turn);
+      console.log(farmData.farmer_count[(farmData.turn - 1) % 4]);
     }
   }, [farmData.currentTurn]);
 
@@ -116,6 +121,7 @@ function ActionBoard({ data, setData }) {
 
   const alwaysActHandler = async (res) => {
     await updateAlways(farmData.turn); // 누른 놈 제외 갱신
+
     sendingClient.current.send(
       "/main-board/resource/update",
       {},
