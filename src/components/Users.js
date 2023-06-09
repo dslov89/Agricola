@@ -16,6 +16,12 @@ function Users() {
   }, [farmData.currentTurn]);
 
   useEffect(() => {
+    if (farmData.food === -1 || farmData.food === -2) {
+      userDataUpdate();
+    }
+  }, [farmData.food, farmData.messageType]);
+
+  useEffect(() => {
     farmerUpdate();
   }, [farmData.round]);
   function cardAddHandler() {
