@@ -34,6 +34,8 @@ function DataContextProvider({ children }) {
       [0, 0],
       [0, 0],
       [0, 1],
+
+      [0, 0],
     ],
 
     tree: 0,
@@ -144,6 +146,16 @@ function DataContextProvider({ children }) {
       subCards: updatedCard, // 업데이트된 action 배열을 설정합니다.
     }));
   };
+  const updateAlways = async (id) => {
+    const updatedAlways = [...farmData.action];
+    updatedAlways[20][1] = id;
+    updatedAlways[20][0] += 1; // 배열 변경함
+    console.log("업뎃하니까 갱신해주세요");
+    await setFarmData((prevFarmData) => ({
+      ...prevFarmData,
+      action: updatedAlways,
+    }));
+  };
 
   const values = {
     farmData,
@@ -153,6 +165,7 @@ function DataContextProvider({ children }) {
     updateAction,
     updateJobCard,
     updateSubCard,
+    updateAlways,
   };
 
   return <DataContext.Provider value={values}>{children}</DataContext.Provider>;

@@ -13,6 +13,7 @@ import { ReactComponent as Fence } from "../asset/fence.svg";
 import { ReactComponent as Grain } from "../asset/grain.svg";
 import { ReactComponent as Sheep } from "../asset/sheep.svg";
 import { ReactComponent as Facility } from "../asset/facility.svg";
+import ScoreBoard from "./ScoreBoard";
 import MainModal from "./MainModal";
 import SubModal from "./SubModal";
 import { DataContext } from "../store/data-context";
@@ -26,19 +27,44 @@ function ActionBoard({ data, setData }) {
   const [isTurn, setIsTurn] = useState(false);
   const [mainModalVisible, setMainModalVisible] = useState(false);
   const [subModalVisible, setSubModalVisible] = useState(false);
+<<<<<<< HEAD
   // const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
 
+=======
+  const [scoreBoardVisible, setScoreBoardVisible] = useState(true);
+  const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
+  const [subSulbi, setSubSulbi] = useState([
+    { id: 1, isHas: 1 },
+    { id: 2, isHas: 1 },
+    { id: 3, isHas: 1 },
+    { id: 4, isHas: 1 },
+    { id: 5, isHas: 1 },
+    { id: 6, isHas: 1 },
+    { id: 7, isHas: 1 },
+  ]);
+  const [jobCard, setJobCard] = useState([
+    { id: 1, isHas: 1 },
+    { id: 2, isHas: 1 },
+    { id: 3, isHas: 1 },
+    { id: 4, isHas: 1 },
+    { id: 5, isHas: 1 },
+    { id: 6, isHas: 1 },
+    { id: 7, isHas: 1 },
+  ]);
+>>>>>>> b0f2e260339853b742c9f4031d9a7f1f3a988900
   const {
     farmData,
     setFarmData,
     updateFarmerCount,
     updateFarmData,
     updateAction,
+    updateAlways,
   } = useContext(DataContext);
   const { userData, setUserData } = useContext(UserContext);
   const [isSub, setIsSub] = useState(false);
   const [isJob, setIsJob] = useState(false);
   const [isMain, setIsMain] = useState(false);
+
 
   // 현재 자신의 턴인지
   useEffect(() => {
@@ -63,6 +89,7 @@ function ActionBoard({ data, setData }) {
     updateFarmData();
   }, [farmData.action]);
 
+<<<<<<< HEAD
   // useEffect(() => {
   //   if (farmData.currentTurn - 1 === farmData.turn % 4) {
   //     if (farmData.cardType === "JOB") {
@@ -91,6 +118,74 @@ function ActionBoard({ data, setData }) {
       }));
     }
   }, [farmData.currentTurn]);
+=======
+  const alwaysActHandler = async (res) => {
+    await updateAlways(farmData.turn); // 누른 놈 제외 갱신
+    sendingClient.current.send(
+      "/main-board/resource/update",
+      {},
+      JSON.stringify({
+        messageType: "RESOURCE",
+        roomId: farmData.roomId,
+        action: farmData.action,
+        round: farmData.round,
+        currentTurn: (farmData.currentTurn)%4,
+        farmer_count: farmData.farmer_count,
+        tree: res.tree,
+        soil: res.soil,
+        reed: res.reed,
+        charcoal: res.charcoal,
+        sheep: res.sheep,
+        pig: res.pig,
+        cow: res.cow,
+        grain: res.grain,
+        vegetable: res.vegetable,
+        food: res.food,
+      })
+    );
+    if(farmData.action[20][1] === farmData.turn){ // 누른 사람은 갱신이 안되어있으므로 따로 갱신해줌
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        [`user${farmData.turn}`]: {
+          ...prevUserData[`user${farmData.turn}`],
+          tree: prevUserData[`user${farmData.turn}`].tree + res.tree,
+          soil: prevUserData[`user${farmData.turn}`].soil + res.soil,
+          reed: prevUserData[`user${farmData.turn}`].reed + res.reed,
+          charcoal: prevUserData[`user${farmData.turn}`].charcoal + res.charcoal,
+          sheep: prevUserData[`user${farmData.turn}`].sheep + res.sheep,
+          pig: prevUserData[`user${farmData.turn}`].pig + res.pig,
+          cow: prevUserData[`user${farmData.turn}`].cow + res.cow,
+          grain: prevUserData[`user${farmData.turn}`].grain + res.grain,
+          vegetable: prevUserData[`user${farmData.turn}`].vegetable + res.vegetable,
+          food: prevUserData[`user${farmData.turn}`].food + res.food,
+        },
+      }));
+    }
+
+    console.log("always");
+  };
+
+  function hwaduckHandler() {
+    if (true) { // 화덕 갖고있는지 확인
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: 3,
+      };
+
+      alwaysActHandler(res);
+    } else {
+      alert("너 화덕 안갖고 있어");
+    }
+  }
+>>>>>>> b0f2e260339853b742c9f4031d9a7f1f3a988900
 
   // index는 액션버튼 순서 0부터
   const defaultActHandler = async (res, index) => {
@@ -191,6 +286,8 @@ function ActionBoard({ data, setData }) {
         vegetable: 0,
         food: 0,
       };
+      if(userData[`user${farmData.turn}`].job.includes(9))  // 직업 09. 나무꾼
+        res.tree += 1;
 
       accumulatedActHandler(res, 0, 1);
     } else {
@@ -214,6 +311,8 @@ function ActionBoard({ data, setData }) {
         vegetable: 0,
         food: 0,
       };
+      if(userData[`user${farmData.turn}`].job.includes(9))  // 직업 09. 나무꾼
+        res.tree += 1;
 
       accumulatedActHandler(res, 1, 2);
     } else {
@@ -309,6 +408,12 @@ function ActionBoard({ data, setData }) {
         food: farmData.action[5][1],
       };
 
+      if(userData[`user${farmData.turn}`].job.includes(20))  // 직업 20. 마술사
+      {
+        res.tree += 1;
+        res.grain += 1;
+      }
+
       accumulatedActHandler(res, 5, 1);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
@@ -362,6 +467,12 @@ function ActionBoard({ data, setData }) {
         vegetable: 0,
         food: 0,
       };
+      if(userData[`user${farmData.turn}`].sub.includes(2)) // 보조 02. 곡식용 삽
+        res.grain += 1;
+      if(userData[`user${farmData.turn}`].job.includes(1)) // 직업 01. 장작 채집자
+        res.tree += 1;
+      if(userData[`user${farmData.turn}`].job.includes(2)) // 직업 02. 채소 장수
+        res.vegetable += 1;
 
       defaultActHandler(res, 8);
     } else {
@@ -371,11 +482,22 @@ function ActionBoard({ data, setData }) {
 
   //=농지 버튼 클릭 시 실행할 함수
   function farmlandHandler() {
-    // 내턴인지 확인
-
-    if (isTurn) {
-      //const userId = getCurrentUserId();
-      //updateActions(9, 1, userId);
+    if (farmData.action[9][0] === 0) {
+      if(userData[`user${farmData.turn}`].job.includes(1)) { // 직업 01. 장작 채집자)
+        const res = {
+          tree: 1,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 0,
+        };
+        defaultActHandler(res, 9);
+      }
     }
   }
 
@@ -406,6 +528,7 @@ function ActionBoard({ data, setData }) {
     }
   }
 
+  
   //   날품팔이 버튼 클릭 시 실행할 함수
   function goodsHandler() {
     if (farmData.action[11][0] === 0) {
@@ -422,6 +545,11 @@ function ActionBoard({ data, setData }) {
         food: 2,
       };
 
+      if (userData[`user${farmData.turn}`].sub.includes(16))   // 보조 16. 양토 채굴장
+        res.soil += 3;
+      if(userData[`user${farmData.turn}`].job.includes(16))  // 직업 09. 농번기 일꾼
+        res.grain += 1;
+      
       defaultActHandler(res, 11);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
@@ -443,6 +571,10 @@ function ActionBoard({ data, setData }) {
         vegetable: 0,
         food: 0,
       };
+      if(userData[`user${farmData.turn}`].job.includes(9))  // 직업 09. 나무꾼
+        res.tree += 1;
+      if(userData[`user${farmData.turn}`].job.includes(19))  // 직업 19. 지질학자
+        res.soil += 1;
 
       accumulatedActHandler(res, 12, 3);
     } else {
@@ -465,6 +597,8 @@ function ActionBoard({ data, setData }) {
         vegetable: 0,
         food: 0,
       };
+      if(userData[`user${farmData.turn}`].job.includes(19))  // 직업 19. 지질학자
+        res.soil += 1;      
 
       accumulatedActHandler(res, 13, 1);
     } else {
@@ -510,6 +644,9 @@ function ActionBoard({ data, setData }) {
         food: farmData.action[15][1],
       };
 
+      if(userData[`user${farmData.turn}`].sub.includes(26)) // 보조 26. 통나무배
+        res.charcoal += 1;
+      
       accumulatedActHandler(res, 15, 1);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
@@ -555,10 +692,24 @@ function ActionBoard({ data, setData }) {
 
   //곡식 활용 클릭 시
   function roundGrainHandler() {
-    if (isTurn) {
-      console.log("123123123");
-      setIsTurn(false);
+    if (farmData.action[18][0] === 0) {
+      if(userData[`user${farmData.turn}`].job.includes(1)) { // 직업 01. 장작 채집자
+        const res = {
+          tree: 1,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 0,
+        };
+        defaultActHandler(res, 18);
+      }
     }
+    
   }
 
   //양 시장 클릭 시
@@ -612,6 +763,31 @@ function ActionBoard({ data, setData }) {
     position: "absolute",
   };
 
+  function main10() {
+    //수확때
+    if (farmData.round > 5) {
+      if (userData[`user${farmData.turn}`].reed >= 1) {
+        const res = {
+          tree: 0,
+          soil: 0,
+          reed: -1,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 3,
+        };
+        defaultActHandler(res);
+      } else {
+        alert("갈대 자원이 부족합니다.");
+      }
+    } else {
+      alert("수확 때 가능합니다.");
+    }
+  }
+
   const moveOtherPlayer = (index) => {
     if (index === 1 || index === 5)
       return <div style={btnStyle2}>{checkOtherPlayer(index)}</div>;
@@ -621,13 +797,33 @@ function ActionBoard({ data, setData }) {
   };
 
   return (
+    
     <div className="boardContainer">
+    <div style ={{ position: "absolute", top: "-75px", left: "400px", zIndex: "9999"}}>
+        <button onClick={hwaduckHandler}>화덕</button></div>
+
       <Board className="round" />
-      {isTurn && (
+      {isTurn && farmData.round < 7 && (
         <h2 style={{ position: "absolute", top: "-75px", left: "160px" }}>
           Your Turn!
         </h2>
       )}
+
+      {farmData.round === 6 && (
+        <h2 style={{ position: "absolute", top: "-75px", left: "300px" }}>
+          Harvest
+        </h2>
+      )}
+      {farmData.round === 7 && (
+        <h2 style={{ position: "absolute", top: "-75px", left: "160px" }}>
+          Game Over!
+        </h2>
+      )}
+
+      {farmData.round === 7 && scoreBoardVisible && (
+        <ScoreBoard setIsVisible={setScoreBoardVisible} />
+      )}
+
       {/* 덤블 버튼 */}
       {isTurn ? (
         <div className="actionBtn dumble" onClick={dumbleHandler}>

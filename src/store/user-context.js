@@ -19,7 +19,7 @@ function UserContextProvider({ children }) {
       farmer: 2,
       fence: 0,
       house: 0,
-      main: [],
+      main: [], // 내려놓은 카드들
       job: [],
       sub: [],
     },
@@ -38,7 +38,7 @@ function UserContextProvider({ children }) {
       farmer: 2,
       fence: 0,
       house: 0,
-      main: [],
+      main: [], // 내려놓은 카드들
       job: [],
       sub: [],
     },
@@ -57,7 +57,7 @@ function UserContextProvider({ children }) {
       farmer: 2,
       fence: 0,
       house: 0,
-      main: [],
+      main: [], // 내려놓은 카드들
       job: [],
       sub: [],
     },
@@ -76,7 +76,7 @@ function UserContextProvider({ children }) {
       farmer: 2,
       fence: 0,
       house: 0,
-      main: [],
+      main: [], // 내려놓은 카드들
       job: [],
       sub: [],
     },
