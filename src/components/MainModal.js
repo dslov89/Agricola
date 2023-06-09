@@ -42,6 +42,7 @@ function MainModal({ setIsVisible, isMain, setIsMain }) {
 
   useEffect(() => {
     myCardCheck();
+    console.log("모달창모달창메인모달창");
   }, [farmData.currentTurn]);
 
   function myCardCheck() {
@@ -49,21 +50,22 @@ function MainModal({ setIsVisible, isMain, setIsMain }) {
       // 원래 배열 - 초기화된
       const notUpdatedMainCards = [...prevFarmData.main];
       // 내가 가진 카드
-      const main1 = userData.user1.job;
-      const main2 = userData.user2.job;
-      const main3 = userData.user3.job;
-      const main4 = userData.user4.job;
+      const main1 = userData.user1.main;
+      const main2 = userData.user2.main;
+      const main3 = userData.user3.main;
+      const main4 = userData.user4.main;
 
-      const updatedMainCards = notUpdatedMainCards.map((innerArray) => {
+      const updatedMainCards = notUpdatedMainCards.map((value, index) => {
         if (
-          main1.includes(innerArray[0]) ||
-          main2.includes(innerArray[0]) ||
-          main3.includes(innerArray[0]) ||
-          main4.includes(innerArray[0])
+          main1.includes(index + 1) ||
+          main2.includes(index + 1) ||
+          main3.includes(index + 1) ||
+          main4.includes(index + 1)
         ) {
-          innerArray[1] = 0;
+          return 0;
+        } else {
+          return value;
         }
-        return innerArray;
       });
 
       return {
