@@ -15,6 +15,8 @@
   height: 80px;
   left: 130px;
   cursor: pointer; /* 기본 커서를 포인터로 설정 */
+  background-color: transparent;
+  border-color: transparent;
 }
 
 .player {
@@ -22,6 +24,8 @@
   width: 110px;
   height: 80px;
   left: 130px;
+  background-color: transparent;
+  border-color: transparent;
 }
 
 .dumble {
@@ -75,22 +79,22 @@
 }
 
 .roundBtn1 {
-  left: 430px;
+  left: 435px;
   top: 11px;
   height: 5px;
 }
 .roundBtn2 {
-  left: 592px;
+  left: 599px;
   top: 11px;
   height: 5px;
 }
 .roundBtn3 {
-  left: 699px;
+  left: 760px;
   top: 11px;
   height: 5px;
 }
 .roundBtn4 {
-  left: 819px;
+  left: 925px;
   top: 11px;
   height: 5px;
 }
@@ -125,25 +129,25 @@
   left: 332px;
 }
 
-.facility1{
+.facility1 {
   position: absolute;
   top: 0px;
   left: 0px;
 }
 
-.facility2{
+.facility2 {
   position: absolute;
   top: 5px;
   left: 0px;
 }
 
-.facility3{
+.facility3 {
   position: absolute;
   top: 5px;
   left: 0px;
 }
 
-.facility4{
+.facility4 {
   position: absolute;
   top: 5px;
   left: 0px;
@@ -174,7 +178,7 @@
   cursor: pointer; /* 기본 커서를 포인터로 설정 */
 }
 
-.harvestBtn{
+.harvestBtn {
   position: absolute;
   top: -75px;
   left: 500px;
