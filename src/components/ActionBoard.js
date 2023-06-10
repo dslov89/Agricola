@@ -66,7 +66,7 @@ function ActionBoard({ data, setData }) {
 
   // 현재 자신의 턴인지
   useEffect(() => {
-    if (farmData.currentTurn === farmData.turn % 4) {
+    if (farmData.currentTurn === farmData.turn % 4 && farmData.round != 0) {
       setIsTurn(true);
     } else {
       setIsTurn(false);
@@ -135,6 +135,55 @@ function ActionBoard({ data, setData }) {
         round: farmData.round,
         currentTurn: farmData.currentTurn % 4,
         farmer_count: farmer_cnt,
+        tree: res.tree,
+        soil: res.soil,
+        reed: res.reed,
+        charcoal: res.charcoal,
+        sheep: res.sheep,
+        pig: res.pig,
+        cow: res.cow,
+        grain: res.grain,
+        vegetable: res.vegetable,
+        food: res.food,
+      })
+    );
+    if (farmData.action[20][1] === farmData.turn) {
+      // 누른 사람은 갱신이 안되어있으므로 따로 갱신해줌
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        [`user${farmData.turn}`]: {
+          ...prevUserData[`user${farmData.turn}`],
+          tree: prevUserData[`user${farmData.turn}`].tree + res.tree,
+          soil: prevUserData[`user${farmData.turn}`].soil + res.soil,
+          reed: prevUserData[`user${farmData.turn}`].reed + res.reed,
+          charcoal:
+            prevUserData[`user${farmData.turn}`].charcoal + res.charcoal,
+          sheep: prevUserData[`user${farmData.turn}`].sheep + res.sheep,
+          pig: prevUserData[`user${farmData.turn}`].pig + res.pig,
+          cow: prevUserData[`user${farmData.turn}`].cow + res.cow,
+          grain: prevUserData[`user${farmData.turn}`].grain + res.grain,
+          vegetable:
+            prevUserData[`user${farmData.turn}`].vegetable + res.vegetable,
+          food: prevUserData[`user${farmData.turn}`].food + res.food,
+        },
+      }));
+    }
+
+    console.log("always");
+  };
+  const alwaysActHandler2 = async (res) => {
+    await updateAlways(farmData.turn); // 누른 놈 제외 갱신
+
+    sendingClient.current.send(
+      "/main-board/resource/update",
+      {},
+      JSON.stringify({
+        messageType: "RESOURCE",
+        roomId: farmData.roomId,
+        action: farmData.action,
+        round: farmData.round,
+        currentTurn: farmData.currentTurn % 4,
+        farmer_count: farmData.farmer_count,
         tree: res.tree,
         soil: res.soil,
         reed: res.reed,
@@ -605,7 +654,8 @@ function ActionBoard({ data, setData }) {
           food: -2,
         };
 
-        alwaysActHandler(res);
+        alwaysActHandler2(res);
+        updateAction(4, 0);
         setIsJob(true);
         setSubModalVisible(true);
       } else {
@@ -751,7 +801,8 @@ function ActionBoard({ data, setData }) {
           food: -1,
         };
 
-        alwaysActHandler(res);
+        alwaysActHandler2(res);
+        updateAction(10, 0);
         setIsJob(true);
         setSubModalVisible(true);
       } else {
@@ -1292,7 +1343,7 @@ function ActionBoard({ data, setData }) {
         />
       )}
 
-      {farmData.round >= 1 &&
+      {farmData.round >= 0 &&
         (isTurn ? (
           <button
             className="actionBtn roundBtn1"

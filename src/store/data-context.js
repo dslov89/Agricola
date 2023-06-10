@@ -6,10 +6,10 @@ function DataContextProvider({ children }) {
   const [farmData, setFarmData] = useState({
     messageType: "",
     roomId: 0,
-    round: 1,
+    round: 0,
     currentTurn: 5,
     farmer_count: [2, 2, 2, 2],
-    turn: 0,
+    turn: 4,
     action: [
       [0, 1],
       [0, 2],
