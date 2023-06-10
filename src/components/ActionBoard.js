@@ -1837,7 +1837,7 @@ function ActionBoard({ data, setData }) {
       {subModalVisible && (
         <SubModal
           setIsVisible={setSubModalVisible}
-          isVisible={subModalVisible}
+          setIsMainVisible={setMainModalVisible}
           subSulbi={farmData.subCards}
           jobCard={farmData.jobCards}
           isJob={isJob}

@@ -6,8 +6,8 @@ import { UserContext } from "../store/user-context";
 import { isVisible } from "@testing-library/user-event/dist/utils";
 
 function SubModal({
-  isVisible,
   setIsVisible,
+  setIsMainVisible,
   subSulbi,
   jobCard,
   isSub,
@@ -110,6 +110,7 @@ function SubModal({
   const alwaysActHandler2 = async (res) => {
     await updateAlways(farmData.turn); // 누른 놈 제외 갱신
     setIsVisible(false);
+    setIsMainVisible(false);
     setIsSub(false);
     setIsMain(false);
     sendingClient.current.send(
@@ -624,6 +625,10 @@ function SubModal({
       }
     } else {
       okaySend();
+      setIsVisible(false);
+      setIsMainVisible(false);
+      setIsSub(false);
+      setIsMain(false);
     }
   };
 
