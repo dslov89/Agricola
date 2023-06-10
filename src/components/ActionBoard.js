@@ -120,7 +120,7 @@ function ActionBoard({ data, setData }) {
     }
   }, [farmData.currentTurn]);
 
-  const alwaysActHandler = async (res) => {
+  const alwaysActHandler = async (res) => { // 턴 안넘기고 자원갱신만 하는 함수
     await updateAlways(farmData.turn); // 누른 놈 제외 갱신
     const farmer_cnt = farmData.farmer_count;
     farmer_cnt[(farmData.currentTurn +3 )%4] -= 1;
@@ -373,25 +373,64 @@ function ActionBoard({ data, setData }) {
     }
   }
 
-    function hwaroBakeHandler() {
-      if (userData[`user${farmData.turn}`].vegetable > 0) {       // 자원 갖고 있는 지 확인
-        const res = {
-          tree: 0,
-          soil: 0,
-          reed: 0,
-          charcoal: 0,
-          sheep: 0,
-          pig: 0,
-          cow: 0,
-          grain: -1,
-          vegetable: 0,
-          food: 2,
-        };
-        alwaysActHandler(res);
-      } else {
-        alert("보유한 자원이 부족합니다.");
-      }
+  function hwaroBakeHandler() {
+    if (userData[`user${farmData.turn}`].vegetable > 0) {       // 자원 갖고 있는 지 확인
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: -1,
+        vegetable: 0,
+        food: 2,
+      };
+      alwaysActHandler(res);
+    } else {
+      alert("보유한 자원이 부족합니다.");
     }
+  }
+
+  function checkRoomCount() {
+    const roomArray = userData[`user${farmData.turn}`].room;
+    const roomCounts = {
+      wood_room : 0,
+      rock_room : 0,
+      soil_room : 0,
+    }
+    roomArray.forEach(item => {
+      if (roomCounts.hasOwnProperty(item)) {
+        roomCounts[item]++;
+      }
+    });
+    return(roomCounts);
+  }
+
+  function job23Handler() { // 직업 23. 지붕 다지는 사람
+    if(userData[`user${farmData.turn}`].food > 1) {
+      const roomCounts = checkRoomCount();
+      const roomSum = roomCounts.wood_room + roomCounts.rock_room + roomCounts.soil_room;
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: roomSum,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: -1,
+      };
+      alwaysActHandler(res);
+    }
+    else {
+      alert("보유한 자원이 부족합니다.");
+    }
+  }
+  
 
   // index는 액션버튼 순서 0부터
   const defaultActHandler = async (res, index) => {
@@ -592,7 +631,7 @@ function ActionBoard({ data, setData }) {
           food: -2,
         };
 
-        notTurnHandler(res, 4);
+        alwaysActHandler(res);
         setIsJob(true);
       } else {
         alert("식량이 부족합니다");
