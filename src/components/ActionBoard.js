@@ -530,6 +530,23 @@ function ActionBoard({ data, setData }) {
     else if(leftRoundCnt === 3) res.tree += 2;
     else if(leftRoundCnt === 6) res.tree += 3;
     else if(leftRoundCnt === 9) res.tree += 4;
+
+    alwaysActHandler(res);
+  }  
+
+  function job26Handler() { // 직업 26. 큰 낫 일꾼
+    const res = {
+      tree: 0,
+      soil: 0,
+      reed: 0,
+      charcoal: 0,
+      sheep: 0,
+      pig: 0,
+      cow: 0,
+      grain: 1,
+      vegetable: 0,
+      food: 0,
+    };
     
     alwaysActHandler(res);
   }  
