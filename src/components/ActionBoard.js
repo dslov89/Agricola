@@ -512,6 +512,28 @@ function ActionBoard({ data, setData }) {
     alwaysActHandler(res);
   }  
 
+  function job25Handler() { // 직업 25. 집사
+    const leftRoundCnt = 14 - farmData.round;
+    const res = {
+      tree: 0,
+      soil: 0,
+      reed: 0,
+      charcoal: 0,
+      sheep: 0,
+      pig: 0,
+      cow: 0,
+      grain: 0,
+      vegetable: 0,
+      food: 0,
+    };
+    if(leftRoundCnt === 1) res.tree += 1;
+    else if(leftRoundCnt === 3) res.tree += 2;
+    else if(leftRoundCnt === 6) res.tree += 3;
+    else if(leftRoundCnt === 9) res.tree += 4;
+    
+    alwaysActHandler(res);
+  }  
+
   // index는 액션버튼 순서 0부터
   const defaultActHandler = async (res, index) => {
     await updateAction(index, 0);
