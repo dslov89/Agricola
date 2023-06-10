@@ -3,8 +3,10 @@ import { nameValue, sendingClient } from "../screen/Start";
 import { useContext, useEffect, useState } from "react";
 import { DataContext } from "../store/data-context";
 import { UserContext } from "../store/user-context";
+import { isVisible } from "@testing-library/user-event/dist/utils";
 
 function SubModal({
+  isVisible,
   setIsVisible,
   subSulbi,
   jobCard,
@@ -35,7 +37,7 @@ function SubModal({
 
   useEffect(() => {
     myCardCheck();
-  }, [farmData.currentTurn]);
+  }, [farmData.currentTurn, farmData.food]);
 
   function myCardCheck() {
     setFarmData((prevFarmData) => {
