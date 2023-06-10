@@ -28,7 +28,7 @@ function ActionBoard({ data, setData }) {
   const [mainModalVisible, setMainModalVisible] = useState(false);
   const [subModalVisible, setSubModalVisible] = useState(false);
   // const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
-
+  const [foodis, setFoodis] = useState(0);
   const [scoreBoardVisible, setScoreBoardVisible] = useState(true);
   const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
   const [subSulbi, setSubSulbi] = useState([
@@ -242,7 +242,7 @@ function ActionBoard({ data, setData }) {
         <button onClick={hwaduckSheepHandler}>화덕-양</button>
         <button onClick={hwaduckCowHandler}>화덕-소</button>
         <button onClick={hwaduckBakeHandler}>화덕-빵굽기</button>
-        {/* <button onClick={wellHandler}>우물</button> */}
+        <button onClick={WellHandler}>우물</button>
         <button onClick={furnitureHandler}>가구 제작소</button>
         <button onClick={bowlHandler}>그릇 제작소</button>
         <button onClick={basketHandler}>바구니 제작소</button>
@@ -460,45 +460,48 @@ function ActionBoard({ data, setData }) {
     }
   }
 
-  // const roundarray = [];
-  // function wellHandler() {
-  //   let cnt = 0;
-  //   //라운드 파악
-  //   for (let i = farmData.round + 1; i < farmData.round + 6; i++){
-  //     console.log("i는??");
-  //     console.log(i);
-  //     if (roundarray.length < 5) {
-  //       roundarray.push(i);
-  //     }
-  //     else {
-  //       alert("더 이상 누를 수 없습니다.");
-  //       break;
-  //     }
-  //     console.log(roundarray);
-  //   }
-  //   console.log("우물");
-  //   for (let j = 0; j < 5; j++){
-  //     cnt += 1;
-  //     if (cnt === 1 && farmData.round === roundarray[j]) {
-  //       const res = {
-  //         tree: 0,
-  //         soil: 0,
-  //         reed: 0,
-  //         charcoal: 0,
-  //         sheep: 0,
-  //         pig: 0,
-  //         cow: 0,
-  //         grain: 0,
-  //         vegetable: 0,
-  //         food: 1,
-  //       };
-  //       alwaysActHandler(res);
-  //     }
-  //     else if (cnt === 8) {
-  //       cnt = 0;
-  //     }
-  //   }
-  // }
+  const [well, setWell] = useState(true);
+  function WellHandler() {
+
+    if (well) {
+    if (farmData.round === 3) {
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: 1,
+      };
+      harvestActHandler(res);
+      setWell(false);
+      console.log("well round 3");
+    } else if (farmData.round === 4) {
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: 0,
+      };
+      harvestActHandler(res);
+      setWell(false);
+      console.log("well round 4");
+    }
+    }
+    else {
+      alert("한 번만 눌러요");
+    }
+  }
 
   function furnitureHandler() {
     if (farmData.round === 5) {
