@@ -1,37 +1,151 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { nameValue, sendingClient } from "../screen/Start";
+import { DataContext } from "../store/data-context";
+import { UserContext } from "../store/user-context";
 
 const Gameroomboard = () => {
   const navigation = useNavigate();
   const [rooms, setRooms] = useState([]);
+  let roomID;
+  const { farmData, setFarmData } = useContext(DataContext);
+  const { userData, setUserData } = useContext(UserContext);
 
   function naviHandler() {
     navigation("/start");
   }
+
+  const sendHandler2 = () => {
+    console.log(farmData.roomId);
+    sendingClient.current.send(
+      "/main-board/card/update",
+      {},
+      JSON.stringify({
+        roomId: farmData.roomId,
+        round: 1,
+        action: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        currentTurn: 1,
+        turnArray: [
+          [0, 1],
+          [1, 2],
+        ],
+        job: [
+          [1, 1],
+          [2, 1],
+          [3, 1],
+        ],
+        main: [
+          [1, 1],
+          [2, 1],
+          [3, 1],
+        ],
+        sub: [
+          [1, 1],
+          [2, 1],
+          [3, 1],
+        ],
+      })
+    );
+  };
 
   const connectHandler = (roomId) => {
     sendingClient.current.connect({}, () => {
       sendingClient.current.subscribe(
         `/user/sub/game-room/` + roomId,
         (message) => {
+          setFarmData({ ...farmData, userId: message });
+
           console.log("첫 구독");
           console.log(message.body);
-          if (message.body !== "FULL") {
+          const initMsg = JSON.parse(message.body);
+          if (!initMsg.enter) {
+            alert("정원 초과");
+          } else {
+            // let jobCardValue = msg.jobCards; //message.body 내 jobCards value값
+            // let subCardsValue = msg.subCards; //message.body 내 subCards value값
+            // let turnValue = msg.turn; //message.body 내 turn value값
+
+            setFarmData({
+              ...farmData,
+              jobCards: initMsg.jobCards.map((item) => [item, 1]),
+              subCards: initMsg.subCards.map((item) => [item, 1]),
+              turn: initMsg.turn,
+            });
+
+            // console.log(msg.enter);
+            // enter는 true일 때만 입장
+            // cards와 turn은 state에 저장
+
             //turn example
             sendingClient.current.subscribe(
               `/sub/game-room/` + roomId,
               (message) => {
-                console.log("두번째 구독");
-                console.log(message.body);
+                console.log(message.body + "여기야 여기");
+                const msg = JSON.parse(message.body);
+                if (msg.messageType === "INIT") {
+                  setFarmData({
+                    ...farmData,
+                    round: msg.round,
+                    roomId: msg.roomId,
+                    messageType: msg.messageType,
+                    // action: msg.action,
+                    currentTurn: msg.currentTurn,
+                    farmer_count: msg.farmer_count,
+                    jobCards: initMsg.jobCards.map((item) => [item, 1]),
+                    subCards: initMsg.subCards.map((item) => [item, 1]),
+                    turn: initMsg.turn,
+                  });
+                } else if (msg.messageType === "RESOURCE") {
+                  setFarmData({
+                    ...farmData,
+                    round: msg.round,
+                    roomId: msg.roomId,
+                    messageType: msg.messageType,
+                    action: msg.action,
+                    currentTurn: msg.currentTurn,
+                    farmer_count: msg.farmer_count,
+                    jobCards: initMsg.jobCards.map((item) => [item, 1]),
+                    subCards: initMsg.subCards.map((item) => [item, 1]),
+                    turn: initMsg.turn,
+                    tree: msg.tree,
+                    soil: msg.soil,
+                    reed: msg.reed,
+                    charcoal: msg.charcoal,
+                    sheep: msg.sheep,
+                    pig: msg.pig,
+                    cow: msg.cow,
+                    grain: msg.grain,
+                    vegetable: msg.vegetable,
+                    food: msg.food,
+                  });
+                } else if (msg.messageType === "CARD") {
+                  setFarmData({
+                    ...farmData,
+                    round: msg.round,
+                    roomId: msg.roomId,
+                    messageType: msg.messageType,
+                    action: msg.action,
+                    currentTurn: msg.currentTurn,
+                    farmer_count: msg.farmer_count,
+                    jobCards: initMsg.jobCards.map((item) => [item, 1]),
+                    subCards: initMsg.subCards.map((item) => [item, 1]),
+                    turn: initMsg.turn,
+                    cardType: msg.cardType,
+                    cardIndex: msg.cardIndex,
+                  });
+                }
+                if (msg.messageType === "FARM") {
+                  setUserData({
+                    ...userData,
+                    farm_array: msg.building,
+                    farm_fence_array: msg.fence,
+                  });
+                }
               }
             );
-            localStorage.setItem("turn", message.body[3]);
-            console.log(localStorage.getItem("turn"));
+
             naviHandler();
-          } else {
-            alert("게임에 진입할 수 없습니다.");
           }
         },
         { gameRoomId: roomId }
@@ -41,14 +155,11 @@ const Gameroomboard = () => {
 
   const sendHandler = (roomId) => {
     sendingClient.current.send(
-      "/main-board/user/init",
+      "/main-board/user/init", //카드 초기 설정
       {},
       JSON.stringify({
         messageType: "INIT",
         roomId: roomId,
-        userId: localStorage.getItem("turn"),
-
-        content: "hello",
       })
     );
   };
@@ -58,6 +169,9 @@ const Gameroomboard = () => {
     setTimeout(() => {
       sendHandler(roomId);
     }, 300);
+    // setTimeout(() => {
+    //   sendHandler2();
+    // }, 300);
   };
 
   const createRoom = () => {

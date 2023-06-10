@@ -7,7 +7,8 @@ import ErrorPage from "./screen/Error";
 import Main from "./screen/Main";
 import Start from "./screen/Start";
 import Gameroomboard from "./components/GameRoomBoard.js";
-// import Gameroomboard from "./components/test.js";
+import DataContextProvider from "./store/data-context";
+import UserContextProvider from "./store/user-context";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Start /> },
       { path: "/gameroomboard", element: <Gameroomboard /> },
+      // { path: "/", element: <Gameroomboard /> },
       { path: "/start", element: <Main /> },
       // { path: "/test", element: <Gameroomboard /> },
     ],
@@ -24,7 +26,13 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <DataContextProvider>
+      <UserContextProvider>
+        <RouterProvider router={router} />;
+      </UserContextProvider>
+    </DataContextProvider>
+  );
 }
 
 export default App;
