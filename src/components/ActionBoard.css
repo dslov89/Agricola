@@ -84,12 +84,12 @@
   height: 5px;
 }
 .roundBtn2 {
-  left: 599px;
+  left: 602px;
   top: 11px;
   height: 5px;
 }
 .roundBtn3 {
-  left: 760px;
+  left: 765px;
   top: 11px;
   height: 5px;
 }
@@ -178,9 +178,16 @@
   cursor: pointer; /* 기본 커서를 포인터로 설정 */
 }
 
-.harvestBtn {
+.harvest_familyBtn {
   position: absolute;
-  top: -75px;
+  top: -50px;
   left: 500px;
+  cursor: pointer; /*기본 커서를 포인터로 설정 */
+}
+
+.harvest_grainBtn {
+  position: absolute;
+  top: -50px;
+  left: 600px;
   cursor: pointer; /*기본 커서를 포인터로 설정 */
 }

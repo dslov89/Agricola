@@ -9,8 +9,16 @@ import soilroom from "../image/soil_room.png";
 import rockroom from "../image/rock_room.png";
 import house from "../image/house.png";
 import sheep from "../image/sheep.png";
-import grain from "../image/seed.png";
+import grain1 from "../image/seed.png";
+import grain2 from "../image/grain2.png";
+import grain3 from "../image/grain3.png";
+import plow_grain1 from "../image/plow_grain1.png";
+import plow_grain2 from "../image/plow_grain2.png";
+import plow_grain3 from "../image/plow_grain3.png";
+
 import vegetable from "../image/vegetable.png";
+import plow_vegetable1 from "../image/plow_vegetable1.png";
+import plow_vegetable2 from "../image/plow_vegetable2.png";
 
 import land from "../asset/land.svg";
 import SockJS from "sockjs-client";
@@ -873,9 +881,7 @@ function Farms({ data, setData }) {
       const fenceButtonElement2 = document.querySelector("#fenceButton2");
       const fenceButtonElement3 = document.querySelector("#fenceButton3");
       const fenceButtonElement4 = document.querySelector("#fenceButton4");
-
-      document.addEventListener("DOMContentLoaded", function () {
-        const fenceButtonElement1 = document.querySelector("#fenceButton1");
+      if(fenceButtonElement1 || fenceButtonElement2 || fenceButtonElement3 || fenceButtonElement4) {
         fenceButtonElement1.addEventListener("click", function () {
           setData((prevData) => {
             if (prevData.tree - 1 >= 0) {
@@ -890,9 +896,9 @@ function Farms({ data, setData }) {
             }
           });
         });
-      });
-      document.addEventListener("DOMContentLoaded", function () {
-        const fenceButtonElement2 = document.querySelector("#fenceButton1");
+        
+          
+       
         fenceButtonElement2.addEventListener("click", function () {
           setData((prevData) => {
             if (prevData.tree - 1 >= 0) {
@@ -907,9 +913,7 @@ function Farms({ data, setData }) {
             }
           });
         });
-      });
-      document.addEventListener("DOMContentLoaded", function () {
-        const fenceButtonElement3 = document.querySelector("#fenceButton1");
+        
         fenceButtonElement3.addEventListener("click", function () {
           setData((prevData) => {
             if (prevData.tree - 1 >= 0) {
@@ -924,9 +928,7 @@ function Farms({ data, setData }) {
             }
           });
         });
-      });
-      document.addEventListener("DOMContentLoaded", function () {
-        const fenceButtonElement4 = document.querySelector("#fenceButton1");
+        
         fenceButtonElement4.addEventListener("click", function () {
           setData((prevData) => {
             if (prevData.tree - 1 >= 0) {
@@ -941,39 +943,83 @@ function Farms({ data, setData }) {
             }
           });
         });
-      });
-      
+      }
       
     }
     //곡식활용
-    if(farmData.action[19][0] === farmData.currentTurn && farmData.action[19][1] === 19) {
+    if(farmData.action[18][0] === farmData.currentTurn && farmData.action[18][1] === 18) {
       setisbread(true);
-      setisnobread(true);
+      setIsGameFinished(true);      
+
+          
       if(userData[`user${farmData.turn}`].farm_array[index] = "plow") {
-        //여기서 grain이나 vegetable을 선택함
-        alert("hello");
+          
+          let plow_count = userData[`user${farmData.turn}`].farm_array.filter((item) => item === "plow").length;
+          let grain_count = userData[`user${farmData.turn}`].grain;
+          if(plow_count <= grain_count) {
+            //이름은 바꿔준다. 
+            const roomIndices = []; // plow에 해당하는 인덱스를 저장할 배열
+  
+            userData[`user${farmData.turn}`].farm_array.forEach((item, idx) => {
+              if (item === "plow") {
+                roomIndices.push(idx);
+              }
+            });
+            roomIndices.forEach((idx) => {
+              const updatedUserData = { ...userData }; // userData 객체 복사
+              updatedUserData[`user${farmData.turn}`].farm_array[idx] = "plow_grain3"; // farm_array 업데이트
+  
+              setUserData(updatedUserData);
+              const roomClass = `.Btn.room${Math.floor(idx / 5) + 1}_${
+                (idx % 5) + 1
+              }`;
+              const roomElement = document.querySelector(roomClass);
+              const newdata = { ... userData};
+              newdata[`user${farmData.turn}`].grain -= plow_count;
+              setUserData(newdata);
+              roomElement.style.marginTop = "-30px";
+              roomElement.style.marginLeft = "-10px";
+              roomElement.style.width = "85pxpx";
+              roomElement.style.height = "105px";
+              roomElement.style.backgroundImage = `url(${plow_grain3})`;
+            });
+            updateAction(18, 0);
+            alert("곡식 뿌리기 완료. 빵굽기 곡식 하나당 음식 2개!");
+          } else {
+            //grain 수 만큼
+            const roomClass = `.Btn.room${Math.floor(index / 5) + 1}_${
+              (index % 5) + 1
+            }`;  
+            
+            const updatedUserData = { ...userData }; // userData 객체 복사
+            updatedUserData[`user${farmData.turn}`].farm_array[index] = "plow_grain3"; // farm_array 업데이트
+            setUserData(updatedUserData);
+
+            const roomElement = document.querySelector(roomClass);
+            roomElement.style.backgroundImage = `url(${plow_grain3})`;
+            const newdata = { ... userData};
+            newdata[`user${farmData.turn}`].grain -= 1;
+            setUserData(newdata);
+            alert("씨부리기 하나 완료, 빵굽기 곡식 하나당 음식 2개!");
+          }
+      } else {
+        alert("지을 수 없습니다");
       }
     }
-    //빵굽기
-    if(farmData.action[19][0] === farmData.currentTurn && farmData.action[19][1] === 29) {
-      //이분이 grain이나 vegetable이 있는 경우 음식으로 바꿔주는 로직
-      //const res를 한다.
-
-    }
-
   }
-  //빵굽기 없이 종료
-  function handlernobread() {
-    setisbread(false);
-      setisnobread(false);
-  }
-  //빵굽기 행동
+  //빵굽기
   function handlerbread() {
-    updateAction(19, 29); // 업데이트된 action 상태를 업데이트하는 함수 호출
-    alert("곡식 1개를 음식 2개로 바꿉니다.");
-    setisbread(false);
-    setisnobread(false);
-
+    let plow_count = userData[`user${farmData.turn}`].farm_array.filter((item) => item === "plow_grain3").length;
+    let grain_count = userData[`user${farmData.turn}`].grain;
+    if(grain_count - plow_count > 0 ) {
+      const newdata = { ... userData};
+      newdata[`user${farmData.turn}`].grain -= 1;
+      newdata[`user${farmData.turn}`].food += 2;
+      setUserData(newdata);
+      alert("곡식 1개를 음식 2개로 바꿉니다.");
+    } else {
+      alert("자원이 부족합니다. 종료해주세요");
+    }
   }
 
   function househandler() {
@@ -1032,22 +1078,22 @@ function Farms({ data, setData }) {
     if (farmData.action[6][0] === farmData.currentTurn) {
       farmdefaulthandelr(res, 6); //농장확장일 경우
     } else if (farmData.action[9][0] === farmData.currentTurn) {
-      //울타리일 경우 일단 9라고 설정
-      farmdefaulthandelr(res, 9); //농장확장일 경우
+      //농지일 경우
+      farmdefaulthandelr(res, 9); 
     } else if (farmData.action[17][0] === farmData.currentTurn) {
+      //울타리
       farmdefaulthandelr(res, 17);
+    } else if(farmData.action[18][0] === farmData.currentTurn) {
+      //곡식활용
+      farmdefaulthandelr(res, 18);
     }
+    setisbread(false);
     setIshousegame(false);
     setIsGameFinished(false); // 새로운 종료 버튼 비활성화
   }
 
   return (
     <div>
-      {isnobread && (
-        <button className="nobread" onClick={handlernobread}>
-          빵굽기 없이 종료
-        </button>
-      )}
       {isbread && (
         <button className="bread" onClick={handlerbread}>
           빵굽기

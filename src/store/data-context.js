@@ -36,6 +36,9 @@ function DataContextProvider({ children }) {
       [0, 1],
 
       [0, 0],
+      [0, 0], //가족부양
+      [0, 0], //작물뿌려주기
+      
     ],
 
     tree: 0,
@@ -61,14 +64,6 @@ function DataContextProvider({ children }) {
     setFarmData((prevFarmData) => {
       const updatedFarmerCount = [...prevFarmData.farmer_count];
       updatedFarmerCount[index] = prevFarmData.farmer_count[index] - 1;
-      return { ...prevFarmData, farmer_count: updatedFarmerCount };
-    });
-  };
-  const updateFarmerCount_harvest = (index) => {
-    setFarmData((prevFarmData) => {
-      const updatedFarmerCount = [...prevFarmData.farmer_count];
-      updatedFarmerCount[index] =
-        prevFarmData.farmer_count[index] - prevFarmData.farmer_count[index];
       return { ...prevFarmData, farmer_count: updatedFarmerCount };
     });
   };
@@ -117,7 +112,6 @@ function DataContextProvider({ children }) {
       }));
 
       updateFarmerCount((farmData.currentTurn + 3) % 4);
-      // updateFarmerCount_harvest((farmData.currentTurn + 3) % 4);
     }
   };
 
@@ -165,7 +159,6 @@ function DataContextProvider({ children }) {
     farmData,
     setFarmData,
     updateFarmerCount,
-    updateFarmerCount_harvest,
     updateFarmData,
     updateAction,
     updateJobCard,
