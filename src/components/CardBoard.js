@@ -1,58 +1,44 @@
 import { useContext, useEffect, useState } from "react";
 import styles from "./CardBoard.module.css";
 import { DataContext } from "../store/data-context";
+import { UserContext } from "../store/user-context";
 
-function CardBoard() {
+function CardBoard({ userId }) {
   const { farmData, setFarmData } = useContext(DataContext);
-  const [main1, setMain1] = useState(10);
-  //   const job = [
-  //     [1, 0],
-  //     [2, 1],
-  //     [3, 0],
-  //   ];
-  //   const sub = [
-  //     [1, 0],
-  //     [2, 1],
-  //     [3, 0],
-  //   ];
-  //   const main = [
-  //     [1, 0],
-  //     [2, 1],
-  //     [3, 0],
-  //   ];
+  const { userData, setUserData } = useContext(UserContext);
 
-  useEffect(() => {
-    setMain1(farmData.main[0]);
-    console.log(farmData.main[0]);
-  }, [farmData.main]);
+  const mainCardList = userData[`user${userId}`].main;
+  const jobCardList = userData[`user${userId}`].job;
+  const subCardList = userData[`user${userId}`].sub;
+
   return (
-    <div>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       <div>
-        {main1 !== 10 && (
+        {mainCardList.map((imageName, index) => (
           <img
-            //   src={require("../asset/sub/s" + `${subSulbi[0].id}` + ".png")}
-            // src={require("../asset/main/main" + `${main1}` + ".png")}
-            src={require("../asset/main/main1.png")}
+            key={index}
+            src={require("../asset/main/main" + `${imageName + 1}.png`)} // 이미지 파일의 경로와 파일 이름
             className={styles.main}
           />
-        )}
-        <img
-          //   src={require("../asset/sub/s" + `${subSulbi[0].id}` + ".png")}
-          src={require("../asset/main/main1.png")}
-          className={styles.main}
-        />
+        ))}
       </div>
       <div>
-        <img
-          //   src={require("../asset/sub/s" + `${subSulbi[0].id}` + ".png")}
-          src={require("../asset/main/main1.png")}
-          className={styles.main}
-        />
-        <img
-          //   src={require("../asset/sub/s" + `${subSulbi[0].id}` + ".png")}
-          src={require("../asset/main/main1.png")}
-          className={styles.main}
-        />
+        {jobCardList.map((imageName, index) => (
+          <img
+            key={index}
+            src={require("../asset/job/j" + `${imageName}.png`)} // 이미지 파일의 경로와 파일 이름
+            className={styles.sub}
+          />
+        ))}
+      </div>
+      <div>
+        {subCardList.map((imageName, index) => (
+          <img
+            key={index}
+            src={require("../asset/sub/s" + `${imageName}.png`)} // 이미지 파일의 경로와 파일 이름
+            className={styles.sub}
+          />
+        ))}
       </div>
     </div>
   );

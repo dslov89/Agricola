@@ -65,7 +65,20 @@ function Farms({ data, setData }) {
 
   const farmdefaulthandelr = async (res, index) => {
     await updateAction(index, 0);
-    
+    sendingClient.current.send(
+      "/main-board/farm/update",
+      {},
+      JSON.stringify({
+        messageType: "FARM",
+        roomId: farmData.roomId,
+        round: farmData.round,
+        action: farmData.action,
+        currentTurn: (farmData.currentTurn + 1) % 4,
+        farmer_count: farmData.farmer_count,
+        building: userData[`user${res.userid}`].farm_array,
+        fence: userData[`user${res.userid}`].farm_fence_array,
+      })
+    );
     sendingClient.current.send(
       "/main-board/resource/update",
       {},

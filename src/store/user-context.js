@@ -19,7 +19,7 @@ function UserContextProvider({ children }) {
       farmer: 2,
       fence: 15,
       house: 0,
-      main: [], // 내려놓은 카드들
+      main: [1], // 내려놓은 카드들
       job: [],
       sub: [],
       farm_array: [

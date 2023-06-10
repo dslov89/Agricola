@@ -6,7 +6,7 @@ function DataContextProvider({ children }) {
   const [farmData, setFarmData] = useState({
     messageType: "",
     roomId: 0,
-    round: 0,
+    round: 1,
     currentTurn: 5,
     farmer_count: [2, 2, 2, 2],
     turn: 0,
@@ -36,6 +36,9 @@ function DataContextProvider({ children }) {
       [0, 1],
 
       [0, 0],
+      [0, 0], //가족부양
+      [0, 0], //작물뿌려주기
+      
     ],
 
     tree: 0,
@@ -67,17 +70,15 @@ function DataContextProvider({ children }) {
   const updateFarmerCount_harvest = (index) => {
     setFarmData((prevFarmData) => {
       const updatedFarmerCount = [...prevFarmData.farmer_count];
-      updatedFarmerCount[index] = prevFarmData.farmer_count[index] - prevFarmData.farmer_count[index];
+      updatedFarmerCount[index] =
+        prevFarmData.farmer_count[index] - prevFarmData.farmer_count[index];
       return { ...prevFarmData, farmer_count: updatedFarmerCount };
     });
   };
 
-
-
+  // 갱신
   const updateFarmData = () => {
-    if (
-      farmData.farmer_count.filter((count) => count === 0).length === 4
-    ) {
+    if (farmData.farmer_count.filter((count) => count === 0).length === 4) {
       const modifiedFarmData = farmData.action.map((item, index) => {
         if (
           index === 0 ||
@@ -98,7 +99,6 @@ function DataContextProvider({ children }) {
         }
 
         if (index === 12) {
-
           if (item[0] === 0) {
             return [item[0], item[1] + 3];
           }
@@ -120,7 +120,7 @@ function DataContextProvider({ children }) {
       }));
 
       updateFarmerCount((farmData.currentTurn + 3) % 4);
-      updateFarmerCount_harvest((farmData.currentTurn + 3) % 4);
+      // updateFarmerCount_harvest((farmData.currentTurn + 3) % 4);
     }
   };
 
