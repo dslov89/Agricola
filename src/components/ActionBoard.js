@@ -658,6 +658,17 @@ function ActionBoard({ data, setData }) {
           res.grain += 1;
         }
       }
+
+      if(userData[`user${farmData.turn}`].job.includes(16)) // 직업 16. 보조 경직자
+      {
+        if(window.confirm("밭 1개를 일구시겠습니까?"))
+        {
+          // 밭 일구기 로직
+        } else {
+          console.log("밭 안 일굼");
+        }
+      }
+
       defaultActHandler(res, 2);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
