@@ -460,11 +460,10 @@ function ActionBoard({ data, setData }) {
     }
   }
 
-  const [well, setWell] = useState(true);
+  const [well, setWell] = useState([]);
   function WellHandler() {
 
-    if (well) {
-    if (farmData.round === 3) {
+    if (farmData.round === 3 && well.length === 0) {
       const res = {
         tree: 0,
         soil: 0,
@@ -478,9 +477,9 @@ function ActionBoard({ data, setData }) {
         food: 1,
       };
       harvestActHandler(res);
-      setWell(false);
+      setWell((prevWell) => [...prevWell, 1]);
       console.log("well round 3");
-    } else if (farmData.round === 4) {
+    } else if (farmData.round === 4 && well.length === 0) {
       const res = {
         tree: 0,
         soil: 0,
@@ -494,12 +493,11 @@ function ActionBoard({ data, setData }) {
         food: 0,
       };
       harvestActHandler(res);
-      setWell(false);
+      setWell((prevWell) => [...prevWell, 1]);
       console.log("well round 4");
     }
-    }
     else {
-      alert("한 번만 눌러요");
+      alert("이제 그만");
     }
   }
 
