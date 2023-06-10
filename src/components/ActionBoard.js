@@ -1006,13 +1006,17 @@ function ActionBoard({ data, setData }) {
         console.log("구걸카드 띄워주기");
       }
     }
+    else {
+      alert("이미 가족 부양을 완료 하였습니다.");
+    }
   }
 
   function harvest_grain() {
-    if (
-      userData[`user${farmData.turn}`].farmer === 1
-    ) {
+    if (userData[`user${farmData.turn}`].farmer === 1) {
       console.log("이제 여기 하면 끝");
+    }
+    else {
+      alert("가족 부양 부터 하세요.");
     }
   }
 
@@ -1054,31 +1058,6 @@ function ActionBoard({ data, setData }) {
     position: "absolute",
   };
 
-  function main10() {
-    //수확 때
-    if (farmData.round > 6) {
-      if (userData[`user${farmData.turn}`].reed >= 1) {
-        const res = {
-          tree: 0,
-          soil: 0,
-          reed: -1,
-          charcoal: 0,
-          sheep: 0,
-          pig: 0,
-          cow: 0,
-          grain: 0,
-          vegetable: 0,
-          food: 3,
-        };
-        defaultActHandler(res);
-      } else {
-        alert("갈대 자원이 부족합니다.");
-      }
-    } else {
-      alert("수확 때 가능합니다.");
-    }
-  }
-
   const moveOtherPlayer = (index) => {
     if (index === 1 || index === 5)
       return <div style={btnStyle2}>{checkOtherPlayer(index)}</div>;
@@ -1088,7 +1067,6 @@ function ActionBoard({ data, setData }) {
   };
 
   return (
-    
     <div className="boardContainer">
       {isBake && returnBakeDiv()}
       {returnBakeDiv()}
@@ -1098,7 +1076,6 @@ function ActionBoard({ data, setData }) {
           Your Turn!
         </h2>
       )}
-
       {farmData.round === 5 && (
         <h2 style={{ position: "absolute", top: "-75px", left: "300px" }}>
           Harvest
@@ -1109,67 +1086,59 @@ function ActionBoard({ data, setData }) {
           Game Over!
         </h2>
       )}
-
       {farmData.round === 6 && scoreBoardVisible && (
         <ScoreBoard setIsVisible={setScoreBoardVisible} />
       )}
-
       {/* 덤블 버튼 */}
-      {isTurn ? (
+      {isTurn && farmData.round < 5 ? (
         <div className="actionBtn dumble" onClick={dumbleHandler}>
           {moveOtherPlayer(0)}
         </div>
       ) : (
         <div className="player dumble">{moveOtherPlayer(0)}</div>
       )}
-
       {/* 수풀 버튼 */}
-      {isTurn ? (
+      {isTurn && farmData.round < 5 ? (
         <div className="actionBtn bush" onClick={bushHandler}>
           {moveOtherPlayer(1)}
         </div>
       ) : (
         <div className="player bush">{moveOtherPlayer(1)}</div>
       )}
-
       {/* 자원 시장 버튼 */}
-      {isTurn ? (
+      {isTurn && farmData.round < 5 ? (
         <div className="actionBtn resource" onClick={resourceHandler}>
           {moveOtherPlayer(2)}
         </div>
       ) : (
         <div className="player resource">{moveOtherPlayer(2)}</div>
       )}
-
       {/* 점토 채굴장 버튼 */}
-      {isTurn ? (
+      {isTurn && farmData.round < 5 ? (
         <div className="actionBtn clay" onClick={clayHandler}>
           {moveOtherPlayer(3)}
         </div>
       ) : (
         <div className="player clay">{moveOtherPlayer(3)}</div>
       )}
-
       {/* 교습1 버튼 */}
-      {isTurn ? (
+      {isTurn && farmData.round < 5 ? (
         <div className="actionBtn teach1" onClick={teach1Handler}>
           {moveOtherPlayer(4)}
         </div>
       ) : (
         <div className="player teach1">{moveOtherPlayer(4)}</div>
       )}
-
       {/* 유랑극당 버튼 */}
-      {isTurn ? (
+      {isTurn && farmData.round < 5 ? (
         <div className="actionBtn theater" onClick={theaterHandler}>
           {moveOtherPlayer(5)}
         </div>
       ) : (
         <div className="player theater">{moveOtherPlayer(5)}</div>
       )}
-
       {/* 농장 확장 버튼 */}
-      {isTurn ? (
+      {isTurn && farmData.round < 5 ? (
         <div
           className="actionBtn actionBtn2 farmExtend"
           onClick={farmExtendHandler}
@@ -1179,81 +1148,72 @@ function ActionBoard({ data, setData }) {
       ) : (
         <div className="player actionBtn2 farmExtend">{moveOtherPlayer(6)}</div>
       )}
-
       {/* 회합 장소 버튼 */}
-      {isTurn ? (
+      {isTurn && farmData.round < 5 ? (
         <div className="actionBtn actionBtn2 space" onClick={spaceHandler}>
           {moveOtherPlayer(7)}
         </div>
       ) : (
         <div className="player actionBtn2 space">{moveOtherPlayer(7)}</div>
       )}
-
       {/* 곡식 종자 버튼 */}
-      {isTurn ? (
+      {isTurn && farmData.round < 5 ? (
         <div className="actionBtn actionBtn2 grain" onClick={grainHandler}>
           {moveOtherPlayer(8)}
         </div>
       ) : (
         <div className="player actionBtn2 grain">{moveOtherPlayer(8)}</div>
       )}
-
       {/* 농지 버튼 */}
-      {isTurn ? (
+      {isTurn && farmData.round < 5 ? (
         <div className="actionBtn actionBtn2 clay" onClick={farmlandHandler}>
           {moveOtherPlayer(9)}
         </div>
       ) : (
         <div className="player actionBtn2 clay">{moveOtherPlayer(9)}</div>
       )}
-
       {/* 교습2 버튼 */}
-      {isTurn ? (
+      {isTurn && farmData.round < 5 ? (
         <div className="actionBtn actionBtn2 teach1" onClick={teach2Handler}>
           {moveOtherPlayer(10)}
         </div>
       ) : (
         <div className="player actionBtn2 teach1">{moveOtherPlayer(10)}</div>
       )}
-
       {/* 날품팔이 버튼 */}
-      {isTurn ? (
+      {isTurn && farmData.round < 5 ? (
         <div className="actionBtn actionBtn2 theater" onClick={goodsHandler}>
           {moveOtherPlayer(11)}
         </div>
       ) : (
         <div className="player actionBtn2 theater">{moveOtherPlayer(11)}</div>
       )}
-
       {/* 숲 버튼 */}
-      {isTurn ? (
+      {isTurn && farmData.round < 5 ? (
         <div className="actionBtn actionBtn3 forest" onClick={forestHandler}>
           {moveOtherPlayer(12)}
         </div>
       ) : (
         <div className="player actionBtn3 forest">{moveOtherPlayer(12)}</div>
       )}
-
       {/* 흙 채굴장 버튼 */}
-      {isTurn ? (
+      {isTurn && farmData.round < 5 ? (
         <div className="actionBtn actionBtn3 clay" onClick={soilHandler}>
           {moveOtherPlayer(13)}
         </div>
       ) : (
         <div className="player actionBtn3 clay">{moveOtherPlayer(13)}</div>
       )}
-
       {/* 갈대밭 버튼 */}
-      {isTurn ? (
+      {isTurn && farmData.round < 5 ? (
         <div className="actionBtn actionBtn3 teach1" onClick={reedHandler}>
           {moveOtherPlayer(14)}
         </div>
       ) : (
         <div className="player actionBtn3 teach1">{moveOtherPlayer(14)}</div>
       )}
-
       {/* 낚시 버튼 */}
-      {isTurn ? (
+      {isTurn && farmData.round < 5 ? (
         <div className="actionBtn actionBtn3 theater" onClick={fishingHandler}>
           {moveOtherPlayer(15)}
         </div>
@@ -1261,18 +1221,16 @@ function ActionBoard({ data, setData }) {
         <div className="player actionBtn3 theater">{moveOtherPlayer(15)}</div>
       )}
       {/*수확 버튼*/}
-      {isTurn && (farmData.round === 5) && (
+      {isTurn && farmData.round === 5 && (
         <button className="harvest_familyBtn" onClick={harvest_family}>
           가족 부양
         </button>
       )}
-
-      {isTurn && (farmData.round === 5) &&  (
+      {isTurn && farmData.round === 5 && (
         <button className="harvest_grainBtn" onClick={harvest_grain}>
           작물 뿌려주기
         </button>
       )}
-
       <div className="cardBtn1" onClick={cardBtn1Handler}></div>
       {mainModalVisible && (
         <MainModal
@@ -1295,7 +1253,6 @@ function ActionBoard({ data, setData }) {
           setIsSub={setIsSub}
         />
       )}
-
       {farmData.round >= 1 &&
         (isTurn ? (
           <button
