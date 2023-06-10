@@ -607,9 +607,26 @@ function ActionBoard({ data, setData }) {
     if(sheepCnt === 1) res.food += 1;
     else if(sheepCnt === 4) res.food += 2;
     else if(sheepCnt === 7) res.food += 3;
-    
+
+    alwaysActHandler(res);
+  }
+
+  function sub14Handler() { // 보조 14. 빵삽
+    const res = {
+      tree: 0,
+      soil: 0,    
+      reed: 0,
+      charcoal: 0,
+      sheep: 0,
+      pig: 0,
+      cow: 0,
+      grain: 0,
+      vegetable: 0,
+      food: 1,
+    };
     alwaysActHandler(res);
 }
+
 
 
 
@@ -841,7 +858,7 @@ function ActionBoard({ data, setData }) {
           vegetable: 0,
           food: -2,
         };
-
+        
         alwaysActHandler(res);
         setIsJob(true);
       } else {
