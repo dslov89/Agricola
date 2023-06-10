@@ -590,6 +590,27 @@ function ActionBoard({ data, setData }) {
       alwaysActHandler(res);
   }
 
+  function sub11Handler() { // 보조 11. 베틀
+    const sheepCnt = userData[`user${farmData.turn}`].sheep;
+    const res = {
+      tree: 0,
+      soil: 0,    
+      reed: 0,
+      charcoal: 0,
+      sheep: 0,
+      pig: 0,
+      cow: 0,
+      grain: 0,
+      vegetable: 0,
+      food: 0,
+    };
+    if(sheepCnt === 1) res.food += 1;
+    else if(sheepCnt === 4) res.food += 2;
+    else if(sheepCnt === 7) res.food += 3;
+    
+    alwaysActHandler(res);
+}
+
 
 
 
