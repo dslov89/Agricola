@@ -413,6 +413,26 @@ function ActionBoard({ data, setData }) {
     }
   }
 
+  function charcoalKilnHandler() {  // 메인설비 07.돌가마
+    if (userData[`user${farmData.turn}`].grain > 0) {       // 자원 갖고 있는 지 확인
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: -1,
+        vegetable: 0,
+        food: 4,
+      };
+      alwaysActHandler(res);
+    } else {
+      alert("보유한 자원이 부족합니다.");
+    }
+  }
+
   function checkRoomCount() {
     const roomArray = userData[`user${farmData.turn}`].room;
     const roomCounts = {
