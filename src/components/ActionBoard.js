@@ -669,6 +669,16 @@ function ActionBoard({ data, setData }) {
         }
       }
 
+      if(userData[`user${farmData.turn}`].job.includes(17)) // 직업 17. 오두막집 살이
+      {
+        if(window.confirm("방을 짓거나 고치시겠습니까?"))
+        {
+          // 방 고치기 로직
+        } else {
+          console.log("안고침");
+        }
+      }
+
       defaultActHandler(res, 2);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
