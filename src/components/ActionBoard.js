@@ -562,7 +562,7 @@ function ActionBoard({ data, setData }) {
         sheep: 0,
         pig: 0,
         cow: 0,
-        grain: 1,
+        grain: 0,
         vegetable: 0,
         food: 0,
       };
@@ -573,6 +573,24 @@ function ActionBoard({ data, setData }) {
       alert("보유한 자원이 부족합니다.");
     }
   }
+
+  function sub04Handler() { // 보조 04. 다진 흙
+      const res = {
+        tree: 0,
+        soil: 1,    // 울타리 칠 때 나무 대신 흙 가능
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: 0,
+      };
+      alwaysActHandler(res);
+  }
+
+
 
 
   // index는 액션버튼 순서 0부터
