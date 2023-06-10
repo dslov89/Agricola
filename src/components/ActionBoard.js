@@ -1254,7 +1254,7 @@ function ActionBoard({ data, setData }) {
         />
       )}
       {farmData.round >= 1 &&
-        (isTurn ? (
+        (isTurn && farmData.round <5 ? (
           <button
             className="actionBtn roundBtn1"
             onClick={() => facilityHandler(16)}
@@ -1264,13 +1264,12 @@ function ActionBoard({ data, setData }) {
           </button>
         ) : (
           <button className="player roundBtn1">
-            {moveOtherPlayer(16)}
             <Facility className="facilityBtn1" />
           </button>
         ))}
 
       {farmData.round >= 2 &&
-        (isTurn ? (
+        (isTurn && farmData.round<5? (
           <button
             className="actionBtn roundBtn2"
             onClick={() => fenceHandler(17)}
@@ -1280,13 +1279,12 @@ function ActionBoard({ data, setData }) {
           </button>
         ) : (
           <button className="player roundBtn2">
-            {moveOtherPlayer(17)}
             <Fence className="facilityBtn1" />
           </button>
         ))}
 
       {farmData.round >= 3 &&
-        (isTurn ? (
+        (isTurn &&farmData.round<5? (
           <button
             className="actionBtn roundBtn3"
             onClick={() => roundGrainHandler(18)}
@@ -1296,13 +1294,12 @@ function ActionBoard({ data, setData }) {
           </button>
         ) : (
           <button className="player roundBtn3">
-            {moveOtherPlayer(18)}
             <Grain className="facilityBtn1" />
           </button>
         ))}
 
       {farmData.round >= 4 &&
-        (isTurn ? (
+        (isTurn &&farmData.round<5? (
           <button
             className="actionBtn roundBtn4"
             onClick={() => sheepHandler(19)}
@@ -1312,7 +1309,6 @@ function ActionBoard({ data, setData }) {
           </button>
         ) : (
           <button className="player roundBtn4">
-            {moveOtherPlayer(19)}
             <Sheep className="facilityBtn1" />
           </button>
         ))}
