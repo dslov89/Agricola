@@ -407,6 +407,31 @@ function ActionBoard({ data, setData }) {
     });
     return(roomCounts);
   }
+  
+  function job3Handler(item) {
+    if(userData[`user${farmData.turn}`].food > 0){
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: -1,
+      }
+      if(item === "sheep") res.sheep += 1;
+      else if(item === "pig") res.pig += 1;
+      else if(item === "cow") res.cow += 1;
+
+      alwaysActHandler(res);
+    }
+    else {
+      alert("보유한 자원이 부족합니다.");
+    }
+  }
 
   function job23Handler() { // 직업 23. 지붕 다지는 사람
     if(userData[`user${farmData.turn}`].food > 1) {
@@ -1008,6 +1033,14 @@ function ActionBoard({ data, setData }) {
       const userda = { ...userData };
       userda[`user${farmData.turn}`].sheep += 1;
       setUserData(userda);
+      if(userData[`user${farmData.turn}`].job.includes(3))
+      {
+        if(window.confirm("가축 상인(음식 1개 내고 양 1개 받기) 효과를 사용하시겠습니까?")) {
+         job3Handler("sheep");
+          } else {
+          console.log("가축 상인 효과 사용 안함");
+          }
+      }
 
       updateAction(19, 19);
     } else {
