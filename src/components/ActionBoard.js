@@ -649,6 +649,22 @@ function ActionBoard({ data, setData }) {
     }
   } 
 
+  function sub23Handler() { // 보조 23. 채굴 망치
+    const res = {
+      tree: 0,
+      soil: 0,    
+      reed: 0,
+      charcoal: 0,
+      sheep: 0,
+      pig: 0,
+      cow: 0,
+      grain: 0,
+      vegetable: 0,
+      food: 1,
+    };
+    alwaysActHandler(res);
+  } 
+
 
 
 
