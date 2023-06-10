@@ -178,9 +178,16 @@
   cursor: pointer; /* 기본 커서를 포인터로 설정 */
 }
 
-.harvestBtn {
+.harvest_familyBtn {
   position: absolute;
-  top: -75px;
+  top: -50px;
   left: 500px;
+  cursor: pointer; /*기본 커서를 포인터로 설정 */
+}
+
+.harvest_grainBtn {
+  position: absolute;
+  top: -50px;
+  left: 600px;
   cursor: pointer; /*기본 커서를 포인터로 설정 */
 }
