@@ -75,8 +75,8 @@ function ActionBoard({ data, setData }) {
 
   useEffect(() => {
     if (
-      farmData.currentTurn === farmData.turn % 4 &&   // 내 턴이면서
-      farmData.farmer_count[(farmData.turn - 1) % 4] != 0   // 농부수가 남아있으면
+      farmData.currentTurn === farmData.turn % 4 && // 내 턴이면서
+      farmData.farmer_count[(farmData.turn - 1) % 4] != 0 // 농부수가 남아있으면
     ) {
       updateFarmerCount((farmData.turn - 1) % 4);
       console.log("됨");
@@ -124,7 +124,7 @@ function ActionBoard({ data, setData }) {
   const alwaysActHandler = async (res) => {
     await updateAlways(farmData.turn); // 누른 놈 제외 갱신
     const farmer_cnt = farmData.farmer_count;
-    farmer_cnt[(farmData.currentTurn +3 )%4] -= 1;
+    farmer_cnt[(farmData.currentTurn + 3) % 4] -= 1;
     sendingClient.current.send(
       "/main-board/resource/update",
       {},
@@ -133,7 +133,7 @@ function ActionBoard({ data, setData }) {
         roomId: farmData.roomId,
         action: farmData.action,
         round: farmData.round,
-        currentTurn: (farmData.currentTurn)%4,
+        currentTurn: farmData.currentTurn % 4,
         farmer_count: farmer_cnt,
         tree: res.tree,
         soil: res.soil,
@@ -173,29 +173,32 @@ function ActionBoard({ data, setData }) {
   };
 
   function returnBakeDiv() {
-    return <div
-      style={{
-        position: "absolute",
-        top: "-75px",
-        left: "400px",
-        zIndex: "9999",
-      }}
-    >
-      <button onClick={hwaroVegetableHandler}>화로-야채</button>
-      <button onClick={hwaroPigHandler}>화로-돼지</button>
-      <button onClick={hwaroSheepHandler}>화로-양</button>
-      <button onClick={hwaroCowHandler}>화로-소</button>
-      <button onClick={hwaroBakeHandler}>화로-빵굽기</button>
-      <button onClick={hwaduckVegetableHandler}>화덕-야채</button>
-      <button onClick={hwaduckPigHandler}>화덕-돼지</button>
-      <button onClick={hwaduckSheepHandler}>화덕-양</button>
-      <button onClick={hwaduckCowHandler}>화덕-소</button>
-      <button onClick={hwaduckBakeHandler}>화덕-빵굽기</button>
-    </div>
+    return (
+      <div
+        style={{
+          position: "absolute",
+          top: "-75px",
+          left: "400px",
+          zIndex: "9999",
+        }}
+      >
+        <button onClick={hwaroVegetableHandler}>화로-야채</button>
+        <button onClick={hwaroPigHandler}>화로-돼지</button>
+        <button onClick={hwaroSheepHandler}>화로-양</button>
+        <button onClick={hwaroCowHandler}>화로-소</button>
+        <button onClick={hwaroBakeHandler}>화로-빵굽기</button>
+        <button onClick={hwaduckVegetableHandler}>화덕-야채</button>
+        <button onClick={hwaduckPigHandler}>화덕-돼지</button>
+        <button onClick={hwaduckSheepHandler}>화덕-양</button>
+        <button onClick={hwaduckCowHandler}>화덕-소</button>
+        <button onClick={hwaduckBakeHandler}>화덕-빵굽기</button>
+      </div>
+    );
   }
 
   function hwaduckVegetableHandler() {
-    if (userData[`user${farmData.turn}`].vegetable > 0) {       // 자원 갖고 있는 지 확인
+    if (userData[`user${farmData.turn}`].vegetable > 0) {
+      // 자원 갖고 있는 지 확인
       const res = {
         tree: 0,
         soil: 0,
@@ -215,7 +218,8 @@ function ActionBoard({ data, setData }) {
   }
 
   function hwaduckPigHandler() {
-    if (userData[`user${farmData.turn}`].pig > 0) {       // 자원 갖고 있는 지 확인
+    if (userData[`user${farmData.turn}`].pig > 0) {
+      // 자원 갖고 있는 지 확인
       const res = {
         tree: 0,
         soil: 0,
@@ -235,7 +239,8 @@ function ActionBoard({ data, setData }) {
   }
 
   function hwaduckSheepHandler() {
-    if (userData[`user${farmData.turn}`].sheep > 0) {       // 자원 갖고 있는 지 확인
+    if (userData[`user${farmData.turn}`].sheep > 0) {
+      // 자원 갖고 있는 지 확인
       const res = {
         tree: 0,
         soil: 0,
@@ -255,7 +260,8 @@ function ActionBoard({ data, setData }) {
   }
 
   function hwaduckCowHandler() {
-    if (userData[`user${farmData.turn}`].cow > 0) {       // 자원 갖고 있는 지 확인
+    if (userData[`user${farmData.turn}`].cow > 0) {
+      // 자원 갖고 있는 지 확인
       const res = {
         tree: 0,
         soil: 0,
@@ -275,7 +281,8 @@ function ActionBoard({ data, setData }) {
   }
 
   function hwaduckBakeHandler() {
-    if (userData[`user${farmData.turn}`].vegetable > 0) {       // 자원 갖고 있는 지 확인
+    if (userData[`user${farmData.turn}`].vegetable > 0) {
+      // 자원 갖고 있는 지 확인
       const res = {
         tree: 0,
         soil: 0,
@@ -295,7 +302,8 @@ function ActionBoard({ data, setData }) {
   }
 
   function hwaroVegetableHandler() {
-    if (userData[`user${farmData.turn}`].vegetable > 0) {       // 자원 갖고 있는 지 확인
+    if (userData[`user${farmData.turn}`].vegetable > 0) {
+      // 자원 갖고 있는 지 확인
       const res = {
         tree: 0,
         soil: 0,
@@ -315,7 +323,8 @@ function ActionBoard({ data, setData }) {
   }
 
   function hwaroPigHandler() {
-    if (userData[`user${farmData.turn}`].pig > 0) {       // 자원 갖고 있는 지 확인
+    if (userData[`user${farmData.turn}`].pig > 0) {
+      // 자원 갖고 있는 지 확인
       const res = {
         tree: 0,
         soil: 0,
@@ -335,7 +344,8 @@ function ActionBoard({ data, setData }) {
   }
 
   function hwaroSheepHandler() {
-    if (userData[`user${farmData.turn}`].sheep > 0) {       // 자원 갖고 있는 지 확인
+    if (userData[`user${farmData.turn}`].sheep > 0) {
+      // 자원 갖고 있는 지 확인
       const res = {
         tree: 0,
         soil: 0,
@@ -355,7 +365,8 @@ function ActionBoard({ data, setData }) {
   }
 
   function hwaroCowHandler() {
-    if (userData[`user${farmData.turn}`].cow > 0) {       // 자원 갖고 있는 지 확인
+    if (userData[`user${farmData.turn}`].cow > 0) {
+      // 자원 갖고 있는 지 확인
       const res = {
         tree: 0,
         soil: 0,
@@ -374,25 +385,26 @@ function ActionBoard({ data, setData }) {
     }
   }
 
-    function hwaroBakeHandler() {
-      if (userData[`user${farmData.turn}`].vegetable > 0) {       // 자원 갖고 있는 지 확인
-        const res = {
-          tree: 0,
-          soil: 0,
-          reed: 0,
-          charcoal: 0,
-          sheep: 0,
-          pig: 0,
-          cow: 0,
-          grain: -1,
-          vegetable: 0,
-          food: 2,
-        };
-        alwaysActHandler(res);
-      } else {
-        alert("보유한 자원이 부족합니다.");
-      }
+  function hwaroBakeHandler() {
+    if (userData[`user${farmData.turn}`].vegetable > 0) {
+      // 자원 갖고 있는 지 확인
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: -1,
+        vegetable: 0,
+        food: 2,
+      };
+      alwaysActHandler(res);
+    } else {
+      alert("보유한 자원이 부족합니다.");
     }
+  }
 
   // index는 액션버튼 순서 0부터
   const defaultActHandler = async (res, index) => {
@@ -593,8 +605,9 @@ function ActionBoard({ data, setData }) {
           food: -2,
         };
 
-        notTurnHandler(res, 4);
+        alwaysActHandler(res);
         setIsJob(true);
+        setSubModalVisible(true);
       } else {
         alert("식량이 부족합니다");
       }
@@ -668,6 +681,7 @@ function ActionBoard({ data, setData }) {
 
       notTurnHandler(res, 7);
       setIsSub(true);
+      setSubModalVisible(true);
       //보조 설비 카드 창 활성화
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
@@ -737,8 +751,9 @@ function ActionBoard({ data, setData }) {
           food: -1,
         };
 
-        notTurnHandler(res, 10);
+        alwaysActHandler(res);
         setIsJob(true);
+        setSubModalVisible(true);
       } else {
         alert("식량이 부족합니다");
       }
@@ -878,7 +893,6 @@ function ActionBoard({ data, setData }) {
   }
   function cardBtn1Handler() {
     setMainModalVisible(true);
-
   }
   function cardBtn2Handler() {
     setSubModalVisible(true);
@@ -903,6 +917,8 @@ function ActionBoard({ data, setData }) {
       notTurnHandler(res, 16);
       setIsSub(true);
       setIsMain(true);
+      setSubModalVisible(true);
+      setMainModalVisible(true);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
@@ -929,28 +945,41 @@ function ActionBoard({ data, setData }) {
 
   //곡식 활용 클릭 시
   function roundGrainHandler() {
-
-    let plow_count = userData[`user${farmData.turn}`].farm_array.filter((item) => item === "plow").length;
-    if (plow_count>0 && (userData[`user${farmData.turn}`].grain>0 || userData[`user${farmData.turn}`].vegetable>0)) {
-      if (farmData.action[18][0] === 0) { // 아무도 곡식 활용 안 눌렀으면
+    let plow_count = userData[`user${farmData.turn}`].farm_array.filter(
+      (item) => item === "plow"
+    ).length;
+    if (
+      plow_count > 0 &&
+      (userData[`user${farmData.turn}`].grain > 0 ||
+        userData[`user${farmData.turn}`].vegetable > 0)
+    ) {
+      if (farmData.action[18][0] === 0) {
+        // 아무도 곡식 활용 안 눌렀으면
 
         const mainCard = userData[`user${farmData.turn}`].main;
-        if(mainCard.includes(1) || mainCard.includes(2) || mainCard.includes(3)   // 해당 메인설비들 내려놨으면 빵굽기 가능
-        || mainCard.includes(4) || mainCard.includes(6) || mainCard.includes(7))  // 1,2 : 화로 //3,4 : 화덕// 6 : 흙가마// 7: 돌가마
-        {                                                                         // (사진 이름으로 인덱스 매겼어요)
-          if(window.confirm("빵굽기를 하시겠습니까?")) {
+        if (
+          mainCard.includes(1) ||
+          mainCard.includes(2) ||
+          mainCard.includes(3) || // 해당 메인설비들 내려놨으면 빵굽기 가능
+          mainCard.includes(4) ||
+          mainCard.includes(6) ||
+          mainCard.includes(7)
+        ) {
+          // 1,2 : 화로 //3,4 : 화덕// 6 : 흙가마// 7: 돌가마
+          // (사진 이름으로 인덱스 매겼어요)
+          if (window.confirm("빵굽기를 하시겠습니까?")) {
             setIsBake(true); //  이 놈 true 되면 보유하고 있는 메인 설비 목록 띄워주기
-                              // 각 조건에 따라서 빵굽기 해줘야 함
-                              // 보유하고 있는 메인 설비 클릭 가능하게 해주면 되지 않을까 생각 중
-            
-            } else {
+            // 각 조건에 따라서 빵굽기 해줘야 함
+            // 보유하고 있는 메인 설비 클릭 가능하게 해주면 되지 않을까 생각 중
+          } else {
             // 빵 안구우니까 곡식 활용만 하고 넘겨주기
-            }
+          }
         }
 
-       // 직업 관련 로직
-        if(userData[`user${farmData.turn}`].job.includes(1)) { // 직업 01. 장작 채집자
-          const newdata = {...userData};
+        // 직업 관련 로직
+        if (userData[`user${farmData.turn}`].job.includes(1)) {
+          // 직업 01. 장작 채집자
+          const newdata = { ...userData };
           newdata[`user${farmData.turn}`].tree += 1;
           setUserData(newdata);
         }
@@ -1062,7 +1091,6 @@ function ActionBoard({ data, setData }) {
   };
 
   return (
-    
     <div className="boardContainer">
       {isBake && returnBakeDiv()}
       {returnBakeDiv()}

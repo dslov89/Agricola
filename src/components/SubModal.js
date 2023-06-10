@@ -22,6 +22,7 @@ function SubModal({
     updateAction,
     updateSubCard,
     updateJobCard,
+    updateAlways,
   } = useContext(DataContext);
 
   const { userData, setUserData } = useContext(UserContext);
@@ -71,6 +72,56 @@ function SubModal({
     });
   }
 
+  const alwaysActHandler = async (res) => {
+    await updateAlways(farmData.turn); // 누른 놈 제외 갱신
+
+    sendingClient.current.send(
+      "/main-board/resource/update",
+      {},
+      JSON.stringify({
+        messageType: "RESOURCE",
+        roomId: farmData.roomId,
+        action: farmData.action,
+        round: farmData.round,
+        currentTurn: (farmData.currentTurn + 1) % 4,
+        farmer_count: farmData.farmer_count,
+        tree: res.tree,
+        soil: res.soil,
+        reed: res.reed,
+        charcoal: res.charcoal,
+        sheep: res.sheep,
+        pig: res.pig,
+        cow: res.cow,
+        grain: res.grain,
+        vegetable: res.vegetable,
+        food: res.food,
+      })
+    );
+    if (farmData.action[20][1] === farmData.turn) {
+      // 누른 사람은 갱신이 안되어있으므로 따로 갱신해줌
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        [`user${farmData.turn}`]: {
+          ...prevUserData[`user${farmData.turn}`],
+          tree: prevUserData[`user${farmData.turn}`].tree + res.tree,
+          soil: prevUserData[`user${farmData.turn}`].soil + res.soil,
+          reed: prevUserData[`user${farmData.turn}`].reed + res.reed,
+          charcoal:
+            prevUserData[`user${farmData.turn}`].charcoal + res.charcoal,
+          sheep: prevUserData[`user${farmData.turn}`].sheep + res.sheep,
+          pig: prevUserData[`user${farmData.turn}`].pig + res.pig,
+          cow: prevUserData[`user${farmData.turn}`].cow + res.cow,
+          grain: prevUserData[`user${farmData.turn}`].grain + res.grain,
+          vegetable:
+            prevUserData[`user${farmData.turn}`].vegetable + res.vegetable,
+          food: prevUserData[`user${farmData.turn}`].food + res.food,
+        },
+      }));
+    }
+
+    console.log("always");
+  };
+
   function jobCardHandler(index, cardId) {
     // updateJobCard(index);
     setClickedIndex(index);
@@ -79,6 +130,7 @@ function SubModal({
   const sendJobCard = () => {
     console.log(farmData.jobCards);
     setIsVisible(false);
+
     sendingClient.current.send(
       "/main-board/card/update",
       {},
@@ -102,7 +154,500 @@ function SubModal({
     setClickedIndex(index);
     setClickedCardId(cardId);
   }
+
+  const notTurnHandler = async (res) => {
+    sendingClient.current.send(
+      "/main-board/resource/update",
+      {},
+      JSON.stringify({
+        messageType: "RESOURCE",
+        roomId: farmData.roomId,
+        round: farmData.round,
+        action: farmData.action,
+        currentTurn: farmData.currentTurn,
+        farmer_count: farmData.farmer_count,
+        tree: res.tree,
+        soil: res.soil,
+        reed: res.reed,
+        charcoal: res.charcoal,
+        sheep: res.sheep,
+        pig: res.pig,
+        cow: res.cow,
+        grain: res.grain,
+        vegetable: res.vegetable,
+        food: res.food,
+      })
+    );
+  };
+
   const sendSubCard = () => {
+    // 흙 1개
+    if (clickedCardId === 1 || clickedCardId === 9 || clickedCardId === 18) {
+      if (userData[`user${farmData.turn}`].soil >= 1) {
+        const res = {
+          tree: 0,
+          soil: -1,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 0,
+        };
+        // notTurnHandler(res);
+        alwaysActHandler(res);
+        okaySend();
+      } else {
+        alert("자원이 부족합니다");
+      }
+      // 나무 1개
+    } else if (
+      clickedCardId === 3 ||
+      clickedCardId === 13 ||
+      clickedCardId === 26
+    ) {
+      if (userData[`user${farmData.turn}`].tree >= 1) {
+        const res = {
+          tree: -1,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 0,
+        };
+        // notTurnHandler(res);
+        alwaysActHandler(res);
+        okaySend();
+      } else {
+        alert("자원이 부족합니다");
+      }
+      // 나무 2개
+    } else if (clickedCardId === 5) {
+      if (userData[`user${farmData.turn}`].tree >= 2) {
+        const res = {
+          tree: -2,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 0,
+        };
+        // notTurnHandler(res);
+        alwaysActHandler(res);
+        okaySend();
+      } else {
+        alert("자원이 부족합니다");
+      }
+    }
+    // 나무 2개, 직업 2개
+    else if (clickedCardId === 6) {
+      if (
+        userData[`user${farmData.turn}`].tree >= 2 &&
+        userData[`user${farmData.turn}`].job.length === 2
+      ) {
+        const res = {
+          tree: -2,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 0,
+        };
+        // notTurnHandler(res);
+        alwaysActHandler(res);
+        okaySend();
+      } else {
+        alert("자원이 부족합니다");
+      }
+    }
+    // 나무 1개, 직업 2개
+    else if (clickedCardId === 12) {
+      if (
+        userData[`user${farmData.turn}`].tree >= 1 &&
+        userData[`user${farmData.turn}`].job.length === 2
+      ) {
+        const res = {
+          tree: -1,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 0,
+        };
+        // notTurnHandler(res);
+        alwaysActHandler(res);
+        okaySend();
+      } else {
+        alert("자원이 부족합니다");
+      }
+      // 식량 2개
+    } else if (clickedCardId === 4 || clickedCardId === 28) {
+      if (userData[`user${farmData.turn}`].food >= 2) {
+        const res = {
+          tree: 0,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: -2,
+        };
+        // notTurnHandler(res);
+        alwaysActHandler(res);
+        okaySend();
+      } else {
+        alert("자원이 부족합니다");
+      }
+      // 식량 1개
+    } else if (clickedCardId === 25) {
+      if (userData[`user${farmData.turn}`].food >= 1) {
+        const res = {
+          tree: 0,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: -1,
+        };
+        // notTurnHandler(res);
+        alwaysActHandler(res);
+        okaySend();
+      } else {
+        alert("자원이 부족합니다");
+      }
+      // 식량 1개, 직업 3개
+    } else if (clickedCardId === 10) {
+      if (
+        userData[`user${farmData.turn}`].food >= 1 &&
+        userData[`user${farmData.turn}`].job.length === 3
+      ) {
+        const res = {
+          tree: 0,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: -1,
+        };
+        // notTurnHandler(res);]
+        alwaysActHandler(res);
+        okaySend();
+      } else {
+        alert("자원이 부족합니다");
+      }
+      // 갈대 1개, 직업 3개
+    } else if (clickedCardId === 14) {
+      if (
+        userData[`user${farmData.turn}`].reed >= 1 &&
+        userData[`user${farmData.turn}`].job.length === 3
+      ) {
+        const res = {
+          tree: 0,
+          soil: 0,
+          reed: -1,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 0,
+        };
+        // notTurnHandler(res);
+        alwaysActHandler(res);
+        okaySend();
+      } else {
+        alert("자원이 부족합니다");
+      }
+      // 나무 1개, 직업 3개 이하
+    } else if (clickedCardId === 17) {
+      if (
+        userData[`user${farmData.turn}`].tree >= 1 &&
+        userData[`user${farmData.turn}`].job.length <= 3
+      ) {
+        const res = {
+          tree: -1,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 0,
+        };
+        // notTurnHandler(res);
+        alwaysActHandler(res);
+        okaySend();
+      } else {
+        alert("자원이 부족합니다");
+      }
+      // 돌 2개, 직업 3개 이하
+    } else if (clickedCardId === 17) {
+      if (
+        userData[`user${farmData.turn}`].charcoal >= 2 &&
+        userData[`user${farmData.turn}`].job.length <= 3
+      ) {
+        const res = {
+          tree: 0,
+          soil: 0,
+          reed: 0,
+          charcoal: -2,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 0,
+        };
+        // notTurnHandler(res);
+        alwaysActHandler(res);
+        okaySend();
+      } else {
+        alert("자원이 부족합니다");
+      }
+      // 나무 1개, 직업 2개
+    } else if (clickedCardId === 20) {
+      if (
+        userData[`user${farmData.turn}`].tree >= 1 &&
+        userData[`user${farmData.turn}`].job.length === 2
+      ) {
+        const res = {
+          tree: -1,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 0,
+        };
+        // notTurnHandler(res);
+        alwaysActHandler(res);
+        okaySend();
+      } else {
+        alert("자원이 부족합니다");
+      }
+
+      // 나무 2개, 직업 1개
+    } else if (clickedCardId === 24) {
+      if (
+        userData[`user${farmData.turn}`].tree >= 2 &&
+        userData[`user${farmData.turn}`].job.length === 1
+      ) {
+        const res = {
+          tree: -2,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 0,
+        };
+        // notTurnHandler(res);
+        alwaysActHandler(res);
+        okaySend();
+      } else {
+        alert("자원이 부족합니다");
+      }
+    }
+    // 직업 3개
+    else if (clickedCardId === 15) {
+      if (userData[`user${farmData.turn}`].job.length === 3) {
+        okaySend();
+      } else {
+        alert("직업이 3개여야 합니다");
+      }
+    }
+    // 흙 5개 있는지만 확인
+    else if (clickedCardId === 11) {
+      if (userData[`user${farmData.turn}`].soil >= 5) {
+        okaySend();
+      } else {
+        alert("흙 5개 필요");
+      }
+    }
+    // 나무 1개, 흙 1개
+    else if (clickedCardId === 16 || clickedCardId === 19) {
+      if (
+        userData[`user${farmData.turn}`].soil >= 1 &&
+        userData[`user${farmData.turn}`].tree >= 1
+      ) {
+        const res = {
+          tree: -1,
+          soil: -1,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 0,
+        };
+        // notTurnHandler(res);
+        alwaysActHandler(res);
+        okaySend();
+      } else {
+        alert("자원이 부족합니다");
+      }
+    }
+    // 나무 1개, 돌 1개
+    else if (clickedCardId === 2) {
+      if (
+        userData[`user${farmData.turn}`].tree >= 1 &&
+        userData[`user${farmData.turn}`].charcoal >= 1
+      ) {
+        const res = {
+          tree: -1,
+          soil: 0,
+          reed: 0,
+          charcoal: -1,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 0,
+        };
+        // notTurnHandler(res);
+        alwaysActHandler(res);
+        okaySend();
+      } else {
+        alert("자원이 부족합니다");
+      }
+    }
+    // 곡식 1개
+    else if (clickedCardId === 8) {
+      if (userData[`user${farmData.turn}`].grain >= 1) {
+        const res = {
+          tree: 0,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: -1,
+          vegetable: 0,
+          food: 0,
+        };
+        // notTurnHandler(res);
+        alwaysActHandler(res);
+        okaySend();
+      } else {
+        alert("자원이 부족합니다");
+      }
+    }
+    // 갈대 1개
+    else if (clickedCardId === 21) {
+      if (userData[`user${farmData.turn}`].reed >= 1) {
+        const res = {
+          tree: 0,
+          soil: 0,
+          reed: -1,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 0,
+        };
+        // notTurnHandler(res);
+        alwaysActHandler(res);
+        okaySend();
+      } else {
+        alert("자원이 부족합니다");
+      }
+    }
+    // 갈대 1개
+    else if (clickedCardId === 22) {
+      if (userData[`user${farmData.turn}`].sheep >= 1) {
+        const res = {
+          tree: 0,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: -1,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 0,
+        };
+        // notTurnHandler(res);
+        alwaysActHandler(res);
+        okaySend();
+      } else {
+        alert("자원이 부족합니다");
+      }
+    }
+    // 흙 2개, 음식 2개
+    else if (clickedCardId === 7) {
+      if (
+        userData[`user${farmData.turn}`].food >= 2 &&
+        userData[`user${farmData.turn}`].soil >= 2
+      ) {
+        const res = {
+          tree: 0,
+          soil: -2,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: -2,
+        };
+        // notTurnHandler(res);
+        alwaysActHandler(res);
+        okaySend();
+      } else {
+        alert("자원이 부족합니다");
+      }
+    } else {
+      okaySend();
+    }
+  };
+
+  function okaySend() {
     setIsVisible(false);
     sendingClient.current.send(
       "/main-board/card/update",
@@ -112,7 +657,7 @@ function SubModal({
         roomId: farmData.roomId,
         round: farmData.round,
         action: farmData.action,
-        currentTurn: (farmData.currentTurn + 1) % 4,
+        currentTurn: farmData.currentTurn,
         farmer_count: farmData.farmer_count,
         cardType: "SUB",
         cardIndex: clickedCardId,
@@ -120,7 +665,7 @@ function SubModal({
     );
     setIsSub(false);
     setIsMain(false);
-  };
+  }
 
   return (
     <div className={styles.container}>
