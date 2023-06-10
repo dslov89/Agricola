@@ -48,7 +48,7 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
 
   useEffect(() => {
     myCardCheck();
-  }, [farmData.currentTurn, farmData.food]);
+  }, [farmData.currentTurn, farmData.action]);
 
   function myCardCheck() {
     setFarmData((prevFarmData) => {

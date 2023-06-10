@@ -37,7 +37,7 @@ function SubModal({
 
   useEffect(() => {
     myCardCheck();
-  }, [farmData.currentTurn, farmData.food]);
+  }, [farmData.currentTurn, farmData.food, farmData.action]);
 
   function myCardCheck() {
     setFarmData((prevFarmData) => {
@@ -74,9 +74,44 @@ function SubModal({
     });
   }
 
-  const alwaysActHandler = async (res) => {
-    await updateAlways(farmData.turn); // 누른 놈 제외 갱신
+  function jobCardHandler(index, cardId) {
+    // updateJobCard(index);
+    setClickedIndex(index);
+    setClickedCardId(cardId);
+  }
+  const sendJobCard = () => {
+    console.log(farmData.jobCards);
+    setIsVisible(false);
 
+    sendingClient.current.send(
+      "/main-board/card/update",
+      {},
+      JSON.stringify({
+        messageType: "CARD",
+        roomId: farmData.roomId,
+        round: farmData.round,
+        action: farmData.action,
+        currentTurn: (farmData.currentTurn + 1) % 4,
+        farmer_count: farmData.farmer_count,
+        cardType: "JOB",
+        cardIndex: clickedCardId,
+      })
+    );
+    setIsJob(false);
+  };
+
+  function subCardHandler(index, cardId) {
+    // updateSubCard(index);
+    console.log(farmData.subCards);
+    setClickedIndex(index);
+    setClickedCardId(cardId);
+  }
+
+  const alwaysActHandler2 = async (res) => {
+    await updateAlways(farmData.turn); // 누른 놈 제외 갱신
+    setIsVisible(false);
+    setIsSub(false);
+    setIsMain(false);
     sendingClient.current.send(
       "/main-board/resource/update",
       {},
@@ -85,7 +120,7 @@ function SubModal({
         roomId: farmData.roomId,
         action: farmData.action,
         round: farmData.round,
-        currentTurn: (farmData.currentTurn + 1) % 4,
+        currentTurn: farmData.currentTurn,
         farmer_count: farmData.farmer_count,
         tree: res.tree,
         soil: res.soil,
@@ -121,65 +156,8 @@ function SubModal({
       }));
     }
 
+    okaySend();
     console.log("always");
-  };
-
-  function jobCardHandler(index, cardId) {
-    // updateJobCard(index);
-    setClickedIndex(index);
-    setClickedCardId(cardId);
-  }
-  const sendJobCard = () => {
-    console.log(farmData.jobCards);
-    setIsVisible(false);
-
-    sendingClient.current.send(
-      "/main-board/card/update",
-      {},
-      JSON.stringify({
-        messageType: "CARD",
-        roomId: farmData.roomId,
-        round: farmData.round,
-        action: farmData.action,
-        currentTurn: (farmData.currentTurn + 1) % 4,
-        farmer_count: farmData.farmer_count,
-        cardType: "JOB",
-        cardIndex: clickedCardId,
-      })
-    );
-    setIsJob(false);
-  };
-
-  function subCardHandler(index, cardId) {
-    // updateSubCard(index);
-    console.log(farmData.subCards);
-    setClickedIndex(index);
-    setClickedCardId(cardId);
-  }
-
-  const notTurnHandler = async (res) => {
-    sendingClient.current.send(
-      "/main-board/resource/update",
-      {},
-      JSON.stringify({
-        messageType: "RESOURCE",
-        roomId: farmData.roomId,
-        round: farmData.round,
-        action: farmData.action,
-        currentTurn: farmData.currentTurn,
-        farmer_count: farmData.farmer_count,
-        tree: res.tree,
-        soil: res.soil,
-        reed: res.reed,
-        charcoal: res.charcoal,
-        sheep: res.sheep,
-        pig: res.pig,
-        cow: res.cow,
-        grain: res.grain,
-        vegetable: res.vegetable,
-        food: res.food,
-      })
-    );
   };
 
   const sendSubCard = () => {
@@ -199,8 +177,8 @@ function SubModal({
           food: 0,
         };
         // notTurnHandler(res);
-        alwaysActHandler(res);
-        okaySend();
+        alwaysActHandler2(res);
+        // okaySend();
       } else {
         alert("자원이 부족합니다");
       }
@@ -224,8 +202,8 @@ function SubModal({
           food: 0,
         };
         // notTurnHandler(res);
-        alwaysActHandler(res);
-        okaySend();
+        alwaysActHandler2(res);
+        // okaySend();
       } else {
         alert("자원이 부족합니다");
       }
@@ -245,8 +223,8 @@ function SubModal({
           food: 0,
         };
         // notTurnHandler(res);
-        alwaysActHandler(res);
-        okaySend();
+        alwaysActHandler2(res);
+        // okaySend();
       } else {
         alert("자원이 부족합니다");
       }
@@ -270,8 +248,8 @@ function SubModal({
           food: 0,
         };
         // notTurnHandler(res);
-        alwaysActHandler(res);
-        okaySend();
+        alwaysActHandler2(res);
+        // okaySend();
       } else {
         alert("자원이 부족합니다");
       }
@@ -295,8 +273,8 @@ function SubModal({
           food: 0,
         };
         // notTurnHandler(res);
-        alwaysActHandler(res);
-        okaySend();
+        alwaysActHandler2(res);
+        // okaySend();
       } else {
         alert("자원이 부족합니다");
       }
@@ -316,8 +294,8 @@ function SubModal({
           food: -2,
         };
         // notTurnHandler(res);
-        alwaysActHandler(res);
-        okaySend();
+        alwaysActHandler2(res);
+        // okaySend();
       } else {
         alert("자원이 부족합니다");
       }
@@ -337,8 +315,8 @@ function SubModal({
           food: -1,
         };
         // notTurnHandler(res);
-        alwaysActHandler(res);
-        okaySend();
+        alwaysActHandler2(res);
+        // okaySend();
       } else {
         alert("자원이 부족합니다");
       }
@@ -361,8 +339,8 @@ function SubModal({
           food: -1,
         };
         // notTurnHandler(res);]
-        alwaysActHandler(res);
-        okaySend();
+        alwaysActHandler2(res);
+        // okaySend();
       } else {
         alert("자원이 부족합니다");
       }
@@ -385,8 +363,8 @@ function SubModal({
           food: 0,
         };
         // notTurnHandler(res);
-        alwaysActHandler(res);
-        okaySend();
+        alwaysActHandler2(res);
+        // okaySend();
       } else {
         alert("자원이 부족합니다");
       }
@@ -409,8 +387,8 @@ function SubModal({
           food: 0,
         };
         // notTurnHandler(res);
-        alwaysActHandler(res);
-        okaySend();
+        alwaysActHandler2(res);
+        // okaySend();
       } else {
         alert("자원이 부족합니다");
       }
@@ -433,8 +411,8 @@ function SubModal({
           food: 0,
         };
         // notTurnHandler(res);
-        alwaysActHandler(res);
-        okaySend();
+        alwaysActHandler2(res);
+        // okaySend();
       } else {
         alert("자원이 부족합니다");
       }
@@ -457,8 +435,8 @@ function SubModal({
           food: 0,
         };
         // notTurnHandler(res);
-        alwaysActHandler(res);
-        okaySend();
+        alwaysActHandler2(res);
+        // okaySend();
       } else {
         alert("자원이 부족합니다");
       }
@@ -482,8 +460,8 @@ function SubModal({
           food: 0,
         };
         // notTurnHandler(res);
-        alwaysActHandler(res);
-        okaySend();
+        alwaysActHandler2(res);
+        // okaySend();
       } else {
         alert("자원이 부족합니다");
       }
@@ -523,8 +501,8 @@ function SubModal({
           food: 0,
         };
         // notTurnHandler(res);
-        alwaysActHandler(res);
-        okaySend();
+        alwaysActHandler2(res);
+        // okaySend();
       } else {
         alert("자원이 부족합니다");
       }
@@ -548,8 +526,8 @@ function SubModal({
           food: 0,
         };
         // notTurnHandler(res);
-        alwaysActHandler(res);
-        okaySend();
+        alwaysActHandler2(res);
+        // okaySend();
       } else {
         alert("자원이 부족합니다");
       }
@@ -570,8 +548,8 @@ function SubModal({
           food: 0,
         };
         // notTurnHandler(res);
-        alwaysActHandler(res);
-        okaySend();
+        alwaysActHandler2(res);
+        // okaySend();
       } else {
         alert("자원이 부족합니다");
       }
@@ -592,8 +570,8 @@ function SubModal({
           food: 0,
         };
         // notTurnHandler(res);
-        alwaysActHandler(res);
-        okaySend();
+        alwaysActHandler2(res);
+        // okaySend();
       } else {
         alert("자원이 부족합니다");
       }
@@ -614,8 +592,8 @@ function SubModal({
           food: 0,
         };
         // notTurnHandler(res);
-        alwaysActHandler(res);
-        okaySend();
+        alwaysActHandler2(res);
+        // okaySend();
       } else {
         alert("자원이 부족합니다");
       }
@@ -639,8 +617,8 @@ function SubModal({
           food: -2,
         };
         // notTurnHandler(res);
-        alwaysActHandler(res);
-        okaySend();
+        alwaysActHandler2(res);
+        // okaySend();
       } else {
         alert("자원이 부족합니다");
       }
@@ -650,7 +628,6 @@ function SubModal({
   };
 
   function okaySend() {
-    setIsVisible(false);
     sendingClient.current.send(
       "/main-board/card/update",
       {},
@@ -659,14 +636,12 @@ function SubModal({
         roomId: farmData.roomId,
         round: farmData.round,
         action: farmData.action,
-        currentTurn: farmData.currentTurn,
+        currentTurn: (farmData.currentTurn + 1) % 4,
         farmer_count: farmData.farmer_count,
         cardType: "SUB",
         cardIndex: clickedCardId,
       })
     );
-    setIsSub(false);
-    setIsMain(false);
   }
 
   return (

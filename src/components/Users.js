@@ -23,6 +23,7 @@ function Users() {
 
   useEffect(() => {
     userDataUpdate2();
+    console.log("업데이트 2여 실행이여");
   }, [farmData.action[20][0]]);
 
   // useEffect(() => {
@@ -280,15 +281,15 @@ function Users() {
         ...prevUserData,
         user1: {
           ...prevUserData.user1,
-          tree: prevUserData.user1.tree,
-          soil: prevUserData.user1.soil,
-          reed: prevUserData.user1.reed,
-          charcoal: prevUserData.user1.charcoal,
+          tree: prevUserData.user1.tree + farmData.tree,
+          soil: prevUserData.user1.soil + farmData.soil,
+          reed: prevUserData.user1.reed + farmData.reed,
+          charcoal: prevUserData.user1.charcoal + farmData.charcoal,
           sheep: prevUserData.user1.sheep + farmData.sheep,
           pig: prevUserData.user1.pig + farmData.pig,
           cow: prevUserData.user1.cow + farmData.cow,
           grain: prevUserData.user1.grain + farmData.grain,
-          vegetable: prevUserData.user1.vegetable,
+          vegetable: prevUserData.user1.vegetable + farmData.vegetable,
           food: prevUserData.user1.food + farmData.food,
 
           house: prevUserData.user1.house + farmData.house,
