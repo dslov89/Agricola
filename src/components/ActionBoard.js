@@ -53,7 +53,6 @@ function ActionBoard({ data, setData }) {
     farmData,
     setFarmData,
     updateFarmerCount,
-    updateFarmerCount_harvest,
     updateFarmData,
     updateAction,
     updateAlways,
@@ -977,16 +976,43 @@ function ActionBoard({ data, setData }) {
     }
   }
   //수확
-  function harvest() {
-    let a = 20;
-    let b = 1;
-    console.log(b);
-    if (b < 5) {
+  
+  function harvest_family() {
+    //
+    if (
+      userData[`user${farmData.turn}`].farmer === 2
+    ) {
+      // console.log(farmData.currentTurn);
+      // console.log(farmData.turn);
+      // console.log(userData[`user${farmData.turn}`].farmer);
       if (
         userData[`user${farmData.turn}`].food >=
         userData[`user${farmData.turn}`].farmer * 2
       ) {
+        const res = {
+          tree: 0,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: userData[`user${farmData.turn}`].farmer * 2 * -1,
+        };
+        defaultActHandler(res, 21);
+      } else {
+        console.log("구걸카드 띄워주기");
       }
+    }
+  }
+
+  function harvest_grain() {
+    if (
+      userData[`user${farmData.turn}`].farmer === 1
+    ) {
+      console.log("이제 여기 하면 끝");
     }
   }
 
@@ -1067,24 +1093,24 @@ function ActionBoard({ data, setData }) {
       {isBake && returnBakeDiv()}
       {returnBakeDiv()}
       <Board className="round" />
-      {isTurn && farmData.round < 7 && (
+      {isTurn && farmData.round < 6 && (
         <h2 style={{ position: "absolute", top: "-75px", left: "160px" }}>
           Your Turn!
         </h2>
       )}
 
-      {farmData.round === 6 && (
+      {farmData.round === 5 && (
         <h2 style={{ position: "absolute", top: "-75px", left: "300px" }}>
           Harvest
         </h2>
       )}
-      {farmData.round === 7 && (
+      {farmData.round === 6 && (
         <h2 style={{ position: "absolute", top: "-75px", left: "160px" }}>
           Game Over!
         </h2>
       )}
 
-      {farmData.round === 7 && scoreBoardVisible && (
+      {farmData.round === 6 && scoreBoardVisible && (
         <ScoreBoard setIsVisible={setScoreBoardVisible} />
       )}
 
@@ -1235,9 +1261,15 @@ function ActionBoard({ data, setData }) {
         <div className="player actionBtn3 theater">{moveOtherPlayer(15)}</div>
       )}
       {/*수확 버튼*/}
-      {isTurn && (farmData.round === 6 || farmData.round === 7) && (
-        <button className="harvestBtn" onClick={harvest}>
-          수확
+      {isTurn && (farmData.round === 5) && (
+        <button className="harvest_familyBtn" onClick={harvest_family}>
+          가족 부양
+        </button>
+      )}
+
+      {isTurn && (farmData.round === 5) &&  (
+        <button className="harvest_grainBtn" onClick={harvest_grain}>
+          작물 뿌려주기
         </button>
       )}
 
