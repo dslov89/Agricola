@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { nameValue, sendingClient } from "../screen/Start";
 
-
 const Gameroomboard = () => {
   const navigation = useNavigate();
   const [rooms, setRooms] = useState([]);
@@ -11,7 +10,7 @@ const Gameroomboard = () => {
   function naviHandler() {
     navigation("/start");
   }
-  
+
   const connectHandler = (roomId) => {
     sendingClient.current.connect({}, () => {
       sendingClient.current.subscribe(
@@ -19,7 +18,8 @@ const Gameroomboard = () => {
         (message) => {
           console.log("첫 구독");
           console.log(message.body);
-          if (message.body !== "FULL") { //turn example
+          if (message.body !== "FULL") {
+            //turn example
             sendingClient.current.subscribe(
               `/sub/game-room/` + roomId,
               (message) => {
@@ -36,24 +36,21 @@ const Gameroomboard = () => {
         },
         { gameRoomId: roomId }
       );
-    }
-    );
+    });
   };
-
-  
 
   const sendHandler = (roomId) => {
     sendingClient.current.send(
       "/main-board/user/init",
       {},
       JSON.stringify({
+        messageType: "INIT",
         roomId: roomId,
         userId: localStorage.getItem("turn"),
-        action: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+
         content: "hello",
       })
     );
-    
   };
 
   const enterRoom = (roomId) => {
@@ -64,7 +61,8 @@ const Gameroomboard = () => {
   };
 
   const createRoom = () => {
-    axios.post("http://localhost:8080/game-rooms", null, {})
+    axios
+      .post("http://localhost:8080/game-rooms", null, {})
       .then(function (response) {
         setRooms((prevRooms) => [...prevRooms, response.data]);
       })
@@ -80,7 +78,7 @@ const Gameroomboard = () => {
       const roomArray = roomData.map((gameroomid) => gameroomid.id);
       setRooms(roomArray);
     });
-  }
+  };
 
   const checkRoomExists = async () => {
     let lastRoomId = 1;
@@ -106,7 +104,7 @@ const Gameroomboard = () => {
 
   const checkRooms = () => {
     getRooms();
-  }
+  };
 
   const handleCreateRoom = () => {
     checkRoomExists();
