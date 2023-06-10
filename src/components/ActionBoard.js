@@ -448,7 +448,7 @@ function ActionBoard({ data, setData }) {
     return(roomCounts);
   }
 
-  function job3Handler(item) {  // 직업 03. 가축상인
+  function job03Handler(item) {  // 직업 03. 가축상인
     if(userData[`user${farmData.turn}`].food > 0){
       const res = {
         tree: 0,
@@ -550,6 +550,30 @@ function ActionBoard({ data, setData }) {
     
     alwaysActHandler(res);
   }  
+
+  function sub01Handler(soilCnt) { // 보조 01. 경질 자기
+    if(userData[`user${farmData.turn}`].soil > 2)
+    {
+      const res = {
+        tree: 0,
+        soil: -soilCnt,
+        reed: 0,
+        charcoal: soilCnt-1,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 1,
+        vegetable: 0,
+        food: 0,
+      };
+      
+      alwaysActHandler(res);
+    }
+    else {
+      alert("보유한 자원이 부족합니다.");
+    }
+  }
+
 
   // index는 액션버튼 순서 0부터
   const defaultActHandler = async (res, index) => {
@@ -1159,7 +1183,7 @@ function ActionBoard({ data, setData }) {
       if(userData[`user${farmData.turn}`].job.includes(3))
       {                                 // 직업 03. 가축상인
         if(window.confirm("가축 상인(음식 1개 내고 양 1개 받기) 효과를 사용하시겠습니까?")) {
-         job3Handler("sheep");
+         job03Handler("sheep");
           } else {
           console.log("가축 상인 효과 사용 안함");
           }
