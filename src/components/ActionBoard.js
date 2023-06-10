@@ -434,11 +434,14 @@ function ActionBoard({ data, setData }) {
   }
 
   function checkRoomCount() {
-    const roomArray = userData[`user${farmData.turn}`].room;
+    const roomArray = userData[`user${farmData.turn}`].farm_array;
     const roomCounts = {
       wood_room : 0,
       rock_room : 0,
       soil_room : 0,
+      empty : 0,
+      vegetable_farm : 0,// 채소 올려진 밭
+      grain_farm : 0, // 곡식 올려진 밭
     }
     roomArray.forEach(item => {
       if (roomCounts.hasOwnProperty(item)) {
@@ -625,7 +628,26 @@ function ActionBoard({ data, setData }) {
       food: 1,
     };
     alwaysActHandler(res);
-}
+  } 
+
+  function sub15Handler() { // 보조 15. 삼포식 농법
+    const roomCounts = checkRoomCount();
+    if(roomCounts.vegetable_farm > 1 && roomCounts.grain_farm > 1 && roomCounts.empty > 1) {  // 이거 대윤이거랑 맞춰야함
+      const res = {
+        tree: 0,
+        soil: 0,    
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: 3,
+      };
+      alwaysActHandler(res);
+    }
+  } 
 
 
 
