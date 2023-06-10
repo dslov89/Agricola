@@ -36,8 +36,9 @@ function DataContextProvider({ children }) {
       [0, 1],
 
       [0, 0],
-      [0, 0],
-      [0,0],
+      [0, 0], //가족부양
+      [0, 0], //작물뿌려주기
+      
     ],
 
     tree: 0,
