@@ -665,6 +665,24 @@ function ActionBoard({ data, setData }) {
     alwaysActHandler(res);
   } 
 
+  function sub28Handler() { // 보조 28. 흙판
+    const leftSoilCnt = userData[`user${farmData.turn}`].soil;
+    leftSoilCnt = Math.floor(leftSoilCnt / 2);
+    const res = {
+      tree: 0,
+      soil: leftSoilCnt,    
+      reed: 0,
+      charcoal: 0,
+      sheep: 0,
+      pig: 0,
+      cow: 0,
+      grain: 0,
+      vegetable: 0,
+      food: 0,
+    };
+    alwaysActHandler(res);
+  } 
+
 
 
 
