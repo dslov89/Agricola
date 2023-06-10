@@ -495,7 +495,22 @@ function ActionBoard({ data, setData }) {
       alert("보유한 자원이 부족합니다.");
     }
   }
-  
+
+  function job24Handler() { // 직업 24. 상담가
+    const res = {
+      tree: 0,
+      soil: 0,
+      reed: 0,
+      charcoal: 0,
+      sheep: 2,
+      pig: 0,
+      cow: 0,
+      grain: 0,
+      vegetable: 0,
+      food: 0,
+    };
+    alwaysActHandler(res);
+  }  
 
   // index는 액션버튼 순서 0부터
   const defaultActHandler = async (res, index) => {
