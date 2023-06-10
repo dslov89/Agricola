@@ -448,7 +448,7 @@ function ActionBoard({ data, setData }) {
     return(roomCounts);
   }
 
-  function job3Handler(item) {
+  function job3Handler(item) {  // 직업 03. 가축상인
     if(userData[`user${farmData.turn}`].food > 0){
       const res = {
         tree: 0,
@@ -649,7 +649,15 @@ function ActionBoard({ data, setData }) {
         vegetable: 0,
         food: 1,
       };
-
+      if(userData[`user${farmData.turn}`].job.includes(15)) // 직업 15. 창고 관리인
+      {
+        if(window.confirm("예 : 흙 한개를 추가로 가져옵니다. 아니오 : 곡식 1개를 추가로 가져옵니다."))
+        {
+          res.soil += 1;
+        } else {
+          res.grain += 1;
+        }
+      }
       defaultActHandler(res, 2);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
@@ -1074,7 +1082,7 @@ function ActionBoard({ data, setData }) {
       userda[`user${farmData.turn}`].sheep += 1;
       setUserData(userda);
       if(userData[`user${farmData.turn}`].job.includes(3))
-      {
+      {                                 // 직업 03. 가축상인
         if(window.confirm("가축 상인(음식 1개 내고 양 1개 받기) 효과를 사용하시겠습니까?")) {
          job3Handler("sheep");
           } else {
