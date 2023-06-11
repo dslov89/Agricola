@@ -16,6 +16,9 @@ function MainModal({ setIsVisible, isMain, setIsMain, setIsSub }) {
 
   function mainHandler(index) {
     setClickedIndex(index);
+
+    // console.log(userData[`user${farmData.turn}`].tree);
+    // console.log(farmData.turn);
     // // updateSubCard(index);
     // const updatedMain = [...farmData.main]; // action 배열을 복사합니다.
 
@@ -27,6 +30,169 @@ function MainModal({ setIsVisible, isMain, setIsMain, setIsSub }) {
   }
 
   const sendCard = () => {
+    // 자원 체크
+    if (checkResource()) {
+      sendCardMessage();
+    }
+  };
+  const checkResource = () => {
+    let canSend = false;
+    // 주요 설비 각 조건들
+    switch (clickedIndex) {
+      case 0:
+        if (userData[`user${farmData.turn}`].soil < 2) {
+          alert("check your resource");
+        } else {
+          sendResourceMessage([["soil", 2]]);
+          canSend = true;
+        }
+        break;
+      case 1:
+        if (userData[`user${farmData.turn}`].soil > 3) {
+          alert("check your resource");
+        } else {
+          sendResourceMessage([["soil", 3]]);
+          canSend = true;
+        }
+        break;
+      case 2:
+        if (userData[`user${farmData.turn}`].soil < 4) {
+          alert("check your resource");
+        } else {
+          sendResourceMessage([["soil", 4]]);
+          canSend = true;
+        }
+        break;
+      case 3:
+        if (userData[`user${farmData.turn}`].soil < 5) {
+          alert("check your resource");
+        } else {
+          sendResourceMessage([["soil", 5]]);
+          canSend = true;
+        }
+        break;
+      case 4:
+        if (
+          userData[`user${farmData.turn}`].tree < 1 &&
+          userData[`user${farmData.turn}`].charcoal < 3
+        ) {
+          alert("check your resource");
+        } else {
+          sendResourceMessage([
+            ["tree", 3],
+            ["charcoal", 3],
+          ]);
+          canSend = true;
+        }
+        break;
+      case 5:
+        if (
+          userData[`user${farmData.turn}`].soil < 3 ||
+          userData[`user${farmData.turn}`].charcoal < 1
+        ) {
+          alert("check your resource");
+        } else {
+          sendResourceMessage([
+            ["soil", 3],
+            ["charcoal", 1],
+          ]);
+          canSend = true;
+        }
+        break;
+      case 6:
+        if (
+          userData[`user${farmData.turn}`].soil < 1 ||
+          userData[`user${farmData.turn}`].charcoal < 3
+        ) {
+          alert("check your resource");
+        } else {
+          sendResourceMessage([
+            ["charcoal", 3],
+            ["soil", 1],
+          ]);
+          canSend = true;
+        }
+        break;
+      case 7:
+        if (
+          userData[`user${farmData.turn}`].tree < 2 ||
+          userData[`user${farmData.turn}`].charcoal < 2
+        ) {
+          alert("check your resource");
+        } else {
+          sendResourceMessage([
+            ["tree", 2],
+            ["charcoal", 2],
+          ]);
+          canSend = true;
+        }
+        break;
+      case 8:
+        if (
+          userData[`user${farmData.turn}`].soil < 2 ||
+          userData[`user${farmData.turn}`].charcoal < 2
+        ) {
+          alert("check your resource");
+        } else {
+          sendResourceMessage([
+            ["soil", 2],
+            ["charcoal", 2],
+          ]);
+          canSend = true;
+        }
+        break;
+      case 9:
+        if (
+          userData[`user${farmData.turn}`].reed < 2 ||
+          userData[`user${farmData.turn}`].charcoal < 2
+        ) {
+          alert("check your resource");
+        } else {
+          sendResourceMessage([
+            ["reed", 2],
+            ["charcoal", 2],
+          ]);
+          canSend = true;
+        }
+        break;
+    }
+    if (canSend) {
+      return true;
+    }
+  };
+  const sendResourceMessage = (resources) => {
+    //턴 안바뀌게 보내야함
+    let message = {
+      messageType: "RESOURCE",
+      roomId: farmData.roomId,
+      round: farmData.round,
+      action: farmData.action,
+      currentTurn: farmData.currentTurn % 4,
+      farmer_count: farmData.farmer_count,
+      tree: farmData.tree,
+      soil: farmData.soil,
+      reed: farmData.reed,
+      charcoal: farmData.charcoal,
+      sheep: farmData.sheep,
+      pig: farmData.pig,
+      cow: farmData.cow,
+      grain: farmData.grain,
+      vegetable: farmData.vegetable,
+      food: farmData.food,
+    };
+    //배열로 들어온 자원들(카드 조건) 뺀거 update
+
+    for (let i = 0; i < resources.length; i++) {
+      message[resources[i][0]] -= resources[i][1];
+    }
+    //send
+    sendingClient.current.send(
+      "/main-board/resource/update",
+      {},
+      JSON.stringify(message)
+    );
+  };
+  const sendCardMessage = () => {
     sendingClient.current.send(
       "/main-board/card/update",
       {},
@@ -45,7 +211,6 @@ function MainModal({ setIsVisible, isMain, setIsMain, setIsSub }) {
     setIsSub(false);
     setIsVisible(false);
   };
-
   useEffect(() => {
     myCardCheck();
     console.log("모달창모달창메인모달창");
