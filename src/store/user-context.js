@@ -14,7 +14,7 @@ function UserContextProvider({ children }) {
       pig: 15,
       cow: 15,
       grain: 10,
-      vegetable: 0,
+      vegetable: 15,
       food: 0,
       farmer: 2,
       fence: 15,

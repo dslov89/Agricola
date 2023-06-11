@@ -23,7 +23,6 @@ import yellowplayer from "../image/farmer_yellow.png";
 import greenplayer from "../image/farmer_green.png";
 import blueplayer from "../image/farmer_blue.png";
 import plow_grain2 from "../image/plow_grain2.png";
-import beg from "../image/beg.png";
 
 function ActionBoard({ data, setData }) {
   const [isTurn, setIsTurn] = useState(false);
@@ -1586,7 +1585,6 @@ function harvest_family() {
         userData[`user${farmData.turn}`].food <
         userData[`user${farmData.turn}`].farmer * 2
       ) {
-
         if (farmData.turn === 1) {
           alert("구걸하세요! 식량 부족");
           setBegging(1);
@@ -1600,7 +1598,6 @@ function harvest_family() {
           alert("구걸하세요! 식량 부족");
           setBegging(4);
         }
-
       }
     }
   } else {
@@ -1976,7 +1973,8 @@ function harvest_family() {
             <Sheep className="facilityBtn1" />
           </button>
         ))}
-      {begging === 1 && (
+
+      {farmData.round === 5 && begging === 1 && (
         <img
           src={Begging}
           style={{
@@ -1988,7 +1986,7 @@ function harvest_family() {
           }}
         />
       )}
-      {begging === 2 && (
+      {farmData.round === 5 && begging === 2 && (
         <div className={styles.container}>
           <img
             src={Begging}
@@ -2002,7 +2000,7 @@ function harvest_family() {
           />
         </div>
       )}
-      {begging === 3 && (
+      {farmData.round === 5 && begging === 3 && (
         <div className={styles.container}>
           <img
             src={Begging}
@@ -2016,7 +2014,7 @@ function harvest_family() {
           />
         </div>
       )}
-      {begging === 4 && (
+      {farmData.round === 5 && begging === 4 && (
         <div className={styles.container}>
           <img
             src={Begging}
