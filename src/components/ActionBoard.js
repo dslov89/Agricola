@@ -494,49 +494,8 @@ function ActionBoard({ data, setData }) {
     }
   }
 
-  function soilKilnHandler() {
-    // 메인설비 06.흙가마
-    if (userData[`user${farmData.turn}`].grain > 0) {
-      // 자원 갖고 있는 지 확인
-      const res = {
-        tree: 0,
-        soil: 0,
-        reed: 0,
-        charcoal: 0,
-        sheep: 0,
-        pig: 0,
-        cow: 0,
-        grain: -1,
-        vegetable: 0,
-        food: 5,
-      };
-      alwaysActHandler(res);
-    } else {
-      alert("보유한 자원이 부족합니다.");
-    }
-  }
 
-  function charcoalKilnHandler() {
-    // 메인설비 07.돌가마
-    if (userData[`user${farmData.turn}`].grain > 0) {
-      // 자원 갖고 있는 지 확인
-      const res = {
-        tree: 0,
-        soil: 0,
-        reed: 0,
-        charcoal: 0,
-        sheep: 0,
-        pig: 0,
-        cow: 0,
-        grain: -1,
-        vegetable: 0,
-        food: 4,
-      };
-      alwaysActHandler(res);
-    } else {
-      alert("보유한 자원이 부족합니다.");
-    }
-  }
+
 
   function checkRoomCount() {
     const roomArray = userData[`user${farmData.turn}`].farm_array;
@@ -584,29 +543,7 @@ function ActionBoard({ data, setData }) {
     }
   }
 
-  function job23Handler() {
-    // 직업 23. 지붕 다지는 사람
-    if (userData[`user${farmData.turn}`].food > 1) {
-      const roomCounts = checkRoomCount();
-      const roomSum =
-        roomCounts.wood_room + roomCounts.rock_room + roomCounts.soil_room;
-      const res = {
-        tree: 0,
-        soil: 0,
-        reed: 0,
-        charcoal: roomSum,
-        sheep: 0,
-        pig: 0,
-        cow: 0,
-        grain: 0,
-        vegetable: 0,
-        food: -1,
-      };
-      alwaysActHandler(res);
-    } else {
-      alert("보유한 자원이 부족합니다.");
-    }
-  }
+
 
   function job24Handler() {
     // 직업 24. 상담가
@@ -625,68 +562,10 @@ function ActionBoard({ data, setData }) {
     alwaysActHandler(res);
   }
 
-  function job25Handler() {
-    // 직업 25. 집사
-    const leftRoundCnt = 14 - farmData.round;
-    const res = {
-      tree: 0,
-      soil: 0,
-      reed: 0,
-      charcoal: 0,
-      sheep: 0,
-      pig: 0,
-      cow: 0,
-      grain: 0,
-      vegetable: 0,
-      food: 0,
-    };
-    if (leftRoundCnt === 1) res.tree += 1;
-    else if (leftRoundCnt === 3) res.tree += 2;
-    else if (leftRoundCnt === 6) res.tree += 3;
-    else if (leftRoundCnt === 9) res.tree += 4;
 
-    alwaysActHandler(res);
-  }
+  
 
-  function job26Handler() {
-    // 직업 26. 큰 낫 일꾼
-    const res = {
-      tree: 0,
-      soil: 0,
-      reed: 0,
-      charcoal: 0,
-      sheep: 0,
-      pig: 0,
-      cow: 0,
-      grain: 1,
-      vegetable: 0,
-      food: 0,
-    };
 
-    alwaysActHandler(res);
-  }
-
-  function sub01Handler(soilCnt) {
-    // 보조 01. 경질 자기
-    if (userData[`user${farmData.turn}`].soil > 2) {
-      const res = {
-        tree: 0,
-        soil: -soilCnt,
-        reed: 0,
-        charcoal: soilCnt - 1,
-        sheep: 0,
-        pig: 0,
-        cow: 0,
-        grain: 0,
-        vegetable: 0,
-        food: 0,
-      };
-
-      alwaysActHandler(res);
-    } else {
-      alert("보유한 자원이 부족합니다.");
-    }
-  }
 
   function sub04Handler() {
     // 보조 04. 다진 흙
@@ -768,22 +647,6 @@ function ActionBoard({ data, setData }) {
     }
   }
 
-  function sub23Handler() {
-    // 보조 23. 채굴 망치
-    const res = {
-      tree: 0,
-      soil: 0,
-      reed: 0,
-      charcoal: 0,
-      sheep: 0,
-      pig: 0,
-      cow: 0,
-      grain: 0,
-      vegetable: 0,
-      food: 1,
-    };
-    alwaysActHandler(res);
-  }
 
   function sub28Handler() {
     // 보조 28. 흙판
