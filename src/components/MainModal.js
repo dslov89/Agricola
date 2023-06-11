@@ -5,7 +5,7 @@ import { DataContext } from "../store/data-context";
 import { sendingClient } from "./GameRoomBoard";
 import { UserContext } from "../store/user-context";
 
-function MainModal({ setIsVisible, isMain, setIsMain, setIsSub }) {
+function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
   const { farmData, setFarmData } = useContext(DataContext);
   const { userData, setUserData } = useContext(UserContext);
   const closeModal = () => {
@@ -48,8 +48,7 @@ function MainModal({ setIsVisible, isMain, setIsMain, setIsSub }) {
 
   useEffect(() => {
     myCardCheck();
-    console.log("모달창모달창메인모달창");
-  }, [farmData.currentTurn]);
+  }, [farmData.currentTurn, farmData.action]);
 
   function myCardCheck() {
     setFarmData((prevFarmData) => {
