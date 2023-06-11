@@ -137,22 +137,75 @@ const Gameroomboard = () => {
                   });
 
                 } else if (msg.messageType === "FARM") {
-                  setUserData((prevUserData) => ({
-                    ...prevUserData,
-                    [`user${farmData.turn}`]: {
-                      ...prevUserData[`user${farmData.turn}`],
-                      farm_array: msg.building,
-                      farm_fence_array: msg.fence,
-                      round: msg.round,
-                      roomId: msg.roomId,
-                      messageType: msg.messageType,
-                      action: msg.action,
-                      currentTurn: msg.currentTurn,
-                      farmer_count: msg.farmer_count,
-                      turn: initMsg.turn,
-                    },
-                    
-                  }));
+                  if(msg.currentTurn === 1) {
+                    setUserData((prevUserData) => ({
+                      ...prevUserData,
+                      user4: {
+                        ...prevUserData.user4,
+                        farm_array: msg.building,
+                        farm_fence_array: msg.fence,
+                        round: msg.round,
+                        roomId: msg.roomId,
+                        messageType: msg.messageType,
+                        action: msg.action,
+                        currentTurn: msg.currentTurn,
+                        farmer_count: msg.farmer_count,
+                        turn: initMsg.turn,
+                      },
+                      
+                    }));
+                  } else if(msg.currentTurn === 2) {
+                    setUserData((prevUserData) => ({
+                      ...prevUserData,
+                      user1: {
+                        ...prevUserData.user1,
+                        farm_array: msg.building,
+                        farm_fence_array: msg.fence,
+                        round: msg.round,
+                        roomId: msg.roomId,
+                        messageType: msg.messageType,
+                        action: msg.action,
+                        currentTurn: msg.currentTurn,
+                        farmer_count: msg.farmer_count,
+                        turn: initMsg.turn,
+                      },
+                      
+                    }));
+                  } else if(msg.currentTurn === 3) {
+                    setUserData((prevUserData) => ({
+                      ...prevUserData,
+                      user2: {
+                        ...prevUserData.user2,
+                        farm_array: msg.building,
+                        farm_fence_array: msg.fence,
+                        round: msg.round,
+                        roomId: msg.roomId,
+                        messageType: msg.messageType,
+                        action: msg.action,
+                        currentTurn: msg.currentTurn,
+                        farmer_count: msg.farmer_count,
+                        turn: initMsg.turn,
+                      },
+                      
+                    }));
+                  } else {
+                    setUserData((prevUserData) => ({
+                      ...prevUserData,
+                      user3: {
+                        ...prevUserData.user3,
+                        farm_array: msg.building,
+                        farm_fence_array: msg.fence,
+                        round: msg.round,
+                        roomId: msg.roomId,
+                        messageType: msg.messageType,
+                        action: msg.action,
+                        currentTurn: msg.currentTurn,
+                        farmer_count: msg.farmer_count,
+                        turn: initMsg.turn,
+                      },
+                      
+                    }));
+                  }
                 };
 
               }

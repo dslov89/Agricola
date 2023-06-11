@@ -3,6 +3,13 @@ import { ReactComponent as Farm } from "../asset/farm.svg";
 import woodRoomImage from "../image/wood_room.png";
 import rockRoomImage from "../image/rock_room.png";
 import soilRoomImage from "../image/soil_room.png";
+import plow from "../image/plow.png";
+import plow_grain1 from "../image/plow_grain1.png";
+import plow_grain2 from "../image/plow_grain2.png";
+import plow_grain3 from "../image/plow_grain3.png";
+import sheep from "../image/sheep.png";
+import house from "../image/house.png";
+
 import { DataContext } from "../store/data-context";
 import { UserContext } from "../store/user-context";
 import React, { useContext, useEffect } from "react";
@@ -75,6 +82,12 @@ const Room = ({ className, itemName }) => {
   if (itemName === "wood_room") imageSrc = woodRoomImage;
   else if (itemName === "rock_room") imageSrc = rockRoomImage;
   else if (itemName === "soil_room") imageSrc = soilRoomImage;
+  else if (itemName === "plow") imageSrc = plow;
+  else if (itemName === "plow_grain1") imageSrc = plow_grain1;
+  else if (itemName === "plow_grain2") imageSrc = plow_grain2;
+  else if (itemName === "plow_grain3") imageSrc = plow_grain3;
+  else if (itemName === "sheep") imageSrc = sheep;
+  else if (itemName === "house") imageSrc = house;
   const style = { backgroundImage: `url(${imageSrc})` };
   return <div className={`room ${className}`} style={style} />;
 };
@@ -228,51 +241,6 @@ const App = () => {
   const user2FenceArray = userData.user2.farm_fence_array;
   const user3FenceArray = userData.user3.farm_fence_array;
   const user4FenceArray = userData.user4.farm_fence_array;
-  useEffect(() => {
-    userDataUpdate();
-  }, [farmData.currentTurn]);
-
-  async function userDataUpdate() {
-    const userId = farmData.currentTurn;
-
-    if (userId === 0) {
-      await setUserData((prevUserData) => ({
-        ...prevUserData,
-        user3: {
-          ...prevUserData.user3,
-          farm_array: prevUserData.user3.farm_array,
-          farm_fence_array: prevUserData.user3.farm_fence_array,
-        },
-      }));
-    } else if (userId === 1) {
-      await setUserData((prevUserData) => ({
-        ...prevUserData,
-        user4: {
-          ...prevUserData.user4,
-          farm_array: prevUserData.user4.farm_array,
-          farm_fence_array: prevUserData.user4.farm_fence_array,
-        },
-      }));
-    } else if (userId === 2) {
-      await setUserData((prevUserData) => ({
-        ...prevUserData,
-        user1: {
-          ...prevUserData.user1,
-          farm_array: prevUserData.user1.farm_array,
-          farm_fence_array: prevUserData.user1.farm_fence_array,
-        },
-      }));
-    } else {
-      await setUserData((prevUserData) => ({
-        ...prevUserData,
-        user2: {
-          ...prevUserData.user2,
-          farm_array: prevUserData.user2.farm_array,
-          farm_fence_array: prevUserData.user2.farm_fence_array,
-        },
-      }));
-    }
-  }
 
   
 
@@ -300,7 +268,6 @@ const App = () => {
               fenceArray={user3FenceArray}
               farmArray={user3Farm}
             />
-
             <CardBoard userId="3" />
           </div>
           <div style={{ flexDirection: "row", display: "flex" }}>
