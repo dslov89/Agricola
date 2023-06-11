@@ -1875,7 +1875,7 @@ function harvest_family() {
         <div className="player actionBtn3 theater">{moveOtherPlayer(15)}</div>
       )}
       {/*수확 버튼*/}
-      {isTurn && farmData.round === 1 && (
+      {isTurn && farmData.round === 5 && (
         <button className="harvest_familyBtn" onClick={harvest_family}>
           가족 부양
         </button>
