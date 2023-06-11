@@ -23,6 +23,7 @@ import yellowplayer from "../image/farmer_yellow.png";
 import greenplayer from "../image/farmer_green.png";
 import blueplayer from "../image/farmer_blue.png";
 import plow_grain2 from "../image/plow_grain2.png";
+import beg from "../image/beg.png";
 
 function ActionBoard({ data, setData }) {
   const [isTurn, setIsTurn] = useState(false);
@@ -1630,7 +1631,8 @@ function ActionBoard({ data, setData }) {
         };
         defaultActHandler(res, 21);
       } else {
-        console.log("구걸카드 띄워주기");
+        alert("구걸하세요! 식량 부족");
+
       }
     } else {
       alert("이미 가족 부양을 완료 하였습니다.");
