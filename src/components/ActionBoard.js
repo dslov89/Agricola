@@ -30,6 +30,7 @@ function ActionBoard({ data, setData }) {
   // const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
   const [foodis, setFoodis] = useState(0);
   const [scoreBoardVisible, setScoreBoardVisible] = useState(true);
+  const [BeggingVisible, setBeggingVisible] = useState(true);
   const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
   const [subSulbi, setSubSulbi] = useState([
     { id: 1, isHas: 1 },
@@ -1597,7 +1598,39 @@ function ActionBoard({ data, setData }) {
         };
         defaultActHandler(res, 21);
       } else {
-        console.log("구걸카드 띄워주기");
+        if (userData[`user${farmData.turn}`].food < userData[`user${farmData.turn}`].farmer * 2) {
+          if (farmData.turn === 1) {
+              <img
+                src={begging}
+                alt="Begging"
+                style={{
+                  width: "300px",
+                  height: "100px",
+                  position: "absolute",
+                  left: "50px",
+                  top: "20px",
+                }}
+              />
+          }
+          else if (farmData.turn === 2) {
+            return (
+              <div>
+              </div>
+            );
+          }
+          else if (farmData.turn === 3) {
+            return (
+              <div>
+              </div>
+            );
+          }
+          else {
+            return (
+              <div>
+              </div>
+            );
+          }
+        }
       }
     } else {
       alert("이미 가족 부양을 완료 하였습니다.");
@@ -1813,7 +1846,7 @@ function ActionBoard({ data, setData }) {
         <div className="player actionBtn3 theater">{moveOtherPlayer(15)}</div>
       )}
       {/*수확 버튼*/}
-      {isTurn && farmData.round === 5 && (
+      {isTurn && farmData.round === 1 && (
         <button className="harvest_familyBtn" onClick={harvest_family}>
           가족 부양
         </button>
