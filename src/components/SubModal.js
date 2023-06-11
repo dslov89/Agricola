@@ -79,6 +79,7 @@ function SubModal({
     setClickedIndex(index);
     setClickedCardId(cardId);
   }
+
   const sendJobCard = () => {
     console.log(farmData.jobCards);
     setIsVisible(false);
@@ -97,6 +98,7 @@ function SubModal({
         cardIndex: clickedCardId,
       })
     );
+    okaySend("JOB")
     setIsJob(false);
   };
 
@@ -106,6 +108,60 @@ function SubModal({
     setClickedIndex(index);
     setClickedCardId(cardId);
   }
+
+  const alwaysActHandler = async (res) => { // job전용
+    await updateAlways(farmData.turn); // 누른 놈 제외 갱신
+    setIsVisible(false);
+    setIsMainVisible(false);
+    setIsSub(false);
+    setIsMain(false);
+    sendingClient.current.send(
+      "/main-board/resource/update",
+      {},
+      JSON.stringify({
+        messageType: "RESOURCE",
+        roomId: farmData.roomId,
+        action: farmData.action,
+        round: farmData.round,
+        currentTurn: farmData.currentTurn,
+        farmer_count: farmData.farmer_count,
+        tree: res.tree,
+        soil: res.soil,
+        reed: res.reed,
+        charcoal: res.charcoal,
+        sheep: res.sheep,
+        pig: res.pig,
+        cow: res.cow,
+        grain: res.grain,
+        vegetable: res.vegetable,
+        food: res.food,
+      })
+    );
+    if (farmData.action[20][1] === farmData.turn) {
+      // 누른 사람은 갱신이 안되어있으므로 따로 갱신해줌
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        [`user${farmData.turn}`]: {
+          ...prevUserData[`user${farmData.turn}`],
+          tree: prevUserData[`user${farmData.turn}`].tree + res.tree,
+          soil: prevUserData[`user${farmData.turn}`].soil + res.soil,
+          reed: prevUserData[`user${farmData.turn}`].reed + res.reed,
+          charcoal:
+            prevUserData[`user${farmData.turn}`].charcoal + res.charcoal,
+          sheep: prevUserData[`user${farmData.turn}`].sheep + res.sheep,
+          pig: prevUserData[`user${farmData.turn}`].pig + res.pig,
+          cow: prevUserData[`user${farmData.turn}`].cow + res.cow,
+          grain: prevUserData[`user${farmData.turn}`].grain + res.grain,
+          vegetable:
+            prevUserData[`user${farmData.turn}`].vegetable + res.vegetable,
+          food: prevUserData[`user${farmData.turn}`].food + res.food,
+        },
+      }));
+    }
+
+    okaySend("SUB");
+    console.log("always");
+  };
 
   const alwaysActHandler2 = async (res) => {
     await updateAlways(farmData.turn); // 누른 놈 제외 갱신
@@ -157,7 +213,7 @@ function SubModal({
       }));
     }
 
-    okaySend();
+    okaySend("SUB");
     console.log("always");
   };
 
@@ -624,7 +680,7 @@ function SubModal({
         alert("자원이 부족합니다");
       }
     } else {
-      okaySend();
+      okaySend("SUB");
       setIsVisible(false);
       setIsMainVisible(false);
       setIsSub(false);
@@ -632,7 +688,7 @@ function SubModal({
     }
   };
 
-  function okaySend() {
+  function okaySend(cardType) {
     sendingClient.current.send(
       "/main-board/card/update",
       {},
@@ -643,7 +699,7 @@ function SubModal({
         action: farmData.action,
         currentTurn: (farmData.currentTurn + 1) % 4,
         farmer_count: farmData.farmer_count,
-        cardType: "SUB",
+        cardType: cardType,
         cardIndex: clickedCardId,
       })
     );

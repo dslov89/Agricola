@@ -110,8 +110,6 @@ function ActionBoard({ data, setData }) {
   const alwaysActHandler = async (res) => {
     // 턴 안넘기고 자원갱신만 하는 함수
     await updateAlways(farmData.turn); // 누른 놈 제외 갱신
-    const farmer_cnt = farmData.farmer_count;
-    farmer_cnt[(farmData.currentTurn + 3) % 4] -= 1;
     sendingClient.current.send(
       "/main-board/resource/update",
       {},
@@ -121,7 +119,7 @@ function ActionBoard({ data, setData }) {
         action: farmData.action,
         round: farmData.round,
         currentTurn: farmData.currentTurn % 4,
-        farmer_count: farmer_cnt,
+        farmer_count: farmData.farmer_count,
         tree: res.tree,
         soil: res.soil,
         reed: res.reed,
@@ -342,7 +340,8 @@ function ActionBoard({ data, setData }) {
         vegetable: 0,
         food: 2,
       };
-      alwaysActHandler(res);
+      // alwaysActHandler(res);
+      harvestActHandler(res);
     } else {
       alert("보유한 자원이 부족합니다.");
     }
@@ -363,7 +362,7 @@ function ActionBoard({ data, setData }) {
         vegetable: 0,
         food: 4,
       };
-      alwaysActHandler(res);
+      alwaysActHandler2(res);
     } else {
       alert("보유한 자원이 부족합니다.");
     }
@@ -546,8 +545,11 @@ function ActionBoard({ data, setData }) {
       rock_room: 0,
       soil_room: 0,
       empty: 0,
-      vegetable_farm: 0, // 채소 올려진 밭
-      grain_farm: 0, // 곡식 올려진 밭
+      plow_grain1: 0,
+      plow_grain2: 0,
+      plow_grain3: 0, 
+      plow_vegetable1: 0,
+      plow_vegetable2: 0,
     };
     roomArray.forEach((item) => {
       if (roomCounts.hasOwnProperty(item)) {
@@ -746,11 +748,10 @@ function ActionBoard({ data, setData }) {
     // 보조 15. 삼포식 농법
     const roomCounts = checkRoomCount();
     if (
-      roomCounts.vegetable_farm > 1 &&
-      roomCounts.grain_farm > 1 &&
-      roomCounts.empty > 1
+      (roomCounts.plow_grain1 > 0 || roomCounts.plow_grain2 > 0 || roomCounts.plow_grain3) &&
+      (roomCounts.plow_vegetable1 > 0 || roomCounts.plow_vegetable2 ) &&
+      (roomCounts.empty > 1)
     ) {
-      // 이거 대윤이거랑 맞춰야함
       const res = {
         tree: 0,
         soil: 0,
@@ -1079,8 +1080,8 @@ function ActionBoard({ data, setData }) {
         }
       }
 
-      if (userData[`user${farmData.turn}`].job.includes(16)) {
-        // 직업 16. 보조 경직자
+      if (userData[`user${farmData.turn}`].job.includes(17)) {
+        // 직업 18. 보조 경직자
         if (window.confirm("밭 1개를 일구시겠습니까?")) {
           // 밭 일구기 로직
         } else {
@@ -1088,8 +1089,8 @@ function ActionBoard({ data, setData }) {
         }
       }
 
-      if (userData[`user${farmData.turn}`].job.includes(17)) {
-        // 직업 17. 오두막집 살이
+      if (userData[`user${farmData.turn}`].job.includes(18)) {
+        // 직업 18. 오두막집 살이
         if (window.confirm("방을 짓거나 고치시겠습니까?")) {
           // 방 고치기 로직
         } else {
@@ -1322,7 +1323,7 @@ function ActionBoard({ data, setData }) {
         // 보조 16. 양토 채굴장
         res.soil += 3;
       if (userData[`user${farmData.turn}`].job.includes(16))
-        // 직업 09. 농번기 일꾼
+        // 직업 16. 농번기 일꾼
         res.grain += 1;
 
       defaultActHandler(res, 11);
