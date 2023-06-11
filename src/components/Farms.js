@@ -40,7 +40,6 @@ function Farms({ data, setData }) {
     updateAction,
   } = useContext(DataContext);
   const { userData, setUserData } = useContext(UserContext);
-  
   const fist_setting = useMemo(() => {
     return { ...userData[`user${farmData.turn}`] };
   }, [farmData.currentTurn]);
@@ -157,7 +156,6 @@ function Farms({ data, setData }) {
       setIsGameFinished(true); // 새로운 종료 버튼을 활성화
       setIshousegame(true); // 외양간 버튼 활성화
 
-
       const dx = [1, -1, 5, -5];
       let i = 0;
       let cnt = 0;
@@ -173,7 +171,8 @@ function Farms({ data, setData }) {
               cnt += 1;
             } else {
               if (
-                userData[`user${farmData.turn}`].farm_array[index + dx[i]] === "empty"
+                userData[`user${farmData.turn}`].farm_array[index + dx[i]] ===
+                "empty"
               ) {
                 cnt += 1;
                 if (cnt > 1) {
@@ -185,12 +184,15 @@ function Farms({ data, setData }) {
                 if (index === 4) {
                   if (dx[i] === -1 || dx[i] === 5) {
                     if (
-                      userData[`user${farmData.turn}`].farm_array[index + dx[i]] ===
-                        "wood_room" ||
-                      userData[`user${farmData.turn}`].farm_array[index + dx[i]] ===
-                        "soil_room" ||
-                      userData[`user${farmData.turn}`].farm_array[index + dx[i]] ===
-                        "rock_room"
+                      userData[`user${farmData.turn}`].farm_array[
+                        index + dx[i]
+                      ] === "wood_room" ||
+                      userData[`user${farmData.turn}`].farm_array[
+                        index + dx[i]
+                      ] === "soil_room" ||
+                      userData[`user${farmData.turn}`].farm_array[
+                        index + dx[i]
+                      ] === "rock_room"
                     ) {
                       const roomClass = `.Btn.room${
                         Math.floor(index / 5) + 1
@@ -199,8 +201,9 @@ function Farms({ data, setData }) {
                       roomElement.style.backgroundImage = `url(${woodroom})`;
 
                       const updatedUserData = { ...userData }; // userData 객체 복사
-                      updatedUserData[`user${farmData.turn}`].farm_array[index] =
-                        "wood_room"; // farm_array 업데이트
+                      updatedUserData[`user${farmData.turn}`].farm_array[
+                        index
+                      ] = "wood_room"; // farm_array 업데이트
                       updatedUserData[`user${farmData.turn}`].tree -= 5;
                       updatedUserData[`user${farmData.turn}`].reed -= 2;
                       setUserData(updatedUserData);
@@ -211,12 +214,15 @@ function Farms({ data, setData }) {
                 } else if (index === 9) {
                   if (dx[i] === -1 || dx[i] === -5 || dx[i] === 5) {
                     if (
-                      userData[`user${farmData.turn}`].farm_array[index + dx[i]] ===
-                        "wood_room" ||
-                      userData[`user${farmData.turn}`].farm_array[index + dx[i]] ===
-                        "soil_room" ||
-                      userData[`user${farmData.turn}`].farm_array[index + dx[i]] ===
-                        "rock_room"
+                      userData[`user${farmData.turn}`].farm_array[
+                        index + dx[i]
+                      ] === "wood_room" ||
+                      userData[`user${farmData.turn}`].farm_array[
+                        index + dx[i]
+                      ] === "soil_room" ||
+                      userData[`user${farmData.turn}`].farm_array[
+                        index + dx[i]
+                      ] === "rock_room"
                     ) {
                       const roomClass = `.Btn.room${
                         Math.floor(index / 5) + 1
@@ -225,8 +231,9 @@ function Farms({ data, setData }) {
                       roomElement.style.backgroundImage = `url(${woodroom})`;
 
                       const updatedUserData = { ...userData }; // userData 객체 복사
-                      updatedUserData[`user${farmData.turn}`].farm_array[index] =
-                        "wood_room"; // farm_array 업데이트
+                      updatedUserData[`user${farmData.turn}`].farm_array[
+                        index
+                      ] = "wood_room"; // farm_array 업데이트
                       updatedUserData[`user${farmData.turn}`].tree -= 5;
                       updatedUserData[`user${farmData.turn}`].reed -= 2;
                       setUserData(updatedUserData);
@@ -279,7 +286,9 @@ function Farms({ data, setData }) {
         //여기서 턴을 종료하지 않고 외양간 설치 기능을 넣어준다.
       }
       //유저가 클릭한 방이 나무인 경우 -> 한번에 업그레이드
-      else if (userData[`user${farmData.turn}`].farm_array[index] === "wood_room") {
+      else if (
+        userData[`user${farmData.turn}`].farm_array[index] === "wood_room"
+      ) {
         const count_wood = userData[`user${farmData.turn}`].farm_array.filter(
           (item) => item === "wood_room"
         ).length;
@@ -300,7 +309,8 @@ function Farms({ data, setData }) {
           // wood_room에 해당하는 인덱스 전체를 soil_room으로 변경
           roomIndices.forEach((idx) => {
             const updatedUserData = { ...userData }; // userData 객체 복사
-            updatedUserData[`user${farmData.turn}`].farm_array[idx] = "soil_room"; // farm_array 업데이트
+            updatedUserData[`user${farmData.turn}`].farm_array[idx] =
+              "soil_room"; // farm_array 업데이트
             setUserData(updatedUserData);
           });
 
@@ -326,7 +336,9 @@ function Farms({ data, setData }) {
       }
 
       //유저가 클릭한 방이 흙인 경우
-      else if (userData[`user${farmData.turn}`].farm_array[index] === "soil_room") {
+      else if (
+        userData[`user${farmData.turn}`].farm_array[index] === "soil_room"
+      ) {
         const count_soil = userData[`user${farmData.turn}`].farm_array.filter(
           (item) => item === "soil_room"
         ).length;
@@ -346,7 +358,8 @@ function Farms({ data, setData }) {
           // soil_room 해당하는 인덱스 전체를 rock_room으로 변경
           roomIndices.forEach((idx) => {
             const updatedUserData = { ...userData }; // userData 객체 복사
-            updatedUserData[`user${farmData.turn}`].farm_array[idx] = "rock_room"; // farm_array 업데이트
+            updatedUserData[`user${farmData.turn}`].farm_array[idx] =
+              "rock_room"; // farm_array 업데이트
 
             setUserData(updatedUserData);
           });
@@ -383,7 +396,6 @@ function Farms({ data, setData }) {
       farmData.action[9][0] === (farmData.turn) &&
       farmData.action[9][1] === 9
     ) {
-
       if (userData[`user${farmData.turn}`].farm_array[index] !== "empty") {
         alert("해당 방은 이미 예약되어 있습니다.");
         console.log("해당 방은 이미 예약되어 있습니다");
@@ -423,7 +435,6 @@ function Farms({ data, setData }) {
     }
 
     if (farmData.action[6][1] === 26) {
-
       // 여기서 울타리 로직할 때 farm이 아니라 fence array를 참고해볼 것
       if (
         userData[`user${farmData.turn}`].farm_array[index] === "fence" ||
@@ -439,7 +450,8 @@ function Farms({ data, setData }) {
 
           if (userData[`user${farmData.turn}`].farm_array[index] === "fence") {
             const updatedUserData = { ...userData }; // userData 객체 복사
-            updatedUserData[`user${farmData.turn}`].farm_array[index] = "fence_house"; // farm_array 업데이트
+            updatedUserData[`user${farmData.turn}`].farm_array[index] =
+              "fence_house"; // farm_array 업데이트
             setUserData(updatedUserData);
           } else {
             const updatedUserData = { ...userData }; // userData 객체 복사
@@ -606,41 +618,63 @@ function Farms({ data, setData }) {
                 `.fenceCol.fenceCol1.fenceCol${formattedIndex1}`
               );
 
-              if (userData[`user${farmData.turn}`].farm_fence_array[0][index] === 1) {
+              if (
+                userData[`user${farmData.turn}`].farm_fence_array[0][index] ===
+                1
+              ) {
                 newData[`user${farmData.turn}`].farm_fence_array[0][index] = 0;
               } else if (
-                userData[`user${farmData.turn}`].farm_fence_array[0][index] === 0
+                userData[`user${farmData.turn}`].farm_fence_array[0][index] ===
+                0
               ) {
                 newData[`user${farmData.turn}`].farm_fence_array[0][index] = 1;
               }
 
-              if (userData[`user${farmData.turn}`].farm_fence_array[1][index] === 1) {
+              if (
+                userData[`user${farmData.turn}`].farm_fence_array[1][index] ===
+                1
+              ) {
                 newData[`user${farmData.turn}`].farm_fence_array[1][index] = 0;
               } else if (
-                userData[`user${farmData.turn}`].farm_fence_array[1][index] === 0
+                userData[`user${farmData.turn}`].farm_fence_array[1][index] ===
+                0
               ) {
                 newData[`user${farmData.turn}`].farm_fence_array[1][index] = 1;
               }
 
-              if (userData[`user${farmData.turn}`].farm_fence_array[2][index] === 1) {
+              if (
+                userData[`user${farmData.turn}`].farm_fence_array[2][index] ===
+                1
+              ) {
                 newData[`user${farmData.turn}`].farm_fence_array[2][index] = 0;
               } else if (
-                userData[`user${farmData.turn}`].farm_fence_array[2][index] === 0
+                userData[`user${farmData.turn}`].farm_fence_array[2][index] ===
+                0
               ) {
                 newData[`user${farmData.turn}`].farm_fence_array[2][index] = 1;
               }
 
               if (
-                userData[`user${farmData.turn}`].farm_fence_array[1][index + 1] === 1
+                userData[`user${farmData.turn}`].farm_fence_array[1][
+                  index + 1
+                ] === 1
               ) {
-                newData[`user${farmData.turn}`].farm_fence_array[1][index + 1] = 0;
+                newData[`user${farmData.turn}`].farm_fence_array[1][
+                  index + 1
+                ] = 0;
               } else if (
-                userData[`user${farmData.turn}`].farm_fence_array[1][index + 1] === 0
+                userData[`user${farmData.turn}`].farm_fence_array[1][
+                  index + 1
+                ] === 0
               ) {
-                newData[`user${farmData.turn}`].farm_fence_array[1][index + 1] = 1;
+                newData[`user${farmData.turn}`].farm_fence_array[1][
+                  index + 1
+                ] = 1;
               }
 
-              if (newData[`user${farmData.turn}`].farm_fence_array[0][index] === 1) {
+              if (
+                newData[`user${farmData.turn}`].farm_fence_array[0][index] === 1
+              ) {
                 fenceElement1.style.backgroundColor = "red";
               } else if (
                 newData[`user${farmData.turn}`].farm_fence_array[0][index] === 0
@@ -648,7 +682,9 @@ function Farms({ data, setData }) {
                 fenceElement1.style.backgroundColor = "";
               }
 
-              if (newData[`user${farmData.turn}`].farm_fence_array[1][index] === 1) {
+              if (
+                newData[`user${farmData.turn}`].farm_fence_array[1][index] === 1
+              ) {
                 fenceElement2.style.backgroundColor = "red";
               } else if (
                 newData[`user${farmData.turn}`].farm_fence_array[1][index] === 0
@@ -656,7 +692,9 @@ function Farms({ data, setData }) {
                 fenceElement2.style.backgroundColor = "";
               }
 
-              if (newData[`user${farmData.turn}`].farm_fence_array[2][index] === 1) {
+              if (
+                newData[`user${farmData.turn}`].farm_fence_array[2][index] === 1
+              ) {
                 fenceElement3.style.backgroundColor = "red";
               } else if (
                 newData[`user${farmData.turn}`].farm_fence_array[0][index] === 0
@@ -665,11 +703,15 @@ function Farms({ data, setData }) {
               }
 
               if (
-                newData[`user${farmData.turn}`].farm_fence_array[1][index + 1] === 1
+                newData[`user${farmData.turn}`].farm_fence_array[1][
+                  index + 1
+                ] === 1
               ) {
                 fenceElement4.style.backgroundColor = "red";
               } else if (
-                newData[`user${farmData.turn}`].farm_fence_array[1][index + 1] === 0
+                newData[`user${farmData.turn}`].farm_fence_array[1][
+                  index + 1
+                ] === 0
               ) {
                 fenceElement4.style.backgroundColor = "";
               }
@@ -694,41 +736,63 @@ function Farms({ data, setData }) {
                 `.fenceCol.fenceCol2.fenceCol${formattedIndex1}`
               );
 
-              if (userData[`user${farmData.turn}`].farm_fence_array[2][index] === 1) {
+              if (
+                userData[`user${farmData.turn}`].farm_fence_array[2][index] ===
+                1
+              ) {
                 newData[`user${farmData.turn}`].farm_fence_array[2][index] = 0;
               } else if (
-                userData[`user${farmData.turn}`].farm_fence_array[2][index] === 0
+                userData[`user${farmData.turn}`].farm_fence_array[2][index] ===
+                0
               ) {
                 newData[`user${farmData.turn}`].farm_fence_array[2][index] = 1;
               }
 
-              if (userData[`user${farmData.turn}`].farm_fence_array[3][index] === 1) {
+              if (
+                userData[`user${farmData.turn}`].farm_fence_array[3][index] ===
+                1
+              ) {
                 newData[`user${farmData.turn}`].farm_fence_array[3][index] = 0;
               } else if (
-                userData[`user${farmData.turn}`].farm_fence_array[3][index] === 0
+                userData[`user${farmData.turn}`].farm_fence_array[3][index] ===
+                0
               ) {
                 newData[`user${farmData.turn}`].farm_fence_array[3][index] = 1;
               }
 
-              if (userData[`user${farmData.turn}`].farm_fence_array[4][index] === 1) {
+              if (
+                userData[`user${farmData.turn}`].farm_fence_array[4][index] ===
+                1
+              ) {
                 newData[`user${farmData.turn}`].farm_fence_array[4][index] = 0;
               } else if (
-                userData[`user${farmData.turn}`].farm_fence_array[4][index] === 0
+                userData[`user${farmData.turn}`].farm_fence_array[4][index] ===
+                0
               ) {
                 newData[`user${farmData.turn}`].farm_fence_array[4][index] = 1;
               }
 
               if (
-                userData[`user${farmData.turn}`].farm_fence_array[3][index + 1] === 1
+                userData[`user${farmData.turn}`].farm_fence_array[3][
+                  index + 1
+                ] === 1
               ) {
-                newData[`user${farmData.turn}`].farm_fence_array[3][index + 1] = 0;
+                newData[`user${farmData.turn}`].farm_fence_array[3][
+                  index + 1
+                ] = 0;
               } else if (
-                userData[`user${farmData.turn}`].farm_fence_array[3][index + 1] === 0
+                userData[`user${farmData.turn}`].farm_fence_array[3][
+                  index + 1
+                ] === 0
               ) {
-                newData[`user${farmData.turn}`].farm_fence_array[3][index + 1] = 1;
+                newData[`user${farmData.turn}`].farm_fence_array[3][
+                  index + 1
+                ] = 1;
               }
 
-              if (newData[`user${farmData.turn}`].farm_fence_array[2][index] === 1) {
+              if (
+                newData[`user${farmData.turn}`].farm_fence_array[2][index] === 1
+              ) {
                 fenceElement1.style.backgroundColor = "red";
               } else if (
                 newData[`user${farmData.turn}`].farm_fence_array[2][index] === 0
@@ -736,7 +800,9 @@ function Farms({ data, setData }) {
                 fenceElement1.style.backgroundColor = "";
               }
 
-              if (newData[`user${farmData.turn}`].farm_fence_array[3][index] === 1) {
+              if (
+                newData[`user${farmData.turn}`].farm_fence_array[3][index] === 1
+              ) {
                 fenceElement2.style.backgroundColor = "red";
               } else if (
                 newData[`user${farmData.turn}`].farm_fence_array[3][index] === 0
@@ -744,7 +810,9 @@ function Farms({ data, setData }) {
                 fenceElement2.style.backgroundColor = "";
               }
 
-              if (newData[`user${farmData.turn}`].farm_fence_array[4][index] === 1) {
+              if (
+                newData[`user${farmData.turn}`].farm_fence_array[4][index] === 1
+              ) {
                 fenceElement3.style.backgroundColor = "red";
               } else if (
                 newData[`user${farmData.turn}`].farm_fence_array[4][index] === 0
@@ -753,11 +821,15 @@ function Farms({ data, setData }) {
               }
 
               if (
-                newData[`user${farmData.turn}`].farm_fence_array[3][index + 1] === 1
+                newData[`user${farmData.turn}`].farm_fence_array[3][
+                  index + 1
+                ] === 1
               ) {
                 fenceElement4.style.backgroundColor = "red";
               } else if (
-                newData[`user${farmData.turn}`].farm_fence_array[3][index + 1] === 0
+                newData[`user${farmData.turn}`].farm_fence_array[3][
+                  index + 1
+                ] === 0
               ) {
                 fenceElement4.style.backgroundColor = "";
               }
@@ -783,41 +855,63 @@ function Farms({ data, setData }) {
                 `.fenceCol.fenceCol3.fenceCol${formattedIndex1}`
               );
 
-              if (userData[`user${farmData.turn}`].farm_fence_array[4][index] === 1) {
+              if (
+                userData[`user${farmData.turn}`].farm_fence_array[4][index] ===
+                1
+              ) {
                 newData[`user${farmData.turn}`].farm_fence_array[4][index] = 0;
               } else if (
-                userData[`user${farmData.turn}`].farm_fence_array[4][index] === 0
+                userData[`user${farmData.turn}`].farm_fence_array[4][index] ===
+                0
               ) {
                 newData[`user${farmData.turn}`].farm_fence_array[4][index] = 1;
               }
 
-              if (userData[`user${farmData.turn}`].farm_fence_array[5][index] === 1) {
+              if (
+                userData[`user${farmData.turn}`].farm_fence_array[5][index] ===
+                1
+              ) {
                 newData[`user${farmData.turn}`].farm_fence_array[5][index] = 0;
               } else if (
-                userData[`user${farmData.turn}`].farm_fence_array[5][index] === 0
+                userData[`user${farmData.turn}`].farm_fence_array[5][index] ===
+                0
               ) {
                 newData[`user${farmData.turn}`].farm_fence_array[5][index] = 1;
               }
 
-              if (userData[`user${farmData.turn}`].farm_fence_array[6][index] === 1) {
+              if (
+                userData[`user${farmData.turn}`].farm_fence_array[6][index] ===
+                1
+              ) {
                 newData[`user${farmData.turn}`].farm_fence_array[6][index] = 0;
               } else if (
-                userData[`user${farmData.turn}`].farm_fence_array[6][index] === 0
+                userData[`user${farmData.turn}`].farm_fence_array[6][index] ===
+                0
               ) {
                 newData[`user${farmData.turn}`].farm_fence_array[6][index] = 1;
               }
 
               if (
-                userData[`user${farmData.turn}`].farm_fence_array[5][index + 1] === 1
+                userData[`user${farmData.turn}`].farm_fence_array[5][
+                  index + 1
+                ] === 1
               ) {
-                newData[`user${farmData.turn}`].farm_fence_array[5][index + 1] = 0;
+                newData[`user${farmData.turn}`].farm_fence_array[5][
+                  index + 1
+                ] = 0;
               } else if (
-                userData[`user${farmData.turn}`].farm_fence_array[5][index + 1] === 0
+                userData[`user${farmData.turn}`].farm_fence_array[5][
+                  index + 1
+                ] === 0
               ) {
-                newData[`user${farmData.turn}`].farm_fence_array[5][index + 1] = 1;
+                newData[`user${farmData.turn}`].farm_fence_array[5][
+                  index + 1
+                ] = 1;
               }
 
-              if (newData[`user${farmData.turn}`].farm_fence_array[4][index] === 1) {
+              if (
+                newData[`user${farmData.turn}`].farm_fence_array[4][index] === 1
+              ) {
                 fenceElement1.style.backgroundColor = "red";
               } else if (
                 newData[`user${farmData.turn}`].farm_fence_array[4][index] === 0
@@ -825,7 +919,9 @@ function Farms({ data, setData }) {
                 fenceElement1.style.backgroundColor = "";
               }
 
-              if (newData[`user${farmData.turn}`].farm_fence_array[5][index] === 1) {
+              if (
+                newData[`user${farmData.turn}`].farm_fence_array[5][index] === 1
+              ) {
                 fenceElement2.style.backgroundColor = "red";
               } else if (
                 newData[`user${farmData.turn}`].farm_fence_array[5][index] === 0
@@ -833,7 +929,9 @@ function Farms({ data, setData }) {
                 fenceElement2.style.backgroundColor = "";
               }
 
-              if (newData[`user${farmData.turn}`].farm_fence_array[6][index] === 1) {
+              if (
+                newData[`user${farmData.turn}`].farm_fence_array[6][index] === 1
+              ) {
                 fenceElement3.style.backgroundColor = "red";
               } else if (
                 newData[`user${farmData.turn}`].farm_fence_array[6][index] === 0
@@ -842,11 +940,15 @@ function Farms({ data, setData }) {
               }
 
               if (
-                newData[`user${farmData.turn}`].farm_fence_array[5][index + 1] === 1
+                newData[`user${farmData.turn}`].farm_fence_array[5][
+                  index + 1
+                ] === 1
               ) {
                 fenceElement4.style.backgroundColor = "red";
               } else if (
-                newData[`user${farmData.turn}`].farm_fence_array[5][index + 1] === 0
+                newData[`user${farmData.turn}`].farm_fence_array[5][
+                  index + 1
+                ] === 0
               ) {
                 fenceElement4.style.backgroundColor = "";
               }
@@ -878,7 +980,12 @@ function Farms({ data, setData }) {
       const fenceButtonElement2 = document.querySelector("#fenceButton2");
       const fenceButtonElement3 = document.querySelector("#fenceButton3");
       const fenceButtonElement4 = document.querySelector("#fenceButton4");
-      if(fenceButtonElement1 || fenceButtonElement2 || fenceButtonElement3 || fenceButtonElement4) {
+      if (
+        fenceButtonElement1 ||
+        fenceButtonElement2 ||
+        fenceButtonElement3 ||
+        fenceButtonElement4
+      ) {
         fenceButtonElement1.addEventListener("click", function () {
           setData((prevData) => {
             if (prevData.tree - 1 >= 0) {
@@ -893,9 +1000,7 @@ function Farms({ data, setData }) {
             }
           });
         });
-        
-          
-       
+
         fenceButtonElement2.addEventListener("click", function () {
           setData((prevData) => {
             if (prevData.tree - 1 >= 0) {
@@ -910,7 +1015,7 @@ function Farms({ data, setData }) {
             }
           });
         });
-        
+
         fenceButtonElement3.addEventListener("click", function () {
           setData((prevData) => {
             if (prevData.tree - 1 >= 0) {
@@ -925,7 +1030,7 @@ function Farms({ data, setData }) {
             }
           });
         });
-        
+
         fenceButtonElement4.addEventListener("click", function () {
           setData((prevData) => {
             if (prevData.tree - 1 >= 0) {
@@ -941,64 +1046,65 @@ function Farms({ data, setData }) {
           });
         });
       }
-      
     }
     //곡식활용
     if(farmData.action[18][0] === (farmData.turn) && farmData.action[18][1] === 18) {
       setisbread(true);
-      setIsGameFinished(true);      
+      setIsGameFinished(true);
 
-          
-      if(userData[`user${farmData.turn}`].farm_array[index] = "plow") {
-          
-          let plow_count = userData[`user${farmData.turn}`].farm_array.filter((item) => item === "plow").length;
-          let grain_count = userData[`user${farmData.turn}`].grain;
-          if(plow_count <= grain_count) {
-            //이름은 바꿔준다. 
-            const roomIndices = []; // plow에 해당하는 인덱스를 저장할 배열
-  
-            userData[`user${farmData.turn}`].farm_array.forEach((item, idx) => {
-              if (item === "plow") {
-                roomIndices.push(idx);
-              }
-            });
-            roomIndices.forEach((idx) => {
-              const updatedUserData = { ...userData }; // userData 객체 복사
-              updatedUserData[`user${farmData.turn}`].farm_array[idx] = "plow_grain3"; // farm_array 업데이트
-  
-              setUserData(updatedUserData);
-              const roomClass = `.Btn.room${Math.floor(idx / 5) + 1}_${
-                (idx % 5) + 1
-              }`;
-              const roomElement = document.querySelector(roomClass);
-              const newdata = { ... userData};
-              newdata[`user${farmData.turn}`].grain -= plow_count;
-              setUserData(newdata);
-              roomElement.style.marginTop = "-30px";
-              roomElement.style.marginLeft = "-10px";
-              roomElement.style.width = "85pxpx";
-              roomElement.style.height = "105px";
-              roomElement.style.backgroundImage = `url(${plow_grain3})`;
-            });
-            updateAction(18, 0);
-            alert("곡식 뿌리기 완료. 빵굽기 곡식 하나당 음식 2개!");
-          } else {
-            //grain 수 만큼
-            const roomClass = `.Btn.room${Math.floor(index / 5) + 1}_${
-              (index % 5) + 1
-            }`;  
-            
+      if ((userData[`user${farmData.turn}`].farm_array[index] = "plow")) {
+        let plow_count = userData[`user${farmData.turn}`].farm_array.filter(
+          (item) => item === "plow"
+        ).length;
+        let grain_count = userData[`user${farmData.turn}`].grain;
+        if (plow_count <= grain_count) {
+          //이름은 바꿔준다.
+          const roomIndices = []; // plow에 해당하는 인덱스를 저장할 배열
+
+          userData[`user${farmData.turn}`].farm_array.forEach((item, idx) => {
+            if (item === "plow") {
+              roomIndices.push(idx);
+            }
+          });
+          roomIndices.forEach((idx) => {
             const updatedUserData = { ...userData }; // userData 객체 복사
-            updatedUserData[`user${farmData.turn}`].farm_array[index] = "plow_grain3"; // farm_array 업데이트
-            setUserData(updatedUserData);
+            updatedUserData[`user${farmData.turn}`].farm_array[idx] =
+              "plow_grain3"; // farm_array 업데이트
 
+            setUserData(updatedUserData);
+            const roomClass = `.Btn.room${Math.floor(idx / 5) + 1}_${
+              (idx % 5) + 1
+            }`;
             const roomElement = document.querySelector(roomClass);
-            roomElement.style.backgroundImage = `url(${plow_grain3})`;
-            const newdata = { ... userData};
-            newdata[`user${farmData.turn}`].grain -= 1;
+            const newdata = { ...userData };
+            newdata[`user${farmData.turn}`].grain -= plow_count;
             setUserData(newdata);
-            alert("씨부리기 하나 완료, 빵굽기 곡식 하나당 음식 2개!");
-          }
+            roomElement.style.marginTop = "-30px";
+            roomElement.style.marginLeft = "-10px";
+            roomElement.style.width = "85pxpx";
+            roomElement.style.height = "105px";
+            roomElement.style.backgroundImage = `url(${plow_grain3})`;
+          });
+          updateAction(18, 0);
+          alert("곡식 뿌리기 완료. 빵굽기 곡식 하나당 음식 2개!");
+        } else {
+          //grain 수 만큼
+          const roomClass = `.Btn.room${Math.floor(index / 5) + 1}_${
+            (index % 5) + 1
+          }`;
+
+          const updatedUserData = { ...userData }; // userData 객체 복사
+          updatedUserData[`user${farmData.turn}`].farm_array[index] =
+            "plow_grain3"; // farm_array 업데이트
+          setUserData(updatedUserData);
+
+          const roomElement = document.querySelector(roomClass);
+          roomElement.style.backgroundImage = `url(${plow_grain3})`;
+          const newdata = { ...userData };
+          newdata[`user${farmData.turn}`].grain -= 1;
+          setUserData(newdata);
+          alert("씨부리기 하나 완료, 빵굽기 곡식 하나당 음식 2개!");
+        }
       } else {
         alert("지을 수 없습니다");
       }
@@ -1006,10 +1112,12 @@ function Farms({ data, setData }) {
   }
   //빵굽기
   function handlerbread() {
-    let plow_count = userData[`user${farmData.turn}`].farm_array.filter((item) => item === "plow_grain3").length;
+    let plow_count = userData[`user${farmData.turn}`].farm_array.filter(
+      (item) => item === "plow_grain3"
+    ).length;
     let grain_count = userData[`user${farmData.turn}`].grain;
-    if(grain_count - plow_count > 0 ) {
-      const newdata = { ... userData};
+    if (grain_count - plow_count > 0) {
+      const newdata = { ...userData };
       newdata[`user${farmData.turn}`].grain -= 1;
       newdata[`user${farmData.turn}`].food += 2;
       setUserData(newdata);

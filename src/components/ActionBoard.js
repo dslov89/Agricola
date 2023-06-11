@@ -6,7 +6,8 @@ import * as Stomp from "@stomp/stompjs";
 import "./FarmBoard.css";
 import axios from "axios";
 import { nameValue, sendingClient } from "../screen/Start";
-
+import styles from "./Begging.css";
+import Begging from "../asset/begging.PNG";
 import { ReactComponent as Land } from "../asset/land.svg";
 import { ReactComponent as Fence } from "../asset/fence.svg";
 import { ReactComponent as Grain } from "../asset/grain.svg";
@@ -15,7 +16,6 @@ import { ReactComponent as Facility } from "../asset/facility.svg";
 import ScoreBoard from "./ScoreBoard";
 import MainModal from "./MainModal";
 import SubModal from "./SubModal";
-import begging from "../asset/begging.PNG";
 import { DataContext } from "../store/data-context";
 import { UserContext } from "../store/user-context";
 import redplayer from "../image/farmer_red.png";
@@ -30,8 +30,8 @@ function ActionBoard({ data, setData }) {
   const [mainModalVisible, setMainModalVisible] = useState(false);
   const [subModalVisible, setSubModalVisible] = useState(false);
   // const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
-  const [foodis, setFoodis] = useState(0);
-  const [scoreBoardVisible, setScoreBoardVisible] = useState(true);
+  const [begging, setBegging] = useState();
+  const [scoreBoardVisible, setScoreBoardVisible] = useState(false);
   const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
   const [subSulbi, setSubSulbi] = useState([
     { id: 1, isHas: 1 },
@@ -1558,37 +1558,55 @@ function ActionBoard({ data, setData }) {
   }
   //수확
 
-  function harvest_family() {
-    //
-    if (userData[`user${farmData.turn}`].farmer === 2) {
-      // console.log(farmData.currentTurn);
-      // console.log(farmData.turn);
-      // console.log(userData[`user${farmData.turn}`].farmer);
+function harvest_family() {
+  //
+  if (userData[`user${farmData.turn}`].farmer === 2) {
+    // console.log(farmData.currentTurn);
+    // console.log(farmData.turn);
+    // console.log(userData[`user${farmData.turn}`].farmer);
+    if (
+      userData[`user${farmData.turn}`].food >=
+      userData[`user${farmData.turn}`].farmer * 2
+    ) {
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: userData[`user${farmData.turn}`].farmer * 2 * -1,
+      };
+      defaultActHandler(res, 21);
+    } else {
       if (
-        userData[`user${farmData.turn}`].food >=
+        userData[`user${farmData.turn}`].food <
         userData[`user${farmData.turn}`].farmer * 2
       ) {
-        const res = {
-          tree: 0,
-          soil: 0,
-          reed: 0,
-          charcoal: 0,
-          sheep: 0,
-          pig: 0,
-          cow: 0,
-          grain: 0,
-          vegetable: 0,
-          food: userData[`user${farmData.turn}`].farmer * 2 * -1,
-        };
-        defaultActHandler(res, 21);
-      } else {
-        alert("구걸하세요! 식량 부족");
+
+        if (farmData.turn === 1) {
+          alert("구걸하세요! 식량 부족");
+          setBegging(1);
+        } else if (farmData.turn === 2) {
+          alert("구걸하세요! 식량 부족");
+          setBegging(2);
+        } else if (farmData.turn === 3) {
+          alert("구걸하세요! 식량 부족");
+          setBegging(3);
+        } else {
+          alert("구걸하세요! 식량 부족");
+          setBegging(4);
+        }
 
       }
-    } else {
-      alert("이미 가족 부양을 완료 하였습니다.");
     }
+  } else {
+    alert("이미 가족 부양을 완료 하였습니다.");
   }
+}
 
   function harvest_grain() {
     let grain3_count = userData[`user${farmData.turn}`].farm_array.filter((item) => item === "plow_grain3").length;
@@ -1958,6 +1976,60 @@ function ActionBoard({ data, setData }) {
             <Sheep className="facilityBtn1" />
           </button>
         ))}
+      {begging === 1 && (
+        <img
+          src={Begging}
+          style={{
+            width: "100px",
+            height: "auto",
+            position: "absolute",
+            top: "3px",
+            left: "1650px",
+          }}
+        />
+      )}
+      {begging === 2 && (
+        <div className={styles.container}>
+          <img
+            src={Begging}
+            style={{
+              width: "100px",
+              height: "auto",
+              position: "absolute",
+              top: "245px",
+              left: "1650px",
+            }}
+          />
+        </div>
+      )}
+      {begging === 3 && (
+        <div className={styles.container}>
+          <img
+            src={Begging}
+            style={{
+              width: "100px",
+              height: "auto",
+              position: "absolute",
+              top: "487px",
+              left: "1650px",
+            }}
+          />
+        </div>
+      )}
+      {begging === 4 && (
+        <div className={styles.container}>
+          <img
+            src={Begging}
+            style={{
+              width: "100px",
+              height: "auto",
+              position: "absolute",
+              top: "729px",
+              left: "1650px",
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }
