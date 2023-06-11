@@ -48,7 +48,7 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
         }
         break;
       case 1:
-        if (userData[`user${farmData.turn}`].soil > 3) {
+        if (userData[`user${farmData.turn}`].soil < 3) {
           alert("check your resource");
         } else {
           sendResourceMessage([["soil", 3]]);
@@ -73,7 +73,7 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
         break;
       case 4:
         if (
-          userData[`user${farmData.turn}`].tree < 1 &&
+          userData[`user${farmData.turn}`].tree < 1 ||
           userData[`user${farmData.turn}`].charcoal < 3
         ) {
           alert("check your resource");
