@@ -10,10 +10,7 @@ const Gameroomboard = () => {
   const [rooms, setRooms] = useState([]);
   let roomID;
   const { farmData, setFarmData } = useContext(DataContext);
-  const {
-    userData,
-    setUserData,
-  } = useContext(UserContext);
+  const { userData, setUserData } = useContext(UserContext);
 
   function naviHandler() {
     navigation("/start");
@@ -138,6 +135,7 @@ const Gameroomboard = () => {
                     cardType: msg.cardType,
                     cardIndex: msg.cardIndex,
                   });
+
                 } else if (msg.messageType === "FARM") {
                   setUserData((prevUserData) => ({
                     ...prevUserData,
@@ -157,6 +155,7 @@ const Gameroomboard = () => {
                     
                   }));
                 };
+
               }
             );
 
@@ -173,6 +172,7 @@ const Gameroomboard = () => {
       "/main-board/user/init", //카드 초기 설정
       {},
       JSON.stringify({
+        messageType: "INIT",
         roomId: roomId,
       })
     );
