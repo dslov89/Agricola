@@ -1143,7 +1143,34 @@ function ActionBoard({ data, setData }) {
   //   교습 버튼 클릭 시 실행할 함수
   function teach1Handler() {
     // 내턴인지 확인
-    if (farmData.action[4][0] === 0) {
+    // 첫 두직업일 때 -1
+    if (
+      farmData.action[4][0] === 0 &&
+      (userData[`user${farmData.turn}`].job.length === 0 ||
+        userData[`user${farmData.turn}`].job.length === 1)
+    ) {
+      if (userData[`user${farmData.turn}`].food >= 1) {
+        const res = {
+          tree: 0,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: -1,
+        };
+
+        alwaysActHandler2(res);
+        updateAction(4, 0);
+        setIsJob(true);
+        setSubModalVisible(true);
+      } else {
+        alert("자원이 부족합니다");
+      }
+    } else if (farmData.action[4][0] === 0) {
       if (userData[`user${farmData.turn}`].food >= 2) {
         const res = {
           tree: 0,
@@ -1290,7 +1317,28 @@ function ActionBoard({ data, setData }) {
 
   //   교습2 버튼 클릭 시 실행할 함수
   function teach2Handler() {
-    if (farmData.action[10][0] === 0) {
+    if (
+      farmData.action[10][0] === 0 &&
+      userData[`user${farmData.turn}`].job.length === 0
+    ) {
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: 0,
+      };
+
+      alwaysActHandler2(res);
+      updateAction(10, 0);
+      setIsJob(true);
+      setSubModalVisible(true);
+    } else if (farmData.action[10][0] === 0) {
       if (userData[`user${farmData.turn}`].food >= 1) {
         const res = {
           tree: 0,
