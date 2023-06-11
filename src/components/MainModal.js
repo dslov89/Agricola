@@ -6,7 +6,7 @@ import { sendingClient } from "./GameRoomBoard";
 import { UserContext } from "../store/user-context";
 
 function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
-  const { farmData, setFarmData } = useContext(DataContext);
+  const { farmData, setFarmData, updateAlways } = useContext(DataContext);
   const { userData, setUserData } = useContext(UserContext);
   const closeModal = () => {
     setIsVisible(false);
@@ -161,6 +161,7 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
     }
   };
   const sendResourceMessage = (resources) => {
+    updateAlways(farmData.turn);
     //턴 안바뀌게 보내야함
     let message = {
       messageType: "RESOURCE",
@@ -191,6 +192,27 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
       {},
       JSON.stringify(message)
     );
+    if (farmData.action[20][1] === farmData.turn) {
+      // 누른 사람은 갱신이 안되어있으므로 따로 갱신해줌
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        [`user${farmData.turn}`]: {
+          ...prevUserData[`user${farmData.turn}`],
+          tree: prevUserData[`user${farmData.turn}`].tree + message.tree,
+          soil: prevUserData[`user${farmData.turn}`].soil + message.soil,
+          reed: prevUserData[`user${farmData.turn}`].reed + message.reed,
+          charcoal:
+            prevUserData[`user${farmData.turn}`].charcoal + message.charcoal,
+          sheep: prevUserData[`user${farmData.turn}`].sheep + message.sheep,
+          pig: prevUserData[`user${farmData.turn}`].pig + message.pig,
+          cow: prevUserData[`user${farmData.turn}`].cow + message.cow,
+          grain: prevUserData[`user${farmData.turn}`].grain + message.grain,
+          vegetable:
+            prevUserData[`user${farmData.turn}`].vegetable + message.vegetable,
+          food: prevUserData[`user${farmData.turn}`].food + message.food,
+        },
+      }));
+    }
   };
   const sendCardMessage = () => {
     sendingClient.current.send(
