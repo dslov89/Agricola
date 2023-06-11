@@ -16,23 +16,12 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
 
   function mainHandler(index) {
     setClickedIndex(index);
-
-    // console.log(userData[`user${farmData.turn}`].tree);
-    // console.log(farmData.turn);
-    // // updateSubCard(index);
-    // const updatedMain = [...farmData.main]; // action 배열을 복사합니다.
-
-    // updatedMain[index] = 0;
-    // setFarmData((prevFarmData) => ({
-    //   ...prevFarmData,
-    //   main: updatedMain, // 업데이트된 action 배열을 설정합니다.
-    // }));
   }
 
   const sendCard = () => {
     // 자원 체크
     if (checkResource()) {
-      sendCardMessage();
+      setTimeout(sendCardMessage, 100);
     }
   };
   const checkResource = () => {
@@ -184,8 +173,12 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
     //배열로 들어온 자원들(카드 조건) 뺀거 update
 
     for (let i = 0; i < resources.length; i++) {
+      let fixed_resource = checkJobCard(resources[i][0], resources[i][1]);
+      resources[i][1] = fixed_resource;
       message[resources[i][0]] -= resources[i][1];
     }
+    //카드 조건 확인
+
     //send
     sendingClient.current.send(
       "/main-board/resource/update",
@@ -215,6 +208,7 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
     }
   };
   const sendCardMessage = () => {
+    setTimeout(1000);
     sendingClient.current.send(
       "/main-board/card/update",
       {},
@@ -232,6 +226,33 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
     setIsMain(false);
     setIsSub(false);
     setIsVisible(false);
+  };
+  const checkJobCard = (resoure, count) => {
+    //숙련 벽돌공
+    if (
+      resoure == "charcoal" &&
+      userData[`user${farmData.turn}`].job.includes(5)
+    ) {
+      let house_count = 0;
+      for (
+        let i = 0;
+        i < userData[`user${farmData.turn}`].farm_array.length;
+        i++
+      ) {
+        let building_type = userData[`user${farmData.turn}`].farm_array[i];
+
+        if (
+          building_type == "wood_room" ||
+          building_type == "soil_room" ||
+          building_type == "rock_room"
+        ) {
+          house_count = house_count + 1;
+        }
+      }
+      return count - house_count + 2 >= 0 ? count - house_count + 2 : 0;
+    } else {
+      return count;
+    }
   };
   useEffect(() => {
     myCardCheck();
