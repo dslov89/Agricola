@@ -58,10 +58,11 @@ const Gameroomboard = () => {
 
           console.log("첫 구독");
           console.log(message.body);
-          const initMsg = JSON.parse(message.body);
-          if (!initMsg.enter) {
+          
+          if (message.body === "FULL") {
             alert("정원 초과");
           } else {
+            const initMsg = JSON.parse(message.body);
             // let jobCardValue = msg.jobCards; //message.body 내 jobCards value값
             // let subCardsValue = msg.subCards; //message.body 내 subCards value값
             // let turnValue = msg.turn; //message.body 내 turn value값

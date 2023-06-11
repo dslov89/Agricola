@@ -40,10 +40,10 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
     // 주요 설비 각 조건들
     switch (clickedIndex) {
       case 0:
-        if (userData[`user${farmData.turn}`].soil < 2) {
+        if (userData[`user${farmData.turn}`].soil < 3) {
           alert("check your resource");
         } else {
-          sendResourceMessage([["soil", 2]]);
+          sendResourceMessage([["soil", 3]]);
           canSend = true;
         }
         break;
@@ -247,18 +247,18 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
       const main3 = userData.user3.main;
       const main4 = userData.user4.main;
 
-      const updatedMainCards = notUpdatedMainCards.map((value, index) => {
-        if (
-          main1.includes(index + 1) ||
-          main2.includes(index + 1) ||
-          main3.includes(index + 1) ||
-          main4.includes(index + 1)
-        ) {
-          return 0;
-        } else {
-          return value;
-        }
-      });
+       const updatedMainCards = notUpdatedMainCards.map((value, index) => {
+         if (
+           main1.includes(index) ||
+           main2.includes(index) ||
+           main3.includes(index) ||
+           main4.includes(index)
+         ) {
+           return 0;
+         } else {
+           return value;
+         }
+       });
 
       return {
         ...prevFarmData,
