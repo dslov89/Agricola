@@ -10,10 +10,7 @@ const Gameroomboard = () => {
   const [rooms, setRooms] = useState([]);
   let roomID;
   const { farmData, setFarmData } = useContext(DataContext);
-  const {
-    userData,
-    setUserData,
-  } = useContext(UserContext);
+  const { userData, setUserData } = useContext(UserContext);
 
   function naviHandler() {
     navigation("/start");
@@ -143,9 +140,8 @@ const Gameroomboard = () => {
                     ...userData,
                     farm_array: msg.building,
                     farm_fence_array: msg.fence,
-                    
                   });
-                };
+                }
               }
             );
 
@@ -162,6 +158,7 @@ const Gameroomboard = () => {
       "/main-board/user/init", //카드 초기 설정
       {},
       JSON.stringify({
+        messageType: "INIT",
         roomId: roomId,
       })
     );
