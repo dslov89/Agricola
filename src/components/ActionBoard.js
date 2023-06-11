@@ -1632,7 +1632,6 @@ function ActionBoard({ data, setData }) {
         defaultActHandler(res, 21);
       } else {
         alert("구걸하세요! 식량 부족");
-
       }
     } else {
       alert("이미 가족 부양을 완료 하였습니다.");
@@ -1944,6 +1943,7 @@ function ActionBoard({ data, setData }) {
           jobCard={farmData.jobCards}
           isJob={isJob}
           isSub={isSub}
+          isMain={isMain}
           setIsJob={setIsJob}
           setIsMain={setIsMain}
           setIsSub={setIsSub}

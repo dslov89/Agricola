@@ -12,6 +12,7 @@ function SubModal({
   jobCard,
   isSub,
   isJob,
+  isMain,
   setIsJob,
   setIsSub,
   setIsMain,
@@ -36,29 +37,34 @@ function SubModal({
   };
 
   const closeModal2 = () => {
-    sendingClient.current.send(
-      "/main-board/resource/update",
-      {},
-      JSON.stringify({
-        messageType: "RESOURCE",
-        roomId: farmData.roomId,
-        action: farmData.action,
-        round: farmData.round,
-        currentTurn: (farmData.currentTurn + 1) % 4,
-        farmer_count: farmData.farmer_count,
-        tree: 0,
-        soil: 0,
-        reed: 0,
-        charcoal: 0,
-        sheep: 0,
-        pig: 0,
-        cow: 0,
-        grain: 0,
-        vegetable: 0,
-        food: 0,
-      })
-    );
+    if (!(isSub && isMain)) {
+      sendingClient.current.send(
+        "/main-board/resource/update",
+        {},
+        JSON.stringify({
+          messageType: "RESOURCE",
+          roomId: farmData.roomId,
+          action: farmData.action,
+          round: farmData.round,
+          currentTurn: (farmData.currentTurn + 1) % 4,
+          farmer_count: farmData.farmer_count,
+          tree: 0,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 0,
+        })
+      );
+    }
+
     setIsVisible(false);
+    setIsJob(false);
+    setIsSub(false);
   };
 
   useEffect(() => {
@@ -107,23 +113,27 @@ function SubModal({
   }
   const sendJobCard = () => {
     console.log(farmData.jobCards);
-    setIsVisible(false);
 
-    sendingClient.current.send(
-      "/main-board/card/update",
-      {},
-      JSON.stringify({
-        messageType: "CARD",
-        roomId: farmData.roomId,
-        round: farmData.round,
-        action: farmData.action,
-        currentTurn: (farmData.currentTurn + 1) % 4,
-        farmer_count: farmData.farmer_count,
-        cardType: "JOB",
-        cardIndex: clickedCardId,
-      })
-    );
-    setIsJob(false);
+    if (clickedCardId !== null) {
+      setIsVisible(false);
+      sendingClient.current.send(
+        "/main-board/card/update",
+        {},
+        JSON.stringify({
+          messageType: "CARD",
+          roomId: farmData.roomId,
+          round: farmData.round,
+          action: farmData.action,
+          currentTurn: (farmData.currentTurn + 1) % 4,
+          farmer_count: farmData.farmer_count,
+          cardType: "JOB",
+          cardIndex: clickedCardId,
+        })
+      );
+      setIsJob(false);
+    } else {
+      alert("카드를 선택해 주세요");
+    }
   };
 
   function subCardHandler(index, cardId) {
@@ -135,10 +145,7 @@ function SubModal({
 
   const alwaysActHandler2 = async (res) => {
     await updateAlways(farmData.turn); // 누른 놈 제외 갱신
-    setIsVisible(false);
-    setIsMainVisible(false);
-    setIsSub(false);
-    setIsMain(false);
+
     sendingClient.current.send(
       "/main-board/resource/update",
       {},
@@ -651,28 +658,33 @@ function SubModal({
       }
     } else {
       okaySend();
-      setIsVisible(false);
-      setIsMainVisible(false);
-      setIsSub(false);
-      setIsMain(false);
     }
   };
 
   function okaySend() {
-    sendingClient.current.send(
-      "/main-board/card/update",
-      {},
-      JSON.stringify({
-        messageType: "CARD",
-        roomId: farmData.roomId,
-        round: farmData.round,
-        action: farmData.action,
-        currentTurn: (farmData.currentTurn + 1) % 4,
-        farmer_count: farmData.farmer_count,
-        cardType: "SUB",
-        cardIndex: clickedCardId,
-      })
-    );
+    if (clickedCardId !== null) {
+      setIsVisible(false);
+      setIsMainVisible(false);
+
+      setIsSub(false);
+      setIsMain(false);
+      sendingClient.current.send(
+        "/main-board/card/update",
+        {},
+        JSON.stringify({
+          messageType: "CARD",
+          roomId: farmData.roomId,
+          round: farmData.round,
+          action: farmData.action,
+          currentTurn: (farmData.currentTurn + 1) % 4,
+          farmer_count: farmData.farmer_count,
+          cardType: "SUB",
+          cardIndex: clickedCardId,
+        })
+      );
+    } else {
+      alert("카드를 선택해 주세요");
+    }
   }
 
   return (
