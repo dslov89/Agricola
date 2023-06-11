@@ -29,6 +29,7 @@ function Farms({ data, setData }) {
   const [isTurn, setIsTurn] = useState(true);
   const [isTurnEnd, setIsTurnEnd] = useState(false);
   const [isGameFinished, setIsGameFinished] = useState(false);
+  const [isaniFinished, setisaniFinished] = useState(false);
   const [isbread, setisbread] = useState(false);
   const [isnobread, setisnobread] = useState(false);
   const [ishousegame, setIshousegame] = useState(false);
@@ -151,8 +152,7 @@ function Farms({ data, setData }) {
     //방 버튼을 눌렀을 때
     if (
       farmData.action[6][0] === (farmData.turn) &&
-      farmData.action[6][1] === 6
-    ) {
+      farmData.action[6][1] === 6) {
       setIsGameFinished(true); // 새로운 종료 버튼을 활성화
       setIshousegame(true); // 외양간 버튼 활성화
 
@@ -396,6 +396,7 @@ function Farms({ data, setData }) {
       farmData.action[9][0] === (farmData.turn) &&
       farmData.action[9][1] === 9
     ) {
+
       if (userData[`user${farmData.turn}`].farm_array[index] !== "empty") {
         alert("해당 방은 이미 예약되어 있습니다.");
         console.log("해당 방은 이미 예약되어 있습니다");
@@ -428,8 +429,18 @@ function Farms({ data, setData }) {
           farm_array: userData[`user${farmData.turn}`].farm_array,
           farm_fence_array: userData[`user${farmData.turn}`].farm_fence_array,
         };
-
+        
         farmdefaulthandelr(res, 9);
+
+        if(userData[`user${farmData.turn}`].job.includes(17)) {
+          const updatedAction = [...farmData.action]; // action 배열을 복사합니다.
+          updatedAction[9][0] = 0; // 첫 번째 인덱스의 첫 번째 요소를 1로 변경합니다.
+          updatedAction[9][1] = 0;
+          setFarmData((prevFarmData) => ({
+            ...prevFarmData,
+            action: updatedAction, // 업데이트된 action 배열을 설정합니다.
+          }));
+        }
         //setIsTurnEnd(true);
       }
     }
@@ -475,6 +486,7 @@ function Farms({ data, setData }) {
     }
     //양시장
     if(farmData.action[19][0] === (farmData.turn) && farmData.action[19][1] === 19) {
+        
         const roomClass = `.Btn.room${Math.floor(index / 5) + 1}_${
           (index % 5) + 1
         }`;
@@ -514,6 +526,9 @@ function Farms({ data, setData }) {
           newdate[`user${farmData.turn}`].farm_array[index] = "sheep_house";
           setUserData(newdate);
         };
+      
+        
+        
         const res = {
           userid: farmData.turn,
           tree: 0,
@@ -1127,6 +1142,19 @@ function Farms({ data, setData }) {
     }
   }
 
+  function animalhandler() {
+    if(userData[`user${farmData.turn}`].food > 0) {
+      const newdata = { ...userData };
+      newdata[`user${farmData.turn}`].food -= 1;
+      newdata[`user${farmData.turn}`].sheep += 1;
+      setUserData(newdata);
+      alert("곡식 1개를 양 1마리로 바꿉니다.");
+    }else {
+      alert("자원 없음");
+    }
+    setisaniFinished(false);
+  }
+
   function househandler() {
     updateAction(6, 26); // 업데이트된 action 상태를 업데이트하는 함수 호출
     setIsGameFinished(true);
@@ -1178,6 +1206,15 @@ function Farms({ data, setData }) {
 
     if (farmData.action[6][0] === (farmData.turn)) {
       farmdefaulthandelr(res, 6); //농장확장일 경우
+      if(userData[`user${farmData.turn}`].job.includes(18)) {
+        const updatedAction = [...farmData.action]; // action 배열을 복사합니다.
+        updatedAction[6][0] = 0; // 첫 번째 인덱스의 첫 번째 요소를 1로 변경합니다.
+        updatedAction[6][1] = 0;
+        setFarmData((prevFarmData) => ({
+          ...prevFarmData,
+          action: updatedAction, // 업데이트된 action 배열을 설정합니다.
+        }));
+      }
     } else if (farmData.action[9][0] === (farmData.turn)) {
       //농지일 경우
       farmdefaulthandelr(res, 9); 
@@ -1206,6 +1243,7 @@ function Farms({ data, setData }) {
           종료
         </button>
       )}
+
 
       {ishousegame && (
         <button className="houseButton" onClick={househandler}>

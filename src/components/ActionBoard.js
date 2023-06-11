@@ -749,7 +749,6 @@ function ActionBoard({ data, setData }) {
       roomCounts.grain_farm > 1 &&
       roomCounts.empty > 1
     ) {
-      // 이거 대윤이거랑 맞춰야함
       const res = {
         tree: 0,
         soil: 0,
@@ -1078,23 +1077,6 @@ function ActionBoard({ data, setData }) {
         }
       }
 
-      if (userData[`user${farmData.turn}`].job.includes(16)) {
-        // 직업 16. 보조 경직자
-        if (window.confirm("밭 1개를 일구시겠습니까?")) {
-          // 밭 일구기 로직
-        } else {
-          console.log("밭 안 일굼");
-        }
-      }
-
-      if (userData[`user${farmData.turn}`].job.includes(17)) {
-        // 직업 17. 오두막집 살이
-        if (window.confirm("방을 짓거나 고치시겠습니까?")) {
-          // 방 고치기 로직
-        } else {
-          console.log("안고침");
-        }
-      }
 
       defaultActHandler(res, 2);
     } else {
@@ -1317,14 +1299,29 @@ function ActionBoard({ data, setData }) {
         food: 2,
       };
 
-      if (userData[`user${farmData.turn}`].sub.includes(16))
+      if (userData[`user${farmData.turn}`].sub.includes(16)) {
         // 보조 16. 양토 채굴장
         res.soil += 3;
-      if (userData[`user${farmData.turn}`].job.includes(16))
-        // 직업 09. 농번기 일꾼
+        defaultActHandler(res, 11);
+      }
+      if (userData[`user${farmData.turn}`].job.includes(16)) {
+        //직업 16 농번기 일꾼
         res.grain += 1;
-
-      defaultActHandler(res, 11);
+        defaultActHandler(res, 11);
+      }
+      if(userData[`user${farmData.turn}`].job.includes(17)) {
+        userData[`user${farmData.turn}`].food += 2;
+        updateAction(9,9)
+      }
+      if (userData[`user${farmData.turn}`].job.includes(18)) {
+        // 직업 18. 오두막집 살이
+        userData[`user${farmData.turn}`].food += 2;
+        updateAction(6,6)
+      }
+      
+      else {
+        defaultActHandler(res, 11);
+      }
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
@@ -1537,18 +1534,6 @@ function ActionBoard({ data, setData }) {
       const userda = { ...userData };
       userda[`user${farmData.turn}`].sheep += 1;
       setUserData(userda);
-      if (userData[`user${farmData.turn}`].job.includes(3)) {
-        // 직업 03. 가축상인
-        if (
-          window.confirm(
-            "가축 상인(음식 1개 내고 양 1개 받기) 효과를 사용하시겠습니까?"
-          )
-        ) {
-          job03Handler("sheep");
-        } else {
-          console.log("가축 상인 효과 사용 안함");
-        }
-      }
 
       updateAction(19, 19);
     } else {
