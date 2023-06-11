@@ -10,10 +10,7 @@ const Gameroomboard = () => {
   const [rooms, setRooms] = useState([]);
   let roomID;
   const { farmData, setFarmData } = useContext(DataContext);
-  const {
-    userData,
-    setUserData,
-  } = useContext(UserContext);
+  const { userData, setUserData } = useContext(UserContext);
 
   function naviHandler() {
     navigation("/start");
@@ -121,6 +118,7 @@ const Gameroomboard = () => {
                     grain: msg.grain,
                     vegetable: msg.vegetable,
                     food: msg.food,
+                    fence: msg.fence,
                   });
                 } else if (msg.messageType === "CARD") {
                   setFarmData({
@@ -137,15 +135,27 @@ const Gameroomboard = () => {
                     cardType: msg.cardType,
                     cardIndex: msg.cardIndex,
                   });
-                }
-                if (msg.messageType === "FARM") {
-                  setUserData({
-                    ...userData,
-                    farm_array: msg.building,
-                    farm_fence_array: msg.fence,
+
+                } else if (msg.messageType === "FARM") {
+                  setUserData((prevUserData) => ({
+                    ...prevUserData,
+                    [`user${farmData.turn}`]: {
+                      ...prevUserData[`user${farmData.turn}`],
+                      farm_array: msg.building,
+                      farm_fence_array: msg.fence,
+                      round: msg.round,
+                      roomId: msg.roomId,
+                      messageType: msg.messageType,
+                      action: msg.action,
+                      currentTurn: msg.currentTurn,
+                      farmer_count: msg.farmer_count,
+                      turn: initMsg.turn,
+                    },
                     
-                  });
+                    
+                  }));
                 };
+
               }
             );
 
@@ -162,6 +172,7 @@ const Gameroomboard = () => {
       "/main-board/user/init", //카드 초기 설정
       {},
       JSON.stringify({
+        messageType: "INIT",
         roomId: roomId,
       })
     );
