@@ -6,7 +6,8 @@ import * as Stomp from "@stomp/stompjs";
 import "./FarmBoard.css";
 import axios from "axios";
 import { nameValue, sendingClient } from "../screen/Start";
-
+import styles from "./Begging.css";
+import Begging from "../asset/begging.PNG";
 import { ReactComponent as Land } from "../asset/land.svg";
 import { ReactComponent as Fence } from "../asset/fence.svg";
 import { ReactComponent as Grain } from "../asset/grain.svg";
@@ -15,22 +16,21 @@ import { ReactComponent as Facility } from "../asset/facility.svg";
 import ScoreBoard from "./ScoreBoard";
 import MainModal from "./MainModal";
 import SubModal from "./SubModal";
-import begging from "../asset/begging.PNG";
 import { DataContext } from "../store/data-context";
 import { UserContext } from "../store/user-context";
 import redplayer from "../image/farmer_red.png";
 import yellowplayer from "../image/farmer_yellow.png";
 import greenplayer from "../image/farmer_green.png";
 import blueplayer from "../image/farmer_blue.png";
+import plow_grain2 from "../image/plow_grain2.png";
 
 function ActionBoard({ data, setData }) {
   const [isTurn, setIsTurn] = useState(false);
   const [mainModalVisible, setMainModalVisible] = useState(false);
   const [subModalVisible, setSubModalVisible] = useState(false);
   // const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
-  const [foodis, setFoodis] = useState(0);
-  const [scoreBoardVisible, setScoreBoardVisible] = useState(true);
-  const [BeggingVisible, setBeggingVisible] = useState(true);
+  const [begging, setBegging] = useState();
+  const [scoreBoardVisible, setScoreBoardVisible] = useState(false);
   const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
   const [subSulbi, setSubSulbi] = useState([
     { id: 1, isHas: 1 },
@@ -92,21 +92,6 @@ function ActionBoard({ data, setData }) {
     updateFarmData();
   }, [farmData.action]);
 
-  // useEffect(() => {
-  //   if (farmData.currentTurn - 1 === farmData.turn % 4) {
-  //     if (farmData.cardType === "JOB") {
-  //       setFarmData((prevFarmData) => {
-  //         const updatedJobCards = prevFarmData.jobCards.map((jobCard) => {
-  //           if (jobCard[0] === farmData.cardIndex) {
-  //             return [farmData.cardIndex, 0];
-  //           }
-  //           return jobCard;
-  //         });
-  //         return { ...prevFarmData, jobCards: updatedJobCards };
-  //       });
-  //     }
-  //   }
-  // }, [farmData.cardIndex]);
 
   useEffect(() => {
     if (farmData.cardType === "MAIN") {
@@ -157,14 +142,12 @@ function ActionBoard({ data, setData }) {
           tree: prevUserData[`user${farmData.turn}`].tree + res.tree,
           soil: prevUserData[`user${farmData.turn}`].soil + res.soil,
           reed: prevUserData[`user${farmData.turn}`].reed + res.reed,
-          charcoal:
-            prevUserData[`user${farmData.turn}`].charcoal + res.charcoal,
+          charcoal:prevUserData[`user${farmData.turn}`].charcoal + res.charcoal,
           sheep: prevUserData[`user${farmData.turn}`].sheep + res.sheep,
           pig: prevUserData[`user${farmData.turn}`].pig + res.pig,
           cow: prevUserData[`user${farmData.turn}`].cow + res.cow,
           grain: prevUserData[`user${farmData.turn}`].grain + res.grain,
-          vegetable:
-            prevUserData[`user${farmData.turn}`].vegetable + res.vegetable,
+          vegetable:prevUserData[`user${farmData.turn}`].vegetable + res.vegetable,
           food: prevUserData[`user${farmData.turn}`].food + res.food,
         },
       }));
@@ -1574,16 +1557,103 @@ function ActionBoard({ data, setData }) {
   }
   //수확
 
-  function harvest_family() {
-    //
-    if (userData[`user${farmData.turn}`].farmer === 2) {
-      // console.log(farmData.currentTurn);
-      // console.log(farmData.turn);
-      // console.log(userData[`user${farmData.turn}`].farmer);
+function harvest_family() {
+  //
+  if (userData[`user${farmData.turn}`].farmer === 2) {
+    // console.log(farmData.currentTurn);
+    // console.log(farmData.turn);
+    // console.log(userData[`user${farmData.turn}`].farmer);
+    if (
+      userData[`user${farmData.turn}`].food >=
+      userData[`user${farmData.turn}`].farmer * 2
+    ) {
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: userData[`user${farmData.turn}`].farmer * 2 * -1,
+      };
+      defaultActHandler(res, 21);
+    } else {
       if (
-        userData[`user${farmData.turn}`].food >=
+        userData[`user${farmData.turn}`].food <
         userData[`user${farmData.turn}`].farmer * 2
       ) {
+        if (farmData.turn === 1) {
+          alert("구걸하세요! 식량 부족");
+          setBegging(1);
+        } else if (farmData.turn === 2) {
+          alert("구걸하세요! 식량 부족");
+          setBegging(2);
+        } else if (farmData.turn === 3) {
+          alert("구걸하세요! 식량 부족");
+          setBegging(3);
+        } else {
+          alert("구걸하세요! 식량 부족");
+          setBegging(4);
+        }
+      }
+    }
+  } else {
+    alert("이미 가족 부양을 완료 하였습니다.");
+  }
+}
+
+  function harvest_grain() {
+    let grain3_count = userData[`user${farmData.turn}`].farm_array.filter((item) => item === "plow_grain3").length;
+    let grain2_count = userData[`user${farmData.turn}`].farm_array.filter((item) => item === "plow_grain2").length;
+    let grain1_count = userData[`user${farmData.turn}`].farm_array.filter((item) => item === "plow_grain1").length;
+
+    if (userData[`user${farmData.turn}`].farmer === 1) {
+      if (grain3_count>0 || grain2_count>0 || grain1_count>0) {
+        if(grain3_count>0) {
+          const roomIndices = []; // plow에 해당하는 인덱스를 저장할 배열
+  
+          userData[`user${farmData.turn}`].farm_array.forEach((item, idx) => {
+            if (item === "plow_grain3") {
+              roomIndices.push(idx);
+            }
+          });
+          roomIndices.forEach((idx) => {
+            const updatedUserData = { ...userData }; // userData 객체 복사
+            updatedUserData[`user${farmData.turn}`].farm_array[idx] = "plow_grain2"; // farm_array 업데이트
+
+            setUserData(updatedUserData);
+            const roomClass = `.Btn.room${Math.floor(idx / 5) + 1}_${
+              (idx % 5) + 1
+            }`;
+
+            const res = {
+              tree: 0,
+              soil: 0,
+              reed: 0,
+              charcoal: 0,
+              sheep: 0,
+              pig: 0,
+              cow: 0,
+              grain: grain3_count,
+              vegetable: 0,
+              food: 0,
+            }
+            
+            const roomElement = document.querySelector(roomClass);
+            
+            roomElement.style.marginTop = "-30px";
+            roomElement.style.marginLeft = "-10px";
+            roomElement.style.width = "100pxpx";
+            roomElement.style.height = "120px";
+            roomElement.style.backgroundImage = `url(${plow_grain2})`;
+            defaultActHandler(res, 22);
+
+          });
+        };
+      } else {
         const res = {
           tree: 0,
           soil: 0,
@@ -1594,52 +1664,11 @@ function ActionBoard({ data, setData }) {
           cow: 0,
           grain: 0,
           vegetable: 0,
-          food: userData[`user${farmData.turn}`].farmer * 2 * -1,
-        };
-        defaultActHandler(res, 21);
-      } else {
-        if (userData[`user${farmData.turn}`].food < userData[`user${farmData.turn}`].farmer * 2) {
-          if (farmData.turn === 1) {
-              <img
-                src={begging}
-                alt="Begging"
-                style={{
-                  width: "300px",
-                  height: "100px",
-                  position: "absolute",
-                  left: "50px",
-                  top: "20px",
-                }}
-              />
-          }
-          else if (farmData.turn === 2) {
-            return (
-              <div>
-              </div>
-            );
-          }
-          else if (farmData.turn === 3) {
-            return (
-              <div>
-              </div>
-            );
-          }
-          else {
-            return (
-              <div>
-              </div>
-            );
-          }
+          food: 0,
         }
+        alert("작물 거두기를 할 수 없습니다.");
+        defaultActHandler(res, 22);
       }
-    } else {
-      alert("이미 가족 부양을 완료 하였습니다.");
-    }
-  }
-
-  function harvest_grain() {
-    if (userData[`user${farmData.turn}`].farmer === 1) {
-      console.log("이제 여기 하면 끝");
     } else {
       alert("가족 부양 부터 하세요.");
     }
@@ -1944,6 +1973,60 @@ function ActionBoard({ data, setData }) {
             <Sheep className="facilityBtn1" />
           </button>
         ))}
+      {begging === 1 && (
+        <img
+          src={Begging}
+          style={{
+            width: "100px",
+            height: "auto",
+            position: "absolute",
+            top: "3px",
+            left: "1650px",
+          }}
+        />
+      )}
+      {begging === 2 && (
+        <div className={styles.container}>
+          <img
+            src={Begging}
+            style={{
+              width: "100px",
+              height: "auto",
+              position: "absolute",
+              top: "245px",
+              left: "1650px",
+            }}
+          />
+        </div>
+      )}
+      {begging === 3 && (
+        <div className={styles.container}>
+          <img
+            src={Begging}
+            style={{
+              width: "100px",
+              height: "auto",
+              position: "absolute",
+              top: "487px",
+              left: "1650px",
+            }}
+          />
+        </div>
+      )}
+      {begging === 4 && (
+        <div className={styles.container}>
+          <img
+            src={Begging}
+            style={{
+              width: "100px",
+              height: "auto",
+              position: "absolute",
+              top: "729px",
+              left: "1650px",
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }

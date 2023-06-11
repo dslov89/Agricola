@@ -58,6 +58,20 @@ function DataContextProvider({ children }) {
     jobCards: [[]],
     subCards: [[]],
     main: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    farm_array: [
+      "empty","empty","empty","empty","empty",
+      "wood_room","empty","empty","empty","empty",
+      "wood_room","empty","empty","empty","empty",
+    ],
+    farm_fence_array: [
+      [0, 0, 0, 0, 0, 0], // 0번째줄 가로
+      [0, 0, 0, 0, 0, 0], // 1번째줄 세로
+      [0, 0, 0, 0, 0, 0], // 2번째줄 가로
+      [0, 0, 0, 0, 0, 0], // 3번째줄 세로
+      [0, 0, 0, 0, 0, 0], // 4번째줄 가로
+      [0, 0, 0, 0, 0, 0], // 5번째줄
+      [0, 0, 0, 0, 0, 0],
+    ], // 6번
   });
 
   const updateFarmerCount = (index) => {

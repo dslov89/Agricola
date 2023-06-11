@@ -40,7 +40,6 @@ function Farms({ data, setData }) {
     updateAction,
   } = useContext(DataContext);
   const { userData, setUserData } = useContext(UserContext);
-
   const fist_setting = useMemo(() => {
     return { ...userData[`user${farmData.turn}`] };
   }, [farmData.currentTurn]);
@@ -94,7 +93,7 @@ function Farms({ data, setData }) {
         grain: res.grain,
         vegetable: res.vegetable,
         food: res.food,
-        fence_re: res.fence,
+        fence: res.fence,
       })
     );
 
@@ -151,7 +150,7 @@ function Farms({ data, setData }) {
     };
     //방 버튼을 눌렀을 때
     if (
-      farmData.action[6][0] === farmData.currentTurn % 4 &&
+      farmData.action[6][0] === (farmData.turn) &&
       farmData.action[6][1] === 6
     ) {
       setIsGameFinished(true); // 새로운 종료 버튼을 활성화
@@ -394,7 +393,7 @@ function Farms({ data, setData }) {
 
     //농지 버튼 클릭 시 가는 기능 - 밭 갈기 -> 자신의 턴이면서 action버튼의 9번째 인덱스가 1인 경우
     if (
-      farmData.action[9][0] === farmData.currentTurn % 4 &&
+      farmData.action[9][0] === (farmData.turn) &&
       farmData.action[9][1] === 9
     ) {
       if (userData[`user${farmData.turn}`].farm_array[index] !== "empty") {
@@ -473,77 +472,66 @@ function Farms({ data, setData }) {
       }
     }
     //양시장
-    if (
-      farmData.action[19][0] === farmData.currentTurn % 4 &&
-      farmData.action[19][1] === 19
-    ) {
-      const roomClass = `.Btn.room${Math.floor(index / 5) + 1}_${
-        (index % 5) + 1
-      }`;
-      if (userData[`user${farmData.turn}`].farm_array[index] === "wood_room") {
-        const roomElement = document.querySelector(roomClass);
-        roomElement.style.backgroundImage = `url(${sheep})`;
-
-        const newdate = { ...userData };
-        newdate[`user${farmData.turn}`].farm_array[index] = "sheep_room";
-        setUserData(newdate);
-      } else if (
-        userData[`user${farmData.turn}`].farm_array[index] === "soil_room"
-      ) {
-        const roomElement = document.querySelector(roomClass);
-        roomElement.style.backgroundImage = `url(${sheep})`;
-
-        const newdate = { ...userData };
-        newdate[`user${farmData.turn}`].farm_array[index] = "sheep_room";
-        setUserData(newdate);
-      } else if (
-        userData[`user${farmData.turn}`].farm_array[index] === "rock_room"
-      ) {
-        const roomElement = document.querySelector(roomClass);
-        roomElement.style.backgroundImage = `url(${sheep})`;
-
-        const newdate = { ...userData };
-        newdate[`user${farmData.turn}`].farm_array[index] = "sheep_room";
-        setUserData(newdate);
-      } else if (
-        userData[`user${farmData.turn}`].farm_array[index] === "fence"
-      ) {
-        const roomElement = document.querySelector(roomClass);
-        roomElement.style.backgroundImage = `url(${sheep})`;
-
-        const newdate = { ...userData };
-        newdate[`user${farmData.turn}`].farm_array[index] = "sheep_fence";
-        setUserData(newdate);
-      } else if (
-        userData[`user${farmData.turn}`].farm_array[index] === "house"
-      ) {
-        const roomElement = document.querySelector(roomClass);
-        roomElement.style.backgroundImage = `url(${sheep})`;
-
-        const newdate = { ...userData };
-        newdate[`user${farmData.turn}`].farm_array[index] = "sheep_house";
-        setUserData(newdate);
-      }
-      const res = {
-        userid: farmData.turn,
-        tree: 0,
-        soil: 0,
-        reed: 0,
-        charcoal: 0,
-        sheep: 1,
-        pig: 0,
-        cow: 0,
-        grain: 0,
-        vegetable: 0,
-        food: 0,
-        fence: 0,
-      };
-      farmdefaulthandelr(res, 19);
+    if(farmData.action[19][0] === (farmData.turn) && farmData.action[19][1] === 19) {
+        const roomClass = `.Btn.room${Math.floor(index / 5) + 1}_${
+          (index % 5) + 1
+        }`;
+        if(userData[`user${farmData.turn}`].farm_array[index] === "wood_room") {
+          const roomElement = document.querySelector(roomClass);
+          roomElement.style.backgroundImage = `url(${sheep})`;
+          
+          const newdate = {...userData};
+          newdate[`user${farmData.turn}`].farm_array[index] = "sheep_room";
+          setUserData(newdate);
+        } else if(userData[`user${farmData.turn}`].farm_array[index] === "soil_room") {
+          const roomElement = document.querySelector(roomClass);
+          roomElement.style.backgroundImage = `url(${sheep})`;
+          
+          const newdate = {...userData};
+          newdate[`user${farmData.turn}`].farm_array[index] = "sheep_room";
+          setUserData(newdate);
+        } else if(userData[`user${farmData.turn}`].farm_array[index] === "rock_room") {
+          const roomElement = document.querySelector(roomClass);
+          roomElement.style.backgroundImage = `url(${sheep})`;
+          
+          const newdate = {...userData};
+          newdate[`user${farmData.turn}`].farm_array[index] = "sheep_room";
+          setUserData(newdate);
+        } else if(userData[`user${farmData.turn}`].farm_array[index] === "fence") {
+          const roomElement = document.querySelector(roomClass);
+          roomElement.style.backgroundImage = `url(${sheep})`;
+          
+          const newdate = {...userData};
+          newdate[`user${farmData.turn}`].farm_array[index] = "sheep_fence";
+          setUserData(newdate);
+        } else if(userData[`user${farmData.turn}`].farm_array[index] === "house") {
+          const roomElement = document.querySelector(roomClass);
+          roomElement.style.backgroundImage = `url(${sheep})`;
+          
+          const newdate = {...userData};
+          newdate[`user${farmData.turn}`].farm_array[index] = "sheep_house";
+          setUserData(newdate);
+        };
+        const res = {
+          userid: farmData.turn,
+          tree: 0,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 1,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 0,
+          fence: 0,
+        };
+        farmdefaulthandelr(res, 19);
     }
 
     // 울타리 짓기 로직
     if (
-      farmData.action[17][0] === farmData.currentTurn % 4 &&
+      farmData.action[17][0] === (farmData.turn) &&
       farmData.action[17][1] === 17
     ) {
       setIsGameFinished(true); // 새로운 종료 버튼을 활성화
@@ -1058,10 +1046,7 @@ function Farms({ data, setData }) {
       }
     }
     //곡식활용
-    if (
-      farmData.action[18][0] === farmData.turn % 4 &&
-      farmData.action[18][1] === 18
-    ) {
+    if(farmData.action[18][0] === (farmData.turn) && farmData.action[18][1] === 18) {
       setisbread(true);
       setIsGameFinished(true);
 
@@ -1153,21 +1138,16 @@ function Farms({ data, setData }) {
       tree: updatedUserData[`user${farmData.turn}`].tree - fist_setting.tree,
       soil: updatedUserData[`user${farmData.turn}`].soil - fist_setting.soil,
       reed: updatedUserData[`user${farmData.turn}`].reed - fist_setting.reed,
-      charcoal:
-        updatedUserData[`user${farmData.turn}`].charcoal -
-        fist_setting.charcoal,
+      charcoal: updatedUserData[`user${farmData.turn}`].charcoal - fist_setting.charcoal,
       sheep: updatedUserData[`user${farmData.turn}`].sheep - fist_setting.sheep,
       pig: updatedUserData[`user${farmData.turn}`].pig - fist_setting.pig,
       cow: updatedUserData[`user${farmData.turn}`].cow - fist_setting.cow,
       grain: updatedUserData[`user${farmData.turn}`].grain - fist_setting.grain,
-      vegetable:
-        updatedUserData[`user${farmData.turn}`].vegetable -
-        fist_setting.vegetable,
+      vegetable: updatedUserData[`user${farmData.turn}`].vegetable - fist_setting.vegetable,
       food: updatedUserData[`user${farmData.turn}`].food - fist_setting.food,
       fence: updatedUserData[`user${farmData.turn}`].fence - fist_setting.fence,
       farm_array: updatedUserData[`user${farmData.turn}`].farm_array,
-      farm_fence_array:
-        updatedUserData[`user${farmData.turn}`].farm_fence_array,
+      farm_fence_array: updatedUserData[`user${farmData.turn}`].farm_fence_array,
     };
     const update = { ...userData }; // userData 객체 복사
     update[`user${farmData.turn}`].tree +=
@@ -1194,15 +1174,15 @@ function Farms({ data, setData }) {
       fist_setting.fence - update[`user${farmData.turn}`].fence;
     setUserData(update);
 
-    if (farmData.action[6][0] === farmData.turn % 4) {
+    if (farmData.action[6][0] === (farmData.turn)) {
       farmdefaulthandelr(res, 6); //농장확장일 경우
-    } else if (farmData.action[9][0] === farmData.urn % 4) {
+    } else if (farmData.action[9][0] === (farmData.turn)) {
       //농지일 경우
-      farmdefaulthandelr(res, 9);
-    } else if (farmData.action[17][0] === farmData.currentTurn % 4) {
+      farmdefaulthandelr(res, 9); 
+    } else if (farmData.action[17][0] === (farmData.turn)) {
       //울타리
       farmdefaulthandelr(res, 17);
-    } else if (farmData.action[18][0] === farmData.currentTurn % 4) {
+    } else if(farmData.action[18][0] === (farmData.turn)) {
       //곡식활용
       farmdefaulthandelr(res, 18);
     }

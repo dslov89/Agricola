@@ -23,8 +23,8 @@ function UserBoard({ data }) {
       <h2 className="tree6 tree3">{data.cow}</h2>
       {/* 네번쨰줄 자원 개수 */}
       <h2 className="tree7 ">{data.farmer}</h2>
-      <h2 className="tree8 ">{data.sub}</h2>
-      <h2 className="tree9 ">{data.job}</h2>
+      <h2 className="tree8 ">{data.fence}</h2>
+      <h2 className="tree9 ">{data.house}</h2>
     </div>
   );
 }

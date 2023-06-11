@@ -7,19 +7,21 @@ function UserContextProvider({ children }) {
     user1: {
       name: "User 1",
       tree: 15,
-      soil: 0,
+      soil: 15,
       reed: 15,
-      charcoal: 0,
-      sheep: 0,
-      pig: 0,
-      cow: 0,
+      charcoal: 15,
+      sheep: 15,
+      pig: 15,
+      cow: 15,
       grain: 10,
       vegetable: 0,
       food: 0,
       farmer: 2,
       fence: 15,
-      house: 0,
+
+      house: 15,
       main: [], // 내려놓은 카드들
+
       job: [],
       sub: [],
       farm_array: [
@@ -63,7 +65,7 @@ function UserContextProvider({ children }) {
       food: 0,
       farmer: 2,
       fence: 15,
-      house: 0,
+      house: 15,
       main: [], // 내려놓은 카드들
       job: [],
       sub: [],
@@ -108,7 +110,7 @@ function UserContextProvider({ children }) {
       food: 0,
       farmer: 2,
       fence: 15,
-      house: 0,
+      house: 15,
       main: [], // 내려놓은 카드들
       job: [],
       sub: [],
@@ -153,7 +155,7 @@ function UserContextProvider({ children }) {
       food: 0,
       farmer: 2,
       fence: 15,
-      house: 0,
+      house: 15,
       main: [], // 내려놓은 카드들
       job: [],
       sub: [],
