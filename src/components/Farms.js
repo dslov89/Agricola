@@ -94,7 +94,7 @@ function Farms({ data, setData }) {
         grain: res.grain,
         vegetable: res.vegetable,
         food: res.food,
-        fence_re: res.fence,
+        fence: res.fence,
       })
     );
 
@@ -151,7 +151,7 @@ function Farms({ data, setData }) {
     };
     //방 버튼을 눌렀을 때
     if (
-      farmData.action[6][0] === farmData.currentTurn &&
+      farmData.action[6][0] === (farmData.turn) &&
       farmData.action[6][1] === 6
     ) {
       setIsGameFinished(true); // 새로운 종료 버튼을 활성화
@@ -380,7 +380,7 @@ function Farms({ data, setData }) {
 
     //농지 버튼 클릭 시 가는 기능 - 밭 갈기 -> 자신의 턴이면서 action버튼의 9번째 인덱스가 1인 경우
     if (
-      farmData.action[9][0] === farmData.currentTurn &&
+      farmData.action[9][0] === (farmData.turn) &&
       farmData.action[9][1] === 9
     ) {
 
@@ -460,7 +460,7 @@ function Farms({ data, setData }) {
       }
     }
     //양시장
-    if(farmData.action[19][0] === farmData.currentTurn && farmData.action[19][1] === 19) {
+    if(farmData.action[19][0] === (farmData.turn) && farmData.action[19][1] === 19) {
         const roomClass = `.Btn.room${Math.floor(index / 5) + 1}_${
           (index % 5) + 1
         }`;
@@ -519,7 +519,7 @@ function Farms({ data, setData }) {
 
     // 울타리 짓기 로직
     if (
-      farmData.action[17][0] === farmData.currentTurn &&
+      farmData.action[17][0] === (farmData.turn) &&
       farmData.action[17][1] === 17
     ) {
       setIsGameFinished(true); // 새로운 종료 버튼을 활성화
@@ -942,7 +942,7 @@ function Farms({ data, setData }) {
       
     }
     //곡식활용
-    if(farmData.action[18][0] === farmData.currentTurn && farmData.action[18][1] === 18) {
+    if(farmData.action[18][0] === (farmData.turn) && farmData.action[18][1] === 18) {
       setisbread(true);
       setIsGameFinished(true);      
 
@@ -1024,12 +1024,6 @@ function Farms({ data, setData }) {
   }
   //농장확장 및 외양간용 피니시 버튼
   function handleFinishGame() {
-    let userId = 0;
-    if (farmData.currentTurn === 0) {
-      userId = 4;
-    } else {
-      userId = farmData.currentTurn;
-    }
     const updatedUserData = { ...userData }; // userData 객체 복사
     const res = {
       userid: farmData.turn,
@@ -1072,15 +1066,15 @@ function Farms({ data, setData }) {
       fist_setting.fence - update[`user${farmData.turn}`].fence;
     setUserData(update);
 
-    if (farmData.action[6][0] === farmData.currentTurn) {
+    if (farmData.action[6][0] === (farmData.turn)) {
       farmdefaulthandelr(res, 6); //농장확장일 경우
-    } else if (farmData.action[9][0] === farmData.currentTurn) {
+    } else if (farmData.action[9][0] === (farmData.turn)) {
       //농지일 경우
       farmdefaulthandelr(res, 9); 
-    } else if (farmData.action[17][0] === farmData.currentTurn) {
+    } else if (farmData.action[17][0] === (farmData.turn)) {
       //울타리
       farmdefaulthandelr(res, 17);
-    } else if(farmData.action[18][0] === farmData.currentTurn) {
+    } else if(farmData.action[18][0] === (farmData.turn)) {
       //곡식활용
       farmdefaulthandelr(res, 18);
     }

@@ -163,7 +163,7 @@ function Users() {
           grain: prevUserData.user3.grain + farmData.grain,
           vegetable: prevUserData.user3.vegetable + farmData.vegetable,
           food: prevUserData.user3.food + farmData.food,
-
+          fence: prevUserData.user3.fence + farmData.fence,
           house: prevUserData.user3.house + farmData.house,
           farmer: farmData.farmer_count[2],
         },
@@ -183,7 +183,7 @@ function Users() {
           grain: prevUserData.user4.grain + farmData.grain,
           vegetable: prevUserData.user4.vegetable + farmData.vegetable,
           food: prevUserData.user4.food + farmData.food,
-
+          fence: prevUserData.user4.fence + farmData.fence,
           house: prevUserData.user4.house + farmData.house,
           farmer: farmData.farmer_count[3],
         },
@@ -203,7 +203,7 @@ function Users() {
           grain: prevUserData.user1.grain + farmData.grain,
           vegetable: prevUserData.user1.vegetable + farmData.vegetable,
           food: prevUserData.user1.food + farmData.food,
-
+          fence: prevUserData.user1.fence + farmData.fence,
           house: prevUserData.user1.house + farmData.house,
           farmer: farmData.farmer_count[0],
         },
@@ -222,8 +222,9 @@ function Users() {
           cow: prevUserData.user2.cow + farmData.cow,
           grain: prevUserData.user2.grain + farmData.grain,
           vegetable: prevUserData.user2.vegetable + farmData.vegetable,
-
           food: prevUserData.user2.food + farmData.food,
+          fence: prevUserData.user2.fence + farmData.fence,
+
           house: prevUserData.user2.house + farmData.house,
           farmer: farmData.farmer_count[1],
         },
@@ -250,7 +251,7 @@ function Users() {
           grain: prevUserData.user3.grain + farmData.grain,
           vegetable: prevUserData.user3.vegetable + farmData.vegetable,
           food: prevUserData.user3.food + farmData.food,
-
+          fence: prevUserData.user3.fence + farmData.fence,
           house: prevUserData.user3.house + farmData.house,
           farmer: farmData.farmer_count[2],
         },
@@ -270,6 +271,7 @@ function Users() {
           grain: prevUserData.user4.grain + farmData.grain,
           vegetable: prevUserData.user4.vegetable + farmData.vegetable,
           food: prevUserData.user4.food + farmData.food,
+          fence: prevUserData.user4.fence + farmData.fence,
 
           house: prevUserData.user4.house + farmData.house,
           farmer: farmData.farmer_count[3],
@@ -290,7 +292,7 @@ function Users() {
           grain: prevUserData.user1.grain + farmData.grain,
           vegetable: prevUserData.user1.vegetable,
           food: prevUserData.user1.food + farmData.food,
-
+          fence: prevUserData.user1.fence + farmData.fence,
           house: prevUserData.user1.house + farmData.house,
           farmer: farmData.farmer_count[0],
         },
@@ -309,7 +311,7 @@ function Users() {
           cow: prevUserData.user2.cow + farmData.cow,
           grain: prevUserData.user2.grain + farmData.grain,
           vegetable: prevUserData.user2.vegetable + farmData.vegetable,
-
+          fence: prevUserData.user2.fence + farmData.fence,
           food: prevUserData.user2.food + farmData.food,
           house: prevUserData.user2.house + farmData.house,
           farmer: farmData.farmer_count[1],
