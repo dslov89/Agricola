@@ -45,10 +45,10 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
     // 주요 설비 각 조건들
     switch (clickedIndex) {
       case 0:
-        if (userData[`user${farmData.turn}`].soil < 2) {
+        if (userData[`user${farmData.turn}`].soil < 3) {
           alert("check your resource");
         } else {
-          sendResourceMessage([["soil", 2]]);
+          sendResourceMessage([["soil", 3]]);
           canSend = true;
         }
         break;
