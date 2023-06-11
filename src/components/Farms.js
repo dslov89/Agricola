@@ -40,14 +40,9 @@ function Farms({ data, setData }) {
     updateAction,
   } = useContext(DataContext);
   const { userData, setUserData } = useContext(UserContext);
-  let user = 0;
-  if (farmData.currentTurn === 0) {
-    user = 4;
-  } else {
-    user = farmData.currentTurn;
-  }
+  
   const fist_setting = useMemo(() => {
-    return { ...userData[`user${user}`] };
+    return { ...userData[`user${farmData.turn}`] };
   }, [farmData.currentTurn]);
 
   // 현재 자신의 턴인지
@@ -75,8 +70,8 @@ function Farms({ data, setData }) {
         action: farmData.action,
         currentTurn: (farmData.currentTurn + 1) % 4,
         farmer_count: farmData.farmer_count,
-        building: userData[`user${res.userid}`].farm_array,
-        fence: userData[`user${res.userid}`].farm_fence_array,
+        building: res.farm_array,
+        fence: res.farm_fence_array,
       })
     );
     sendingClient.current.send(
@@ -1035,20 +1030,22 @@ function Farms({ data, setData }) {
     } else {
       userId = farmData.currentTurn;
     }
-    const updatedUserData = { ...userData[`user${farmData.turn}`] }; // userData 객체 복사
+    const updatedUserData = { ...userData }; // userData 객체 복사
     const res = {
       userid: farmData.turn,
-      tree: updatedUserData.tree - fist_setting.tree,
-      soil: updatedUserData.soil - fist_setting.soil,
-      reed: updatedUserData.reed - fist_setting.reed,
-      charcoal: updatedUserData.charcoal - fist_setting.charcoal,
-      sheep: updatedUserData.sheep - fist_setting.sheep,
-      pig: updatedUserData.pig - fist_setting.pig,
-      cow: updatedUserData.cow - fist_setting.cow,
-      grain: updatedUserData.grain - fist_setting.grain,
-      vegetable: updatedUserData.vegetable - fist_setting.vegetable,
-      food: updatedUserData.food - fist_setting.food,
-      fence: updatedUserData.fence - fist_setting.fence,
+      tree: updatedUserData[`user${farmData.turn}`].tree - fist_setting.tree,
+      soil: updatedUserData[`user${farmData.turn}`].soil - fist_setting.soil,
+      reed: updatedUserData[`user${farmData.turn}`].reed - fist_setting.reed,
+      charcoal: updatedUserData[`user${farmData.turn}`].charcoal - fist_setting.charcoal,
+      sheep: updatedUserData[`user${farmData.turn}`].sheep - fist_setting.sheep,
+      pig: updatedUserData[`user${farmData.turn}`].pig - fist_setting.pig,
+      cow: updatedUserData[`user${farmData.turn}`].cow - fist_setting.cow,
+      grain: updatedUserData[`user${farmData.turn}`].grain - fist_setting.grain,
+      vegetable: updatedUserData[`user${farmData.turn}`].vegetable - fist_setting.vegetable,
+      food: updatedUserData[`user${farmData.turn}`].food - fist_setting.food,
+      fence: updatedUserData[`user${farmData.turn}`].fence - fist_setting.fence,
+      farm_array: updatedUserData[`user${farmData.turn}`].farm_array,
+      farm_fence_array: updatedUserData[`user${farmData.turn}`].farm_fence_array,
     };
     const update = { ...userData }; // userData 객체 복사
     update[`user${farmData.turn}`].tree +=

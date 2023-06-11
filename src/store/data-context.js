@@ -58,20 +58,26 @@ function DataContextProvider({ children }) {
     jobCards: [[]],
     subCards: [[]],
     main: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    farm_array: [
+      "empty","empty","empty","empty","empty",
+      "wood_room","empty","empty","empty","empty",
+      "wood_room","empty","empty","empty","empty",
+    ],
+    farm_fence_array: [
+      [0, 0, 0, 0, 0, 0], // 0번째줄 가로
+      [0, 0, 0, 0, 0, 0], // 1번째줄 세로
+      [0, 0, 0, 0, 0, 0], // 2번째줄 가로
+      [0, 0, 0, 0, 0, 0], // 3번째줄 세로
+      [0, 0, 0, 0, 0, 0], // 4번째줄 가로
+      [0, 0, 0, 0, 0, 0], // 5번째줄
+      [0, 0, 0, 0, 0, 0],
+    ], // 6번
   });
 
   const updateFarmerCount = (index) => {
     setFarmData((prevFarmData) => {
       const updatedFarmerCount = [...prevFarmData.farmer_count];
       updatedFarmerCount[index] = prevFarmData.farmer_count[index] - 1;
-      return { ...prevFarmData, farmer_count: updatedFarmerCount };
-    });
-  };
-  const updateFarmerCount_harvest = (index) => {
-    setFarmData((prevFarmData) => {
-      const updatedFarmerCount = [...prevFarmData.farmer_count];
-      updatedFarmerCount[index] =
-        prevFarmData.farmer_count[index] - prevFarmData.farmer_count[index];
       return { ...prevFarmData, farmer_count: updatedFarmerCount };
     });
   };
@@ -168,7 +174,6 @@ function DataContextProvider({ children }) {
     farmData,
     setFarmData,
     updateFarmerCount,
-    updateFarmerCount_harvest,
     updateFarmData,
     updateAction,
     updateJobCard,

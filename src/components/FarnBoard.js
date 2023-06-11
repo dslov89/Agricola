@@ -219,7 +219,15 @@ const UserFarm2 = ({ username, className }) => {
 const App = () => {
   const { userData, setUserData } = useContext(UserContext);
   const { farmData } = useContext(DataContext);
-
+  
+  const user1Farm = userData.user1.farm_array;
+  const user2Farm = userData.user2.farm_array;
+  const user3Farm = userData.user3.farm_array;
+  const user4Farm = userData.user4.farm_array;
+  const user1FenceArray = userData.user1.farm_fence_array;
+  const user2FenceArray = userData.user2.farm_fence_array;
+  const user3FenceArray = userData.user3.farm_fence_array;
+  const user4FenceArray = userData.user4.farm_fence_array;
   useEffect(() => {
     userDataUpdate();
   }, [farmData.currentTurn]);
@@ -232,8 +240,8 @@ const App = () => {
         ...prevUserData,
         user3: {
           ...prevUserData.user3,
-          farm_array: userData.user3.farm_array,
-          farm_fence_array: userData.user3.farm_fence_array,
+          farm_array: prevUserData.user3.farm_array,
+          farm_fence_array: prevUserData.user3.farm_fence_array,
         },
       }));
     } else if (userId === 1) {
@@ -241,8 +249,8 @@ const App = () => {
         ...prevUserData,
         user4: {
           ...prevUserData.user4,
-          farm_array: userData.user4.farm_array,
-          farm_fence_array: userData.user4.farm_fence_array,
+          farm_array: prevUserData.user4.farm_array,
+          farm_fence_array: prevUserData.user4.farm_fence_array,
         },
       }));
     } else if (userId === 2) {
@@ -250,8 +258,8 @@ const App = () => {
         ...prevUserData,
         user1: {
           ...prevUserData.user1,
-          farm_array: userData.user1.farm_array,
-          farm_fence_array: userData.user1.farm_fence_array,
+          farm_array: prevUserData.user1.farm_array,
+          farm_fence_array: prevUserData.user1.farm_fence_array,
         },
       }));
     } else {
@@ -259,21 +267,14 @@ const App = () => {
         ...prevUserData,
         user2: {
           ...prevUserData.user2,
-          farm_array: userData.user2.farm_array,
-          farm_fence_array: userData.user2.farm_fence_array,
+          farm_array: prevUserData.user2.farm_array,
+          farm_fence_array: prevUserData.user2.farm_fence_array,
         },
       }));
     }
   }
 
-  const user1Farm = userData.user1.farm_array;
-  const user2Farm = userData.user2.farm_array;
-  const user3Farm = userData.user3.farm_array;
-  const user4Farm = userData.user4.farm_array;
-  const user1FenceArray = userData.user1.farm_fence_array;
-  const user2FenceArray = userData.user2.farm_fence_array;
-  const user3FenceArray = userData.user3.farm_fence_array;
-  const user4FenceArray = userData.user4.farm_fence_array;
+  
 
   return (
     <div>
