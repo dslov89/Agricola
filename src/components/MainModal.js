@@ -29,6 +29,32 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
     // }));
   }
 
+  const closeModal2 = () => {
+    sendingClient.current.send(
+      "/main-board/resource/update",
+      {},
+      JSON.stringify({
+        messageType: "RESOURCE",
+        roomId: farmData.roomId,
+        action: farmData.action,
+        round: farmData.round,
+        currentTurn: (farmData.currentTurn + 1) % 4,
+        farmer_count: farmData.farmer_count,
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: 0,
+      })
+    );
+    setIsVisible(false);
+  };
+
   const sendCard = () => {
     // 자원 체크
     if (checkResource()) {
@@ -270,9 +296,16 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
   return (
     <div className={styles.container}>
       <img src={mainsulbi} />
-      <button className={styles.close} onClick={closeModal}>
-        X
-      </button>
+      {isMain && (
+        <button className={styles.close} onClick={closeModal2}>
+          X
+        </button>
+      )}
+      {!isMain && (
+        <button className={styles.close} onClick={closeModal}>
+          X
+        </button>
+      )}
       {isMain && <button onClick={sendCard}>보내기</button>}
       {mainSulbi[0] &&
         (isMain ? (

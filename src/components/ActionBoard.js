@@ -92,7 +92,6 @@ function ActionBoard({ data, setData }) {
     updateFarmData();
   }, [farmData.action]);
 
-
   useEffect(() => {
     if (farmData.cardType === "MAIN") {
       const updatedAction = [...farmData.main];
@@ -142,12 +141,14 @@ function ActionBoard({ data, setData }) {
           tree: prevUserData[`user${farmData.turn}`].tree + res.tree,
           soil: prevUserData[`user${farmData.turn}`].soil + res.soil,
           reed: prevUserData[`user${farmData.turn}`].reed + res.reed,
-          charcoal:prevUserData[`user${farmData.turn}`].charcoal + res.charcoal,
+          charcoal:
+            prevUserData[`user${farmData.turn}`].charcoal + res.charcoal,
           sheep: prevUserData[`user${farmData.turn}`].sheep + res.sheep,
           pig: prevUserData[`user${farmData.turn}`].pig + res.pig,
           cow: prevUserData[`user${farmData.turn}`].cow + res.cow,
           grain: prevUserData[`user${farmData.turn}`].grain + res.grain,
-          vegetable:prevUserData[`user${farmData.turn}`].vegetable + res.vegetable,
+          vegetable:
+            prevUserData[`user${farmData.turn}`].vegetable + res.vegetable,
           food: prevUserData[`user${farmData.turn}`].food + res.food,
         },
       }));
@@ -1504,8 +1505,8 @@ function ActionBoard({ data, setData }) {
       notTurnHandler(res, 16);
       setIsSub(true);
       setIsMain(true);
-      setSubModalVisible(true);
       setMainModalVisible(true);
+      setSubModalVisible(true);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
@@ -1637,15 +1638,21 @@ function ActionBoard({ data, setData }) {
   }
 
   function harvest_grain() {
-    let grain3_count = userData[`user${farmData.turn}`].farm_array.filter((item) => item === "plow_grain3").length;
-    let grain2_count = userData[`user${farmData.turn}`].farm_array.filter((item) => item === "plow_grain2").length;
-    let grain1_count = userData[`user${farmData.turn}`].farm_array.filter((item) => item === "plow_grain1").length;
+    let grain3_count = userData[`user${farmData.turn}`].farm_array.filter(
+      (item) => item === "plow_grain3"
+    ).length;
+    let grain2_count = userData[`user${farmData.turn}`].farm_array.filter(
+      (item) => item === "plow_grain2"
+    ).length;
+    let grain1_count = userData[`user${farmData.turn}`].farm_array.filter(
+      (item) => item === "plow_grain1"
+    ).length;
 
     if (userData[`user${farmData.turn}`].farmer === 1) {
-      if (grain3_count>0 || grain2_count>0 || grain1_count>0) {
-        if(grain3_count>0) {
+      if (grain3_count > 0 || grain2_count > 0 || grain1_count > 0) {
+        if (grain3_count > 0) {
           const roomIndices = []; // plow에 해당하는 인덱스를 저장할 배열
-  
+
           userData[`user${farmData.turn}`].farm_array.forEach((item, idx) => {
             if (item === "plow_grain3") {
               roomIndices.push(idx);
@@ -1653,7 +1660,8 @@ function ActionBoard({ data, setData }) {
           });
           roomIndices.forEach((idx) => {
             const updatedUserData = { ...userData }; // userData 객체 복사
-            updatedUserData[`user${farmData.turn}`].farm_array[idx] = "plow_grain2"; // farm_array 업데이트
+            updatedUserData[`user${farmData.turn}`].farm_array[idx] =
+              "plow_grain2"; // farm_array 업데이트
 
             setUserData(updatedUserData);
             const roomClass = `.Btn.room${Math.floor(idx / 5) + 1}_${
@@ -1671,19 +1679,18 @@ function ActionBoard({ data, setData }) {
               grain: grain3_count,
               vegetable: 0,
               food: 0,
-            }
-            
+            };
+
             const roomElement = document.querySelector(roomClass);
-            
+
             roomElement.style.marginTop = "-30px";
             roomElement.style.marginLeft = "-10px";
             roomElement.style.width = "100pxpx";
             roomElement.style.height = "120px";
             roomElement.style.backgroundImage = `url(${plow_grain2})`;
             defaultActHandler(res, 22);
-
           });
-        };
+        }
       } else {
         const res = {
           tree: 0,
@@ -1696,7 +1703,7 @@ function ActionBoard({ data, setData }) {
           grain: 0,
           vegetable: 0,
           food: 0,
-        }
+        };
         alert("작물 거두기를 할 수 없습니다.");
         defaultActHandler(res, 22);
       }

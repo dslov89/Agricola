@@ -35,6 +35,32 @@ function SubModal({
     setIsVisible(false);
   };
 
+  const closeModal2 = () => {
+    sendingClient.current.send(
+      "/main-board/resource/update",
+      {},
+      JSON.stringify({
+        messageType: "RESOURCE",
+        roomId: farmData.roomId,
+        action: farmData.action,
+        round: farmData.round,
+        currentTurn: (farmData.currentTurn + 1) % 4,
+        farmer_count: farmData.farmer_count,
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: 0,
+      })
+    );
+    setIsVisible(false);
+  };
+
   useEffect(() => {
     myCardCheck();
   }, [farmData.currentTurn, farmData.food, farmData.action]);
@@ -651,9 +677,19 @@ function SubModal({
 
   return (
     <div className={styles.container}>
-      <button className={styles.close} onClick={closeModal}>
-        X
-      </button>
+      {/* 그냥 카드창 띄울때 */}
+      {!isSub && (
+        <button className={styles.close} onClick={closeModal}>
+          X
+        </button>
+      )}
+      {/* 회합장소나 설비를 갔지만 가져오지 않았을 때 턴만 넘겨주는  */}
+      {isSub && (
+        <button className={styles.close} onClick={closeModal2}>
+          X
+        </button>
+      )}
+
       {isSub && (
         <button className={styles.close2} onClick={sendSubCard}>
           보내기
