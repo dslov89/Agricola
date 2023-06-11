@@ -9,9 +9,9 @@ import { useState } from "react";
 function Main() {
   const [data, setData] = useState({
     name: ["User 1", "User 2", "User 3", "User 4"],
-    tree: 20,
-    clay: 10,
-    rock: 10,
+    tree: 0,
+    clay: 0,
+    rock: 0,
     reed: 6,
     seed: 0,
     vegetable: 0,
