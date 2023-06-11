@@ -126,7 +126,6 @@ function DataContextProvider({ children }) {
       }));
 
       updateFarmerCount((farmData.currentTurn + 3) % 4);
-      // updateFarmerCount_harvest((farmData.currentTurn + 3) % 4);
     }
   };
 

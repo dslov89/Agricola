@@ -28,7 +28,7 @@ function ActionBoard({ data, setData }) {
   const [mainModalVisible, setMainModalVisible] = useState(false);
   const [subModalVisible, setSubModalVisible] = useState(false);
   // const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
-
+  const [foodis, setFoodis] = useState(0);
   const [scoreBoardVisible, setScoreBoardVisible] = useState(true);
   const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
   const [subSulbi, setSubSulbi] = useState([
@@ -120,7 +120,7 @@ function ActionBoard({ data, setData }) {
     }
   }, [farmData.currentTurn]);
 
-  const alwaysActHandler = async (res) => {
+  const alwaysActHandler = async (res) => { // 턴 안넘기고 자원갱신만 하는 함수
     await updateAlways(farmData.turn); // 누른 놈 제외 갱신
     const farmer_cnt = farmData.farmer_count;
     farmer_cnt[(farmData.currentTurn + 3) % 4] -= 1;
@@ -242,7 +242,7 @@ function ActionBoard({ data, setData }) {
         <button onClick={hwaduckSheepHandler}>화덕-양</button>
         <button onClick={hwaduckCowHandler}>화덕-소</button>
         <button onClick={hwaduckBakeHandler}>화덕-빵굽기</button>
-        {/* <button onClick={wellHandler}>우물</button> */}
+        <button onClick={WellHandler}>우물</button>
         <button onClick={furnitureHandler}>가구 제작소</button>
         <button onClick={bowlHandler}>그릇 제작소</button>
         <button onClick={basketHandler}>바구니 제작소</button>
@@ -440,8 +440,7 @@ function ActionBoard({ data, setData }) {
   }
 
   function hwaroBakeHandler() {
-    if (userData[`user${farmData.turn}`].vegetable > 0) {
-      // 자원 갖고 있는 지 확인
+    if (userData[`user${farmData.turn}`].vegetable > 0) {       // 자원 갖고 있는 지 확인
       const res = {
         tree: 0,
         soil: 0,
@@ -460,45 +459,340 @@ function ActionBoard({ data, setData }) {
     }
   }
 
-  // const roundarray = [];
-  // function wellHandler() {
-  //   let cnt = 0;
-  //   //라운드 파악
-  //   for (let i = farmData.round + 1; i < farmData.round + 6; i++){
-  //     console.log("i는??");
-  //     console.log(i);
-  //     if (roundarray.length < 5) {
-  //       roundarray.push(i);
-  //     }
-  //     else {
-  //       alert("더 이상 누를 수 없습니다.");
-  //       break;
-  //     }
-  //     console.log(roundarray);
-  //   }
-  //   console.log("우물");
-  //   for (let j = 0; j < 5; j++){
-  //     cnt += 1;
-  //     if (cnt === 1 && farmData.round === roundarray[j]) {
-  //       const res = {
-  //         tree: 0,
-  //         soil: 0,
-  //         reed: 0,
-  //         charcoal: 0,
-  //         sheep: 0,
-  //         pig: 0,
-  //         cow: 0,
-  //         grain: 0,
-  //         vegetable: 0,
-  //         food: 1,
-  //       };
-  //       alwaysActHandler(res);
-  //     }
-  //     else if (cnt === 8) {
-  //       cnt = 0;
-  //     }
-  //   }
-  // }
+  function soilKilnHandler() {  // 메인설비 06.흙가마
+    if (userData[`user${farmData.turn}`].grain > 0) {       // 자원 갖고 있는 지 확인
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: -1,
+        vegetable: 0,
+        food: 5,
+      };
+      alwaysActHandler(res);
+    } else {
+      alert("보유한 자원이 부족합니다.");
+    }
+  }
+
+  function charcoalKilnHandler() {  // 메인설비 07.돌가마
+    if (userData[`user${farmData.turn}`].grain > 0) {       // 자원 갖고 있는 지 확인
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: -1,
+        vegetable: 0,
+        food: 4,
+      };
+      alwaysActHandler(res);
+    } else {
+      alert("보유한 자원이 부족합니다.");
+    }
+  }
+
+  function checkRoomCount() {
+    const roomArray = userData[`user${farmData.turn}`].farm_array;
+    const roomCounts = {
+      wood_room : 0,
+      rock_room : 0,
+      soil_room : 0,
+      empty : 0,
+      vegetable_farm : 0,// 채소 올려진 밭
+      grain_farm : 0, // 곡식 올려진 밭
+    }
+    roomArray.forEach(item => {
+      if (roomCounts.hasOwnProperty(item)) {
+        roomCounts[item]++;
+      }
+    });
+    return(roomCounts);
+  }
+
+  function job03Handler(item) {  // 직업 03. 가축상인
+    if(userData[`user${farmData.turn}`].food > 0){
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: -1,
+      }
+      if(item === "sheep") res.sheep += 1;
+      else if(item === "pig") res.pig += 1;
+      else if(item === "cow") res.cow += 1;
+
+      alwaysActHandler(res);
+    }
+    else {
+      alert("보유한 자원이 부족합니다.");
+    }
+  }
+
+  function job23Handler() { // 직업 23. 지붕 다지는 사람
+    if(userData[`user${farmData.turn}`].food > 1) {
+      const roomCounts = checkRoomCount();
+      const roomSum = roomCounts.wood_room + roomCounts.rock_room + roomCounts.soil_room;
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: roomSum,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: -1,
+      };
+      alwaysActHandler(res);
+    }
+    else {
+      alert("보유한 자원이 부족합니다.");
+    }
+  }
+
+  function job24Handler() { // 직업 24. 상담가
+    const res = {
+      tree: 0,
+      soil: 0,
+      reed: 0,
+      charcoal: 0,
+      sheep: 2,
+      pig: 0,
+      cow: 0,
+      grain: 0,
+      vegetable: 0,
+      food: 0,
+    };
+    alwaysActHandler(res);
+  }  
+
+  function job25Handler() { // 직업 25. 집사
+    const leftRoundCnt = 14 - farmData.round;
+    const res = {
+      tree: 0,
+      soil: 0,
+      reed: 0,
+      charcoal: 0,
+      sheep: 0,
+      pig: 0,
+      cow: 0,
+      grain: 0,
+      vegetable: 0,
+      food: 0,
+    };
+    if(leftRoundCnt === 1) res.tree += 1;
+    else if(leftRoundCnt === 3) res.tree += 2;
+    else if(leftRoundCnt === 6) res.tree += 3;
+    else if(leftRoundCnt === 9) res.tree += 4;
+
+    alwaysActHandler(res);
+  }  
+
+  function job26Handler() { // 직업 26. 큰 낫 일꾼
+    const res = {
+      tree: 0,
+      soil: 0,
+      reed: 0,
+      charcoal: 0,
+      sheep: 0,
+      pig: 0,
+      cow: 0,
+      grain: 1,
+      vegetable: 0,
+      food: 0,
+    };
+    
+    alwaysActHandler(res);
+  }  
+
+  function sub01Handler(soilCnt) { // 보조 01. 경질 자기
+    if(userData[`user${farmData.turn}`].soil > 2)
+    {
+      const res = {
+        tree: 0,
+        soil: -soilCnt,
+        reed: 0,
+        charcoal: soilCnt-1,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: 0,
+      };
+      
+      alwaysActHandler(res);
+    }
+    else {
+      alert("보유한 자원이 부족합니다.");
+    }
+  }
+
+  function sub04Handler() { // 보조 04. 다진 흙
+      const res = {
+        tree: 0,
+        soil: 1,    // 울타리 칠 때 나무 대신 흙 가능
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: 0,
+      };
+      alwaysActHandler(res);
+  }
+
+  function sub11Handler() { // 보조 11. 베틀
+    const sheepCnt = userData[`user${farmData.turn}`].sheep;
+    const res = {
+      tree: 0,
+      soil: 0,    
+      reed: 0,
+      charcoal: 0,
+      sheep: 0,
+      pig: 0,
+      cow: 0,
+      grain: 0,
+      vegetable: 0,
+      food: 0,
+    };
+    if(sheepCnt === 1) res.food += 1;
+    else if(sheepCnt === 4) res.food += 2;
+    else if(sheepCnt === 7) res.food += 3;
+
+    alwaysActHandler(res);
+  }
+
+  function sub14Handler() { // 보조 14. 빵삽
+    const res = {
+      tree: 0,
+      soil: 0,    
+      reed: 0,
+      charcoal: 0,
+      sheep: 0,
+      pig: 0,
+      cow: 0,
+      grain: 0,
+      vegetable: 0,
+      food: 1,
+    };
+    alwaysActHandler(res);
+  } 
+
+  function sub15Handler() { // 보조 15. 삼포식 농법
+    const roomCounts = checkRoomCount();
+    if(roomCounts.vegetable_farm > 1 && roomCounts.grain_farm > 1 && roomCounts.empty > 1) {  // 이거 대윤이거랑 맞춰야함
+      const res = {
+        tree: 0,
+        soil: 0,    
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: 3,
+      };
+      alwaysActHandler(res);
+    }
+  } 
+
+  function sub23Handler() { // 보조 23. 채굴 망치
+    const res = {
+      tree: 0,
+      soil: 0,    
+      reed: 0,
+      charcoal: 0,
+      sheep: 0,
+      pig: 0,
+      cow: 0,
+      grain: 0,
+      vegetable: 0,
+      food: 1,
+    };
+    alwaysActHandler(res);
+  } 
+
+  function sub28Handler() { // 보조 28. 흙판
+    const leftSoilCnt = userData[`user${farmData.turn}`].soil;
+    leftSoilCnt = Math.floor(leftSoilCnt / 2);
+    const res = {
+      tree: 0,
+      soil: leftSoilCnt,    
+      reed: 0,
+      charcoal: 0,
+      sheep: 0,
+      pig: 0,
+      cow: 0,
+      grain: 0,
+      vegetable: 0,
+      food: 0,
+    };
+    alwaysActHandler(res);
+  } 
+
+
+
+
+
+  const [well, setWell] = useState([]);
+  function WellHandler() {
+
+    if (farmData.round === 3 && well.length === 0) {
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: 1,
+      };
+      harvestActHandler(res);
+      setWell((prevWell) => [...prevWell, 1]);
+      console.log("well round 3");
+    } else if (farmData.round === 4 && well.length === 0) {
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: 0,
+      };
+      harvestActHandler(res);
+      setWell((prevWell) => [...prevWell, 1]);
+      console.log("well round 4");
+    }
+    else {
+      alert("이제 그만");
+    }
+  }
 
   function furnitureHandler() {
     if (farmData.round === 5) {
@@ -724,6 +1018,35 @@ function ActionBoard({ data, setData }) {
         vegetable: 0,
         food: 1,
       };
+      if(userData[`user${farmData.turn}`].job.includes(15)) // 직업 15. 창고 관리인
+      {
+        if(window.confirm("예 : 흙 한개를 추가로 가져옵니다. 아니오 : 곡식 1개를 추가로 가져옵니다."))
+        {
+          res.soil += 1;
+        } else {
+          res.grain += 1;
+        }
+      }
+
+      if(userData[`user${farmData.turn}`].job.includes(16)) // 직업 16. 보조 경직자
+      {
+        if(window.confirm("밭 1개를 일구시겠습니까?"))
+        {
+          // 밭 일구기 로직
+        } else {
+          console.log("밭 안 일굼");
+        }
+      }
+
+      if(userData[`user${farmData.turn}`].job.includes(17)) // 직업 17. 오두막집 살이
+      {
+        if(window.confirm("방을 짓거나 고치시겠습니까?"))
+        {
+          // 방 고치기 로직
+        } else {
+          console.log("안고침");
+        }
+      }
 
       defaultActHandler(res, 2);
     } else {
@@ -770,8 +1093,8 @@ function ActionBoard({ data, setData }) {
           vegetable: 0,
           food: -2,
         };
-
-        notTurnHandler(res, 4);
+        
+        alwaysActHandler(res);
         setIsJob(true);
       } else {
         alert("식량이 부족합니다");
@@ -1136,6 +1459,14 @@ function ActionBoard({ data, setData }) {
       const userda = { ...userData };
       userda[`user${farmData.turn}`].sheep += 1;
       setUserData(userda);
+      if(userData[`user${farmData.turn}`].job.includes(3))
+      {                                 // 직업 03. 가축상인
+        if(window.confirm("가축 상인(음식 1개 내고 양 1개 받기) 효과를 사용하시겠습니까?")) {
+         job03Handler("sheep");
+          } else {
+          console.log("가축 상인 효과 사용 안함");
+          }
+      }
 
       updateAction(19, 19);
     } else {
