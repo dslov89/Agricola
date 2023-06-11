@@ -1101,7 +1101,7 @@ function Farms({ data, setData }) {
             roomElement.style.backgroundImage = `url(${plow_grain3})`;
           });
           updateAction(18, 0);
-          alert("곡식 뿌리기 완료. 빵굽기 곡식 하나당 음식 2개!");
+          alert("곡식 뿌리기 완료. 빵굽기");
         } else {
           //grain 수 만큼
           const roomClass = `.Btn.room${Math.floor(index / 5) + 1}_${
@@ -1118,7 +1118,7 @@ function Farms({ data, setData }) {
           const newdata = { ...userData };
           newdata[`user${farmData.turn}`].grain -= 1;
           setUserData(newdata);
-          alert("씨부리기 하나 완료, 빵굽기 곡식 하나당 음식 2개!");
+          alert("씨부리기 하나 완료, 빵굽기 선택해요");
         }
       } else {
         alert("지을 수 없습니다");
@@ -1131,35 +1131,56 @@ function Farms({ data, setData }) {
       (item) => item === "plow_grain3"
     ).length;
     let grain_count = userData[`user${farmData.turn}`].grain;
-    if (grain_count - plow_count > 0) {
-      const newdata = { ...userData };
-      newdata[`user${farmData.turn}`].grain -= 1;
-      newdata[`user${farmData.turn}`].food += 2;
-      setUserData(newdata);
-      alert("곡식 1개를 음식 2개로 바꿉니다.");
+    let check = grain_count - plow_count;
+    if (check > 0) {
+      if(userData[`user${farmData.turn}`].main.includes(6)) {
+        const newdata = { ...userData};
+        newdata[`user${farmData.turn}`].grain -= 1;
+        newdata[`user${farmData.turn}`].food += 5;
+        setUserData(newdata);
+        alert("곡식 1개를 음식 5개로 바꿉니다. 종료해주세요");
+        setisbread(false);
+      } else if(userData[`user${farmData.turn}`].main.includes(7)) {
+        const newdata = { ...userData};
+        newdata[`user${farmData.turn}`].grain -= 1;
+        newdata[`user${farmData.turn}`].food += 4;
+        setUserData(newdata);
+        alert("곡식 1개를 음식 4개로 바꿉니다.");
+        if(farmData.action[18][1] === 19) {
+          setisbread(false);
+          alert("종료해주세요.");
+          updateAction(18,0);
+        }
+        updateAction(18,19);
+      }else if(userData[`user${farmData.turn}`].main.includes(3) || userData[`user${farmData.turn}`].main.includes(4)) {
+        const newdata = { ...userData};
+        newdata[`user${farmData.turn}`].grain -= 1;
+        newdata[`user${farmData.turn}`].food += 3;
+        setUserData(newdata);
+        alert("곡식 1개를 음식 3개로 바꿉니다.");
+      } else if(userData[`user${farmData.turn}`].main.includes(1) ||userData[`user${farmData.turn}`].main.includes(2)) {
+        const newdata = { ...userData};
+        newdata[`user${farmData.turn}`].grain -= 1;
+        newdata[`user${farmData.turn}`].food += 2;
+        setUserData(newdata);
+        alert("곡식 1개를 음식 2개로 바꿉니다.");
+      }       
     } else {
       alert("자원이 부족합니다. 종료해주세요");
     }
   }
 
-  function animalhandler() {
-    if(userData[`user${farmData.turn}`].food > 0) {
-      const newdata = { ...userData };
-      newdata[`user${farmData.turn}`].food -= 1;
-      newdata[`user${farmData.turn}`].sheep += 1;
-      setUserData(newdata);
-      alert("곡식 1개를 양 1마리로 바꿉니다.");
-    }else {
-      alert("자원 없음");
-    }
-    setisaniFinished(false);
-  }
-
   function househandler() {
     updateAction(6, 26); // 업데이트된 action 상태를 업데이트하는 함수 호출
+    if(userData[`user${farmData.turn}`].sub.includes(23)) {
+      const newdata = { ...userData };
+      newdata[`user${farmData.turn}`].tree += 2;
+      setUserData(newdata);
+    }
     setIsGameFinished(true);
     setIshousegame(false);
   }
+
   //농장확장 및 외양간용 피니시 버튼
   function handleFinishGame() {
     const updatedUserData = { ...userData }; // userData 객체 복사
@@ -1179,7 +1200,7 @@ function Farms({ data, setData }) {
       farm_array: updatedUserData[`user${farmData.turn}`].farm_array,
       farm_fence_array: updatedUserData[`user${farmData.turn}`].farm_fence_array,
     };
-    const update = { ...userData }; // userData 객체 복사
+    const update = { ...userData }; // userData 객체 사
     update[`user${farmData.turn}`].tree +=
       fist_setting.tree - update[`user${farmData.turn}`].tree;
     update[`user${farmData.turn}`].reed +=
