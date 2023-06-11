@@ -425,6 +425,8 @@ function Farms({ data, setData }) {
           vegetable: 0,
           food: 0,
           fence: 0,
+          farm_array: userData[`user${farmData.turn}`].farm_array,
+          farm_fence_array: userData[`user${farmData.turn}`].farm_fence_array,
         };
 
         farmdefaulthandelr(res, 9);

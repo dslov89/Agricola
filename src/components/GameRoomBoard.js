@@ -152,7 +152,6 @@ const Gameroomboard = () => {
                       turn: initMsg.turn,
                     },
                     
-                    
                   }));
                 };
 
