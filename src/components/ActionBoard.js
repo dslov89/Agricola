@@ -1456,6 +1456,7 @@ function ActionBoard({ data, setData }) {
       setIsMain(true);
       setSubModalVisible(true);
       setMainModalVisible(true);
+
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }

@@ -1133,14 +1133,14 @@ function Farms({ data, setData }) {
     let grain_count = userData[`user${farmData.turn}`].grain;
     let check = grain_count - plow_count;
     if (check > 0) {
-      if(userData[`user${farmData.turn}`].main.includes(6)) {
+      if(userData[`user${farmData.turn}`].main.includes(5)) {
         const newdata = { ...userData};
         newdata[`user${farmData.turn}`].grain -= 1;
         newdata[`user${farmData.turn}`].food += 5;
         setUserData(newdata);
         alert("곡식 1개를 음식 5개로 바꿉니다. 종료해주세요");
         setisbread(false);
-      } else if(userData[`user${farmData.turn}`].main.includes(7)) {
+      } else if(userData[`user${farmData.turn}`].main.includes(6)) {
         const newdata = { ...userData};
         newdata[`user${farmData.turn}`].grain -= 1;
         newdata[`user${farmData.turn}`].food += 4;
@@ -1152,13 +1152,13 @@ function Farms({ data, setData }) {
           updateAction(18,0);
         }
         updateAction(18,19);
-      }else if(userData[`user${farmData.turn}`].main.includes(3) || userData[`user${farmData.turn}`].main.includes(4)) {
+      }else if(userData[`user${farmData.turn}`].main.includes(2) || userData[`user${farmData.turn}`].main.includes(3)) {
         const newdata = { ...userData};
         newdata[`user${farmData.turn}`].grain -= 1;
         newdata[`user${farmData.turn}`].food += 3;
         setUserData(newdata);
         alert("곡식 1개를 음식 3개로 바꿉니다.");
-      } else if(userData[`user${farmData.turn}`].main.includes(1) ||userData[`user${farmData.turn}`].main.includes(2)) {
+      } else if(userData[`user${farmData.turn}`].main.includes(0) ||userData[`user${farmData.turn}`].main.includes(1)) {
         const newdata = { ...userData};
         newdata[`user${farmData.turn}`].grain -= 1;
         newdata[`user${farmData.turn}`].food += 2;
