@@ -974,7 +974,11 @@ function ActionBoard({ data, setData }) {
 
   const notTurnHandler = async (res, index) => {
     await updateAction(index, 0);
-
+    setFarmData((prevFarmData) => {
+      const updatedFarmerCount = [...prevFarmData.farmer_count];
+      updatedFarmerCount[index] = prevFarmData.farmer_count[index] + 1;
+      return { ...prevFarmData, farmer_count: updatedFarmerCount };
+    });
     sendingClient.current.send(
       "/main-board/resource/update",
       {},

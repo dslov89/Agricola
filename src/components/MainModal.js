@@ -105,7 +105,7 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
           alert("check your resource");
         } else {
           sendResourceMessage([
-            ["tree", 3],
+            ["tree", 1],
             ["charcoal", 3],
           ]);
           canSend = true;
@@ -275,10 +275,10 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
 
       const updatedMainCards = notUpdatedMainCards.map((value, index) => {
         if (
-          main1.includes(index + 1) ||
-          main2.includes(index + 1) ||
-          main3.includes(index + 1) ||
-          main4.includes(index + 1)
+          main1.includes(index) ||
+          main2.includes(index) ||
+          main3.includes(index) ||
+          main4.includes(index)
         ) {
           return 0;
         } else {
