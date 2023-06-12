@@ -21,11 +21,13 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
   const sendCard = () => {
     // 자원 체크
     if (checkResource()) {
+
       console.log("카드 메시지 보내기 전");
       setTimeout(() => {
         sendCardMessage();
       }, 300);
       console.log("카드 메시지 보내기 후");
+
     }
   };
 
@@ -204,6 +206,7 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
     //배열로 들어온 자원들(카드 조건) 뺀거 update
 
     for (let i = 0; i < resources.length; i++) {
+
       let fixed_resource = checkJobCard(resources[i][0], resources[i][1]);
       resources[i][1] = fixed_resource;
       message[resources[i][0]] -= resources[i][1];
