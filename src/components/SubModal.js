@@ -12,6 +12,7 @@ function SubModal({
   jobCard,
   isSub,
   isJob,
+  isMain,
   setIsJob,
   setIsSub,
   setIsMain,
@@ -35,6 +36,38 @@ function SubModal({
     setIsVisible(false);
   };
 
+  const closeModal2 = () => {
+    if (!(isSub && isMain)) {
+      sendingClient.current.send(
+        "/main-board/resource/update",
+        {},
+        JSON.stringify({
+          messageType: "RESOURCE",
+          roomId: farmData.roomId,
+          action: farmData.action,
+          round: farmData.round,
+          currentTurn: (farmData.currentTurn + 1) % 4,
+          farmer_count: farmData.farmer_count,
+          tree: 0,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 0,
+        })
+      );
+      setIsVisible(false);
+      setIsJob(false);
+      setIsSub(false);
+    } else {
+      setIsVisible(false);
+      setIsSub(false);
+    }
+  };
   useEffect(() => {
     myCardCheck();
   }, [farmData.currentTurn, farmData.food, farmData.action]);
@@ -88,7 +121,7 @@ function SubModal({
       empty: 0,
       plow_grain1: 0,
       plow_grain2: 0,
-      plow_grain3: 0, 
+      plow_grain3: 0,
       plow_vegetable1: 0,
       plow_vegetable2: 0,
     };
@@ -122,7 +155,7 @@ function SubModal({
     } else {
       alert("보유한 자원이 부족합니다.");
     }
-  }  
+  }
 
   function job25Handler() {
     // 직업 25. 집사
@@ -166,16 +199,20 @@ function SubModal({
   }
 
   const sendJobCard = () => {
-    console.log(farmData.jobCards);
-    if (clickedCardId === 23) job23Handler();
-    else if (clickedCardId === 25) job25Handler();
-    else if (clickedCardId === 26) job26Handler();
-    else {
-      okaySend("JOB");
-      setIsVisible(false);
-      setIsMainVisible(false);
-      setIsJob(false);
-      setIsMain(false);
+    if (clickedCardId !== null) {
+      console.log(farmData.jobCards);
+      if (clickedCardId === 23) job23Handler();
+      else if (clickedCardId === 25) job25Handler();
+      else if (clickedCardId === 26) job26Handler();
+      else {
+        okaySend("JOB");
+        setIsVisible(false);
+        setIsMainVisible(false);
+        setIsJob(false);
+        setIsMain(false);
+      }
+    } else {
+      alert("카드를 선택해 주세요");
     }
   };
 
@@ -186,7 +223,6 @@ function SubModal({
     setClickedCardId(cardId);
   }
 
-  
   function sub23Handler() {
     // 보조 23. 채굴 망치
     const res = {
@@ -204,7 +240,8 @@ function SubModal({
     alwaysActHandler2(res);
   }
 
-  const alwaysActHandler = async (res) => { // job전용
+  const alwaysActHandler = async (res) => {
+    // job전용
     await updateAlways(farmData.turn); // 누른 놈 제외 갱신
     setIsVisible(false);
     setIsMainVisible(false);
@@ -314,7 +351,7 @@ function SubModal({
 
   const sendSubCard = () => {
     // 흙 1개
-    if (clickedCardId === 1 || clickedCardId === 9 || clickedCardId === 18) { 
+    if (clickedCardId === 1 || clickedCardId === 9 || clickedCardId === 18) {
       if (userData[`user${farmData.turn}`].soil >= 1) {
         const res = {
           tree: 0,
@@ -774,38 +811,52 @@ function SubModal({
       } else {
         alert("자원이 부족합니다");
       }
-    } else if(clickedCardId === 23) sub23Handler();
-      else {
-        okaySend("SUB");
-        setIsVisible(false);
-        setIsMainVisible(false);
-        setIsSub(false);
-        setIsMain(false);
-      }
+    } else if (clickedCardId === 23) sub23Handler();
+    else {
+      okaySend("SUB");
+      setIsVisible(false);
+      setIsMainVisible(false);
+      setIsSub(false);
+      setIsMain(false);
+    }
   };
 
   function okaySend(cardType) {
-    sendingClient.current.send(
-      "/main-board/card/update",
-      {},
-      JSON.stringify({
-        messageType: "CARD",
-        roomId: farmData.roomId,
-        round: farmData.round,
-        action: farmData.action,
-        currentTurn: (farmData.currentTurn + 1) % 4,
-        farmer_count: farmData.farmer_count,
-        cardType: cardType,
-        cardIndex: clickedCardId,
-      })
-    );
+    if (clickedCardId !== null) {
+      sendingClient.current.send(
+        "/main-board/card/update",
+        {},
+        JSON.stringify({
+          messageType: "CARD",
+          roomId: farmData.roomId,
+          round: farmData.round,
+          action: farmData.action,
+          currentTurn: (farmData.currentTurn + 1) % 4,
+          farmer_count: farmData.farmer_count,
+          cardType: cardType,
+          cardIndex: clickedCardId,
+        })
+      );
+    } else {
+      alert("카드를 선택해 주세요");
+    }
   }
 
   return (
     <div className={styles.container}>
-      <button className={styles.close} onClick={closeModal}>
-        X
-      </button>
+      {/* 그냥 카드창 띄울때 */}
+      {!isSub && (
+        <button className={styles.close} onClick={closeModal}>
+          X
+        </button>
+      )}
+      {/* 회합장소나 설비를 갔지만 가져오지 않았을 때 턴만 넘겨주는  */}
+      {isSub && (
+        <button className={styles.close} onClick={closeModal2}>
+          X
+        </button>
+      )}
+
       {isSub && (
         <button className={styles.close2} onClick={sendSubCard}>
           보내기

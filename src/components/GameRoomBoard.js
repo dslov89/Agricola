@@ -58,7 +58,7 @@ const Gameroomboard = () => {
 
           console.log("첫 구독");
           console.log(message.body);
-          
+
           if (message.body === "FULL") {
             alert("정원 초과");
           } else {
@@ -136,9 +136,8 @@ const Gameroomboard = () => {
                     cardType: msg.cardType,
                     cardIndex: msg.cardIndex,
                   });
-
                 } else if (msg.messageType === "FARM") {
-                  if(msg.currentTurn === 1) {
+                  if (msg.currentTurn === 1) {
                     setUserData((prevUserData) => ({
                       ...prevUserData,
                       user4: {
@@ -153,9 +152,8 @@ const Gameroomboard = () => {
                         farmer_count: msg.farmer_count,
                         turn: initMsg.turn,
                       },
-                      
                     }));
-                  } else if(msg.currentTurn === 2) {
+                  } else if (msg.currentTurn === 2) {
                     setUserData((prevUserData) => ({
                       ...prevUserData,
                       user1: {
@@ -170,9 +168,8 @@ const Gameroomboard = () => {
                         farmer_count: msg.farmer_count,
                         turn: initMsg.turn,
                       },
-                      
                     }));
-                  } else if(msg.currentTurn === 3) {
+                  } else if (msg.currentTurn === 3) {
                     setUserData((prevUserData) => ({
                       ...prevUserData,
                       user2: {
@@ -187,7 +184,6 @@ const Gameroomboard = () => {
                         farmer_count: msg.farmer_count,
                         turn: initMsg.turn,
                       },
-                      
                     }));
                   } else {
                     setUserData((prevUserData) => ({
@@ -204,11 +200,9 @@ const Gameroomboard = () => {
                         farmer_count: msg.farmer_count,
                         turn: initMsg.turn,
                       },
-                      
                     }));
                   }
-                };
-
+                }
               }
             );
 
