@@ -1169,15 +1169,9 @@ function Farms({ data, setData }) {
 
   function househandler() {
     updateAction(6, 26); // 업데이트된 action 상태를 업데이트하는 함수 호출
-    if(userData[`user${farmData.turn}`].sub.includes(23)) {
-      const newdata = { ...userData };
-      newdata[`user${farmData.turn}`].tree += 2;
-      setUserData(newdata);
-    }
     setIsGameFinished(true);
     setIshousegame(false);
   }
-
   //농장확장 및 외양간용 피니시 버튼
   function handleFinishGame() {
     const updatedUserData = { ...userData }; // userData 객체 복사

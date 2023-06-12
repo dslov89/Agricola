@@ -32,18 +32,23 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
   const sendCard = () => {
     // 자원 체크
     if (checkResource()) {
-      sendCardMessage();
+      console.log("카드 메시지 보내기 전");
+      setTimeout(() => {
+        sendCardMessage();
+      }, 300);
+      console.log("카드 메시지 보내기 후");
     }
   };
+
   const checkResource = () => {
     let canSend = false;
     // 주요 설비 각 조건들
     switch (clickedIndex) {
       case 0:
-        if (userData[`user${farmData.turn}`].soil < 2) {
+        if (userData[`user${farmData.turn}`].soil < 3) {
           alert("check your resource");
         } else {
-          sendResourceMessage([["soil", 2]]);
+          sendResourceMessage([["soil", 3]]);
           canSend = true;
         }
         break;
@@ -92,11 +97,24 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
         ) {
           alert("check your resource");
         } else {
-          sendResourceMessage([
-            ["soil", 3],
-            ["charcoal", 1],
-          ]);
+          if(window.confirm("빵굽기를 하시겠습니까?"))
+          {
+            console.log("굽죠 뭐");
+            sendResourceMessage([
+              ["food", -5],
+              ["grain", 1],
+              ["soil", 3],
+              ["charcoal", 1],
+            ]);
+          } else {
+            console.log("안 구워요")
+            sendResourceMessage([
+              ["soil", 3],
+              ["charcoal", 1],
+            ]);
+          }
           canSend = true;
+
         }
         break;
       case 6:
@@ -106,11 +124,24 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
         ) {
           alert("check your resource");
         } else {
-          sendResourceMessage([
-            ["charcoal", 3],
-            ["soil", 1],
-          ]);
+          if(window.confirm("빵굽기를 하시겠습니까?"))
+          {
+            console.log("굽죠 뭐");
+            sendResourceMessage([
+              ["food", -4],
+              ["grain", 1],
+              ["charcoal", 3],
+              ["soil", 1],
+            ]);
+          } else {
+            console.log("안 구워요")
+            sendResourceMessage([
+              ["charcoal", 3],
+              ["soil", 1],
+            ]);
+          }
           canSend = true;
+      
         }
         break;
       case 7:
@@ -184,7 +215,7 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
     //배열로 들어온 자원들(카드 조건) 뺀거 update
 
     for (let i = 0; i < resources.length; i++) {
-      message[resources[i][0]] -= resources[i][1];
+      message[resources[i][0]] += -resources[i][1];
     }
     //send
     sendingClient.current.send(

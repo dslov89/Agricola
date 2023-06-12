@@ -79,25 +79,104 @@ function SubModal({
     setClickedIndex(index);
     setClickedCardId(cardId);
   }
+  function checkRoomCount() {
+    const roomArray = userData[`user${farmData.turn}`].farm_array;
+    const roomCounts = {
+      wood_room: 0,
+      rock_room: 0,
+      soil_room: 0,
+      empty: 0,
+      plow_grain1: 0,
+      plow_grain2: 0,
+      plow_grain3: 0, 
+      plow_vegetable1: 0,
+      plow_vegetable2: 0,
+    };
+    roomArray.forEach((item) => {
+      if (roomCounts.hasOwnProperty(item)) {
+        roomCounts[item]++;
+      }
+    });
+    return roomCounts;
+  }
+
+  function job23Handler() {
+    // 직업 23. 지붕 다지는 사람
+    if (userData[`user${farmData.turn}`].food > 1) {
+      const roomCounts = checkRoomCount();
+      const roomSum =
+        roomCounts.wood_room + roomCounts.rock_room + roomCounts.soil_room;
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: roomSum,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: -1,
+      };
+      alwaysActHandler(res);
+    } else {
+      alert("보유한 자원이 부족합니다.");
+    }
+  }  
+
+  function job25Handler() {
+    // 직업 25. 집사
+    const leftRoundCnt = 14 - farmData.round;
+    const res = {
+      tree: 0,
+      soil: 0,
+      reed: 0,
+      charcoal: 0,
+      sheep: 0,
+      pig: 0,
+      cow: 0,
+      grain: 0,
+      vegetable: 0,
+      food: 0,
+    };
+    if (leftRoundCnt === 1) res.tree += 1;
+    else if (leftRoundCnt === 3) res.tree += 2;
+    else if (leftRoundCnt === 6) res.tree += 3;
+    else if (leftRoundCnt === 9) res.tree += 4;
+
+    alwaysActHandler(res);
+  }
+
+  function job26Handler() {
+    // 직업 26. 큰 낫 일꾼
+    const res = {
+      tree: 0,
+      soil: 0,
+      reed: 0,
+      charcoal: 0,
+      sheep: 0,
+      pig: 0,
+      cow: 0,
+      grain: 1,
+      vegetable: 0,
+      food: 0,
+    };
+
+    alwaysActHandler(res);
+  }
+
   const sendJobCard = () => {
     console.log(farmData.jobCards);
-    setIsVisible(false);
-
-    sendingClient.current.send(
-      "/main-board/card/update",
-      {},
-      JSON.stringify({
-        messageType: "CARD",
-        roomId: farmData.roomId,
-        round: farmData.round,
-        action: farmData.action,
-        currentTurn: (farmData.currentTurn + 1) % 4,
-        farmer_count: farmData.farmer_count,
-        cardType: "JOB",
-        cardIndex: clickedCardId,
-      })
-    );
-    setIsJob(false);
+    if (clickedCardId === 23) job23Handler();
+    else if (clickedCardId === 25) job25Handler();
+    else if (clickedCardId === 26) job26Handler();
+    else {
+      okaySend("JOB");
+      setIsVisible(false);
+      setIsMainVisible(false);
+      setIsJob(false);
+      setIsMain(false);
+    }
   };
 
   function subCardHandler(index, cardId) {
@@ -106,6 +185,78 @@ function SubModal({
     setClickedIndex(index);
     setClickedCardId(cardId);
   }
+
+  
+  function sub23Handler() {
+    // 보조 23. 채굴 망치
+    const res = {
+      tree: 0,
+      soil: 0,
+      reed: 0,
+      charcoal: 0,
+      sheep: 0,
+      pig: 0,
+      cow: 0,
+      grain: 0,
+      vegetable: 0,
+      food: 1,
+    };
+    alwaysActHandler2(res);
+  }
+
+  const alwaysActHandler = async (res) => { // job전용
+    await updateAlways(farmData.turn); // 누른 놈 제외 갱신
+    setIsVisible(false);
+    setIsMainVisible(false);
+    setIsJob(false);
+    setIsMain(false);
+    sendingClient.current.send(
+      "/main-board/resource/update",
+      {},
+      JSON.stringify({
+        messageType: "RESOURCE",
+        roomId: farmData.roomId,
+        action: farmData.action,
+        round: farmData.round,
+        currentTurn: farmData.currentTurn,
+        farmer_count: farmData.farmer_count,
+        tree: res.tree,
+        soil: res.soil,
+        reed: res.reed,
+        charcoal: res.charcoal,
+        sheep: res.sheep,
+        pig: res.pig,
+        cow: res.cow,
+        grain: res.grain,
+        vegetable: res.vegetable,
+        food: res.food,
+      })
+    );
+    if (farmData.action[20][1] === farmData.turn) {
+      // 누른 사람은 갱신이 안되어있으므로 따로 갱신해줌
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        [`user${farmData.turn}`]: {
+          ...prevUserData[`user${farmData.turn}`],
+          tree: prevUserData[`user${farmData.turn}`].tree + res.tree,
+          soil: prevUserData[`user${farmData.turn}`].soil + res.soil,
+          reed: prevUserData[`user${farmData.turn}`].reed + res.reed,
+          charcoal:
+            prevUserData[`user${farmData.turn}`].charcoal + res.charcoal,
+          sheep: prevUserData[`user${farmData.turn}`].sheep + res.sheep,
+          pig: prevUserData[`user${farmData.turn}`].pig + res.pig,
+          cow: prevUserData[`user${farmData.turn}`].cow + res.cow,
+          grain: prevUserData[`user${farmData.turn}`].grain + res.grain,
+          vegetable:
+            prevUserData[`user${farmData.turn}`].vegetable + res.vegetable,
+          food: prevUserData[`user${farmData.turn}`].food + res.food,
+        },
+      }));
+    }
+
+    okaySend("JOB");
+    console.log("always");
+  };
 
   const alwaysActHandler2 = async (res) => {
     await updateAlways(farmData.turn); // 누른 놈 제외 갱신
@@ -157,13 +308,13 @@ function SubModal({
       }));
     }
 
-    okaySend();
+    okaySend("SUB");
     console.log("always");
   };
 
   const sendSubCard = () => {
     // 흙 1개
-    if (clickedCardId === 1 || clickedCardId === 9 || clickedCardId === 18) {
+    if (clickedCardId === 1 || clickedCardId === 9 || clickedCardId === 18) { 
       if (userData[`user${farmData.turn}`].soil >= 1) {
         const res = {
           tree: 0,
@@ -177,7 +328,7 @@ function SubModal({
           vegetable: 0,
           food: 0,
         };
-        // notTurnHandler(res);
+
         alwaysActHandler2(res);
         // okaySend();
       } else {
@@ -623,16 +774,17 @@ function SubModal({
       } else {
         alert("자원이 부족합니다");
       }
-    } else {
-      okaySend();
-      setIsVisible(false);
-      setIsMainVisible(false);
-      setIsSub(false);
-      setIsMain(false);
-    }
+    } else if(clickedCardId === 23) sub23Handler();
+      else {
+        okaySend("SUB");
+        setIsVisible(false);
+        setIsMainVisible(false);
+        setIsSub(false);
+        setIsMain(false);
+      }
   };
 
-  function okaySend() {
+  function okaySend(cardType) {
     sendingClient.current.send(
       "/main-board/card/update",
       {},
@@ -643,7 +795,7 @@ function SubModal({
         action: farmData.action,
         currentTurn: (farmData.currentTurn + 1) % 4,
         farmer_count: farmData.farmer_count,
-        cardType: "SUB",
+        cardType: cardType,
         cardIndex: clickedCardId,
       })
     );
