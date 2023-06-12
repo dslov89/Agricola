@@ -18,7 +18,6 @@ function UserContextProvider({ children }) {
       food: 15,
       farmer: 2,
       fence: 15,
-
       house: 15,
       main: [], // 내려놓은 카드들
 
@@ -62,7 +61,7 @@ function UserContextProvider({ children }) {
       cow: 15,
       grain: 10,
       vegetable: 0,
-      food: 15,
+      food: 3,
       farmer: 2,
       fence: 15,
       house: 15,

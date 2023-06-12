@@ -31,7 +31,7 @@ function ActionBoard({ data, setData }) {
   const [subModalVisible, setSubModalVisible] = useState(false);
   // const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
   const [begging, setBegging] = useState();
-  const [scoreBoardVisible, setScoreBoardVisible] = useState(false);
+  const [scoreBoardVisible, setScoreBoardVisible] = useState(true);
   const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
   const [subSulbi, setSubSulbi] = useState([
     { id: 1, isHas: 1 },
@@ -1440,122 +1440,6 @@ function harvest_family() {
         if (farmData.turn === 1) {
           alert("구걸하세요! 식량 부족");
           setBegging(1);
-        } else if (farmData.turn === 2) {
-          alert("구걸하세요! 식량 부족");
-          setBegging(2);
-        } else if (farmData.turn === 3) {
-          alert("구걸하세요! 식량 부족");
-          setBegging(3);
-        } else {
-          alert("구걸하세요! 식량 부족");
-          setBegging(4);
-        }
-      }
-    }
-  } else {
-    alert("이미 가족 부양을 완료 하였습니다.");
-  }
-}
-
-  function harvest_grain() {
-    let grain3_count = userData[`user${farmData.turn}`].farm_array.filter((item) => item === "plow_grain3").length;
-    let grain2_count = userData[`user${farmData.turn}`].farm_array.filter((item) => item === "plow_grain2").length;
-    let grain1_count = userData[`user${farmData.turn}`].farm_array.filter((item) => item === "plow_grain1").length;
-    if (userData[`user${farmData.turn}`].farmer === 1) {
-      if (userData[`user${farmData.turn}`].sub.includes(15)) {
-        sub15Handler();
-      }
-      if (userData[`user${farmData.turn}`].sub.includes(6)) {
-        sub11Handler();
-      }
-        if (grain3_count > 0 || grain2_count > 0 || grain1_count > 0) {
-          if (grain3_count > 0) {
-            if (userData[`user${farmData.turn}`].job.includes(26)) {
-              const roomIndices = []; // plow에 해당하는 인덱스를 저장할 배열
-              userData[`user${farmData.turn}`].farm_array.forEach(
-                (item, idx) => {
-                  if (item === "plow_grain3") {
-                    roomIndices.push(idx);
-                  }
-                }
-              );
-              roomIndices.forEach((idx) => {
-                const updatedUserData = { ...userData }; // userData 객체 복사
-                updatedUserData[`user${farmData.turn}`].farm_array[idx] =
-                  "plow_grain1"; // farm_array 업데이트
-
-                setUserData(updatedUserData);
-                const roomClass = `.Btn.room${Math.floor(idx / 5) + 1}_${
-                  (idx % 5) + 1
-                }`;
-
-                const res = {
-                  tree: 0,
-                  soil: 0,
-                  reed: 0,
-                  charcoal: 0,
-                  sheep: 0,
-                  pig: 0,
-                  cow: 0,
-                  grain: grain3_count * 2,
-                  vegetable: 0,
-                  food: 0,
-                };
-
-                const roomElement = document.querySelector(roomClass);
-
-                roomElement.style.marginTop = "-30px";
-                roomElement.style.marginLeft = "-10px";
-                roomElement.style.width = "100pxpx";
-                roomElement.style.height = "120px";
-                roomElement.style.backgroundImage = `url(${plow_grain1})`;
-                defaultActHandler(res, 22);
-              });
-            } else {
-              const roomIndices = []; // plow에 해당하는 인덱스를 저장할 배열
-
-              userData[`user${farmData.turn}`].farm_array.forEach(
-                (item, idx) => {
-                  if (item === "plow_grain3") {
-                    roomIndices.push(idx);
-                  }
-                }
-              );
-              roomIndices.forEach((idx) => {
-                const updatedUserData = { ...userData }; // userData 객체 복사
-                updatedUserData[`user${farmData.turn}`].farm_array[idx] =
-                  "plow_grain2"; // farm_array 업데이트
-
-                setUserData(updatedUserData);
-                const roomClass = `.Btn.room${Math.floor(idx / 5) + 1}_${
-                  (idx % 5) + 1
-                }`;
-
-                const res = {
-                  tree: 0,
-                  soil: 0,
-                  reed: 0,
-                  charcoal: 0,
-                  sheep: 0,
-                  pig: 0,
-                  cow: 0,
-                  grain: grain3_count,
-                  vegetable: 0,
-                  food: 0,
-                };
-
-                const roomElement = document.querySelector(roomClass);
-
-                roomElement.style.marginTop = "-30px";
-                roomElement.style.marginLeft = "-10px";
-                roomElement.style.width = "100pxpx";
-                roomElement.style.height = "120px";
-                roomElement.style.backgroundImage = `url(${plow_grain2})`;
-                defaultActHandler(res, 22);
-              });
-            }
-          }
-          else {
           const res = {
             tree: 0,
             soil: 0,
@@ -1568,26 +1452,165 @@ function harvest_family() {
             vegetable: 0,
             food: 0,
           };
-          alert("작물 거두기를 할 수 없습니다.");
-          defaultActHandler(res, 22);
+          defaultActHandler(res, 21);
+        } else if (farmData.turn === 2) {
+          alert("구걸하세요! 식량 부족");
+          setBegging(2);
+          const res = {
+            tree: 0,
+            soil: 0,
+            reed: 0,
+            charcoal: 0,
+            sheep: 0,
+            pig: 0,
+            cow: 0,
+            grain: 0,
+            vegetable: 0,
+            food: 0,
+          };
+          defaultActHandler(res, 21);
+        } else if (farmData.turn === 3) {
+          alert("구걸하세요! 식량 부족");
+          setBegging(3);
+          const res = {
+            tree: 0,
+            soil: 0,
+            reed: 0,
+            charcoal: 0,
+            sheep: 0,
+            pig: 0,
+            cow: 0,
+            grain: 0,
+            vegetable: 0,
+            food: 0,
+          };
+          defaultActHandler(res, 21);
+        } else {
+          alert("구걸하세요! 식량 부족");
+          setBegging(4);
+          const res = {
+            tree: 0,
+            soil: 0,
+            reed: 0,
+            charcoal: 0,
+            sheep: 0,
+            pig: 0,
+            cow: 0,
+            grain: 0,
+            vegetable: 0,
+            food: 0,
+          };
+          defaultActHandler(res, 21);
         }
       }
-      if (userData[`user${farmData.turn}`].sheep >= 3) {
-        const res = {
-          tree: 0,
-          soil: 0,
-          reed: 0,
-          charcoal: 0,
-          sheep: 0,
-          pig: 0,
-          cow: 0,
-          grain: 0,
-          vegetable: 0,
-          food: 1,
-        };
-        defaultActHandler(res, 22);
+    }
+  } else {
+    alert("이미 가족 부양을 완료 하였습니다.");
+  }
+}
+
+  function harvest_grain() {
+    let grain3_count = userData[`user${farmData.turn}`].farm_array.filter((item) => item === "plow_grain3").length;
+    let grain2_count = userData[`user${farmData.turn}`].farm_array.filter((item) => item === "plow_grain2").length;
+    let grain1_count = userData[`user${farmData.turn}`].farm_array.filter((item) => item === "plow_grain1").length;
+    
+    if (userData[`user${farmData.turn}`].farmer === 1) {
+      if (userData[`user${farmData.turn}`].sub.includes(15)) {
+        sub15Handler();
       }
-      if (userData[`user${farmData.turn}`].horse >= 2) {
+      else {
+        alert("삼포식 농법 카드 없습니다.");
+      }
+      if (userData[`user${farmData.turn}`].sub.includes(6)) {
+        sub11Handler();
+      }
+      else {
+        alert("베틀 카드 없습니다.");
+      }
+      if (grain3_count > 0 || grain2_count > 0 || grain1_count > 0) {
+        if (grain3_count > 0) {
+          if (userData[`user${farmData.turn}`].job.includes(26)) {
+            const roomIndices = []; // plow에 해당하는 인덱스를 저장할 배열
+            userData[`user${farmData.turn}`].farm_array.forEach((item, idx) => {
+              if (item === "plow_grain3") {
+                roomIndices.push(idx);
+              }
+            });
+            roomIndices.forEach((idx) => {
+              const updatedUserData = { ...userData }; // userData 객체 복사
+              updatedUserData[`user${farmData.turn}`].farm_array[idx] =
+                "plow_grain1"; // farm_array 업데이트
+
+              setUserData(updatedUserData);
+              const roomClass = `.Btn.room${Math.floor(idx / 5) + 1}_${
+                (idx % 5) + 1
+              }`;
+
+              const res = {
+                tree: 0,
+                soil: 0,
+                reed: 0,
+                charcoal: 0,
+                sheep: 0,
+                pig: 0,
+                cow: 0,
+                grain: grain3_count * 2,
+                vegetable: 0,
+                food: 0,
+              };
+
+              const roomElement = document.querySelector(roomClass);
+
+              roomElement.style.marginTop = "-30px";
+              roomElement.style.marginLeft = "-10px";
+              roomElement.style.width = "100pxpx";
+              roomElement.style.height = "120px";
+              roomElement.style.backgroundImage = `url(${plow_grain1})`;
+              defaultActHandler(res, 22);
+            });
+          } else {
+            const roomIndices = []; // plow에 해당하는 인덱스를 저장할 배열
+
+            userData[`user${farmData.turn}`].farm_array.forEach((item, idx) => {
+              if (item === "plow_grain3") {
+                roomIndices.push(idx);
+              }
+            });
+            roomIndices.forEach((idx) => {
+              const updatedUserData = { ...userData }; // userData 객체 복사
+              updatedUserData[`user${farmData.turn}`].farm_array[idx] =
+                "plow_grain2"; // farm_array 업데이트
+
+              setUserData(updatedUserData);
+              const roomClass = `.Btn.room${Math.floor(idx / 5) + 1}_${
+                (idx % 5) + 1
+              }`;
+
+              const res = {
+                tree: 0,
+                soil: 0,
+                reed: 0,
+                charcoal: 0,
+                sheep: 0,
+                pig: 0,
+                cow: 0,
+                grain: grain3_count,
+                vegetable: 0,
+                food: 0,
+              };
+
+              const roomElement = document.querySelector(roomClass);
+
+              roomElement.style.marginTop = "-30px";
+              roomElement.style.marginLeft = "-10px";
+              roomElement.style.width = "100pxpx";
+              roomElement.style.height = "120px";
+              roomElement.style.backgroundImage = `url(${plow_grain2})`;
+              defaultActHandler(res, 22);
+            });
+          }
+        }
+      } else {
         const res = {
           tree: 0,
           soil: 0,
@@ -1598,8 +1621,9 @@ function harvest_family() {
           cow: 0,
           grain: 0,
           vegetable: 0,
-          food: 1,
+          food: 0,
         };
+        alert("작물 거두기를 할 수 없습니다.");
         defaultActHandler(res, 22);
       }
     }

@@ -1,5 +1,6 @@
 <div align="center">
   
+
 <img src="https://github.com/dslov89/Agricola/assets/71018440/ad428ee1-36a8-47a8-9d1a-46aaff1bf165"  width=150 >
   
  #### 소프트웨어공학 아고라팀의 아그리콜라 보드게임 :computer: 프론트엔드
@@ -16,6 +17,7 @@
 저희 팀은 프론트엔드 5명 백엔드 1명으로 구성되어 있습니다.   
 
 백엔드는 [이곳](https://github.com/weightsforfun/agricola-server)을 클릭해 주세요 
+
 
 <br/>
 
