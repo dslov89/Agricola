@@ -21,9 +21,14 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
   const sendCard = () => {
     // 자원 체크
     if (checkResource()) {
-      setTimeout(sendCardMessage, 100);
+      console.log("카드 메시지 보내기 전");
+      setTimeout(() => {
+        sendCardMessage();
+      }, 300);
+      console.log("카드 메시지 보내기 후");
     }
   };
+
   const checkResource = () => {
     let canSend = false;
     // 주요 설비 각 조건들
@@ -81,11 +86,24 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
         ) {
           alert("check your resource");
         } else {
-          sendResourceMessage([
-            ["soil", 3],
-            ["charcoal", 1],
-          ]);
+          if(window.confirm("빵굽기를 하시겠습니까?"))
+          {
+            console.log("굽죠 뭐");
+            sendResourceMessage([
+              ["food", -5],
+              ["grain", 1],
+              ["soil", 3],
+              ["charcoal", 1],
+            ]);
+          } else {
+            console.log("안 구워요")
+            sendResourceMessage([
+              ["soil", 3],
+              ["charcoal", 1],
+            ]);
+          }
           canSend = true;
+
         }
         break;
       case 6:
@@ -95,11 +113,24 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
         ) {
           alert("check your resource");
         } else {
-          sendResourceMessage([
-            ["charcoal", 3],
-            ["soil", 1],
-          ]);
+          if(window.confirm("빵굽기를 하시겠습니까?"))
+          {
+            console.log("굽죠 뭐");
+            sendResourceMessage([
+              ["food", -4],
+              ["grain", 1],
+              ["charcoal", 3],
+              ["soil", 1],
+            ]);
+          } else {
+            console.log("안 구워요")
+            sendResourceMessage([
+              ["charcoal", 3],
+              ["soil", 1],
+            ]);
+          }
           canSend = true;
+      
         }
         break;
       case 7:
@@ -173,9 +204,7 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
     //배열로 들어온 자원들(카드 조건) 뺀거 update
 
     for (let i = 0; i < resources.length; i++) {
-      let fixed_resource = checkJobCard(resources[i][0], resources[i][1]);
-      resources[i][1] = fixed_resource;
-      message[resources[i][0]] -= resources[i][1];
+      message[resources[i][0]] += -resources[i][1];
     }
     //카드 조건 확인
 
@@ -268,18 +297,18 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
       const main3 = userData.user3.main;
       const main4 = userData.user4.main;
 
-       const updatedMainCards = notUpdatedMainCards.map((value, index) => {
-         if (
-           main1.includes(index) ||
-           main2.includes(index) ||
-           main3.includes(index) ||
-           main4.includes(index)
-         ) {
-           return 0;
-         } else {
-           return value;
-         }
-       });
+      const updatedMainCards = notUpdatedMainCards.map((value, index) => {
+        if (
+          main1.includes(index) ||
+          main2.includes(index) ||
+          main3.includes(index) ||
+          main4.includes(index)
+        ) {
+          return 0;
+        } else {
+          return value;
+        }
+      });
 
       return {
         ...prevFarmData,
