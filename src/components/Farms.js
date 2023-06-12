@@ -457,6 +457,8 @@ function Farms({ data, setData }) {
             (index % 5) + 1
           }`;
           const roomElement = document.querySelector(roomClass);
+          roomElement.style.width = "40px";
+          roomElement.style.height = "35px";
           roomElement.style.backgroundImage = `url(${house})`;
 
           if (userData[`user${farmData.turn}`].farm_array[index] === "fence") {
@@ -486,12 +488,14 @@ function Farms({ data, setData }) {
     }
     //양시장
     if(farmData.action[19][0] === (farmData.turn) && farmData.action[19][1] === 19) {
-        
         const roomClass = `.Btn.room${Math.floor(index / 5) + 1}_${
           (index % 5) + 1
         }`;
         if(userData[`user${farmData.turn}`].farm_array[index] === "wood_room") {
           const roomElement = document.querySelector(roomClass);
+          roomElement.style.width = "35px";
+          roomElement.style.height = "25px";
+
           roomElement.style.backgroundImage = `url(${sheep})`;
           
           const newdate = {...userData};
@@ -499,6 +503,9 @@ function Farms({ data, setData }) {
           setUserData(newdate);
         } else if(userData[`user${farmData.turn}`].farm_array[index] === "soil_room") {
           const roomElement = document.querySelector(roomClass);
+          roomElement.style.width = "35px";
+          roomElement.style.height = "25px";
+
           roomElement.style.backgroundImage = `url(${sheep})`;
           
           const newdate = {...userData};
@@ -506,6 +513,9 @@ function Farms({ data, setData }) {
           setUserData(newdate);
         } else if(userData[`user${farmData.turn}`].farm_array[index] === "rock_room") {
           const roomElement = document.querySelector(roomClass);
+          roomElement.style.width = "35px";
+          roomElement.style.height = "25px";
+
           roomElement.style.backgroundImage = `url(${sheep})`;
           
           const newdate = {...userData};
@@ -513,6 +523,9 @@ function Farms({ data, setData }) {
           setUserData(newdate);
         } else if(userData[`user${farmData.turn}`].farm_array[index] === "fence") {
           const roomElement = document.querySelector(roomClass);
+          roomElement.style.width = "35px";
+          roomElement.style.height = "25px";
+
           roomElement.style.backgroundImage = `url(${sheep})`;
           
           const newdate = {...userData};
@@ -520,27 +533,36 @@ function Farms({ data, setData }) {
           setUserData(newdate);
         } else if(userData[`user${farmData.turn}`].farm_array[index] === "house") {
           const roomElement = document.querySelector(roomClass);
+          roomElement.style.width = "35px";
+          roomElement.style.height = "25px";
+
           roomElement.style.backgroundImage = `url(${sheep})`;
           
           const newdate = {...userData};
           newdate[`user${farmData.turn}`].farm_array[index] = "sheep_house";
           setUserData(newdate);
-        };
-        const res = {
-          userid: farmData.turn,
-          tree: 0,
-          soil: 0,
-          reed: 0,
-          charcoal: 0,
-          sheep: 1,
-          pig: 0,
-          cow: 0,
-          grain: 0,
-          vegetable: 0,
-          food: 0,
-          fence: 0,
-        };
-        farmdefaulthandelr(res, 19);
+        } else if(userData[`user${farmData.turn}`].farm_array[index] === "empty") {
+          alert("양을 못 키워요ㅠㅡㅠ");
+        }
+        if(userData[`user${farmData.turn}`].farm_array[index] !== "empty") {
+          const res = {
+            userid: farmData.turn,
+            tree: 0,
+            soil: 0,
+            reed: 0,
+            charcoal: 0,
+            sheep: 1,
+            pig: 0,
+            cow: 0,
+            grain: 0,
+            vegetable: 0,
+            food: 0,
+            fence: 0,
+            farm_array: userData[`user${farmData.turn}`].farm_array,
+            farm_fence_array: userData[`user${farmData.turn}`].farm_fence_array,
+          };
+          farmdefaulthandelr(res, 19);
+        }
     }
 
     // 울타리 짓기 로직

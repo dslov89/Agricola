@@ -1396,10 +1396,6 @@ function ActionBoard({ data, setData }) {
   function sheepHandler() {
     // 내턴인지 확인
     if (farmData.action[19][0] === 0) {
-      const userda = { ...userData };
-      userda[`user${farmData.turn}`].sheep += 1;
-      setUserData(userda);
-
       updateAction(19, 19);
     } else {
       alert("갈 수 없습니다");

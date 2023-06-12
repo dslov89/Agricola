@@ -25,7 +25,7 @@ function UserContextProvider({ children }) {
       job: [],
       sub: [],
       farm_array: [
-        "plow",
+        "empty",
         "empty",
         "empty",
         "empty",
