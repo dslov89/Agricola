@@ -32,7 +32,7 @@ $ cd agricola-server/
 $ git clone https://github.com/dslov89/Agricola.git
 $ cd agricola
 
-$ npm intall 
+$ npm install 
 $ npm start
 ```
 
