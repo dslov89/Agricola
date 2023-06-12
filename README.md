@@ -5,33 +5,38 @@
  #### 소프트웨어공학 아고라팀의 아그리콜라 보드게임 :computer: 프론트엔드
 </div>
 
+<br/>
+
 ## :memo: 프로젝트 소개
 
 안녕하세요:smiley: 
 
 소프트웨어공학 아고라팀의 아그리콜라 보드게임 :computer: 웹 페이지 입니다
 
->  팀 소개
+저희 팀은 프론트엔드 5명 백엔드 1명으로 구성되어 있습니다.   
 
-저희 팀은 프론트엔드 5명 백엔드 1명으로 구성되어 있습니다.
+백엔드는 [이곳](https://github.com/weightsforfun/agricola-server)을 클릭해 주세요 
+
+<br/>
 
 ## :orange_book: 시작 가이드
 
 ### Installation & Backend
-# 백 연결해주기 
 ```
-$ git clone https://github.com/dslov89/Agricola.git
-$ cd Agricola
+$ git clone https://github.com/weightsforfun/agricola-server.git
+$ cd agricola-server/
 ```
 
 ### Installation & Frontend
 ```
 $ git clone https://github.com/dslov89/Agricola.git
-$ cd Agricola
+$ cd agricola
 
 $ npm intall 
 $ npm start
 ```
+
+<br/>
 
 ##  :hammer: 기술 스택
 
@@ -66,7 +71,7 @@ $ npm start
     <img src="https://img.shields.io/badge/jirasoftware-0052CC?style=for-the-badge&logo=jirasoftware&logoColor=white"> 
   </div>
   
-  편집할 것
+<br>
 
 ## :art: 화면 구성
 <div align="center">
@@ -88,11 +93,9 @@ $ npm start
       <td><img src= "https://github.com/dslov89/Agricola/assets/71018440/84d24642-4e77-4fec-bb5a-ae39c2d8101f"alt="gif-function3" width="370"></td>
     </tr>
   </table>
-  
-  ## 이미지 변경하기 gif도 
 </div>
-<br>
 
+<br/>
 
 ## :books: 주요 기능
 
@@ -100,26 +103,31 @@ $ npm start
 SockJS와 Stomp를 활용한 4인 온라인 아그리콜라 게임
 
 ###  게임룸
-방 생성 시, 타 유저가 로그인하면 자동으로 방 목록 업데이트
-한 게임룸의 입장 가능 인원수는 4
-4명이 모두 한 게임룸에 입장해야 게임 시작
+방 생성 시, 타 유저가 로그인하면 자동으로 방 목록 업데이트   
+한 게임룸의 입장 가능 인원수는 4   
+4명이 모두 한 게임룸에 입장해야 게임 시작   
 
 ### 인 게임
-게임 시작 시, 랜덤으로 보조 설비 카드 7장 및 직업 카드 7장 획득
-모든 행동하기 칸 구현
-라운드 카드는 4라운드까지 구현
-턴 넘어갈 때마다 농장 업데이트 내용 반영
-울타리 설치 시, 농장 내 빈 공간 클릭하면 자동으로 울타리 설치 가능  
+게임 시작 시, 랜덤으로 보조 설비 카드 7장 및 직업 카드 7장 획득   
+모든 행동하기 칸 구현   
+라운드 카드는 4라운드까지 구현   
+턴 넘어갈 때마다 농장 업데이트 내용 반영   
+울타리 설치 시, 농장 내 빈 공간 클릭하면 자동으로 울타리 설치 가능     
 수확 시, 행동하기 칸 및 라운드 칸 이용 불가
 
 ###  게임 종료
 모든 유저에게 점수판 팝업
 
+<br/>
+
 ## :scroll: 디자인 설계
   ### 아키텍쳐 디자인
   <img src="https://github.com/dslov89/Agricola/assets/71018440/84d24642-4e77-4fec-bb5a-ae39c2d8101f">
   
-   데이터저장소가 중앙에 있어 다른 컨포넌트들이 데이터 수정하고 접근하기 쉬운 Data Centered Architectures를 따르고 있다
+   데이터저장소가 중앙에 있어 다른 컨포넌트들이 데이터 수정하고 접근하기 쉬운 **Data Centered Architectures**를 따르고 있다
+   
+  <br/>
+  
   
   ### 디렉터리 구조 
   
