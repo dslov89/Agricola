@@ -1280,7 +1280,10 @@ function ActionBoard({ data, setData }) {
         vegetable: 0,
         food: 0,
       };
-
+      if (userData[`user${farmData.turn}`].job.includes(19))
+        // 직업 19. 지질학자
+        res.soil += 1;
+        
       accumulatedActHandler(res, 14, 1);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
@@ -1396,6 +1399,9 @@ function ActionBoard({ data, setData }) {
   function sheepHandler() {
     // 내턴인지 확인
     if (farmData.action[19][0] === 0) {
+      const userda = { ...userData };
+      userda[`user${farmData.turn}`].sheep += 1;
+      setUserData(userda);
       updateAction(19, 19);
     } else {
       alert("갈 수 없습니다");

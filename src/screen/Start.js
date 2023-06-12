@@ -38,12 +38,6 @@ function Start() {
       </header>
       <ul>
         <li>
-          <input
-            type="text"
-            placeholder="아이디 입력하세요."
-            value={name}
-            onChange={handleChange}
-          />
           <button onClick={connectHandler}>입장</button>
         </li>
       </ul>
