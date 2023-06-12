@@ -1014,70 +1014,69 @@ function Farms({ data, setData }) {
       const fenceButtonElement2 = document.querySelector("#fenceButton2");
       const fenceButtonElement3 = document.querySelector("#fenceButton3");
       const fenceButtonElement4 = document.querySelector("#fenceButton4");
-      if (
-        fenceButtonElement1 ||
+      if (fenceButtonElement1 ||
         fenceButtonElement2 ||
         fenceButtonElement3 ||
-        fenceButtonElement4
-      ) {
+        fenceButtonElement4 ) {
+          
         fenceButtonElement1.addEventListener("click", function () {
-          setData((prevData) => {
-            if (prevData.tree - 1 >= 0) {
-              fenceButtonElement1.style.backgroundColor = "red";
-              fenceButtonElement1.style.cursor = "pointer";
-              const updatedTree = prevData.tree - 1;
-              const newData = { ...prevData, tree: updatedTree }; // newData로 업데이트된 상태 생성
-              return newData; // newData 반환
-            } else {
-              alert("지을 수 없습니다.");
-              return prevData;
-            }
-          });
+          const updatedUserData = { ...userData }; // userData 객체 복사
+          
+          if (updatedUserData[`user${farmData.turn}`].tree - 1 >= 0) {
+            fenceButtonElement1.style.backgroundColor = "red";
+            fenceButtonElement1.style.cursor = "pointer";
+            updatedUserData[`user${farmData.turn}`].tree -= 1;
+            return updatedUserData; // newData 반환
+          } else {
+            alert(updatedUserData.tree);
+            alert("지을 수 없습니다.");
+            return updatedUserData;
+          }
         });
 
         fenceButtonElement2.addEventListener("click", function () {
-          setData((prevData) => {
-            if (prevData.tree - 1 >= 0) {
-              fenceButtonElement2.style.backgroundColor = "red";
-              fenceButtonElement2.style.cursor = "pointer";
-              const updatedTree = prevData.tree - 1;
-              const newData = { ...prevData, tree: updatedTree }; // newData로 업데이트된 상태 생성
-              return newData; // newData 반환
-            } else {
-              alert("지을 수 없습니다.");
-              return prevData;
-            }
-          });
+          const updatedUserData = { ...userData }; // userData 객체 복사
+          
+          if (updatedUserData[`user${farmData.turn}`].tree - 1 >= 0) {
+            fenceButtonElement2.style.backgroundColor = "red";
+            fenceButtonElement2.style.cursor = "pointer";
+            updatedUserData[`user${farmData.turn}`].tree -= 1;
+            return updatedUserData; // newData 반환
+          } else {
+            alert(updatedUserData.tree);
+            alert("지을 수 없습니다.");
+            return updatedUserData;
+          }
         });
 
         fenceButtonElement3.addEventListener("click", function () {
-          setData((prevData) => {
-            if (prevData.tree - 1 >= 0) {
-              fenceButtonElement3.style.backgroundColor = "red";
-              fenceButtonElement3.style.cursor = "pointer";
-              const updatedTree = prevData.tree - 1;
-              const newData = { ...prevData, tree: updatedTree }; // newData로 업데이트된 상태 생성
-              return newData; // newData 반환
-            } else {
-              alert("지을 수 없습니다.");
-              return prevData;
-            }
-          });
+          const updatedUserData = { ...userData }; // userData 객체 복사
+          
+          if (updatedUserData[`user${farmData.turn}`].tree - 1 >= 0) {
+            fenceButtonElement3.style.backgroundColor = "red";
+            fenceButtonElement3.style.cursor = "pointer";
+            updatedUserData[`user${farmData.turn}`].tree -= 1;
+            return updatedUserData; // newData 반환
+          } else {
+            alert(updatedUserData.tree);
+            alert("지을 수 없습니다.");
+            return updatedUserData;
+          }
         });
 
         fenceButtonElement4.addEventListener("click", function () {
-          setData((prevData) => {
-            if (prevData.tree - 1 >= 0) {
-              fenceButtonElement4.style.backgroundColor = "red";
-              fenceButtonElement4.style.cursor = "pointer";
-              const updatedTree = prevData.tree - 1;
-              const newData = { ...prevData, tree: updatedTree }; // newData로 업데이트된 상태 생성
-              return newData; // newData 반환
-            } else {
-              alert("지을 수 없습니다.");
-              return prevData;
-            }
-          });
+          const updatedUserData = { ...userData }; // userData 객체 복사
+          
+          if (updatedUserData[`user${farmData.turn}`].tree - 1 >= 0) {
+            fenceButtonElement4.style.backgroundColor = "red";
+            fenceButtonElement4.style.cursor = "pointer";
+            updatedUserData[`user${farmData.turn}`].tree -= 1;
+            return updatedUserData; // newData 반환
+          } else {
+            alert(updatedUserData.tree);
+            alert("지을 수 없습니다.");
+            return updatedUserData;
+          }
         });
       }
     }
