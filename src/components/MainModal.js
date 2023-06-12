@@ -207,8 +207,9 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
 
     for (let i = 0; i < resources.length; i++) {
 
-      message[resources[i][0]] += -resources[i][1];
-
+      let fixed_resource = checkJobCard(resources[i][0], resources[i][1]);
+      resources[i][1] = fixed_resource;
+      message[resources[i][0]] -= resources[i][1];
     }
     //카드 조건 확인
 
