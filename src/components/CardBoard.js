@@ -3,70 +3,66 @@ import styles from "./CardBoard.module.css";
 import { DataContext } from "../store/data-context";
 import { UserContext } from "../store/user-context";
 import { sendingClient } from "./GameRoomBoard";
-import { FLOAT } from "mysql/lib/protocol/constants/types";
 
 function CardBoard({ userId }) {
   const { farmData, setFarmData } = useContext(DataContext);
   const { userData, setUserData } = useContext(UserContext);
-  const {
-    updateFarmerCount,
-    updateFarmData,
-    updateAction,
-    updateAlways,
-  } = useContext(DataContext);
+  const { updateFarmerCount, updateFarmData, updateAction, updateAlways } =
+    useContext(DataContext);
   const mainCardList = userData[`user${userId}`].main;
   const jobCardList = userData[`user${userId}`].job;
   const subCardList = userData[`user${userId}`].sub;
-const alwaysActHandler = async (res) => {
-  // 턴 안넘기고 자원갱신만 하는 함수
-  await updateAlways(farmData.turn); // 누른 놈 제외 갱신
-  const farmer_cnt = farmData.farmer_count;
-  farmer_cnt[(farmData.currentTurn + 3) % 4] -= 1;
-  sendingClient.current.send(
-    "/main-board/resource/update",
-    {},
-    JSON.stringify({
-      messageType: "RESOURCE",
-      roomId: farmData.roomId,
-      action: farmData.action,
-      round: farmData.round,
-      currentTurn: farmData.currentTurn % 4,
-      farmer_count: farmer_cnt,
-      tree: res.tree,
-      soil: res.soil,
-      reed: res.reed,
-      charcoal: res.charcoal,
-      sheep: res.sheep,
-      pig: res.pig,
-      cow: res.cow,
-      grain: res.grain,
-      vegetable: res.vegetable,
-      food: res.food,
-    })
-  );
-  if (farmData.action[20][1] === farmData.turn) {
-    // 누른 사람은 갱신이 안되어있으므로 따로 갱신해줌
-    setUserData((prevUserData) => ({
-      ...prevUserData,
-      [`user${farmData.turn}`]: {
-        ...prevUserData[`user${farmData.turn}`],
-        tree: prevUserData[`user${farmData.turn}`].tree + res.tree,
-        soil: prevUserData[`user${farmData.turn}`].soil + res.soil,
-        reed: prevUserData[`user${farmData.turn}`].reed + res.reed,
-        charcoal: prevUserData[`user${farmData.turn}`].charcoal + res.charcoal,
-        sheep: prevUserData[`user${farmData.turn}`].sheep + res.sheep,
-        pig: prevUserData[`user${farmData.turn}`].pig + res.pig,
-        cow: prevUserData[`user${farmData.turn}`].cow + res.cow,
-        grain: prevUserData[`user${farmData.turn}`].grain + res.grain,
-        vegetable:
-          prevUserData[`user${farmData.turn}`].vegetable + res.vegetable,
-        food: prevUserData[`user${farmData.turn}`].food + res.food,
-      },
-    }));
-  }
+  const alwaysActHandler = async (res) => {
+    // 턴 안넘기고 자원갱신만 하는 함수
+    await updateAlways(farmData.turn); // 누른 놈 제외 갱신
+    const farmer_cnt = farmData.farmer_count;
+    farmer_cnt[(farmData.currentTurn + 3) % 4] -= 1;
+    sendingClient.current.send(
+      "/main-board/resource/update",
+      {},
+      JSON.stringify({
+        messageType: "RESOURCE",
+        roomId: farmData.roomId,
+        action: farmData.action,
+        round: farmData.round,
+        currentTurn: farmData.currentTurn % 4,
+        farmer_count: farmer_cnt,
+        tree: res.tree,
+        soil: res.soil,
+        reed: res.reed,
+        charcoal: res.charcoal,
+        sheep: res.sheep,
+        pig: res.pig,
+        cow: res.cow,
+        grain: res.grain,
+        vegetable: res.vegetable,
+        food: res.food,
+      })
+    );
+    if (farmData.action[20][1] === farmData.turn) {
+      // 누른 사람은 갱신이 안되어있으므로 따로 갱신해줌
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        [`user${farmData.turn}`]: {
+          ...prevUserData[`user${farmData.turn}`],
+          tree: prevUserData[`user${farmData.turn}`].tree + res.tree,
+          soil: prevUserData[`user${farmData.turn}`].soil + res.soil,
+          reed: prevUserData[`user${farmData.turn}`].reed + res.reed,
+          charcoal:
+            prevUserData[`user${farmData.turn}`].charcoal + res.charcoal,
+          sheep: prevUserData[`user${farmData.turn}`].sheep + res.sheep,
+          pig: prevUserData[`user${farmData.turn}`].pig + res.pig,
+          cow: prevUserData[`user${farmData.turn}`].cow + res.cow,
+          grain: prevUserData[`user${farmData.turn}`].grain + res.grain,
+          vegetable:
+            prevUserData[`user${farmData.turn}`].vegetable + res.vegetable,
+          food: prevUserData[`user${farmData.turn}`].food + res.food,
+        },
+      }));
+    }
 
-  console.log("always");
-};
+    console.log("always");
+  };
   const harvestActHandler = async (res) => {
     await updateAlways(farmData.turn); // 누른 놈 제외 갱신
     const farmer_cnt = farmData.farmer_count;
@@ -540,12 +536,7 @@ const alwaysActHandler = async (res) => {
     </div>
   );
 
-  const OneButton = ({
-    src,
-    onClick1,
-    btn1,
-    title1,
-  }) => (
+  const OneButton = ({ src, onClick1, btn1, title1 }) => (
     <div style={{ position: "relative", display: "inline-block" }}>
       <img src={src} className={styles.main} style={{ maxWidth: "100%" }} />
       <button style={btn1} onClick={onClick1}>
@@ -553,12 +544,12 @@ const alwaysActHandler = async (res) => {
       </button>
     </div>
   );
-  
+
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <div>
         {mainCardList.map((imageName, index) => {
-          const src = require("../asset/main/main" + `${imageName+1}.png`); // Image file path and filename
+          const src = require("../asset/main/main" + `${imageName + 1}.png`); // Image file path and filename
           if (imageName === 0) {
             return (
               // <div
@@ -600,8 +591,7 @@ const alwaysActHandler = async (res) => {
                 title4="소"
               />
             );
-          }
-          else if (imageName === 1) {
+          } else if (imageName === 1) {
             return (
               <ImageWithButton
                 key={index}
@@ -639,7 +629,7 @@ const alwaysActHandler = async (res) => {
                 title4="소"
               />
             );
-          } else if (imageName===3) {
+          } else if (imageName === 3) {
             return (
               <ImageWithButton
                 key={index}
@@ -658,8 +648,7 @@ const alwaysActHandler = async (res) => {
                 title4="소"
               />
             );
-          }
-          else if (imageName === 4) {
+          } else if (imageName === 4) {
             return (
               <OneButton
                 key={index}
@@ -669,8 +658,7 @@ const alwaysActHandler = async (res) => {
                 title1="우물"
               />
             );
-          }
-          else if (imageName===5) {
+          } else if (imageName === 5) {
             return (
               <div
                 key={index}
@@ -683,23 +671,20 @@ const alwaysActHandler = async (res) => {
                 />
               </div>
             );
-          }
-          else if (imageName===6) {
+          } else if (imageName === 6) {
             return (
               <div
                 key={index}
                 style={{ position: "relative", display: "inline-block" }}
-
               >
                 <img
                   src={src}
                   className={styles.main}
                   style={{ maxWidth: "100%" }}
                 />
-                </div>
+              </div>
             );
-          }
-          else if (imageName===7) {
+          } else if (imageName === 7) {
             return (
               <OneButton
                 key={index}
@@ -709,8 +694,7 @@ const alwaysActHandler = async (res) => {
                 title1="가구 제작소"
               />
             );
-          }
-          else if (imageName===8) {
+          } else if (imageName === 8) {
             return (
               <OneButton
                 key={index}
@@ -720,8 +704,7 @@ const alwaysActHandler = async (res) => {
                 title1="그릇 제작소"
               />
             );
-          }
-          else if (imageName===9) {
+          } else if (imageName === 9) {
             return (
               <OneButton
                 key={index}
@@ -732,7 +715,6 @@ const alwaysActHandler = async (res) => {
               />
             );
           }
-          
         })}
       </div>
 
