@@ -526,9 +526,6 @@ function Farms({ data, setData }) {
           newdate[`user${farmData.turn}`].farm_array[index] = "sheep_house";
           setUserData(newdate);
         };
-      
-        
-        
         const res = {
           userid: farmData.turn,
           tree: 0,
