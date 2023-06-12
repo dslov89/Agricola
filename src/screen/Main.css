@@ -32,6 +32,7 @@
 }
 
 .board {
+  width: 1536px;
   display: flex;
 }
 
@@ -41,6 +42,8 @@
   position: relative;
   left: -244px;
 }
+
+
 
 .farmContainer {
   position: relative;

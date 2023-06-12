@@ -58,10 +58,11 @@ const Gameroomboard = () => {
 
           console.log("첫 구독");
           console.log(message.body);
-          const initMsg = JSON.parse(message.body);
-          if (!initMsg.enter) {
+          
+          if (message.body === "FULL") {
             alert("정원 초과");
           } else {
+            const initMsg = JSON.parse(message.body);
             // let jobCardValue = msg.jobCards; //message.body 내 jobCards value값
             // let subCardsValue = msg.subCards; //message.body 내 subCards value값
             // let turnValue = msg.turn; //message.body 내 turn value값
@@ -137,22 +138,75 @@ const Gameroomboard = () => {
                   });
 
                 } else if (msg.messageType === "FARM") {
-                  setUserData((prevUserData) => ({
-                    ...prevUserData,
-                    [`user${farmData.turn}`]: {
-                      ...prevUserData[`user${farmData.turn}`],
-                      farm_array: msg.building,
-                      farm_fence_array: msg.fence,
-                      round: msg.round,
-                      roomId: msg.roomId,
-                      messageType: msg.messageType,
-                      action: msg.action,
-                      currentTurn: msg.currentTurn,
-                      farmer_count: msg.farmer_count,
-                      turn: initMsg.turn,
-                    },
-                    
-                  }));
+                  if(msg.currentTurn === 1) {
+                    setUserData((prevUserData) => ({
+                      ...prevUserData,
+                      user4: {
+                        ...prevUserData.user4,
+                        farm_array: msg.building,
+                        farm_fence_array: msg.fence,
+                        round: msg.round,
+                        roomId: msg.roomId,
+                        messageType: msg.messageType,
+                        action: msg.action,
+                        currentTurn: msg.currentTurn,
+                        farmer_count: msg.farmer_count,
+                        turn: initMsg.turn,
+                      },
+                      
+                    }));
+                  } else if(msg.currentTurn === 2) {
+                    setUserData((prevUserData) => ({
+                      ...prevUserData,
+                      user1: {
+                        ...prevUserData.user1,
+                        farm_array: msg.building,
+                        farm_fence_array: msg.fence,
+                        round: msg.round,
+                        roomId: msg.roomId,
+                        messageType: msg.messageType,
+                        action: msg.action,
+                        currentTurn: msg.currentTurn,
+                        farmer_count: msg.farmer_count,
+                        turn: initMsg.turn,
+                      },
+                      
+                    }));
+                  } else if(msg.currentTurn === 3) {
+                    setUserData((prevUserData) => ({
+                      ...prevUserData,
+                      user2: {
+                        ...prevUserData.user2,
+                        farm_array: msg.building,
+                        farm_fence_array: msg.fence,
+                        round: msg.round,
+                        roomId: msg.roomId,
+                        messageType: msg.messageType,
+                        action: msg.action,
+                        currentTurn: msg.currentTurn,
+                        farmer_count: msg.farmer_count,
+                        turn: initMsg.turn,
+                      },
+                      
+                    }));
+                  } else {
+                    setUserData((prevUserData) => ({
+                      ...prevUserData,
+                      user3: {
+                        ...prevUserData.user3,
+                        farm_array: msg.building,
+                        farm_fence_array: msg.fence,
+                        round: msg.round,
+                        roomId: msg.roomId,
+                        messageType: msg.messageType,
+                        action: msg.action,
+                        currentTurn: msg.currentTurn,
+                        farmer_count: msg.farmer_count,
+                        turn: initMsg.turn,
+                      },
+                      
+                    }));
+                  }
                 };
 
               }

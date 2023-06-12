@@ -6,7 +6,8 @@ import * as Stomp from "@stomp/stompjs";
 import "./FarmBoard.css";
 import axios from "axios";
 import { nameValue, sendingClient } from "../screen/Start";
-
+import styles from "./Begging.css";
+import Begging from "../asset/begging.PNG";
 import { ReactComponent as Land } from "../asset/land.svg";
 import { ReactComponent as Fence } from "../asset/fence.svg";
 import { ReactComponent as Grain } from "../asset/grain.svg";
@@ -15,7 +16,6 @@ import { ReactComponent as Facility } from "../asset/facility.svg";
 import ScoreBoard from "./ScoreBoard";
 import MainModal from "./MainModal";
 import SubModal from "./SubModal";
-import begging from "../asset/begging.PNG";
 import { DataContext } from "../store/data-context";
 import { UserContext } from "../store/user-context";
 import redplayer from "../image/farmer_red.png";
@@ -23,15 +23,15 @@ import yellowplayer from "../image/farmer_yellow.png";
 import greenplayer from "../image/farmer_green.png";
 import blueplayer from "../image/farmer_blue.png";
 import plow_grain2 from "../image/plow_grain2.png";
-import beg from "../image/beg.png";
+import plow_grain1 from "../image/plow_grain1.png";
 
 function ActionBoard({ data, setData }) {
   const [isTurn, setIsTurn] = useState(false);
   const [mainModalVisible, setMainModalVisible] = useState(false);
   const [subModalVisible, setSubModalVisible] = useState(false);
   // const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
-  const [foodis, setFoodis] = useState(0);
-  const [scoreBoardVisible, setScoreBoardVisible] = useState(true);
+  const [begging, setBegging] = useState();
+  const [scoreBoardVisible, setScoreBoardVisible] = useState(false);
   const [mainSulbi, setMainSulbi] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
   const [subSulbi, setSubSulbi] = useState([
     { id: 1, isHas: 1 },
@@ -105,7 +105,6 @@ function ActionBoard({ data, setData }) {
       }));
     }
   }, [farmData.currentTurn]);
-
   const alwaysActHandler = async (res) => {
     // 턴 안넘기고 자원갱신만 하는 함수
     await updateAlways(farmData.turn); // 누른 놈 제외 갱신
@@ -258,287 +257,259 @@ function ActionBoard({ data, setData }) {
     console.log("always");
   };
 
-  function returnBakeDiv() {
-    return (
-      <div
-        style={{
-          position: "absolute",
-          top: "-75px",
-          left: "400px",
-          zIndex: "9999",
-        }}
-      >
-        <button onClick={hwaroVegetableHandler}>화로-야채</button>
-        <button onClick={hwaroPigHandler}>화로-돼지</button>
-        <button onClick={hwaroSheepHandler}>화로-양</button>
-        <button onClick={hwaroCowHandler}>화로-소</button>
-        <button onClick={hwaroBakeHandler}>화로-빵굽기</button>
-        <button onClick={hwaduckVegetableHandler}>화덕-야채</button>
-        <button onClick={hwaduckPigHandler}>화덕-돼지</button>
-        <button onClick={hwaduckSheepHandler}>화덕-양</button>
-        <button onClick={hwaduckCowHandler}>화덕-소</button>
-        <button onClick={hwaduckBakeHandler}>화덕-빵굽기</button>
-        <button onClick={WellHandler}>우물</button>
-        <button onClick={furnitureHandler}>가구 제작소</button>
-        <button onClick={bowlHandler}>그릇 제작소</button>
-        <button onClick={basketHandler}>바구니 제작소</button>
-      </div>
-    );
-  }
+  // function hwaduckVegetableHandler() {
+  //   if (userData[`user${farmData.turn}`].vegetable > 0) {
+  //     // 자원 갖고 있는 지 확인
+  //     const res = {
+  //       tree: 0,
+  //       soil: 0,
+  //       reed: 0,
+  //       charcoal: 0,
+  //       sheep: 0,
+  //       pig: 0,
+  //       cow: 0,
+  //       grain: 0,
+  //       vegetable: -1,
+  //       food: 3,
+  //     };
+  //     alwaysActHandler(res);
+  //   } else {
+  //     alert("보유한 자원이 부족합니다.");
+  //   }
+  // }
 
-  function hwaduckVegetableHandler() {
-    if (userData[`user${farmData.turn}`].vegetable > 0) {
-      // 자원 갖고 있는 지 확인
-      const res = {
-        tree: 0,
-        soil: 0,
-        reed: 0,
-        charcoal: 0,
-        sheep: 0,
-        pig: 0,
-        cow: 0,
-        grain: 0,
-        vegetable: -1,
-        food: 3,
-      };
-      alwaysActHandler(res);
-    } else {
-      alert("보유한 자원이 부족합니다.");
-    }
-  }
+  // function hwaduckPigHandler() {
+  //   if (userData[`user${farmData.turn}`].pig > 0) {
+  //     // 자원 갖고 있는 지 확인
+  //     const res = {
+  //       tree: 0,
+  //       soil: 0,
+  //       reed: 0,
+  //       charcoal: 0,
+  //       sheep: 0,
+  //       pig: -1,
+  //       cow: 0,
+  //       grain: 0,
+  //       vegetable: 0,
+  //       food: 3,
+  //     };
+  //     alwaysActHandler(res);
+  //   } else {
+  //     alert("보유한 자원이 부족합니다.");
+  //   }
+  // }
 
-  function hwaduckPigHandler() {
-    if (userData[`user${farmData.turn}`].pig > 0) {
-      // 자원 갖고 있는 지 확인
-      const res = {
-        tree: 0,
-        soil: 0,
-        reed: 0,
-        charcoal: 0,
-        sheep: 0,
-        pig: -1,
-        cow: 0,
-        grain: 0,
-        vegetable: 0,
-        food: 3,
-      };
-      alwaysActHandler(res);
-    } else {
-      alert("보유한 자원이 부족합니다.");
-    }
-  }
+  // function hwaduckSheepHandler() {
+  //   if (userData[`user${farmData.turn}`].sheep > 0) {
+  //     // 자원 갖고 있는 지 확인
+  //     const res = {
+  //       tree: 0,
+  //       soil: 0,
+  //       reed: 0,
+  //       charcoal: 0,
+  //       sheep: -1,
+  //       pig: 0,
+  //       cow: 0,
+  //       grain: 0,
+  //       vegetable: 0,
+  //       food: 2,
+  //     };
+  //     alwaysActHandler(res);
+  //   } else {
+  //     alert("보유한 자원이 부족합니다.");
+  //   }
+  // }
 
-  function hwaduckSheepHandler() {
-    if (userData[`user${farmData.turn}`].sheep > 0) {
-      // 자원 갖고 있는 지 확인
-      const res = {
-        tree: 0,
-        soil: 0,
-        reed: 0,
-        charcoal: 0,
-        sheep: -1,
-        pig: 0,
-        cow: 0,
-        grain: 0,
-        vegetable: 0,
-        food: 2,
-      };
-      alwaysActHandler(res);
-    } else {
-      alert("보유한 자원이 부족합니다.");
-    }
-  }
+  // function hwaduckCowHandler() {
+  //   if (userData[`user${farmData.turn}`].cow > 0) {
+  //     // 자원 갖고 있는 지 확인
+  //     const res = {
+  //       tree: 0,
+  //       soil: 0,
+  //       reed: 0,
+  //       charcoal: 0,
+  //       sheep: 0,
+  //       pig: 0,
+  //       cow: -1,
+  //       grain: 0,
+  //       vegetable: 0,
+  //       food: 4,
+  //     };
+  //     alwaysActHandler(res);
+  //   } else {
+  //     alert("보유한 자원이 부족합니다.");
+  //   }
+  // }
 
-  function hwaduckCowHandler() {
-    if (userData[`user${farmData.turn}`].cow > 0) {
-      // 자원 갖고 있는 지 확인
-      const res = {
-        tree: 0,
-        soil: 0,
-        reed: 0,
-        charcoal: 0,
-        sheep: 0,
-        pig: 0,
-        cow: -1,
-        grain: 0,
-        vegetable: 0,
-        food: 4,
-      };
-      alwaysActHandler(res);
-    } else {
-      alert("보유한 자원이 부족합니다.");
-    }
-  }
+  // function hwaduckBakeHandler() {
+  //   if (userData[`user${farmData.turn}`].vegetable > 0) {
+  //     // 자원 갖고 있는 지 확인
+  //     const res = {
+  //       tree: 0,
+  //       soil: 0,
+  //       reed: 0,
+  //       charcoal: 0,
+  //       sheep: 0,
+  //       pig: 0,
+  //       cow: 0,
+  //       grain: -1,
+  //       vegetable: 0,
+  //       food: 3,
+  //     };
+  //     alwaysActHandler(res);
+  //   } else {
+  //     alert("보유한 자원이 부족합니다.");
+  //   }
+  // }
 
-  function hwaduckBakeHandler() {
-    if (userData[`user${farmData.turn}`].vegetable > 0) {
-      // 자원 갖고 있는 지 확인
-      const res = {
-        tree: 0,
-        soil: 0,
-        reed: 0,
-        charcoal: 0,
-        sheep: 0,
-        pig: 0,
-        cow: 0,
-        grain: -1,
-        vegetable: 0,
-        food: 3,
-      };
-      alwaysActHandler(res);
-    } else {
-      alert("보유한 자원이 부족합니다.");
-    }
-  }
+  // function hwaroVegetableHandler() {
+  //   if (userData[`user${farmData.turn}`].vegetable > 0) {
+  //     // 자원 갖고 있는 지 확인
+  //     const res = {
+  //       tree: 0,
+  //       soil: 0,
+  //       reed: 0,
+  //       charcoal: 0,
+  //       sheep: 0,
+  //       pig: 0,
+  //       cow: 0,
+  //       grain: 0,
+  //       vegetable: -1,
+  //       food: 2,
+  //     };
+  //     alwaysActHandler(res);
+  //   } else {
+  //     alert("보유한 자원이 부족합니다.");
+  //   }
+  // }
 
-  function hwaroVegetableHandler() {
-    if (userData[`user${farmData.turn}`].vegetable > 0) {
-      // 자원 갖고 있는 지 확인
-      const res = {
-        tree: 0,
-        soil: 0,
-        reed: 0,
-        charcoal: 0,
-        sheep: 0,
-        pig: 0,
-        cow: 0,
-        grain: 0,
-        vegetable: -1,
-        food: 2,
-      };
-      alwaysActHandler(res);
-    } else {
-      alert("보유한 자원이 부족합니다.");
-    }
-  }
+  // function hwaroPigHandler() {
+  //   if (userData[`user${farmData.turn}`].pig > 0) {
+  //     // 자원 갖고 있는 지 확인
+  //     const res = {
+  //       tree: 0,
+  //       soil: 0,
+  //       reed: 0,
+  //       charcoal: 0,
+  //       sheep: 0,
+  //       pig: -1,
+  //       cow: 0,
+  //       grain: 0,
+  //       vegetable: 0,
+  //       food: 2,
+  //     };
+  //     alwaysActHandler(res);
+  //   } else {
+  //     alert("보유한 자원이 부족합니다.");
+  //   }
+  // }
 
-  function hwaroPigHandler() {
-    if (userData[`user${farmData.turn}`].pig > 0) {
-      // 자원 갖고 있는 지 확인
-      const res = {
-        tree: 0,
-        soil: 0,
-        reed: 0,
-        charcoal: 0,
-        sheep: 0,
-        pig: -1,
-        cow: 0,
-        grain: 0,
-        vegetable: 0,
-        food: 2,
-      };
-      alwaysActHandler(res);
-    } else {
-      alert("보유한 자원이 부족합니다.");
-    }
-  }
+  // function hwaroSheepHandler() {
+  //   if (userData[`user${farmData.turn}`].sheep > 0) {
+  //     // 자원 갖고 있는 지 확인
+  //     const res = {
+  //       tree: 0,
+  //       soil: 0,
+  //       reed: 0,
+  //       charcoal: 0,
+  //       sheep: -1,
+  //       pig: 0,
+  //       cow: 0,
+  //       grain: 0,
+  //       vegetable: 0,
+  //       food: 2,
+  //     };
+  //     alwaysActHandler(res);
+  //   } else {
+  //     alert("보유한 자원이 부족합니다.");
+  //   }
+  // }
 
-  function hwaroSheepHandler() {
-    if (userData[`user${farmData.turn}`].sheep > 0) {
-      // 자원 갖고 있는 지 확인
-      const res = {
-        tree: 0,
-        soil: 0,
-        reed: 0,
-        charcoal: 0,
-        sheep: -1,
-        pig: 0,
-        cow: 0,
-        grain: 0,
-        vegetable: 0,
-        food: 2,
-      };
-      alwaysActHandler(res);
-    } else {
-      alert("보유한 자원이 부족합니다.");
-    }
-  }
+  // function hwaroCowHandler() {
+  //   if (userData[`user${farmData.turn}`].cow > 0) {
+  //     // 자원 갖고 있는 지 확인
+  //     const res = {
+  //       tree: 0,
+  //       soil: 0,
+  //       reed: 0,
+  //       charcoal: 0,
+  //       sheep: 0,
+  //       pig: 0,
+  //       cow: -1,
+  //       grain: 0,
+  //       vegetable: 0,
+  //       food: 3,
+  //     };
+  //     alwaysActHandler(res);
+  //   } else {
+  //     alert("보유한 자원이 부족합니다.");
+  //   }
+  // }
 
-  function hwaroCowHandler() {
-    if (userData[`user${farmData.turn}`].cow > 0) {
-      // 자원 갖고 있는 지 확인
-      const res = {
-        tree: 0,
-        soil: 0,
-        reed: 0,
-        charcoal: 0,
-        sheep: 0,
-        pig: 0,
-        cow: -1,
-        grain: 0,
-        vegetable: 0,
-        food: 3,
-      };
-      alwaysActHandler(res);
-    } else {
-      alert("보유한 자원이 부족합니다.");
-    }
-  }
+  // function hwaroBakeHandler() {
+  //   if (userData[`user${farmData.turn}`].vegetable > 0) {
+  //     // 자원 갖고 있는 지 확인
+  //     const res = {
+  //       tree: 0,
+  //       soil: 0,
+  //       reed: 0,
+  //       charcoal: 0,
+  //       sheep: 0,
+  //       pig: 0,
+  //       cow: 0,
+  //       grain: -1,
+  //       vegetable: 0,
+  //       food: 2,
+  //     };
+  //     alwaysActHandler(res);
+  //   } else {
+  //     alert("보유한 자원이 부족합니다.");
+  //   }
+  // }
 
-  function hwaroBakeHandler() {
-    if (userData[`user${farmData.turn}`].vegetable > 0) {
-      // 자원 갖고 있는 지 확인
-      const res = {
-        tree: 0,
-        soil: 0,
-        reed: 0,
-        charcoal: 0,
-        sheep: 0,
-        pig: 0,
-        cow: 0,
-        grain: -1,
-        vegetable: 0,
-        food: 2,
-      };
-      alwaysActHandler(res);
-    } else {
-      alert("보유한 자원이 부족합니다.");
-    }
-  }
+  // function soilKilnHandler() {
+  //   // 메인설비 06.흙가마
+  //   if (userData[`user${farmData.turn}`].grain > 0) {
+  //     // 자원 갖고 있는 지 확인
+  //     const res = {
+  //       tree: 0,
+  //       soil: 0,
+  //       reed: 0,
+  //       charcoal: 0,
+  //       sheep: 0,
+  //       pig: 0,
+  //       cow: 0,
+  //       grain: -1,
+  //       vegetable: 0,
+  //       food: 5,
+  //     };
+  //     alwaysActHandler(res);
+  //   } else {
+  //     alert("보유한 자원이 부족합니다.");
+  //   }
+  // }
 
-  function soilKilnHandler() {
-    // 메인설비 06.흙가마
-    if (userData[`user${farmData.turn}`].grain > 0) {
-      // 자원 갖고 있는 지 확인
-      const res = {
-        tree: 0,
-        soil: 0,
-        reed: 0,
-        charcoal: 0,
-        sheep: 0,
-        pig: 0,
-        cow: 0,
-        grain: -1,
-        vegetable: 0,
-        food: 5,
-      };
-      alwaysActHandler(res);
-    } else {
-      alert("보유한 자원이 부족합니다.");
-    }
-  }
-
-  function charcoalKilnHandler() {
-    // 메인설비 07.돌가마
-    if (userData[`user${farmData.turn}`].grain > 0) {
-      // 자원 갖고 있는 지 확인
-      const res = {
-        tree: 0,
-        soil: 0,
-        reed: 0,
-        charcoal: 0,
-        sheep: 0,
-        pig: 0,
-        cow: 0,
-        grain: -1,
-        vegetable: 0,
-        food: 4,
-      };
-      alwaysActHandler(res);
-    } else {
-      alert("보유한 자원이 부족합니다.");
-    }
-  }
+  // function charcoalKilnHandler() {
+  //   // 메인설비 07.돌가마
+  //   if (userData[`user${farmData.turn}`].grain > 0) {
+  //     // 자원 갖고 있는 지 확인
+  //     const res = {
+  //       tree: 0,
+  //       soil: 0,
+  //       reed: 0,
+  //       charcoal: 0,
+  //       sheep: 0,
+  //       pig: 0,
+  //       cow: 0,
+  //       grain: -1,
+  //       vegetable: 0,
+  //       food: 4,
+  //     };
+  //     alwaysActHandler(res);
+  //   } else {
+  //     alert("보유한 자원이 부족합니다.");
+  //   }
+  // }
 
   function checkRoomCount() {
     const roomArray = userData[`user${farmData.turn}`].farm_array;
@@ -547,8 +518,11 @@ function ActionBoard({ data, setData }) {
       rock_room: 0,
       soil_room: 0,
       empty: 0,
-      vegetable_farm: 0, // 채소 올려진 밭
-      grain_farm: 0, // 곡식 올려진 밭
+      plow_grain1: 0,
+      plow_grain2: 0,
+      plow_grain3: 0,
+      plow_vegetable1: 0,
+      plow_vegetable2: 0,
     };
     roomArray.forEach((item) => {
       if (roomCounts.hasOwnProperty(item)) {
@@ -747,11 +721,12 @@ function ActionBoard({ data, setData }) {
     // 보조 15. 삼포식 농법
     const roomCounts = checkRoomCount();
     if (
-      roomCounts.vegetable_farm > 1 &&
-      roomCounts.grain_farm > 1 &&
+      (roomCounts.plow_grain1 > 0 ||
+        roomCounts.plow_grain2 > 0 ||
+        roomCounts.plow_grain3) &&
+      (roomCounts.plow_vegetable1 > 0 || roomCounts.plow_vegetable2) &&
       roomCounts.empty > 1
     ) {
-      // 이거 대윤이거랑 맞춰야함
       const res = {
         tree: 0,
         soil: 0,
@@ -804,116 +779,116 @@ function ActionBoard({ data, setData }) {
     alwaysActHandler(res);
   }
 
-  const [well, setWell] = useState([]);
-  function WellHandler() {
-    if (farmData.round === 3 && well.length === 0) {
-      const res = {
-        tree: 0,
-        soil: 0,
-        reed: 0,
-        charcoal: 0,
-        sheep: 0,
-        pig: 0,
-        cow: 0,
-        grain: 0,
-        vegetable: 0,
-        food: 1,
-      };
-      harvestActHandler(res);
-      setWell((prevWell) => [...prevWell, 1]);
-      console.log("well round 3");
-    } else if (farmData.round === 4 && well.length === 0) {
-      const res = {
-        tree: 0,
-        soil: 0,
-        reed: 0,
-        charcoal: 0,
-        sheep: 0,
-        pig: 0,
-        cow: 0,
-        grain: 0,
-        vegetable: 0,
-        food: 0,
-      };
-      harvestActHandler(res);
-      setWell((prevWell) => [...prevWell, 1]);
-      console.log("well round 4");
-    } else {
-      alert("이제 그만");
-    }
-  }
+  // const [well, setWell] = useState([]);
+  // function WellHandler() {
+  //   if (farmData.round === 3 && well.length === 0) {
+  //     const res = {
+  //       tree: 0,
+  //       soil: 0,
+  //       reed: 0,
+  //       charcoal: 0,
+  //       sheep: 0,
+  //       pig: 0,
+  //       cow: 0,
+  //       grain: 0,
+  //       vegetable: 0,
+  //       food: 1,
+  //     };
+  //     harvestActHandler(res);
+  //     setWell((prevWell) => [...prevWell, 1]);
+  //     console.log("well round 3");
+  //   } else if (farmData.round === 4 && well.length === 0) {
+  //     const res = {
+  //       tree: 0,
+  //       soil: 0,
+  //       reed: 0,
+  //       charcoal: 0,
+  //       sheep: 0,
+  //       pig: 0,
+  //       cow: 0,
+  //       grain: 0,
+  //       vegetable: 0,
+  //       food: 0,
+  //     };
+  //     harvestActHandler(res);
+  //     setWell((prevWell) => [...prevWell, 1]);
+  //     console.log("well round 4");
+  //   } else {
+  //     alert("이제 그만");
+  //   }
+  // }
 
-  function furnitureHandler() {
-    if (farmData.round === 5) {
-      if (userData[`user${farmData.turn}`].tree >= 1) {
-        const res = {
-          tree: -1,
-          soil: 0,
-          reed: 0,
-          charcoal: 0,
-          sheep: 0,
-          pig: 0,
-          cow: 0,
-          grain: 0,
-          vegetable: 0,
-          food: 2,
-        };
-        harvestActHandler(res);
-      } else {
-        alert("보유한 자원이 부족합니다.");
-      }
-    } else {
-      alert("수확 때 사용 가능합니다.");
-    }
-  }
+  // function furnitureHandler() {
+  //   if (farmData.round === 5) {
+  //     if (userData[`user${farmData.turn}`].tree >= 1) {
+  //       const res = {
+  //         tree: -1,
+  //         soil: 0,
+  //         reed: 0,
+  //         charcoal: 0,
+  //         sheep: 0,
+  //         pig: 0,
+  //         cow: 0,
+  //         grain: 0,
+  //         vegetable: 0,
+  //         food: 2,
+  //       };
+  //       harvestActHandler(res);
+  //     } else {
+  //       alert("보유한 자원이 부족합니다.");
+  //     }
+  //   } else {
+  //     alert("수확 때 사용 가능합니다.");
+  //   }
+  // }
 
-  function bowlHandler() {
-    if (farmData.round === 5) {
-      if (userData[`user${farmData.turn}`].soil >= 1) {
-        const res = {
-          tree: 0,
-          soil: -1,
-          reed: 0,
-          charcoal: 0,
-          sheep: 0,
-          pig: 0,
-          cow: 0,
-          grain: 0,
-          vegetable: 0,
-          food: 2,
-        };
-        harvestActHandler(res);
-      } else {
-        alert("보유한 자원이 부족합니다.");
-      }
-    } else {
-      alert("수확 때 사용 가능합니다.");
-    }
-  }
+  // function bowlHandler() {
+  //   if (farmData.round === 5) {
+  //     if (userData[`user${farmData.turn}`].soil >= 1) {
+  //       const res = {
+  //         tree: 0,
+  //         soil: -1,
+  //         reed: 0,
+  //         charcoal: 0,
+  //         sheep: 0,
+  //         pig: 0,
+  //         cow: 0,
+  //         grain: 0,
+  //         vegetable: 0,
+  //         food: 2,
+  //       };
+  //       harvestActHandler(res);
+  //     } else {
+  //       alert("보유한 자원이 부족합니다.");
+  //     }
+  //   } else {
+  //     alert("수확 때 사용 가능합니다.");
+  //   }
+  // }
 
-  function basketHandler() {
-    if (farmData.round === 5) {
-      if (userData[`user${farmData.turn}`].reed >= 1) {
-        const res = {
-          tree: 0,
-          soil: 0,
-          reed: -1,
-          charcoal: 0,
-          sheep: 0,
-          pig: 0,
-          cow: 0,
-          grain: 0,
-          vegetable: 0,
-          food: 2,
-        };
-        harvestActHandler(res);
-      } else {
-        alert("보유한 자원이 부족합니다.");
-      }
-    } else {
-      alert("수확 때 사용 가능합니다.");
-    }
-  }
+  // function basketHandler() {
+  //   if (farmData.round === 5) {
+  //     if (userData[`user${farmData.turn}`].reed >= 1) {
+  //       const res = {
+  //         tree: 0,
+  //         soil: 0,
+  //         reed: -1,
+  //         charcoal: 0,
+  //         sheep: 0,
+  //         pig: 0,
+  //         cow: 0,
+  //         grain: 0,
+  //         vegetable: 0,
+  //         food: 2,
+  //       };
+  //       harvestActHandler(res);
+  //     } else {
+  //       alert("보유한 자원이 부족합니다.");
+  //     }
+  //   } else {
+  //     alert("수확 때 사용 가능합니다.");
+  //   }
+  // }
 
   // index는 액션버튼 순서 0부터
   const defaultActHandler = async (res, index) => {
@@ -1560,7 +1535,9 @@ function ActionBoard({ data, setData }) {
           // 1,2 : 화로 //3,4 : 화덕// 6 : 흙가마// 7: 돌가마
           // (사진 이름으로 인덱스 매겼어요)
           if (window.confirm("빵굽기를 하시겠습니까?")) {
-            setIsBake(true); //  이 놈 true 되면 보유하고 있는 메인 설비 목록 띄워주기
+            setIsBake(true);
+
+            //  이 놈 true 되면 보유하고 있는 메인 설비 목록 띄워주기
             // 각 조건에 따라서 빵굽기 해줘야 함
             // 보유하고 있는 메인 설비 클릭 가능하게 해주면 되지 않을까 생각 중
           } else {
@@ -1632,6 +1609,161 @@ function ActionBoard({ data, setData }) {
           grain: 0,
           vegetable: 0,
           food: userData[`user${farmData.turn}`].farmer * 2 * -1,
+        };
+        defaultActHandler(res, 21);
+      } else {
+        if (
+          userData[`user${farmData.turn}`].food <
+          userData[`user${farmData.turn}`].farmer * 2
+        ) {
+          if (farmData.turn === 1) {
+            alert("구걸하세요! 식량 부족");
+            setBegging(1);
+          } else if (farmData.turn === 2) {
+            alert("구걸하세요! 식량 부족");
+            setBegging(2);
+          } else if (farmData.turn === 3) {
+            alert("구걸하세요! 식량 부족");
+            setBegging(3);
+          } else {
+            alert("구걸하세요! 식량 부족");
+            setBegging(4);
+          }
+        }
+      }
+    } else {
+      alert("이미 가족 부양을 완료 하였습니다.");
+    }
+  }
+
+  function harvest_grain() {
+    let grain3_count = userData[`user${farmData.turn}`].farm_array.filter(
+      (item) => item === "plow_grain3"
+    ).length;
+    let grain2_count = userData[`user${farmData.turn}`].farm_array.filter(
+      (item) => item === "plow_grain2"
+    ).length;
+    let grain1_count = userData[`user${farmData.turn}`].farm_array.filter(
+      (item) => item === "plow_grain1"
+    ).length;
+    if (userData[`user${farmData.turn}`].farmer === 1) {
+      if (userData[`user${farmData.turn}`].sub.includes(15)) {
+        sub15Handler();
+      }
+      if (userData[`user${farmData.turn}`].sub.includes(6)) {
+        sub11Handler();
+      }
+      if (grain3_count > 0 || grain2_count > 0 || grain1_count > 0) {
+        if (grain3_count > 0) {
+          if (userData[`user${farmData.turn}`].job.includes(26)) {
+            const roomIndices = []; // plow에 해당하는 인덱스를 저장할 배열
+            userData[`user${farmData.turn}`].farm_array.forEach((item, idx) => {
+              if (item === "plow_grain3") {
+                roomIndices.push(idx);
+              }
+            });
+            roomIndices.forEach((idx) => {
+              const updatedUserData = { ...userData }; // userData 객체 복사
+              updatedUserData[`user${farmData.turn}`].farm_array[idx] =
+                "plow_grain1"; // farm_array 업데이트
+
+              setUserData(updatedUserData);
+              const roomClass = `.Btn.room${Math.floor(idx / 5) + 1}_${
+                (idx % 5) + 1
+              }`;
+
+              const res = {
+                tree: 0,
+                soil: 0,
+                reed: 0,
+                charcoal: 0,
+                sheep: 0,
+                pig: 0,
+                cow: 0,
+                grain: grain3_count * 2,
+                vegetable: 0,
+                food: 0,
+              };
+
+              const roomElement = document.querySelector(roomClass);
+
+              roomElement.style.marginTop = "-30px";
+              roomElement.style.marginLeft = "-10px";
+              roomElement.style.width = "100pxpx";
+              roomElement.style.height = "120px";
+              roomElement.style.backgroundImage = `url(${plow_grain1})`;
+              defaultActHandler(res, 22);
+            });
+          } else {
+            const roomIndices = []; // plow에 해당하는 인덱스를 저장할 배열
+
+            userData[`user${farmData.turn}`].farm_array.forEach((item, idx) => {
+              if (item === "plow_grain3") {
+                roomIndices.push(idx);
+              }
+            });
+            roomIndices.forEach((idx) => {
+              const updatedUserData = { ...userData }; // userData 객체 복사
+              updatedUserData[`user${farmData.turn}`].farm_array[idx] =
+                "plow_grain2"; // farm_array 업데이트
+
+              setUserData(updatedUserData);
+              const roomClass = `.Btn.room${Math.floor(idx / 5) + 1}_${
+                (idx % 5) + 1
+              }`;
+
+              const res = {
+                tree: 0,
+                soil: 0,
+                reed: 0,
+                charcoal: 0,
+                sheep: 0,
+                pig: 0,
+                cow: 0,
+                grain: grain3_count,
+                vegetable: 0,
+                food: 0,
+              };
+
+              const roomElement = document.querySelector(roomClass);
+
+              roomElement.style.marginTop = "-30px";
+              roomElement.style.marginLeft = "-10px";
+              roomElement.style.width = "100pxpx";
+              roomElement.style.height = "120px";
+              roomElement.style.backgroundImage = `url(${plow_grain2})`;
+              defaultActHandler(res, 22);
+            });
+          }
+        } else {
+          const res = {
+            tree: 0,
+            soil: 0,
+            reed: 0,
+            charcoal: 0,
+            sheep: 0,
+            pig: 0,
+            cow: 0,
+            grain: 0,
+            vegetable: 0,
+            food: 0,
+          };
+          alert("작물 거두기를 할 수 없습니다.");
+          defaultActHandler(res, 22);
+        }
+      }
+      if (userData[`user${farmData.turn}`].sheep >= 3) {
+        const res = {
+          tree: 0,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: 1,
         };
         defaultActHandler(res, 21);
       } else {
@@ -1707,9 +1839,8 @@ function ActionBoard({ data, setData }) {
           cow: 0,
           grain: 0,
           vegetable: 0,
-          food: 0,
+          food: 1,
         };
-        alert("작물 거두기를 할 수 없습니다.");
         defaultActHandler(res, 22);
       }
     } else {
@@ -1765,8 +1896,6 @@ function ActionBoard({ data, setData }) {
 
   return (
     <div className="boardContainer">
-      {isBake && returnBakeDiv()}
-      {returnBakeDiv()}
       <Board className="round" />
       {isTurn && farmData.round < 6 && (
         <h2 style={{ position: "absolute", top: "-75px", left: "160px" }}>
@@ -2017,6 +2146,61 @@ function ActionBoard({ data, setData }) {
             <Sheep className="facilityBtn1" />
           </button>
         ))}
+
+      {farmData.round === 5 && begging === 1 && (
+        <img
+          src={Begging}
+          style={{
+            width: "100px",
+            height: "auto",
+            position: "absolute",
+            top: "3px",
+            left: "1650px",
+          }}
+        />
+      )}
+      {farmData.round === 5 && begging === 2 && (
+        <div className={styles.container}>
+          <img
+            src={Begging}
+            style={{
+              width: "100px",
+              height: "auto",
+              position: "absolute",
+              top: "245px",
+              left: "1650px",
+            }}
+          />
+        </div>
+      )}
+      {farmData.round === 5 && begging === 3 && (
+        <div className={styles.container}>
+          <img
+            src={Begging}
+            style={{
+              width: "100px",
+              height: "auto",
+              position: "absolute",
+              top: "487px",
+              left: "1650px",
+            }}
+          />
+        </div>
+      )}
+      {farmData.round === 5 && begging === 4 && (
+        <div className={styles.container}>
+          <img
+            src={Begging}
+            style={{
+              width: "100px",
+              height: "auto",
+              position: "absolute",
+              top: "729px",
+              left: "1650px",
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }
