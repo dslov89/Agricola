@@ -18,16 +18,40 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
     setClickedIndex(index);
   }
 
+  const closeModal2 = () => {
+    sendingClient.current.send(
+      "/main-board/resource/update",
+      {},
+      JSON.stringify({
+        messageType: "RESOURCE",
+        roomId: farmData.roomId,
+        action: farmData.action,
+        round: farmData.round,
+        currentTurn: (farmData.currentTurn + 1) % 4,
+        farmer_count: farmData.farmer_count,
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: 0,
+      })
+    );
+    setIsVisible(false);
+  };
+
   const sendCard = () => {
     // 자원 체크
     if (checkResource()) {
-
       console.log("카드 메시지 보내기 전");
       setTimeout(() => {
         sendCardMessage();
       }, 300);
       console.log("카드 메시지 보내기 후");
-
     }
   };
 
@@ -75,7 +99,7 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
           alert("check your resource");
         } else {
           sendResourceMessage([
-            ["tree", 3],
+            ["tree", 1],
             ["charcoal", 3],
           ]);
           canSend = true;
@@ -88,8 +112,7 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
         ) {
           alert("check your resource");
         } else {
-          if(window.confirm("빵굽기를 하시겠습니까?"))
-          {
+          if (window.confirm("빵굽기를 하시겠습니까?")) {
             console.log("굽죠 뭐");
             sendResourceMessage([
               ["food", -5],
@@ -98,14 +121,13 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
               ["charcoal", 1],
             ]);
           } else {
-            console.log("안 구워요")
+            console.log("안 구워요");
             sendResourceMessage([
               ["soil", 3],
               ["charcoal", 1],
             ]);
           }
           canSend = true;
-
         }
         break;
       case 6:
@@ -115,8 +137,7 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
         ) {
           alert("check your resource");
         } else {
-          if(window.confirm("빵굽기를 하시겠습니까?"))
-          {
+          if (window.confirm("빵굽기를 하시겠습니까?")) {
             console.log("굽죠 뭐");
             sendResourceMessage([
               ["food", -4],
@@ -125,14 +146,13 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
               ["soil", 1],
             ]);
           } else {
-            console.log("안 구워요")
+            console.log("안 구워요");
             sendResourceMessage([
               ["charcoal", 3],
               ["soil", 1],
             ]);
           }
           canSend = true;
-      
         }
         break;
       case 7:
@@ -209,7 +229,7 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
       let fixed_resource = checkJobCard(resources[i][0], resources[i][1]);
       resources[i][1] = fixed_resource;
       message[resources[i][0]] -= resources[i][1];
-    };
+    }
     //카드 조건 확인
 
     //send
@@ -324,9 +344,16 @@ function MainModal({ setIsVisible, isVisible, isMain, setIsMain, setIsSub }) {
   return (
     <div className={styles.container}>
       <img src={mainsulbi} />
-      <button className={styles.close} onClick={closeModal}>
-        X
-      </button>
+      {isMain && (
+        <button className={styles.close} onClick={closeModal2}>
+          X
+        </button>
+      )}
+      {!isMain && (
+        <button className={styles.close} onClick={closeModal}>
+          X
+        </button>
+      )}
       {isMain && <button onClick={sendCard}>보내기</button>}
       {mainSulbi[0] &&
         (isMain ? (
