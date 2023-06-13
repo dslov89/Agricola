@@ -93,7 +93,6 @@ function ActionBoard({ data, setData }) {
     updateFarmData();
   }, [farmData.action]);
 
-
   useEffect(() => {
     if (farmData.cardType === "MAIN") {
       const updatedAction = [...farmData.main];
@@ -140,12 +139,14 @@ function ActionBoard({ data, setData }) {
           tree: prevUserData[`user${farmData.turn}`].tree + res.tree,
           soil: prevUserData[`user${farmData.turn}`].soil + res.soil,
           reed: prevUserData[`user${farmData.turn}`].reed + res.reed,
-          charcoal:prevUserData[`user${farmData.turn}`].charcoal + res.charcoal,
+          charcoal:
+            prevUserData[`user${farmData.turn}`].charcoal + res.charcoal,
           sheep: prevUserData[`user${farmData.turn}`].sheep + res.sheep,
           pig: prevUserData[`user${farmData.turn}`].pig + res.pig,
           cow: prevUserData[`user${farmData.turn}`].cow + res.cow,
           grain: prevUserData[`user${farmData.turn}`].grain + res.grain,
-          vegetable:prevUserData[`user${farmData.turn}`].vegetable + res.vegetable,
+          vegetable:
+            prevUserData[`user${farmData.turn}`].vegetable + res.vegetable,
           food: prevUserData[`user${farmData.turn}`].food + res.food,
         },
       }));
@@ -486,7 +487,6 @@ function ActionBoard({ data, setData }) {
   //   }
   // }
 
-
   function charcoalKilnHandler() {
     // 메인설비 07.돌가마
     if (userData[`user${farmData.turn}`].grain > 0) {
@@ -518,12 +518,12 @@ function ActionBoard({ data, setData }) {
       empty: 0,
       plow_grain1: 0,
       plow_grain2: 0,
-      plow_grain3: 0, 
+      plow_grain3: 0,
       plow_vegetable1: 0,
       plow_vegetable2: 0,
       plow_grain1: 0,
       plow_grain2: 0,
-      plow_grain3: 0, 
+      plow_grain3: 0,
       plow_vegetable1: 0,
       plow_vegetable2: 0,
     };
@@ -560,8 +560,6 @@ function ActionBoard({ data, setData }) {
     }
   }
 
-
-
   function job24Handler() {
     // 직업 24. 상담가
     const res = {
@@ -578,11 +576,6 @@ function ActionBoard({ data, setData }) {
     };
     alwaysActHandler(res);
   }
-
-
-  
-
-
 
   function sub04Handler() {
     // 보조 04. 다진 흙
@@ -644,12 +637,17 @@ function ActionBoard({ data, setData }) {
     // 보조 15. 삼포식 농법
     const roomCounts = checkRoomCount();
     if (
-      (roomCounts.plow_grain1 > 0 || roomCounts.plow_grain2 > 0 || roomCounts.plow_grain3) &&
-      (roomCounts.plow_vegetable1 > 0 || roomCounts.plow_vegetable2 ) &&
-      (roomCounts.empty > 1)
-      (roomCounts.plow_grain1 > 0 || roomCounts.plow_grain2 > 0 || roomCounts.plow_grain3) &&
-      (roomCounts.plow_vegetable1 > 0 || roomCounts.plow_vegetable2 ) &&
-      (roomCounts.empty > 1)
+      (roomCounts.plow_grain1 > 0 ||
+        roomCounts.plow_grain2 > 0 ||
+        roomCounts.plow_grain3) &&
+      (roomCounts.plow_vegetable1 > 0 || roomCounts.plow_vegetable2) &&
+      (roomCounts.empty > 1)(
+        roomCounts.plow_grain1 > 0 ||
+          roomCounts.plow_grain2 > 0 ||
+          roomCounts.plow_grain3
+      ) &&
+      (roomCounts.plow_vegetable1 > 0 || roomCounts.plow_vegetable2) &&
+      roomCounts.empty > 1
     ) {
       const res = {
         tree: 0,
@@ -666,7 +664,6 @@ function ActionBoard({ data, setData }) {
       alwaysActHandler(res);
     }
   }
-
 
   function sub28Handler() {
     // 보조 28. 흙판
@@ -963,7 +960,6 @@ function ActionBoard({ data, setData }) {
         }
       }
 
-
       defaultActHandler(res, 2);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
@@ -995,7 +991,34 @@ function ActionBoard({ data, setData }) {
   //   교습 버튼 클릭 시 실행할 함수
   function teach1Handler() {
     // 내턴인지 확인
-    if (farmData.action[4][0] === 0) {
+    // 첫 두직업일 때 -1
+    if (
+      farmData.action[4][0] === 0 &&
+      (userData[`user${farmData.turn}`].job.length === 0 ||
+        userData[`user${farmData.turn}`].job.length === 1)
+    ) {
+      if (userData[`user${farmData.turn}`].food >= 1) {
+        const res = {
+          tree: 0,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: -1,
+        };
+
+        alwaysActHandler2(res);
+        updateAction(4, 0);
+        setIsJob(true);
+        setSubModalVisible(true);
+      } else {
+        alert("자원이 부족합니다");
+      }
+    } else if (farmData.action[4][0] === 0) {
       if (userData[`user${farmData.turn}`].food >= 2) {
         const res = {
           tree: 0,
@@ -1142,7 +1165,28 @@ function ActionBoard({ data, setData }) {
 
   //   교습2 버튼 클릭 시 실행할 함수
   function teach2Handler() {
-    if (farmData.action[10][0] === 0) {
+    if (
+      farmData.action[10][0] === 0 &&
+      userData[`user${farmData.turn}`].job.length === 0
+    ) {
+      const res = {
+        tree: 0,
+        soil: 0,
+        reed: 0,
+        charcoal: 0,
+        sheep: 0,
+        pig: 0,
+        cow: 0,
+        grain: 0,
+        vegetable: 0,
+        food: 0,
+      };
+
+      alwaysActHandler2(res);
+      updateAction(10, 0);
+      setIsJob(true);
+      setSubModalVisible(true);
+    } else if (farmData.action[10][0] === 0) {
       if (userData[`user${farmData.turn}`].food >= 1) {
         const res = {
           tree: 0,
@@ -1185,28 +1229,24 @@ function ActionBoard({ data, setData }) {
         food: 2,
       };
       //직업 17 보조경직자
-      if(userData[`user${farmData.turn}`].job.includes(17)) {
+      if (userData[`user${farmData.turn}`].job.includes(17)) {
         userData[`user${farmData.turn}`].food += 2;
-        updateAction(9,9)
+        updateAction(9, 9);
       }
       if (userData[`user${farmData.turn}`].job.includes(18)) {
         // 직업 18. 오두막집 살이
         userData[`user${farmData.turn}`].food += 2;
-        updateAction(6,6)
+        updateAction(6, 6);
       }
 
-
-      if (userData[`user${farmData.turn}`].sub.includes(16)) 
+      if (userData[`user${farmData.turn}`].sub.includes(16))
         // 보조 16. 양토 채굴장
         res.soil += 3;
       if (userData[`user${farmData.turn}`].job.includes(16))
         // 직업 09. 농번기 일꾼
         res.grain += 1;
-      
-      defaultActHandler(res, 11);
 
-      
-      
+      defaultActHandler(res, 11);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
@@ -1283,7 +1323,7 @@ function ActionBoard({ data, setData }) {
       if (userData[`user${farmData.turn}`].job.includes(19))
         // 직업 19. 지질학자
         res.soil += 1;
-        
+
       accumulatedActHandler(res, 14, 1);
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
@@ -1343,7 +1383,6 @@ function ActionBoard({ data, setData }) {
       setIsMain(true);
       setSubModalVisible(true);
       setMainModalVisible(true);
-
     } else {
       alert("이미 다른 플레이어가 선택한 버튼입니다.");
     }
@@ -1378,7 +1417,6 @@ function ActionBoard({ data, setData }) {
         userData[`user${farmData.turn}`].vegetable > 0)
     ) {
       if (farmData.action[18][0] === 0) {
-
         // 직업 관련 로직
         if (userData[`user${farmData.turn}`].job.includes(1)) {
           // 직업 01. 장작 채집자
@@ -1409,122 +1447,126 @@ function ActionBoard({ data, setData }) {
   }
   //수확
 
-function harvest_family() {
-  //
-  if (userData[`user${farmData.turn}`].farmer === 2) {
-    // console.log(farmData.currentTurn);
-    // console.log(farmData.turn);
-    // console.log(userData[`user${farmData.turn}`].farmer);
-    if (
-      userData[`user${farmData.turn}`].food >=
-      userData[`user${farmData.turn}`].farmer * 2
-    ) {
-      const res = {
-        tree: 0,
-        soil: 0,
-        reed: 0,
-        charcoal: 0,
-        sheep: 0,
-        pig: 0,
-        cow: 0,
-        grain: 0,
-        vegetable: 0,
-        food: userData[`user${farmData.turn}`].farmer * 2 * -1,
-      };
-      defaultActHandler(res, 21);
-    } else {
+  function harvest_family() {
+    //
+    if (userData[`user${farmData.turn}`].farmer === 2) {
+      // console.log(farmData.currentTurn);
+      // console.log(farmData.turn);
+      // console.log(userData[`user${farmData.turn}`].farmer);
       if (
-        userData[`user${farmData.turn}`].food <
+        userData[`user${farmData.turn}`].food >=
         userData[`user${farmData.turn}`].farmer * 2
       ) {
-        if (farmData.turn === 1) {
-          alert("구걸하세요! 식량 부족");
-          setBegging(1);
-          const res = {
-            tree: 0,
-            soil: 0,
-            reed: 0,
-            charcoal: 0,
-            sheep: 0,
-            pig: 0,
-            cow: 0,
-            grain: 0,
-            vegetable: 0,
-            food: 0,
-          };
-          defaultActHandler(res, 21);
-        } else if (farmData.turn === 2) {
-          alert("구걸하세요! 식량 부족");
-          setBegging(2);
-          const res = {
-            tree: 0,
-            soil: 0,
-            reed: 0,
-            charcoal: 0,
-            sheep: 0,
-            pig: 0,
-            cow: 0,
-            grain: 0,
-            vegetable: 0,
-            food: 0,
-          };
-          defaultActHandler(res, 21);
-        } else if (farmData.turn === 3) {
-          alert("구걸하세요! 식량 부족");
-          setBegging(3);
-          const res = {
-            tree: 0,
-            soil: 0,
-            reed: 0,
-            charcoal: 0,
-            sheep: 0,
-            pig: 0,
-            cow: 0,
-            grain: 0,
-            vegetable: 0,
-            food: 0,
-          };
-          defaultActHandler(res, 21);
-        } else {
-          alert("구걸하세요! 식량 부족");
-          setBegging(4);
-          const res = {
-            tree: 0,
-            soil: 0,
-            reed: 0,
-            charcoal: 0,
-            sheep: 0,
-            pig: 0,
-            cow: 0,
-            grain: 0,
-            vegetable: 0,
-            food: 0,
-          };
-          defaultActHandler(res, 21);
+        const res = {
+          tree: 0,
+          soil: 0,
+          reed: 0,
+          charcoal: 0,
+          sheep: 0,
+          pig: 0,
+          cow: 0,
+          grain: 0,
+          vegetable: 0,
+          food: userData[`user${farmData.turn}`].farmer * 2 * -1,
+        };
+        defaultActHandler(res, 21);
+      } else {
+        if (
+          userData[`user${farmData.turn}`].food <
+          userData[`user${farmData.turn}`].farmer * 2
+        ) {
+          if (farmData.turn === 1) {
+            alert("구걸하세요! 식량 부족");
+            setBegging(1);
+            const res = {
+              tree: 0,
+              soil: 0,
+              reed: 0,
+              charcoal: 0,
+              sheep: 0,
+              pig: 0,
+              cow: 0,
+              grain: 0,
+              vegetable: 0,
+              food: 0,
+            };
+            defaultActHandler(res, 21);
+          } else if (farmData.turn === 2) {
+            alert("구걸하세요! 식량 부족");
+            setBegging(2);
+            const res = {
+              tree: 0,
+              soil: 0,
+              reed: 0,
+              charcoal: 0,
+              sheep: 0,
+              pig: 0,
+              cow: 0,
+              grain: 0,
+              vegetable: 0,
+              food: 0,
+            };
+            defaultActHandler(res, 21);
+          } else if (farmData.turn === 3) {
+            alert("구걸하세요! 식량 부족");
+            setBegging(3);
+            const res = {
+              tree: 0,
+              soil: 0,
+              reed: 0,
+              charcoal: 0,
+              sheep: 0,
+              pig: 0,
+              cow: 0,
+              grain: 0,
+              vegetable: 0,
+              food: 0,
+            };
+            defaultActHandler(res, 21);
+          } else {
+            alert("구걸하세요! 식량 부족");
+            setBegging(4);
+            const res = {
+              tree: 0,
+              soil: 0,
+              reed: 0,
+              charcoal: 0,
+              sheep: 0,
+              pig: 0,
+              cow: 0,
+              grain: 0,
+              vegetable: 0,
+              food: 0,
+            };
+            defaultActHandler(res, 21);
+          }
         }
       }
+    } else {
+      alert("이미 가족 부양을 완료 하였습니다.");
     }
-  } else {
-    alert("이미 가족 부양을 완료 하였습니다.");
   }
-}
 
   function harvest_grain() {
-    let grain3_count = userData[`user${farmData.turn}`].farm_array.filter((item) => item === "plow_grain3").length;
-    let grain2_count = userData[`user${farmData.turn}`].farm_array.filter((item) => item === "plow_grain2").length;
-    let grain1_count = userData[`user${farmData.turn}`].farm_array.filter((item) => item === "plow_grain1").length;
-    
+    let grain3_count = userData[`user${farmData.turn}`].farm_array.filter(
+      (item) => item === "plow_grain3"
+    ).length;
+    let grain2_count = userData[`user${farmData.turn}`].farm_array.filter(
+      (item) => item === "plow_grain2"
+    ).length;
+    let grain1_count = userData[`user${farmData.turn}`].farm_array.filter(
+      (item) => item === "plow_grain1"
+    ).length;
+
     if (userData[`user${farmData.turn}`].farmer === 1) {
       if (userData[`user${farmData.turn}`].sub.includes(15)) {
         sub15Handler();
-      }
-      else {
+      } else {
         alert("삼포식 농법 카드 없습니다.");
       }
       if (userData[`user${farmData.turn}`].sub.includes(6)) {
         sub11Handler();
-      }
-      else {
+      } else {
         alert("베틀 카드 없습니다.");
       }
       if (grain3_count > 0 || grain2_count > 0 || grain1_count > 0) {
@@ -1626,8 +1668,7 @@ function harvest_family() {
         alert("작물 거두기를 할 수 없습니다.");
         defaultActHandler(res, 22);
       }
-    }
-    else {
+    } else {
       alert("가족 부양 부터 하세요.");
     }
   }
@@ -1860,6 +1901,7 @@ function harvest_family() {
           jobCard={farmData.jobCards}
           isJob={isJob}
           isSub={isSub}
+          isMain={isMain}
           setIsJob={setIsJob}
           setIsMain={setIsMain}
           setIsSub={setIsSub}
