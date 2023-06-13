@@ -79,6 +79,8 @@ const Fences2 = ({ className }) => {
 
 const Room = ({ className, itemName }) => {
   let imageSrc = "";
+  let imageStyle = {}; // imageStyle 변수를 초기화
+
   if (itemName === "wood_room") imageSrc = woodRoomImage;
   else if (itemName === "rock_room") imageSrc = rockRoomImage;
   else if (itemName === "soil_room") imageSrc = soilRoomImage;
@@ -87,9 +89,22 @@ const Room = ({ className, itemName }) => {
   else if (itemName === "plow_grain2") imageSrc = plow_grain2;
   else if (itemName === "plow_grain3") imageSrc = plow_grain3;
   else if (itemName === "sheep") imageSrc = sheep;
-  else if (itemName === "house") imageSrc = house;
+  else if (itemName === "sheep_room") {
+    imageSrc = sheep;
+    imageStyle = {
+      width: "35px",
+      height: "25px",
+    };
+  }
+  else if (itemName === "house") {
+    imageSrc = house;
+    imageStyle = {
+      width: "40px",
+      height: "35px",
+    };
+  }
   const style = { backgroundImage: `url(${imageSrc})` };
-  return <div className={`room ${className}`} style={style} />;
+  return <div className={`room ${className}`}  style={{ ...style, ...imageStyle }} />;
 };
 
 const FarmRoom = ({ floorNumber, farmArray }) => {
