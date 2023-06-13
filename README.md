@@ -32,7 +32,7 @@ $ cd agricola-server/
 ### Installation & Frontend
 ```
 $ git clone https://github.com/dslov89/Agricola.git
-$ cd agricola
+$ cd Agricola
 
 $ npm install 
 $ npm start
@@ -145,7 +145,7 @@ SockJS와 Stomp를 활용한 4인 온라인 아그리콜라 게임
  ┃ ┣ 📜CardBoard.js // 유저 보유 카드 창 
  ┃ ┣ 📜CardBoard.module.css
  ┃ ┣ 📜FarmBoard.css 
- ┃ ┣ 📜Farms.js // 각 유저 농장 
+ ┃ ┣ 📜Farms.js // 농장 기능
  ┃ ┣ 📜FarnBoard.js // 모든 유저 농장 
  ┃ ┣ 📜GameRoomBoard.css
  ┃ ┣ 📜GameRoomBoard.js // 게임방 입장 화면
@@ -159,16 +159,17 @@ SockJS와 Stomp를 활용한 4인 온라인 아그리콜라 게임
  ┃ ┣ 📜UserBoard.js // 각 유저 정보판
  ┃ ┗ 📜Users.js // 모든 유저 정보판 
  ┣ 📂image // 그 외 이미지 
- ┣ 📂screen // 화면 js
+ ┣ 📂screen // 화면 
  ┃ ┣ 📜Error.js // 잘못된 URL 화면
  ┃ ┣ 📜first.css
  ┃ ┣ 📜Main.css 
  ┃ ┣ 📜Main.js // 게임 창 화면
  ┃ ┣ 📜Root.js
  ┃ ┗ 📜Start.js // 게임 준비 화면 
- ┣ 📂store // 데이터 저장 js
+ ┣ 📂store // 데이터
  ┃ ┣ 📜data-context.js // 공통 자원 데이터
  ┃ ┗ 📜user-context.js // 유저 자원 데이터 
+ ┣ 📂test // 테스트 코드
  ┣ 📂utill
  ┃ ┗ 📜http.js
  ┣ 📜App.css
