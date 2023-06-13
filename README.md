@@ -32,7 +32,7 @@ $ cd agricola-server/
 ### Installation & Frontend
 ```
 $ git clone https://github.com/dslov89/Agricola.git
-$ cd Agricola
+$ cd Agricola/
 
 $ npm install 
 $ npm start
@@ -182,4 +182,16 @@ SockJS와 Stomp를 활용한 4인 온라인 아그리콜라 게임
  ┗ 📜setupTests.js
   ```
 
+---
+
+FrontEnd   
+ @dslov89 노세인
+ @ingssg 김인석
+ @jeongdaeyun 정대윤
+ @yangjaehyuk 양재혁
+ @KangHaneul-sky 강하늘    
+ 
+BackEnd   
+ @weightsforfun 윤지용
+ 
   
