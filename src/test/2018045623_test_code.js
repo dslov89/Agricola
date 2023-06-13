@@ -3,7 +3,7 @@ import {
   upgrade_soil,
   upgrade_rock,
   rock,
-} from "../components/room";
+} from "./2018045623_method";
 
 describe("make_room", () => {
   it('해당하는 인덱스의 값이 "empty"이고, 해당하는 인덱스를 기준으로 상하좌우에 방이 있을 경우, 보유한 나무 수가 5개 이상, 보유한 갈대 수가 2개 이상 조건을 토대로 해당하는 인덱스에 "wood_room" 설치 가능 여부', () => {
