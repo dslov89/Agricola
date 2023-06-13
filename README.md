@@ -83,16 +83,16 @@ $ npm start
       <th>게임 화면</th>
     </tr>
     <tr>
-      <td><img src="https://github.com/dslov89/Agricola/assets/71018440/84d24642-4e77-4fec-bb5a-ae39c2d8101f" alt="gif-main-page" width="370"></td>
-      <td><img src="https://github.com/dslov89/Agricola/assets/71018440/84d24642-4e77-4fec-bb5a-ae39c2d8101f"alt="gif-function1" width="370"></td>
+      <td><img src="https://github.com/dslov89/Agricola/assets/71018440/62fe59ca-7aae-4e94-b4b7-99b24c702f5d" alt="gif-main-page" width="370"></td>
+      <td><img src="https://github.com/dslov89/Agricola/assets/71018440/64b0fcf7-bac5-4895-9ea6-3e6d37763d0a"alt="gif-function1" width="370"></td>
     </tr>
     <tr align="center">
-      <th>카드</th>
       <th>농장</th>
+      <th>카드</th>
     </tr>
     <tr>
-      <td><img src="https://github.com/dslov89/Agricola/assets/71018440/84d24642-4e77-4fec-bb5a-ae39c2d8101f" alt="gif-function2" width="370"></td>
-      <td><img src= "https://github.com/dslov89/Agricola/assets/71018440/84d24642-4e77-4fec-bb5a-ae39c2d8101f"alt="gif-function3" width="370"></td>
+      <td><img src="https://github.com/dslov89/Agricola/assets/71018440/0e566f6c-c82f-43c7-86d4-776a860caaa8" alt="gif-function2" width="370"></td>
+      <td><img src= "https://github.com/dslov89/Agricola/assets/71018440/e522d12b-a2ab-47a8-bc5a-e222067da7b6"alt="gif-function3" width="370"></td>
     </tr>
   </table>
 </div>
