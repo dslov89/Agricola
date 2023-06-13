@@ -1560,11 +1560,10 @@ function harvest_family() {
               };
 
               const roomElement = document.querySelector(roomClass);
+              roomElement.style.marginTop = "10px";
 
-              roomElement.style.marginTop = "-30px";
-              roomElement.style.marginLeft = "-10px";
-              roomElement.style.width = "100pxpx";
-              roomElement.style.height = "120px";
+              roomElement.style.width = "100px";
+              roomElement.style.height = "100px";
               roomElement.style.backgroundImage = `url(${plow_grain1})`;
               defaultActHandler(res, 22);
             });
@@ -1600,11 +1599,9 @@ function harvest_family() {
               };
 
               const roomElement = document.querySelector(roomClass);
-
-              roomElement.style.marginTop = "-30px";
-              roomElement.style.marginLeft = "-10px";
-              roomElement.style.width = "100pxpx";
-              roomElement.style.height = "120px";
+              roomElement.style.marginTop = "10px";
+              roomElement.style.width = "80px";
+              roomElement.style.height = "80px";
               roomElement.style.backgroundImage = `url(${plow_grain2})`;
               defaultActHandler(res, 22);
             });

@@ -1019,65 +1019,146 @@ function Farms({ data, setData }) {
         fenceButtonElement3 ||
         fenceButtonElement4 ) {
           
-        fenceButtonElement1.addEventListener("click", function () {
-          const updatedUserData = { ...userData }; // userData 객체 복사
+          fenceButtonElement1.addEventListener("click", function (event) {
+            const clickedElement = event.target;
+            const className = clickedElement.className;
+            
+            const matchResult = className.match(/fenceCol(\d+)/);
+                        
+            if (matchResult) {
+              const room = matchResult[1];
+              let position = "";
           
-          if (updatedUserData[`user${farmData.turn}`].tree - 1 >= 0) {
-            fenceButtonElement1.style.backgroundColor = "red";
-            fenceButtonElement1.style.cursor = "pointer";
-            updatedUserData[`user${farmData.turn}`].tree -= 1;
-            return updatedUserData; // newData 반환
-          } else {
-            alert(updatedUserData.tree);
-            alert("지을 수 없습니다.");
-            return updatedUserData;
-          }
-        });
-
-        fenceButtonElement2.addEventListener("click", function () {
-          const updatedUserData = { ...userData }; // userData 객체 복사
+              if (room.length === 2) {
+                position = room.slice(1);
+              }
+              
+              console.log("room:", room); // 출력: 1
+              console.log("position:", position); // 출력: 2
           
-          if (updatedUserData[`user${farmData.turn}`].tree - 1 >= 0) {
-            fenceButtonElement2.style.backgroundColor = "red";
-            fenceButtonElement2.style.cursor = "pointer";
-            updatedUserData[`user${farmData.turn}`].tree -= 1;
-            return updatedUserData; // newData 반환
-          } else {
-            alert(updatedUserData.tree);
-            alert("지을 수 없습니다.");
-            return updatedUserData;
-          }
-        });
-
-        fenceButtonElement3.addEventListener("click", function () {
-          const updatedUserData = { ...userData }; // userData 객체 복사
+              const updatedUserData = { ...userData }; // userData 객체 복사
+              
+              if (updatedUserData[`user${farmData.turn}`].tree - 1 >= 0) {
+                fenceButtonElement1.style.backgroundColor = "red";
+                fenceButtonElement1.style.cursor = "pointer";
+                updatedUserData[`user${farmData.turn}`].tree -= 1;
+                updatedUserData[`user${farmData.turn}`].farm_fence_array[room][position-1] = 1;
           
-          if (updatedUserData[`user${farmData.turn}`].tree - 1 >= 0) {
-            fenceButtonElement3.style.backgroundColor = "red";
-            fenceButtonElement3.style.cursor = "pointer";
-            updatedUserData[`user${farmData.turn}`].tree -= 1;
-            return updatedUserData; // newData 반환
-          } else {
-            alert(updatedUserData.tree);
-            alert("지을 수 없습니다.");
-            return updatedUserData;
-          }
-        });
-
-        fenceButtonElement4.addEventListener("click", function () {
-          const updatedUserData = { ...userData }; // userData 객체 복사
+                return updatedUserData; // newData 반환
+              } else {
+                alert(updatedUserData.tree);
+                alert("지을 수 없습니다.");
+                return updatedUserData;
+              }
+            } else {
+              console.log("No match found for className:", className);
+            }
+          });
+          fenceButtonElement2.addEventListener("click", function (event) {
+            const clickedElement = event.target;
+            const className = clickedElement.className;
+            
+            const matchResult = className.match(/fenceCol(\d+)/);
+                        
+            if (matchResult) {
+              const room = matchResult[1];
+              let position = "";
           
-          if (updatedUserData[`user${farmData.turn}`].tree - 1 >= 0) {
-            fenceButtonElement4.style.backgroundColor = "red";
-            fenceButtonElement4.style.cursor = "pointer";
-            updatedUserData[`user${farmData.turn}`].tree -= 1;
-            return updatedUserData; // newData 반환
-          } else {
-            alert(updatedUserData.tree);
-            alert("지을 수 없습니다.");
-            return updatedUserData;
-          }
-        });
+              if (room.length === 2) {
+                position = room.slice(1);
+              }
+              
+              console.log("room:", room); // 출력: 1
+              console.log("position:", position); // 출력: 2
+          
+              const updatedUserData = { ...userData }; // userData 객체 복사
+              
+              if (updatedUserData[`user${farmData.turn}`].tree - 1 >= 0) {
+                fenceButtonElement2.style.backgroundColor = "red";
+                fenceButtonElement2.style.cursor = "pointer";
+                updatedUserData[`user${farmData.turn}`].tree -= 1;
+                updatedUserData[`user${farmData.turn}`].farm_fence_array[room][position-1] = 1;
+          
+                return updatedUserData; // newData 반환
+              } else {
+                alert(updatedUserData.tree);
+                alert("지을 수 없습니다.");
+                return updatedUserData;
+              }
+            } else {
+              console.log("No match found for className:", className);
+            }
+          });
+          fenceButtonElement3.addEventListener("click", function (event) {
+            const clickedElement = event.target;
+            const className = clickedElement.className;
+            
+            const matchResult = className.match(/fenceCol(\d+)/);
+                        
+            if (matchResult) {
+              const room = matchResult[1];
+              let position = "";
+          
+              if (room.length === 2) {
+                position = room.slice(1);
+              }
+              
+              console.log("room:", room); // 출력: 1
+              console.log("position:", position); // 출력: 2
+          
+              const updatedUserData = { ...userData }; // userData 객체 복사
+              
+              if (updatedUserData[`user${farmData.turn}`].tree - 1 >= 0) {
+                fenceButtonElement3.style.backgroundColor = "red";
+                fenceButtonElement3.style.cursor = "pointer";
+                updatedUserData[`user${farmData.turn}`].tree -= 1;
+                updatedUserData[`user${farmData.turn}`].farm_fence_array[room][position-1] = 1;
+          
+                return updatedUserData; // newData 반환
+              } else {
+                alert(updatedUserData.tree);
+                alert("지을 수 없습니다.");
+                return updatedUserData;
+              }
+            } else {
+              console.log("No match found for className:", className);
+            }
+          });
+          fenceButtonElement4.addEventListener("click", function (event) {
+            const clickedElement = event.target;
+            const className = clickedElement.className;
+            
+            const matchResult = className.match(/fenceCol(\d+)/);
+                        
+            if (matchResult) {
+              const room = matchResult[1];
+              let position = "";
+          
+              if (room.length === 2) {
+                position = room.slice(1);
+              }
+              
+              console.log("room:", room); // 출력: 1
+              console.log("position:", position); // 출력: 2
+          
+              const updatedUserData = { ...userData }; // userData 객체 복사
+              
+              if (updatedUserData[`user${farmData.turn}`].tree - 1 >= 0) {
+                fenceButtonElement4.style.backgroundColor = "red";
+                fenceButtonElement4.style.cursor = "pointer";
+                updatedUserData[`user${farmData.turn}`].tree -= 1;
+                updatedUserData[`user${farmData.turn}`].farm_fence_array[room][position-1] = 1;
+          
+                return updatedUserData; // newData 반환
+              } else {
+                alert(updatedUserData.tree);
+                alert("지을 수 없습니다.");
+                return updatedUserData;
+              }
+            } else {
+              console.log("No match found for className:", className);
+            }
+          });
       }
     }
     //곡식활용
@@ -1114,8 +1195,8 @@ function Farms({ data, setData }) {
             setUserData(newdata);
             roomElement.style.marginTop = "-30px";
             roomElement.style.marginLeft = "-10px";
-            roomElement.style.width = "85pxpx";
-            roomElement.style.height = "105px";
+            roomElement.style.width = "100px";
+            roomElement.style.height = "100px";
             roomElement.style.backgroundImage = `url(${plow_grain3})`;
           });
           updateAction(18, 0);
