@@ -54,8 +54,24 @@ function DataContextProvider({ children }) {
     fence: 0,
     house: 0,
 
-    jobCards: [[]],
-    subCards: [[]],
+    jobCards: [
+      [1, 1],
+      [2, 1],
+      [3, 1],
+      [4, 1],
+      [5, 1],
+      [6, 1],
+      [7, 1],
+    ],
+    subCards: [
+      [1, 1],
+      [2, 1],
+      [3, 1],
+      [4, 1],
+      [5, 1],
+      [6, 1],
+      [7, 1],
+    ],
     main: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     farm_array: [
       "empty",

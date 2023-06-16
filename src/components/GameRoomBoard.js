@@ -69,8 +69,8 @@ const Gameroomboard = () => {
 
             setFarmData({
               ...farmData,
-              jobCards: initMsg.jobCards.map((item) => [item, 1]),
-              subCards: initMsg.subCards.map((item) => [item, 1]),
+              // jobCards: initMsg.jobCards.map((item) => [item, 1]),
+              // subCards: initMsg.subCards.map((item) => [item, 1]),
               turn: initMsg.turn,
             });
 
@@ -93,8 +93,8 @@ const Gameroomboard = () => {
                     // action: msg.action,
                     currentTurn: msg.currentTurn,
                     farmer_count: msg.farmer_count,
-                    jobCards: initMsg.jobCards.map((item) => [item, 1]),
-                    subCards: initMsg.subCards.map((item) => [item, 1]),
+                    // jobCards: initMsg.jobCards.map((item) => [item, 1]),
+                    // subCards: initMsg.subCards.map((item) => [item, 1]),
                     turn: initMsg.turn,
                   });
                 } else if (msg.messageType === "RESOURCE") {
@@ -106,8 +106,8 @@ const Gameroomboard = () => {
                     action: msg.action,
                     currentTurn: msg.currentTurn,
                     farmer_count: msg.farmer_count,
-                    jobCards: initMsg.jobCards.map((item) => [item, 1]),
-                    subCards: initMsg.subCards.map((item) => [item, 1]),
+                    // jobCards: initMsg.jobCards.map((item) => [item, 1]),
+                    // subCards: initMsg.subCards.map((item) => [item, 1]),
                     turn: initMsg.turn,
                     tree: msg.tree,
                     soil: msg.soil,
@@ -130,8 +130,8 @@ const Gameroomboard = () => {
                     action: msg.action,
                     currentTurn: msg.currentTurn,
                     farmer_count: msg.farmer_count,
-                    jobCards: initMsg.jobCards.map((item) => [item, 1]),
-                    subCards: initMsg.subCards.map((item) => [item, 1]),
+                    // jobCards: initMsg.jobCards.map((item) => [item, 1]),
+                    // subCards: initMsg.subCards.map((item) => [item, 1]),
                     turn: initMsg.turn,
                     cardType: msg.cardType,
                     cardIndex: msg.cardIndex,
